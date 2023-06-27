@@ -10,7 +10,7 @@ ofClouds:3
 ofCloudsHeight:0.0
 ofTrees:1
 ofDroppedItems:1
-ofRain:1
+ofRain:3
 ofAnimatedWater:2
 ofAnimatedLava:2
 ofAnimatedFire:false
@@ -34,9 +34,9 @@ ofAutoSaveTicks:4000
 ofBetterGrass:3
 ofConnectedTextures:2
 ofWeather:true
-ofSky:true
-ofStars:true
-ofSunMoon:true
+ofSky:false
+ofStars:false
+ofSunMoon:false
 ofVignette:1
 ofChunkUpdates:1
 ofChunkUpdatesDynamic:false
