@@ -15,14 +15,12 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Updater;
 import net.minecraft.util.Session;
 
 public class Main
 {
     public static void main(String[] p_main_0_)
     {
-        Updater.init();
         System.setProperty("java.net.preferIPv4Stack", "true");
         OptionParser optionparser = new OptionParser();
         optionparser.allowsUnrecognizedOptions();
