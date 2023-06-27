@@ -12,7 +12,7 @@ public class RenderSheep extends RenderLiving<EntitySheep>
     public RenderSheep(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn)
     {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
-        this.addLayer(new LayerSheepWool(this));
+        this.addLayer5(new LayerSheepWool(this));
     }
 
     /**
