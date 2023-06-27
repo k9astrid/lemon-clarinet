@@ -398,3 +398,18 @@ java.lang.ArrayIndexOutOfBoundsException
 !MESSAGE Background Indexer Crash Recovery
 !STACK 0
 java.lang.ArrayIndexOutOfBoundsException
+
+!ENTRY org.eclipse.jdt.core 4 4 2023-06-28 01:29:15.201
+!MESSAGE Background Indexer Crash Recovery
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException
+
+!ENTRY org.eclipse.jdt.core 4 4 2023-06-28 01:29:30.580
+!MESSAGE Background Indexer Crash Recovery
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException
+
+!ENTRY org.eclipse.jdt.core 4 4 2023-06-28 01:29:32.026
+!MESSAGE Background Indexer Crash Recovery
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException
