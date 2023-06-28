@@ -324,7 +324,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private final MinecraftSessionService sessionService;
     private SkinManager skinManager;
     private final Queue < FutureTask<? >> scheduledTasks = Queues. < FutureTask<? >> newArrayDeque();
-    private long field_175615_aJ = 0L;
     private final Thread mcThread = Thread.currentThread();
     private ModelManager modelManager;
 
@@ -343,7 +342,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public boolean field_175613_B = false;
     public boolean field_175614_C = false;
     public boolean field_175611_D = false;
-    public boolean renderChunksMany = true;
+    private long field_175615_aJ = 0L;
+	public boolean renderChunksMany = true;
 
     /** Approximate time (in ms) of last update to debug string */
     long debugUpdateTime = getSystemTime();
@@ -616,7 +616,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Minecraft 1.8.8");
+        Display.setTitle("loadinhh");
 
         try
         {
