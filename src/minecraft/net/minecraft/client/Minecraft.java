@@ -2992,7 +2992,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public static long getSystemTime()
     {
-        return Sys.getTime() * 1000L / Sys.getTimerResolution();
+        return Sys.getTime() * 1000L / Sys.getTimerResolution(); //smth wrong with this (it wont launch)
     }
 
     /**
