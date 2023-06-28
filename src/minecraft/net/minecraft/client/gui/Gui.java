@@ -17,50 +17,46 @@ public class Gui
     /**
      * Draw a 1 pixel wide horizontal line. Args: x1, x2, y, color
      */
-    protected void drawHorizontalLine(int startX, int endX, int y, int color)
+    public static void drawHorizontalLine(float x, float w, float y, int color)
     {
-        if (endX < startX)
+        if (w < x)
         {
-            int i = startX;
-            startX = endX;
-            endX = i;
+            int i = (int) x;
+            x = w;
+            w = i;
         }
 
-        drawRect(startX, y, endX + 1, y + 1, color);
+        drawRect(x, y, w + 1, y + 1, color);
     }
 
     /**
      * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
      */
-    protected void drawVerticalLine(int x, int startY, int endY, int color)
+    public static void drawVerticalLine(float x, float h, float y, int color)
     {
-        if (endY < startY)
+        if (y < h)
         {
-            int i = startY;
-            startY = endY;
-            endY = i;
+            int i = (int) h;
+            h = y;
+            y = i;
         }
 
-        drawRect(x, startY + 1, x + 1, endY, color);
+        drawRect(x, h + 1, x + 1, y, color);
     }
-
-    /**
-     * Draws a solid color rectangle with the specified coordinates and color (ARGB format). Args: x1, y1, x2, y2, color
-     */
-    public static void drawRect(int left, int top, int right, int bottom, int color)
+    public static void drawRect(float x, float y, float g, float h, int color)
     {
-        if (left < right)
+        if (x < g)
         {
-            int i = left;
-            left = right;
-            right = i;
+            int i = (int) x;
+            x = g;
+            g = i;
         }
 
-        if (top < bottom)
+        if (y < h)
         {
-            int j = top;
-            top = bottom;
-            bottom = j;
+            int j = (int) y;
+            y = h;
+            h = j;
         }
 
         float f3 = (float)(color >> 24 & 255) / 255.0F;
@@ -74,10 +70,10 @@ public class Gui
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(f, f1, f2, f3);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos((double)left, (double)bottom, 0.0D).endVertex();
-        worldrenderer.pos((double)right, (double)bottom, 0.0D).endVertex();
-        worldrenderer.pos((double)right, (double)top, 0.0D).endVertex();
-        worldrenderer.pos((double)left, (double)top, 0.0D).endVertex();
+        worldrenderer.pos((double)x, (double)h, 0.0D).endVertex();
+        worldrenderer.pos((double)g, (double)h, 0.0D).endVertex();
+        worldrenderer.pos((double)g, (double)y, 0.0D).endVertex();
+        worldrenderer.pos((double)x, (double)y, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
