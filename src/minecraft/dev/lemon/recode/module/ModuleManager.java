@@ -5,6 +5,7 @@ import java.util.ArrayList;
 							//import categories later when u make a module or me LOL
 
 public class ModuleManager {
+	//brain damage made by me, clpz
 	
 	private final ArrayList<Module> modules = new ArrayList<>();
 	

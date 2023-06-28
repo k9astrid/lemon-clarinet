@@ -18,7 +18,6 @@ INDEX VERSION 1.132+C:\Users\37126\Documents\GitHub\lemon-clarinet\eclipse\.meta
 1564320831.index
 1331533499.index
 1865797976.index
-137624701.index
 3881495009.index
 65827197.index
 3204140888.index
