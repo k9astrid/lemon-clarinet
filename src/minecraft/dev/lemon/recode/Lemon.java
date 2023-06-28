@@ -20,7 +20,7 @@ public class Lemon implements Util {
 		
 		System.out.println("Loaded Custom FontRenderer Util"); // Haven't made a font renderer yet :sob:
 		
-		Display.setTitle(getFullName() + " | Minecraft 1.8.9" + " | " + build + " " + version); // sets title
+		Display.setTitle(getFullName() + " | Minecraft 1.8.9" + " | " + build); // sets title
 	}
 	
 		public static String getConsolePrefix() {
