@@ -6,6 +6,9 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
+
+import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.impl.Event2DRender;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -120,6 +123,9 @@ public class GuiIngame extends Gui
         int j = scaledresolution.getScaledHeight();
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
+
+        Event2DRender event = new Event2DRender(i, j);
+        Lemon.INSTANCE.getEventBus().post(event);
 
         if (Config.isVignetteEnabled())
         {

@@ -35,6 +35,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
+
+import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.impl.EventKey;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1922,6 +1925,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                         {
                             this.displayInGameMenu();
                         }
+
+                        EventKey event = new EventKey(k);
+                        Lemon.INSTANCE.getEventBus().post(event);
 
                         if (k == 32 && Keyboard.isKeyDown(61) && this.ingameGUI != null)
                         {

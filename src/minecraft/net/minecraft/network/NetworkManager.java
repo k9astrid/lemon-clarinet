@@ -2,6 +2,8 @@ package net.minecraft.network;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.impl.EventPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -152,7 +154,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
-                p_channelRead0_2_.processPacket(this.packetListener);
+                EventPacket event = new EventPacket(p_channelRead0_2_);
+                Lemon.INSTANCE.getEventBus().post(event);
+                if (!event.isCancelled())
+                    p_channelRead0_2_.processPacket(this.packetListener);
+
             }
             catch (ThreadQuickExitException var4)
             {

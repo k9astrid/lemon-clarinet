@@ -4,6 +4,8 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
+import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.impl.EventPacket;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;
@@ -812,6 +814,15 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     }
 
     public void addToSendQueue(Packet p_147297_1_)
+    {
+        EventPacket event = new EventPacket(p_147297_1_);
+        Lemon.INSTANCE.getEventBus().post(event);
+        if (!event.isCancelled())
+            this.netManager.sendPacket(p_147297_1_);
+
+    }
+
+    public void addToSendQueueSilent(Packet p_147297_1_)
     {
         this.netManager.sendPacket(p_147297_1_);
     }
