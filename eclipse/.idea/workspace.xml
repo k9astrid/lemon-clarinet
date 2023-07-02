@@ -5,80 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Client/bin/InjectionAPI$OS.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/InjectionAPI$OS.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/InjectionAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/InjectionAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/Start.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/Start.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/BaseClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/BaseClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/arraylist/ArrayListManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/arraylist/ArrayListManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/arraylist/ArrayMember.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/arraylist/ArrayMember.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/Module.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/Module.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/ModuleManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/ModuleManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/impl/visuals/HUD.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/module/impl/visuals/HUD.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/RenderUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/RenderUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/TimerUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/TimerUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/font/CFont.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/font/CFont.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/font/MCFontRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/font/MCFontRenderer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/Value.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/Value.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/BooleanValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/BooleanValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/ColorValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/ColorValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/EnumValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/EnumValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/FontValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/FontValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/NumberValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/mc/clpz/base/utils/value/impl/NumberValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/block/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/block/Block.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/block/material/MapColor.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/block/material/MapColor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/block/material/Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/block/material/Material.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/block/state/BlockState.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/block/state/BlockState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/block/state/IBlockState.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/block/state/IBlockState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/Minecraft.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/Minecraft.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/gui/FontRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/gui/FontRenderer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/gui/ScaledResolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/gui/ScaledResolution.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/GameConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/GameConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/I18n.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/I18n.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/IResourceManagerReloadListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/IResourceManagerReloadListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/Locale.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/client/resources/Locale.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/command/CommandException.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/command/CommandException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/creativetab/CreativeTabs.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/creativetab/CreativeTabs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/Entity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/EntityLivingBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/EntityLivingBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/player/EntityPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/entity/player/EntityPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/item/EnumAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/item/EnumAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/item/EnumRarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/item/EnumRarity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/item/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/item/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/item/ItemStack.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/item/ItemStack.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/nbt/NBTTagCompound.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/nbt/NBTTagCompound.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/profiler/IPlayerUsage.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/profiler/IPlayerUsage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/tileentity/TileEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/tileentity/TileEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/AxisAlignedBB.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/AxisAlignedBB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/BlockPos.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/BlockPos.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ChatComponentStyle.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ChatComponentStyle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/EnumFacing.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/EnumFacing.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/EnumWorldBlockLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/EnumWorldBlockLayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/IChatComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/IChatComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/IThreadListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/IThreadListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/MovingObjectPosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/MovingObjectPosition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ObjectIntIdentityMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ObjectIntIdentityMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/RegistryNamespaced.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/RegistryNamespaced.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/RegistryNamespacedDefaultedByKey.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/RegistryNamespacedDefaultedByKey.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ResourceLocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/ResourceLocation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Session.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Session.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Vec3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Vec3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Vec3i.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/util/Vec3i.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/Explosion.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/Explosion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/IBlockAccess.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/IBlockAccess.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/World.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/MapGenBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/MapGenBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenNetherBridge.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenNetherBridge.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenScatteredFeature.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenScatteredFeature.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenStronghold.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenStronghold.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenStructure.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenStructure.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenVillage.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/MapGenVillage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureNetherBridgePieces.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureNetherBridgePieces.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureStart.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureStart.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureVillagePieces.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/net/minecraft/world/gen/structure/StructureVillagePieces.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/shadersmod/client/Iterator3d.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/shadersmod/client/Iterator3d.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/shadersmod/client/IteratorAxis.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/shadersmod/client/IteratorAxis.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/renderer/EntityRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/renderer/EntityRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,15 +15,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/tv/twitch/twitch/6.5&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.14941406&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="ProjectId" id="2S1c3TdKsKmYN2Bac7ofD0ECMtm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "jdk.selected.JAVA_MODULE": "1.8",
+    "last_opened_file_path": "C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/tv/twitch/twitch/6.5",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.14941406",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Start" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
@@ -121,7 +53,15 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="" />
+      <created>1688317342256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688317342256</updated>
+    </task>
     <servers />
   </component>
 </project>
