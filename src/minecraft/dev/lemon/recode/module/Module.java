@@ -5,8 +5,6 @@ import net.minecraft.client.Minecraft;
 
 public class Module {
     private final String name = this.getClass().getDeclaredAnnotation(ModuleInfo.class).name();
-
-
     private int key = this.getClass().getDeclaredAnnotation(ModuleInfo.class).key();
     private final Category category = this.getClass().getDeclaredAnnotation(ModuleInfo.class).category();
     private boolean toggled = this.getClass().getDeclaredAnnotation(ModuleInfo.class).toggled();

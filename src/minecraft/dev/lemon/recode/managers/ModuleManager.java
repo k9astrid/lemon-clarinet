@@ -10,10 +10,9 @@ import java.util.stream.Collectors;
 
 public class ModuleManager {
     private List<Module> modules = new ArrayList<>();
-    private Lemon lemon = Lemon.INSTANCE;
 
-    public ModuleManager(){
-        lemon.getEventBus().subscribe(this);
+    public void initialize(){
+        Lemon.INSTANCE.getEventBus().subscribe(this);
         modules.add(new Sprint());
     }
 

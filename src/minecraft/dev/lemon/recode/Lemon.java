@@ -13,6 +13,27 @@ public enum Lemon {
 
     private final String name = "Lemon Recode", version = "2.0", authors = "clpz & eternadox";
 
+    private final EventBus eventBus = new EventBus();
+    private final ModuleManager moduleManager = new ModuleManager();
+
+    public void startClient(){
+        Display.setTitle(this.name +" version "+this.version+" by "+this.authors);
+        eventBus.subscribe(this);
+        System.out.println("Subscribed to event bus!");
+        moduleManager.initialize();
+        System.out.println("Initialized module manager!");
+
+    }
+
+    @EventHandler
+    public Listener<EventKey> eventKeyListener = e -> {
+        for (Module m : moduleManager.getModules()){
+            if (m.getKey() == e.getKeyCode()){
+                m.toggle();
+            }
+        }
+    };
+
     public String getName() {
         return name;
     }
@@ -32,24 +53,5 @@ public enum Lemon {
     public ModuleManager getModuleManager() {
         return moduleManager;
     }
-
-
-    private final EventBus eventBus = new EventBus();
-    private final ModuleManager moduleManager = new ModuleManager();
-
-    public void startClient(){
-        Display.setTitle(this.name +" version "+this.version+" by "+this.authors);
-        eventBus.subscribe(this);
-        System.out.println("Subscribed to event bus!");
-    }
-
-    @EventHandler
-    public Listener<EventKey> eventKeyListener = e -> {
-        for (Module m : moduleManager.getModules()){
-            if (m.getKey() == e.getKeyCode()){
-                m.toggle();
-            }
-        }
-    };
 
 }
