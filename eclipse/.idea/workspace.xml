@@ -9,10 +9,7 @@
       <change beforePath="$PROJECT_DIR$/../jars/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/options.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/optionsof.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/optionsof.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/Module.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/ModuleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/ModuleInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +44,11 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.lemon.recode.module.impl.render" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Start" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />

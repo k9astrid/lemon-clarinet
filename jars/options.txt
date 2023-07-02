@@ -16,7 +16,7 @@ ao:0
 renderClouds:fast
 resourcePacks:[]
 incompatibleResourcePacks:[]
-lastServer:zentic.cc
+lastServer:pika-network.net
 lang:en_US
 chatVisibility:0
 chatColors:true
@@ -24,7 +24,7 @@ chatLinks:true
 chatLinksPrompt:true
 chatOpacity:1.0
 snooperEnabled:true
-fullscreen:true
+fullscreen:false
 enableVsync:false
 useVbo:false
 hideServerAddress:false

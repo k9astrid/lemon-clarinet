@@ -3,6 +3,7 @@ package dev.lemon.recode.managers;
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.impl.movement.Sprint;
+import dev.lemon.recode.module.impl.render.HUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ public class ModuleManager {
     public void initialize(){
         Lemon.INSTANCE.getEventBus().subscribe(this);
         modules.add(new Sprint());
+        modules.add(new HUD());
+
     }
 
     public List<Module> getModules() {
