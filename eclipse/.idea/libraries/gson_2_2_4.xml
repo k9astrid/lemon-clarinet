@@ -111,6 +111,7 @@
       <root url="file://$PROJECT_DIR$/../jars/libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.4-nightly-20150209" />
       <root url="file://$PROJECT_DIR$/../jars/libraries/oshi-project/oshi-core/1.1" />
       <root url="file://$PROJECT_DIR$/../jars/libraries/tv/twitch/twitch/6.5" />
+      <root url="jar://$PROJECT_DIR$/../jars/libraries/best/azura/eventbus/3.0.2/azura-event-bus-3.0.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
