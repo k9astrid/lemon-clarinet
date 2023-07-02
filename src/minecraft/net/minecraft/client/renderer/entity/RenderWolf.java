@@ -16,7 +16,7 @@ public class RenderWolf extends RenderLiving<EntityWolf>
     public RenderWolf(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn)
     {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
-        this.addLayer7(new LayerWolfCollar(this));
+        this.addLayer6(new LayerWolfCollar(this));
     }
 
     /**

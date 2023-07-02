@@ -17,46 +17,50 @@ public class Gui
     /**
      * Draw a 1 pixel wide horizontal line. Args: x1, x2, y, color
      */
-    public static void drawHorizontalLine(float x, float w, float y, int color)
+    protected void drawHorizontalLine(int startX, int endX, int y, int color)
     {
-        if (w < x)
+        if (endX < startX)
         {
-            int i = (int) x;
-            x = w;
-            w = i;
+            int i = startX;
+            startX = endX;
+            endX = i;
         }
 
-        drawRect(x, y, w + 1, y + 1, color);
+        drawRect(startX, y, endX + 1, y + 1, color);
     }
 
     /**
      * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
      */
-    public static void drawVerticalLine(float x, float h, float y, int color)
+    protected void drawVerticalLine(int x, int startY, int endY, int color)
     {
-        if (y < h)
+        if (endY < startY)
         {
-            int i = (int) h;
-            h = y;
-            y = i;
+            int i = startY;
+            startY = endY;
+            endY = i;
         }
 
-        drawRect(x, h + 1, x + 1, y, color);
+        drawRect(x, startY + 1, x + 1, endY, color);
     }
-    public static void drawRect(float x, float y, float g, float h, int color)
+
+    /**
+     * Draws a solid color rectangle with the specified coordinates and color (ARGB format). Args: x1, y1, x2, y2, color
+     */
+    public static void drawRect(double left, double top, double right, double bottom, int color)
     {
-        if (x < g)
+        if (left < right)
         {
-            int i = (int) x;
-            x = g;
-            g = i;
+            double i = left;
+            left = right;
+            right = i;
         }
 
-        if (y < h)
+        if (top < bottom)
         {
-            int j = (int) y;
-            y = h;
-            h = j;
+            double j = top;
+            top = bottom;
+            bottom = j;
         }
 
         float f3 = (float)(color >> 24 & 255) / 255.0F;
@@ -65,18 +69,20 @@ public class Gui
         float f2 = (float)(color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(f, f1, f2, f3);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos((double)x, (double)h, 0.0D).endVertex();
-        worldrenderer.pos((double)g, (double)h, 0.0D).endVertex();
-        worldrenderer.pos((double)g, (double)y, 0.0D).endVertex();
-        worldrenderer.pos((double)x, (double)y, 0.0D).endVertex();
+        worldrenderer.pos(left, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, top, 0.0D).endVertex();
+        worldrenderer.pos(left, top, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
     }
 
     /**
@@ -180,7 +186,7 @@ public class Gui
     /**
      * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight)
+    public static void drawModalRectWithCustomSizedTexture(float x, float y, float u, float v, int width, int height, float textureWidth, float textureHeight)
     {
         float f = 1.0F / textureWidth;
         float f1 = 1.0F / textureHeight;
@@ -197,7 +203,7 @@ public class Gui
     /**
      * Draws a scaled, textured, tiled modal rect at z = 0. This method isn't used anywhere in vanilla code.
      */
-    public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight)
+    public static void drawScaledCustomSizeModalRect(double x, double y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight)
     {
         float f = 1.0F / tileWidth;
         float f1 = 1.0F / tileHeight;

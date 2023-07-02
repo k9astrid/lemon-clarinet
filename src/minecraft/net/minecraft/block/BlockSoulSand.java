@@ -1,5 +1,7 @@
 package net.minecraft.block;
 
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.event.impl.player.SlowdownEvent;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,8 +28,14 @@ public class BlockSoulSand extends Block
     /**
      * Called When an Entity Collided with the Block
      */
+    @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
+        final SlowdownEvent event = new SlowdownEvent(SlowdownEvent.Type.SoulSand);
+        BaseClient.INSTANCE.getEventBus().dispatch(event);
+        if (event.isCanceled()) {
+            return;
+        }
         entityIn.motionX *= 0.4D;
         entityIn.motionZ *= 0.4D;
     }

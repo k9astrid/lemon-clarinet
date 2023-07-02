@@ -1,0 +1,16 @@
+package mc.clpz.base.utils.thealtening.utils;
+
+
+import mc.clpz.base.utils.thealtening.domain.AlteningAlt;
+
+public class UserSkin {
+
+    private final AlteningAlt account;
+
+    public UserSkin(AlteningAlt account) {
+        this.account = account;
+    }
+
+
+
+}

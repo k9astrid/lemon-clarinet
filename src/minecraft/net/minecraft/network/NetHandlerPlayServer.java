@@ -8,16 +8,20 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import mc.clpz.base.utils.Printer;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityItem;
@@ -38,6 +42,7 @@ import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
@@ -1286,6 +1291,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
         }
         else if ("MC|BSign".equals(packetIn.getChannelName()))
         {
+            Printer.print("gay");
             PacketBuffer packetbuffer2 = new PacketBuffer(Unpooled.wrappedBuffer((ByteBuf)packetIn.getBufferData()));
 
             try

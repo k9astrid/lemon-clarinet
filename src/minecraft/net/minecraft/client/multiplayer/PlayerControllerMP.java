@@ -50,10 +50,10 @@ public class PlayerControllerMP
     /**
      * Delays the first damage on the block after the first click on the block
      */
-    private int blockHitDelay;
+    public static int blockHitDelay;
 
     /** Tells if the player is hitting a block */
-    private boolean isHittingBlock;
+    public boolean isHittingBlock;
 
     /** Current game type for the player */
     private WorldSettings.GameType currentGameType = WorldSettings.GameType.SURVIVAL;
@@ -372,7 +372,7 @@ public class PlayerControllerMP
     /**
      * Syncs the current player item with the server
      */
-    private void syncCurrentPlayItem()
+    public void syncCurrentPlayItem()
     {
         int i = this.mc.thePlayer.inventory.currentItem;
 
@@ -462,7 +462,7 @@ public class PlayerControllerMP
             int i = itemStackIn.stackSize;
             ItemStack itemstack = itemStackIn.useItemRightClick(worldIn, playerIn);
 
-            if (itemstack != itemStackIn || itemstack != null && itemstack.stackSize != i)
+            if (itemstack != itemStackIn || itemstack.stackSize != i)
             {
                 playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemstack;
 

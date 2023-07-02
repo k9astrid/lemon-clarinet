@@ -3,7 +3,7 @@ package net.minecraft.client.renderer;
 import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 
-public class EntityRenderer1 implements Predicate
+class EntityRenderer1 implements Predicate
 {
     final EntityRenderer field_90032_a;
 

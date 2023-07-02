@@ -1,0 +1,18 @@
+package mc.clpz.base.module.impl.visuals;
+
+import java.awt.*;
+
+import mc.clpz.base.event.bus.Handler;
+import mc.clpz.base.event.impl.render.HurtcamEvent;
+import mc.clpz.base.module.Module;
+
+public class NoHurtCam extends Module {
+
+    public NoHurtCam() {
+        super("Hurt Cam", Category.VISUALS, new Color(0xA4A29E).getRGB());
+    }
+    @Handler
+    public void Hurtcam(HurtcamEvent event) {
+        event.setCanceled(true);
+    }
+}

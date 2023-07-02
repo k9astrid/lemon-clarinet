@@ -1,0 +1,10 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Range": "4.0",
+  "Players": "true",
+  "Animals": "false",
+  "Monsters": "false",
+  "Invisibles": "false"
+}

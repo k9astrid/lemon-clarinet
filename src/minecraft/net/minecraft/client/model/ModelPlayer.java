@@ -1,7 +1,10 @@
 package net.minecraft.client.model;
 
+
+import mc.clpz.base.module.impl.visuals.SkeletonESP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelPlayer extends ModelBiped
 {
@@ -70,6 +73,7 @@ public class ModelPlayer extends ModelBiped
     /**
      * Sets the models various rotation angles then renders the model.
      */
+    @Override
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
     {
         super.render(entityIn, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale);
@@ -121,6 +125,7 @@ public class ModelPlayer extends ModelBiped
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
+    @Override
     public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
     {
         super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
@@ -129,6 +134,9 @@ public class ModelPlayer extends ModelBiped
         copyModelAngles(this.bipedLeftArm, this.bipedLeftArmwear);
         copyModelAngles(this.bipedRightArm, this.bipedRightArmwear);
         copyModelAngles(this.bipedBody, this.bipedBodyWear);
+        if (entityIn instanceof EntityPlayer) {
+            SkeletonESP.addEntity((EntityPlayer) entityIn, this);
+        }
     }
 
     public void renderRightArm()
@@ -143,6 +151,7 @@ public class ModelPlayer extends ModelBiped
         this.bipedLeftArmwear.render(0.0625F);
     }
 
+    @Override
     public void setInvisible(boolean invisible)
     {
         super.setInvisible(invisible);
@@ -155,6 +164,7 @@ public class ModelPlayer extends ModelBiped
         this.bipedDeadmau5Head.showModel = invisible;
     }
 
+    @Override
     public void postRenderArm(float scale)
     {
         if (this.smallArms)

@@ -432,7 +432,7 @@ public class RenderItem implements IResourceManagerReloadListener
         return p_183005_1_.scale.x < 0.0F ^ p_183005_1_.scale.y < 0.0F ^ p_183005_1_.scale.z < 0.0F;
     }
 
-    public void renderItemIntoGUI(ItemStack stack, int x, int y)
+    public void renderItemIntoGUI(ItemStack stack, double x, double y)
     {
         this.renderItemGui = true;
         IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
@@ -466,7 +466,7 @@ public class RenderItem implements IResourceManagerReloadListener
         this.renderItemGui = false;
     }
 
-    private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d)
+    private void setupGuiTransform(double xPosition, double yPosition, boolean isGui3d)
     {
         GlStateManager.translate((float)xPosition, (float)yPosition, 100.0F + this.zLevel);
         GlStateManager.translate(8.0F, 8.0F, 0.0F);
@@ -549,7 +549,7 @@ public class RenderItem implements IResourceManagerReloadListener
     /**
      * Renders the stack size and/or damage bar for the given ItemStack.
      */
-    public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, String text)
+    public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, double xPosition, double yPosition, String text)
     {
         if (stack != null)
         {
@@ -613,7 +613,7 @@ public class RenderItem implements IResourceManagerReloadListener
         }
     }
 
-    private void func_181565_a(WorldRenderer p_181565_1_, int p_181565_2_, int p_181565_3_, int p_181565_4_, int p_181565_5_, int p_181565_6_, int p_181565_7_, int p_181565_8_, int p_181565_9_)
+    private void func_181565_a(WorldRenderer p_181565_1_, double p_181565_2_, double p_181565_3_, int p_181565_4_, int p_181565_5_, int p_181565_6_, int p_181565_7_, int p_181565_8_, int p_181565_9_)
     {
         p_181565_1_.begin(7, DefaultVertexFormats.POSITION_COLOR);
         p_181565_1_.pos((double)(p_181565_2_ + 0), (double)(p_181565_3_ + 0), 0.0D).color(p_181565_6_, p_181565_7_, p_181565_8_, p_181565_9_).endVertex();

@@ -22,7 +22,7 @@ public class BlockDirt extends Block
     public static final PropertyEnum<BlockDirt.DirtType> VARIANT = PropertyEnum.<BlockDirt.DirtType>create("variant", BlockDirt.DirtType.class);
     public static final PropertyBool SNOWY = PropertyBool.create("snowy");
 
-    protected BlockDirt()
+    public BlockDirt()
     {
         super(Material.ground);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDirt.DirtType.DIRT).withProperty(SNOWY, Boolean.valueOf(false)));

@@ -2,6 +2,20 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.event.impl.render.HurtcamEvent;
+import mc.clpz.base.event.impl.render.Render3DEvent;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.FloatBuffer;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Callable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -43,12 +57,31 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MouseFilter;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ReportedException;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.BiomeGenBase;
-import optifine.*;
+import optifine.Config;
+import optifine.CustomColors;
+import optifine.Lagometer;
+import optifine.RandomMobs;
+import optifine.Reflector;
+import optifine.ReflectorForge;
+import optifine.TextureUtils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
@@ -59,16 +92,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
-import net.minecraft.client.renderer.EntityRenderer1;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.FloatBuffer;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
 
 public class EntityRenderer implements IResourceManagerReloadListener
 {
@@ -643,6 +666,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
+        final HurtcamEvent entityStepEvent = new HurtcamEvent();
+        BaseClient.INSTANCE.getEventBus().dispatch(entityStepEvent);
+        if (entityStepEvent.isCanceled()) return;
         if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
         {
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
@@ -690,7 +716,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
     /**
      * sets up player's eye (or camera in third person mode)
      */
-    private void orientCamera(float partialTicks)
+    public void orientCamera(float partialTicks)
     {
         Entity entity = this.mc.getRenderViewEntity();
         float f = entity.getEyeHeight();
@@ -1374,6 +1400,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 {
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
+                    crashreportcategory.addCrashSectionCallable("Screen name", new EntityRenderer2(this));
                     crashreportcategory.addCrashSectionCallable("Mouse location", new Callable()
                     {
                         private static final String __OBFID = "CL_00000950";
@@ -1857,6 +1884,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
 
         this.mc.mcProfiler.endStartSection("hand");
+        final Render3DEvent event = new Render3DEvent(partialTicks);
+        BaseClient.INSTANCE.getEventBus().dispatch(event);
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);
 
         if (!flag2 && this.renderHand && !Shaders.isShadowPass)

@@ -1,0 +1,12 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Players": "true",
+  "Animals": "false",
+  "Mobs": "false",
+  "Passives": "false",
+  "Invisibles": "false",
+  "SortMode": "FOV",
+  "Range": "70.0"
+}

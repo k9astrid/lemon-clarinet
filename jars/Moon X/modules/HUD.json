@@ -1,0 +1,22 @@
+{
+  "key": 0,
+  "enabled": true,
+  "hidden": true,
+  "Color": "-13565967",
+  "Notifications": "true",
+  "Tab GUI": "false",
+  "XYZ": "true",
+  "FPS": "true",
+  "Ping": "true",
+  "Armor": "true",
+  "Healing Potions": "true",
+  "Background": "true",
+  "Animations": "true",
+  "Font": "false",
+  "Case Mode": "LOWER",
+  "Color Mode": "FASTRAINBOW",
+  "Border Mode": "RIGHT",
+  "BackgroundAlpha": "75",
+  "BorderWidth": "2.0",
+  "HudFont": "Arial-0-18-true-true"
+}

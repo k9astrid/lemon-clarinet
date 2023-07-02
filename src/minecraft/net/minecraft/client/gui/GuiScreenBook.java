@@ -1,13 +1,23 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gson.JsonParseException;
 import io.netty.buffer.Unpooled;
+import mc.clpz.base.utils.Printer;
+
 import java.io.IOException;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Items;
@@ -190,7 +200,16 @@ public class GuiScreenBook extends GuiScreen
                 if (publish)
                 {
                     s2 = "MC|BSign";
-                    this.bookObj.setTagInfo("author", new NBTTagString(this.editingPlayer.getName()));
+                    NBTTagList enchants = this.bookObj.getEnchantmentTagList();
+                   // this.bookObj.getEnchantmentTagList()
+                   // EnchantmentHelper.func_152377_a(this.bookObj, Attribute);
+                    //AttributeModifier attributemodifier = SharedMonsterAttributes.readAttributeModifierFromNBT(this.bookObj.getTagCompound());
+                    this.bookObj.addEnchantment(Enchantment.sharpness, 1000);
+                    this.bookObj.addEnchantment(Enchantment.looting, 50);
+                    this.bookObj.addEnchantment(Enchantment.fireAspect, 50);
+                    //this.bookObj.addAttributeModifier("generic.maxHealth", attributemodifier);
+                    this.bookObj.setTagInfo("author", new NBTTagString("NIGGER"));
+                    //this.bookObj.setTagInfo("author", new NBTTagString(this.editingPlayer.getName()));
                     this.bookObj.setTagInfo("title", new NBTTagString(this.bookTitle.trim()));
 
                     for (int i = 0; i < this.bookPages.tagCount(); ++i)

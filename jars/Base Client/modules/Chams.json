@@ -1,0 +1,18 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Visible": "-65536",
+  "Hidden": "-65281",
+  "Visible Friend": "-13618945",
+  "Hidden Friend": "-57248",
+  "Players": "true",
+  "Animals": "true",
+  "Mobs": "false",
+  "Invisibles": "false",
+  "Passives": "true",
+  "ShowArmor": "true",
+  "Colored": "true",
+  "Hands": "false",
+  "Raindow": "false"
+}

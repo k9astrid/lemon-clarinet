@@ -1,0 +1,13 @@
+package mc.clpz.base.event.impl.player;
+
+import mc.clpz.base.event.cancelable.CancelableEvent;
+
+public class PushEvent extends CancelableEvent {
+   private boolean pre;
+    public PushEvent(boolean pre) {
+        this.pre = pre;
+    }
+    public boolean isPre() {
+        return pre;
+    }
+}

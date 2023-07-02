@@ -11,7 +11,7 @@ public class GuiChest extends GuiContainer
     /** The ResourceLocation containing the chest GUI texture. */
     private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
     private IInventory upperChestInventory;
-    private IInventory lowerChestInventory;
+    public IInventory lowerChestInventory;
 
     /**
      * window height is calculated with these values; the more rows, the heigher
@@ -39,9 +39,18 @@ public class GuiChest extends GuiContainer
         this.fontRendererObj.drawString(this.upperChestInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
     }
 
+    public IInventory getLowerChestInventory() {
+        return lowerChestInventory;
+    }
+
+    public int getInventoryRows() {
+        return inventoryRows;
+    }
+
     /**
      * Args : renderPartialTicks, mouseX, mouseY
      */
+
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

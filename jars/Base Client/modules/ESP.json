@@ -1,0 +1,17 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Players": "true",
+  "Animals": "true",
+  "Mobs": "false",
+  "Invisibles": "false",
+  "Passives": "true",
+  "Box": "true",
+  "Health": "true",
+  "Armor": "true",
+  "Filled": "false",
+  "Corner": "false",
+  "Thickness": "1.5",
+  "Color": "-1003089"
+}

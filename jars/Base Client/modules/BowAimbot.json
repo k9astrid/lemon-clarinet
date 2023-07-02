@@ -1,0 +1,12 @@
+{
+  "key": 0,
+  "enabled": true,
+  "hidden": false,
+  "Players": "true",
+  "Animals": "true",
+  "Mobs": "true",
+  "Passives": "true",
+  "Invisibles": "true",
+  "SortMode": "HEALTH",
+  "Range": "150.0"
+}

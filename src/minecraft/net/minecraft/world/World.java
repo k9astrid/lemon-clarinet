@@ -3,6 +3,12 @@ package net.minecraft.world;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.event.impl.player.BoundingBoxEvent;
+import mc.clpz.base.event.impl.player.EventCollideUnderPlayer;
+import mc.clpz.base.utils.Printer;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,6 +17,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;
@@ -19,6 +26,8 @@ import net.minecraft.block.BlockSnow;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -1299,7 +1308,13 @@ public abstract class World implements IBlockAccess
                         {
                             iblockstate1 = this.getBlockState(blockpos$mutableblockpos);
                         }
-
+                        if (entityIn instanceof EntityPlayerSP) {
+                            final EventCollideUnderPlayer event = new EventCollideUnderPlayer(blockpos$mutableblockpos, iblockstate.getBlock(), list);
+                            BaseClient.INSTANCE.getEventBus().dispatch(event);
+                            blockpos$mutableblockpos = event.getBlockPos();
+                            list = event.getList();
+                           // iblockstate.getBlock().addCollisionBoxesToList(this, event.getBlockPos(), iblockstate, bb, event.getList(), (Entity) null);
+                        }
                         iblockstate1.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate1, bb, list, entityIn);
                     }
                 }
@@ -1387,7 +1402,6 @@ public abstract class World implements IBlockAccess
                         {
                             iblockstate = Blocks.bedrock.getDefaultState();
                         }
-
                         iblockstate.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate, bb, list, (Entity)null);
                     }
                 }

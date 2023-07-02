@@ -1,0 +1,13 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": true,
+  "Dynamic": "true",
+  "Width": "1.0",
+  "Gap": "3.0",
+  "Length": "7.0",
+  "DynamicGap": "1.5",
+  "Color": "-65536",
+  "Rainbow": "false",
+  "Static Rainbow": "false"
+}

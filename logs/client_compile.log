@@ -1,5 +1,0 @@
-src\minecraft\net\minecraft\src\Updater.java:123: error: lambda expressions are not supported in -source 1.6
-                    (new Thread(() ->
-                                   ^
-  (use -source 8 or higher to enable lambda expressions)
-1 error

@@ -117,9 +117,9 @@ public class RenderManager
 
     /** Renders fonts */
     private FontRenderer textRenderer;
-    public double renderPosX;
-    public double renderPosY;
-    public double renderPosZ;
+    private double renderPosX;
+    private double renderPosY;
+    private double renderPosZ;
     public TextureManager renderEngine;
 
     /** Reference to the World object. */
@@ -525,5 +525,17 @@ public class RenderManager
     public Map<String, RenderPlayer> getSkinMap()
     {
         return Collections.<String, RenderPlayer>unmodifiableMap(this.skinMap);
+    }
+
+    public double getRenderPosX() {
+        return renderPosX;
+    }
+
+    public double getRenderPosY() {
+        return renderPosY;
+    }
+
+    public double getRenderPosZ() {
+        return renderPosZ;
     }
 }

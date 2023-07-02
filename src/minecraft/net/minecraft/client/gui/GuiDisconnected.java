@@ -1,74 +1,202 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.gui.account.gui.GuiAltManager;
+import mc.clpz.base.gui.account.gui.thread.AccountLoginThread;
+import mc.clpz.base.gui.account.system.Account;
+import mc.clpz.base.utils.thealtening.TheAltening;
+import mc.clpz.base.utils.thealtening.domain.AlteningAlt;
+import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Session;
 
-public class GuiDisconnected extends GuiScreen
-{
+public class GuiDisconnected extends GuiScreen {
+    public static boolean niggaButton = false;
+    public static ServerData serverData;
     private String reason;
     private IChatComponent message;
-    private List<String> multilineMessage;
+    private List multilineMessage;
     private final GuiScreen parentScreen;
     private int field_175353_i;
+    private static final String __OBFID = "CL_00000693";
+    private long reconnectTime;
 
-    public GuiDisconnected(GuiScreen screen, String reasonLocalizationKey, IChatComponent chatComp)
-    {
-        this.parentScreen = screen;
-        this.reason = I18n.format(reasonLocalizationKey, new Object[0]);
-        this.message = chatComp;
+    public GuiDisconnected(GuiScreen p_i45020_1_, String p_i45020_2_, IChatComponent p_i45020_3_) {
+        this.parentScreen = p_i45020_1_;
+        this.reason = I18n.format(p_i45020_2_, new Object[0]);
+        this.message = p_i45020_3_;
     }
 
     /**
-     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * Fired when a key is typed (except F11 who toggle full screen). This is the equivalent of
      * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
      */
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
-    {
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
     }
 
     /**
-     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-     * window resizes, the buttonList is cleared beforehand.
+     * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    @Override
+    public void initGui() {
         this.buttonList.clear();
         this.multilineMessage = this.fontRendererObj.listFormattedStringToWidth(this.message.getFormattedText(), this.width - 50);
         this.field_175353_i = this.multilineMessage.size() * this.fontRendererObj.FONT_HEIGHT;
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, I18n.format("gui.toMenu", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, 130, 20, "Go to AltManager"));
+        this.buttonList.add(new GuiButton(2, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + 33, 130, 20, "Set Banned"));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + 57, 130, 20, "Remove Alt"));
+        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 2 + this.field_175353_i / 2 + 33, "Relog with new Alt (Normal)"));
+        this.buttonList.add(new GuiButton(6, this.width / 2 - 100, this.height / 2 + this.field_175353_i / 2 + 57, "Relog with new Alt (TheAltening)"));
+        this.buttonList.add(new GuiButton(7, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + 81, 130, 20, "Relog"));
+        this.buttonList.add(new GuiButton(8, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + 105, 130, 20, "Auto Relog (Normal)"));
+        this.buttonList.add(new GuiButton(9, this.width / 2 + 103, this.height / 2 + this.field_175353_i / 2 + 129, 130, 20, "Auto Relog (TheAltening)"));
+        if (BaseClient.INSTANCE.isAutoRelogNormal() || BaseClient.INSTANCE.isAutoRelogTheAltening())
+            reconnectTime = System.currentTimeMillis() + 1500;
     }
 
-    /**
-     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-     */
-    protected void actionPerformed(GuiButton button) throws IOException
-    {
-        if (button.id == 0)
-        {
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        if (button.id == 0) {
             this.mc.displayGuiScreen(this.parentScreen);
+        }
+
+        if (button.id == 1) {
+            this.mc.displayGuiScreen(new GuiAltManager());
+        }
+
+        if (button.id == 2 && GuiAltManager.currentAccount != null) {
+            GuiAltManager.currentAccount.setBanned(true);
+        }
+        if (button.id == 4) {
+            if (GuiAltManager.currentAccount != null) {
+                if (GuiAltManager.loginThread != null) {
+                    GuiAltManager.loginThread = null;
+                }
+                BaseClient.INSTANCE.getAccountManager().getAccounts().remove(GuiAltManager.currentAccount);
+                BaseClient.INSTANCE.getAccountManager().save();
+            }
+        }
+        if (button.id == 5) {
+            if (BaseClient.INSTANCE.getAccountManager().getAccounts().isEmpty()) return;
+            ArrayList<Account> registry = BaseClient.INSTANCE.getAccountManager().getAccounts();
+            Random random = new Random();
+            Account randomAlt = registry.get(random.nextInt(BaseClient.INSTANCE.getAccountManager().getAccounts().size()));
+            String user2 = randomAlt.getName();
+            String pass2 = randomAlt.getPassword();
+            if (randomAlt.isBanned()) {
+                return;
+            }
+            GuiAltManager.currentAccount = randomAlt;
+            try {
+                (GuiAltManager.loginThread = new AccountLoginThread(user2, pass2)).start();
+                if (serverData != null) mc.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), mc, serverData));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (button.id == 6) {
+            if (BaseClient.INSTANCE.getAccountManager().getAlteningKey() == null) return;
+            niggaButton = true;
+            try {
+                TheAltening theAltening = new TheAltening(BaseClient.INSTANCE.getAccountManager().getAlteningKey());
+                AlteningAlt account = theAltening.generateAccount(theAltening.getUser());
+                if (!Objects.requireNonNull(account).getToken().isEmpty()) {
+                    GuiAltManager.loginThread = new AccountLoginThread(Objects.requireNonNull(account).getToken().replaceAll(" ", ""), "nig");
+                    GuiAltManager.loginThread.start();
+                }
+                if (serverData != null) mc.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), mc, serverData));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (button.id == 7) {
+            if (serverData != null) mc.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), mc, serverData));
+        }
+        if (button.id == 8) {
+            if (BaseClient.INSTANCE.getAccountManager().getAccounts().isEmpty()) return;
+            BaseClient.INSTANCE.setAutoRelogNormal(!BaseClient.INSTANCE.isAutoRelogNormal());
+            BaseClient.INSTANCE.setAutoRelogTheAltening(false);
+            reconnectTime = System.currentTimeMillis() + 1500;
+        }
+        if (button.id == 9) {
+            if (BaseClient.INSTANCE.getAccountManager().getAlteningKey() == null) return;
+            BaseClient.INSTANCE.setAutoRelogTheAltening(!BaseClient.INSTANCE.isAutoRelogTheAltening());
+            BaseClient.INSTANCE.setAutoRelogNormal(false);
+            reconnectTime = System.currentTimeMillis() + 1500;
         }
     }
 
     /**
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810);
-        int i = this.height / 2 - this.field_175353_i / 2;
+        int var4 = this.height / 2 - this.field_175353_i / 2;
 
-        if (this.multilineMessage != null)
-        {
-            for (String s : this.multilineMessage)
-            {
-                this.drawCenteredString(this.fontRendererObj, s, this.width / 2, i, 16777215);
-                i += this.fontRendererObj.FONT_HEIGHT;
+        if (this.multilineMessage != null) {
+            for (Iterator var5 = this.multilineMessage.iterator(); var5.hasNext(); var4 += this.fontRendererObj.FONT_HEIGHT) {
+                String var6 = (String) var5.next();
+
+                this.drawCenteredString(this.fontRendererObj, var6, this.width / 2, var4, 16777215);
+                if (GuiAltManager.currentAccount != null) {
+                    drawCenteredString(fontRendererObj, "Current Alt: " + mc.getSession().getUsername(), width / 2, 20, -1);
+                }
+                drawCenteredString(fontRendererObj, "Auto Relog (Normal): " + BaseClient.INSTANCE.isAutoRelogNormal(), width / 2, GuiAltManager.currentAccount != null ? 34 : 20, -1);
+                drawCenteredString(fontRendererObj, "Auto Relog (TheAltening): " + BaseClient.INSTANCE.isAutoRelogTheAltening(), width / 2, GuiAltManager.currentAccount != null ? 48 : 34, -1);
             }
         }
-
+        if (BaseClient.INSTANCE.isAutoRelogNormal() || BaseClient.INSTANCE.isAutoRelogTheAltening()) {
+            drawCenteredString(fontRendererObj, "Relog Time: " + (Math.max(reconnectTime - System.currentTimeMillis(),0)) + "ms", width / 2, GuiAltManager.currentAccount != null ? 62 : 48, -1);
+            if (System.currentTimeMillis() >= reconnectTime) {
+                if (BaseClient.INSTANCE.isAutoRelogTheAltening()) {
+                    if (BaseClient.INSTANCE.getAccountManager().getAlteningKey() == null) return;
+                    niggaButton = true;
+                    try {
+                        TheAltening theAltening = new TheAltening(BaseClient.INSTANCE.getAccountManager().getAlteningKey());
+                        AlteningAlt account = theAltening.generateAccount(theAltening.getUser());
+                        if (!Objects.requireNonNull(account).getToken().isEmpty()) {
+                            GuiAltManager.loginThread = new AccountLoginThread(Objects.requireNonNull(account).getToken().replaceAll(" ", ""), "nig");
+                            GuiAltManager.loginThread.start();
+                        }
+                        BaseClient.INSTANCE.getAccountManager().setLastAlteningAlt((Objects.requireNonNull(account).getToken().replaceAll(" ", "")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (BaseClient.INSTANCE.getAccountManager().getAccounts().isEmpty()) return;
+                    ArrayList<Account> registry = BaseClient.INSTANCE.getAccountManager().getAccounts();
+                    Random random = new Random();
+                    Account randomAlt = registry.get(random.nextInt(BaseClient.INSTANCE.getAccountManager().getAccounts().size()));
+                    String user2 = randomAlt.getName();
+                    String pass2 = randomAlt.getPassword();
+                    if (randomAlt.isBanned()) {
+                        return;
+                    }
+                    GuiAltManager.currentAccount = randomAlt;
+                    try {
+                        (GuiAltManager.loginThread = new AccountLoginThread(user2, pass2)).start();
+                        BaseClient.INSTANCE.getAccountManager().setLastAlt(randomAlt);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (serverData != null && System.currentTimeMillis() >= reconnectTime + 2000)
+                    mc.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), mc, serverData));
+            }
+        }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

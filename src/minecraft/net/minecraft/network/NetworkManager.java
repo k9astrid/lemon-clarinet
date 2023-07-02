@@ -27,11 +27,15 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.event.impl.game.PacketEvent;
+
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.crypto.SecretKey;
+
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -111,7 +115,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         }
         catch (Throwable throwable)
         {
-            logger.fatal((Object)throwable);
+            logger.fatal((Throwable)throwable);
         }
     }
 
@@ -136,39 +140,37 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
         if (p_exceptionCaught_2_ instanceof TimeoutException)
         {
-            chatcomponenttranslation = new ChatComponentTranslation("disconnect.timeout", new Object[0]);
+            chatcomponenttranslation = new ChatComponentTranslation("disconnect.timeout");
         }
         else
         {
-            chatcomponenttranslation = new ChatComponentTranslation("disconnect.genericReason", new Object[] {"Internal Exception: " + p_exceptionCaught_2_});
+            chatcomponenttranslation = new ChatComponentTranslation("disconnect.genericReason", "Internal Exception: " + p_exceptionCaught_2_);
         }
 
         this.closeChannel(chatcomponenttranslation);
     }
 
-    protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception
-    {
-        if (this.channel.isOpen())
-        {
-            try
-            {
-                p_channelRead0_2_.processPacket(this.packetListener);
-            }
-            catch (ThreadQuickExitException var4)
-            {
-                ;
+    @Override
+    protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) {
+        final PacketEvent event = new PacketEvent(p_channelRead0_2_, false);
+        BaseClient.INSTANCE.getEventBus().dispatch(event);
+        if (event.isCanceled())
+            return;
+        if (this.channel.isOpen()) {
+            try {
+                event.getPacket().processPacket(this.packetListener);
+            } catch (ThreadQuickExitException var4) {
             }
         }
     }
-
     /**
      * Sets the NetHandler for this NetworkManager, no checks are made if this handler is suitable for the particular
      * connection state (protocol)
      */
     public void setNetHandler(INetHandler handler)
     {
-        Validate.notNull(handler, "packetListener", new Object[0]);
-        logger.debug("Set listener of {} to {}", new Object[] {this, handler});
+        Validate.notNull(handler, "packetListener");
+        logger.debug("Set listener of {} to {}", this, handler);
         this.packetListener = handler;
     }
 

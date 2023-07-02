@@ -1,0 +1,20 @@
+package mc.clpz.base.command.impl;
+
+import mc.clpz.base.BaseClient;
+import mc.clpz.base.command.Command;
+import mc.clpz.base.utils.Printer;
+
+public class Modules extends Command {
+
+    public Modules() {
+        super("Modules", new String[]{"modules","mods","m"});
+    }
+
+    @Override
+    public void onRun(final String[] s) {
+        StringBuilder mods = new StringBuilder("Modules (" + BaseClient.INSTANCE.getModuleManager().getModuleMap().values().size() + "): ");
+        BaseClient.INSTANCE.getModuleManager().getModuleMap().values()
+                .forEach(mod -> mods.append(mod.isEnabled() ? "\247a" : "\247c").append(mod.getLabel()).append("\247r, "));
+        Printer.print(mods.toString().substring(0, mods.length() - 2));
+    }
+}

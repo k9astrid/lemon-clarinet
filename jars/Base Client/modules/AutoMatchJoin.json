@@ -1,0 +1,9 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Type": "Insane",
+  "Auto Detect": "true",
+  "Teams only mode": "true",
+  "Delay": "3000"
+}

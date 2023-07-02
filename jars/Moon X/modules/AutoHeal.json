@@ -1,0 +1,12 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Soups": "false",
+  "Potions": "true",
+  "Jump": "false",
+  "Regen Pots": "true",
+  "Speed Pots": "true",
+  "Health": "10",
+  "Delay": "5"
+}

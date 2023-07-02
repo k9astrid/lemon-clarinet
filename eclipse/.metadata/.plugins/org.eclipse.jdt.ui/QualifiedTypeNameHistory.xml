@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="net.minecraft.client.Minecraft"/>
-    <fullyQualifiedTypeName name="dev.lemon.recode.event.impl.ChatEvent"/>
-    <fullyQualifiedTypeName name="dev.lemon.recode.event.impl.MovementEvent"/>
-</qualifiedTypeNameHistroy>
+<qualifiedTypeNameHistroy/>

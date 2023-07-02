@@ -1,0 +1,11 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": true,
+  "Players": "true",
+  "Animals": "true",
+  "Mobs": "false",
+  "Invisibles": "false",
+  "Passives": "true",
+  "Width": "1.0"
+}

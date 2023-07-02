@@ -1,0 +1,13 @@
+{
+  "key": 0,
+  "enabled": false,
+  "hidden": false,
+  "Players": "true",
+  "Animals": "false",
+  "Monsters": "false",
+  "Invisibles": "false",
+  "Teams": "false",
+  "Range": "5.2",
+  "Distance": "3.0",
+  "Press Space only": "false"
+}
