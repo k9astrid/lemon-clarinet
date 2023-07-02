@@ -1,6 +1,6 @@
 package dev.lemon.recode;
 
-import com.google.common.eventbus.EventBus;
+import best.azura.eventbus.core.EventBus;
 
 public enum Lemon {
     INSTANCE;
@@ -16,5 +16,5 @@ public enum Lemon {
     }
 
     private final EventBus eventBus = new EventBus();
-    
+
 }
