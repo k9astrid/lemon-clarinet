@@ -1,6 +1,11 @@
 package dev.lemon.recode;
 
 import best.azura.eventbus.core.EventBus;
+import best.azura.eventbus.handler.EventHandler;
+import best.azura.eventbus.handler.Listener;
+import dev.lemon.recode.event.impl.EventKey;
+import dev.lemon.recode.managers.ModuleManager;
+import dev.lemon.recode.module.Module;
 import org.lwjgl.opengl.Display;
 
 public enum Lemon {
@@ -24,10 +29,27 @@ public enum Lemon {
         return eventBus;
     }
 
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
+
+
     private final EventBus eventBus = new EventBus();
+    private final ModuleManager moduleManager = new ModuleManager();
 
     public void startClient(){
         Display.setTitle(this.name +" version "+this.version+" by "+this.authors);
+        eventBus.subscribe(this);
+        System.out.println("Subscribed to event bus!");
     }
+
+    @EventHandler
+    public Listener<EventKey> eventKeyListener = e -> {
+        for (Module m : moduleManager.getModules()){
+            if (m.getKey() == e.getKeyCode()){
+                m.toggle();
+            }
+        }
+    };
 
 }

@@ -4,4 +4,5 @@ public @interface ModuleInfo {
     String name();
     int key();
     Category category();
+    boolean toggled();
 }

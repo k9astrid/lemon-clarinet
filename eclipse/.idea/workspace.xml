@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/Module.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/ModuleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/ModuleInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/Minecraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/Minecraft.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/gui/GuiIngame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/gui/GuiIngame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/network/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/network/NetworkManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +18,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
         <option value="Enum" />
         <option value="Class" />
       </list>
