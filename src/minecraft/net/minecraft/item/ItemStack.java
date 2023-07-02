@@ -3,6 +3,10 @@ package net.minecraft.item;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Random;
+import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -20,13 +24,14 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
 
 public final class ItemStack
 {
@@ -170,23 +175,6 @@ public final class ItemStack
     public ItemStack onItemUseFinish(World worldIn, EntityPlayer playerIn)
     {
         return this.getItem().onItemUseFinish(this, worldIn, playerIn);
-    }
-
-
-    public void addAttributeModifier(String attributeName, AttributeModifier modifier) {
-        if (this.stackTagCompound == null) {
-            this.setTagCompound(new NBTTagCompound());
-        }
-
-        if (!this.stackTagCompound.hasKey("AttributeModifiers", 9)) {
-            this.stackTagCompound.setTag("AttributeModifiers", new NBTTagList());
-        }
-
-        NBTTagList listnbt = this.stackTagCompound.getTagList("AttributeModifiers", 10);
-        NBTTagCompound compoundnbt = SharedMonsterAttributes.writeAttributeModifierToNBT(modifier);
-        compoundnbt.setString("AttributeName", attributeName);
-
-        listnbt.appendTag(compoundnbt);
     }
 
     /**

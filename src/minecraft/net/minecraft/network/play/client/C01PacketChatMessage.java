@@ -39,16 +39,9 @@ public class C01PacketChatMessage implements Packet<INetHandlerPlayServer>
         buf.writeString(this.message);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     /**
      * Passes this Packet on to the NetHandler for processing.
      */
-
-
-
     public void processPacket(INetHandlerPlayServer handler)
     {
         handler.processChatMessage(this);

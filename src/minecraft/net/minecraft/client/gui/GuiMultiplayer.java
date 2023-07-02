@@ -182,7 +182,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 0)
             {
-                this.mc.displayGuiScreen(new GuiMainMenu());
+                this.mc.displayGuiScreen(this.parentScreen);
             }
             else if (button.id == 8)
             {

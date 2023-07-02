@@ -18,14 +18,14 @@ public class KeyBinding implements Comparable<KeyBinding>
     private int keyCode;
 
     /** Is the key held down? */
-    public boolean pressed;
+    private boolean pressed;
     private int pressTime;
 
     public static void onTick(int keyCode)
     {
         if (keyCode != 0)
         {
-            KeyBinding keybinding = hash.lookup(keyCode);
+            KeyBinding keybinding = (KeyBinding)hash.lookup(keyCode);
 
             if (keybinding != null)
             {
@@ -38,7 +38,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     {
         if (keyCode != 0)
         {
-            KeyBinding keybinding = hash.lookup(keyCode);
+            KeyBinding keybinding = (KeyBinding)hash.lookup(keyCode);
 
             if (keybinding != null)
             {
@@ -94,6 +94,10 @@ public class KeyBinding implements Comparable<KeyBinding>
         return this.keyCategory;
     }
 
+    /**
+     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
+     * events.
+     */
     public boolean isPressed()
     {
         if (this.pressTime == 0)

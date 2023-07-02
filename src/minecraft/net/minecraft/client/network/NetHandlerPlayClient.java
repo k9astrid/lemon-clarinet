@@ -5,10 +5,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import mc.clpz.base.BaseClient;
-import mc.clpz.base.event.impl.game.PacketEvent;
-import mc.clpz.base.utils.Printer;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -17,7 +13,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -46,7 +41,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.client.player.inventory.ContainerLocalMenu;
 import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.stream.MetadataAchievement;
@@ -296,9 +290,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.gameController.gameSettings.sendSettingsToServer();
         this.netManager.sendPacket(new C17PacketCustomPayload("MC|Brand", (new PacketBuffer(Unpooled.buffer())).writeString(ClientBrandRetriever.getClientModName())));
     }
-    public Map<UUID, NetworkPlayerInfo> getRealPlayerInfoMap() {
-        return playerInfoMap;
-    }
+
     /**
      * Spawns an instance of the objecttype indicated by the packet and sets its position and momentum
      */
@@ -819,29 +811,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         }
     }
 
-    public void addToSendQueueNoEvents(Packet p_147297_1_) {
+    public void addToSendQueue(Packet p_147297_1_)
+    {
         this.netManager.sendPacket(p_147297_1_);
     }
 
-    public void addToSendQueue(Packet p_147297_1_) {
-        final PacketEvent event = new PacketEvent(p_147297_1_, true);
-        BaseClient.INSTANCE.getEventBus().dispatch(event);
-        if (!event.isCanceled()) {
-            this.netManager.sendPacket(event.getPacket());
-            if (p_147297_1_ instanceof C03PacketPlayer.C05PacketPlayerLook) {
-                C03PacketPlayer.C05PacketPlayerLook packet = (C03PacketPlayer.C05PacketPlayerLook)p_147297_1_;
-                Minecraft.getMinecraft().thePlayer.rotationYawHead = packet.getYaw();
-                RendererLivingEntity.setPreviousPitchHead(RendererLivingEntity.getPitchHead());
-                RendererLivingEntity.setPitchHead(packet.getPitch());
-            }
-            if (p_147297_1_ instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
-                C03PacketPlayer.C06PacketPlayerPosLook packet = (C03PacketPlayer.C06PacketPlayerPosLook)p_147297_1_;
-                Minecraft.getMinecraft().thePlayer.rotationYawHead = packet.getYaw();
-                RendererLivingEntity.setPreviousPitchHead(RendererLivingEntity.getPitchHead());
-                RendererLivingEntity.setPitchHead(packet.getPitch());
-            }
-        }
-    }
     public void handleCollectItem(S0DPacketCollectItem packetIn)
     {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);

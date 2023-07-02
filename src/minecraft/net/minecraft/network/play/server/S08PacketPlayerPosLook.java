@@ -12,8 +12,8 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient>
     private double x;
     private double y;
     private double z;
-    public float yaw;
-    public float pitch;
+    private float yaw;
+    private float pitch;
     private Set<S08PacketPlayerPosLook.EnumFlags> field_179835_f;
 
     public S08PacketPlayerPosLook()

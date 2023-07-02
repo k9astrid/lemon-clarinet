@@ -3,12 +3,21 @@ package net.minecraft.entity;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.BaseAttributeMap;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.ServersideAttributeMap;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityWolf;
@@ -19,7 +28,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.network.play.server.S04PacketEntityEquipment;
 import net.minecraft.network.play.server.S0BPacketAnimation;
 import net.minecraft.network.play.server.S0DPacketCollectItem;
@@ -27,11 +40,16 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.CombatTracker;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
-import java.util.*;
 
 public abstract class EntityLivingBase extends Entity
 {
@@ -48,7 +66,7 @@ public abstract class EntityLivingBase extends Entity
     public boolean isSwingInProgress;
     public int swingProgressInt;
     public int arrowHitTimer;
-    public int auraticks = 0;
+
     /**
      * The amount of time remaining this entity should act 'hurt'. (Visual appearance of red tint)
      */
@@ -1117,8 +1135,9 @@ public abstract class EntityLivingBase extends Entity
     /**
      * Checks whether target entity is alive.
      */
-    public boolean isEntityAlive() {
-        return !this.isDead && (this.getHealth() > 0.0F || Float.isNaN(getHealth()));
+    public boolean isEntityAlive()
+    {
+        return !this.isDead && this.getHealth() > 0.0F;
     }
 
     public void fall(float distance, float damageMultiplier)
@@ -2076,16 +2095,6 @@ public abstract class EntityLivingBase extends Entity
         this.prevOnGroundSpeedFactor = this.onGroundSpeedFactor;
         this.onGroundSpeedFactor = 0.0F;
         this.fallDistance = 0.0F;
-    }
-
-    public void LegitRotation(float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_)
-    {
-        this.newPosX = Minecraft.getMinecraft().thePlayer.posX;
-        this.newPosY = Minecraft.getMinecraft().thePlayer.posY;
-        this.newPosZ = Minecraft.getMinecraft().thePlayer.posZ;
-        this.newRotationYaw = (double)yaw;
-        this.newRotationPitch = (double)pitch;
-        this.newPosRotationIncrements = posRotationIncrements;
     }
 
     public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_)

@@ -3,16 +3,9 @@ package net.minecraft.entity.player;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
-
-import mc.clpz.base.BaseClient;
-import mc.clpz.base.event.impl.player.SlowdownEvent;
-import mc.clpz.base.utils.Printer;
-
 import java.util.Collection;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import java.util.UUID;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -952,7 +945,6 @@ public abstract class EntityPlayer extends EntityLivingBase
 
         if (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))
         {
-
             f /= 5.0F;
         }
 
@@ -1365,13 +1357,9 @@ public abstract class EntityPlayer extends EntityLivingBase
                         if (i > 0)
                         {
                             targetEntity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
-                            final SlowdownEvent event = new SlowdownEvent(SlowdownEvent.Type.Sprinting);
-                            BaseClient.INSTANCE.getEventBus().dispatch(event);
-                            if (!event.isCanceled()) {
-                                this.motionX *= 0.6D;
-                                this.motionZ *= 0.6D;
-                                this.setSprinting(false);
-                            }
+                            this.motionX *= 0.6D;
+                            this.motionZ *= 0.6D;
+                            this.setSprinting(false);
                         }
 
                         if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged)
@@ -1784,9 +1772,12 @@ public abstract class EntityPlayer extends EntityLivingBase
         super.jump();
         this.triggerAchievement(StatList.jumpStat);
 
-        if (this.isSprinting()) {
+        if (this.isSprinting())
+        {
             this.addExhaustion(0.8F);
-        } else {
+        }
+        else
+        {
             this.addExhaustion(0.2F);
         }
     }
@@ -1836,17 +1827,20 @@ public abstract class EntityPlayer extends EntityLivingBase
             {
                 int i = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_3_ * p_71000_3_ + p_71000_5_ * p_71000_5_) * 100.0F);
 
-                if (i > 0) {
+                if (i > 0)
+                {
                     this.addStat(StatList.distanceDoveStat, i);
-                    this.addExhaustion(0.015F * (float) i * 0.01F);
+                    this.addExhaustion(0.015F * (float)i * 0.01F);
                 }
             }
             else if (this.isInWater())
             {
                 int j = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
-                if (j > 0) {
+
+                if (j > 0)
+                {
                     this.addStat(StatList.distanceSwumStat, j);
-                    this.addExhaustion(0.015F * (float) j * 0.01F);
+                    this.addExhaustion(0.015F * (float)j * 0.01F);
                 }
             }
             else if (this.isOnLadder())
@@ -2512,7 +2506,7 @@ public abstract class EntityPlayer extends EntityLivingBase
         }
     }
 
-    public enum EnumStatus
+    public static enum EnumStatus
     {
         OK,
         NOT_POSSIBLE_HERE,

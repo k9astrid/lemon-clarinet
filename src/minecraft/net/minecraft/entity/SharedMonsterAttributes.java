@@ -68,7 +68,7 @@ public class SharedMonsterAttributes
     /**
      * Creates an NBTTagCompound from an AttributeModifier
      */
-    public static NBTTagCompound writeAttributeModifierToNBT(AttributeModifier p_111262_0_)
+    private static NBTTagCompound writeAttributeModifierToNBT(AttributeModifier p_111262_0_)
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setString("Name", p_111262_0_.getName());

@@ -526,16 +526,4 @@ public class RenderManager
     {
         return Collections.<String, RenderPlayer>unmodifiableMap(this.skinMap);
     }
-
-    public double getRenderPosX() {
-        return renderPosX;
-    }
-
-    public double getRenderPosY() {
-        return renderPosY;
-    }
-
-    public double getRenderPosZ() {
-        return renderPosZ;
-    }
 }

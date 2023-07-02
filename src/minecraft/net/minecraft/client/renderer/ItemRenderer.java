@@ -1,5 +1,3 @@
-
-
 package net.minecraft.client.renderer;
 
 import net.minecraft.block.Block;
@@ -18,7 +16,10 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemMap;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
@@ -29,15 +30,7 @@ import optifine.DynamicLights;
 import optifine.Reflector;
 
 import org.lwjgl.opengl.GL11;
-
-import mc.clpz.base.BaseClient;
-import mc.clpz.base.module.impl.other.Animation;
-import mc.clpz.base.module.impl.visuals.Chams;
-import mc.clpz.base.utils.Printer;
-import mc.clpz.base.utils.RenderUtil;
 import shadersmod.client.Shaders;
-
-import java.awt.*;
 
 public class ItemRenderer
 {
@@ -333,9 +326,6 @@ public class ItemRenderer
      */
     public void renderItemInFirstPerson(float partialTicks)
     {
-        final Chams chams = (Chams) BaseClient.INSTANCE.getModuleManager().getModule("chams");
-        final Color visColor = new Color(chams.visible.getValue());
-        float[] rgba = RenderUtil.getRGBAs(RenderUtil.getRainbow(6000, -15,0.85f));
         float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
         EntityPlayerSP entityplayersp = this.mc.thePlayer;
         float f1 = entityplayersp.getSwingProgress(partialTicks);
@@ -370,104 +360,8 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        if (BaseClient.INSTANCE.getModuleManager().getModule("animation").isEnabled()) {
-                            final Animation animation = ((Animation)BaseClient.INSTANCE.getModuleManager().getModule("animation"));
-                            switch (animation.Mode.getValue()) {
-                                case OLD:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        this.transformFirstPersonItem(0, f1);
-                                        this.func_178103_d();
-                                    }
-                                    break;
-                                case NORMAL:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        this.transformFirstPersonItem(0, 0.0f);
-                                        this.func_178103_d();
-                                        float var8 = MathHelper.sin(f1 * f1 * 0.3215927f);
-                                        float var9 = MathHelper.sin(MathHelper.sqrt_float(0) * 0.3215927f);
-                                        GlStateManager.translate(-0.0f, -0f, 0.2f);
-                                    }
-                                    break;
-                                case HIDE:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        this.func_178105_d(f1);
-                                        this.transformFirstPersonItem(f, f1);
-                                    }
-                                    break;
-                                case SLIDE:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        this.transformFirstPersonItem(0, 0.0f);
-                                        this.func_178103_d();
-                                        float var9 = MathHelper.sin(MathHelper.sqrt_float(f1) * 3.1415927f);
-                                        GlStateManager.translate(-0.05f, -0.0f, 0.35f);
-                                        GlStateManager.rotate(-var9 * (float)60.0 / 2.0f, -15.0f, -0.0f, 9.0f);
-                                        GlStateManager.rotate(-var9 * (float)70.0, 1.0f, -0.4f, -0.0f);
-                                    }
-                                    break;
-                                case LUCKY:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        this.transformFirstPersonItem(0, 0.0f);
-                                        this.func_178103_d();
-                                        float var9 = MathHelper.sin(MathHelper.sqrt_float(f1) * 0.3215927f);
-                                        GlStateManager.translate(-0.05f, -0.0f, 0.3f);
-                                        GlStateManager.rotate(-var9 * (float)60.0 / 2.0f, -15.0f, -0.0f, 9.0f);
-                                        GlStateManager.rotate(-var9 * (float)70.0, 1.0f, -0.4f, -0.0f);
-                                    }
-                                    break;
-                                case EXHIBOBO:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        float f6 = MathHelper.sin((float) (MathHelper.sqrt_float(f1) * 3.1));
-                                        GL11.glTranslated(-0.1D, 0.1D, 0.0D);
-                                        // this.transformFirstPersonItem(f / 3, 0.0f);
-                                        this.transformFirstPersonItem(f / 2, 0.0f);
-                                        GlStateManager.rotate(-f6 * 40.0F / 2.0F, f6 / 2.0F, -0.0F, 9.0F);
-                                        GlStateManager.rotate(-f6 * 30.0F, 1.0F, f6 / 2.0F, -0.0F);
-                                        this.func_178103_d();
-                                    }
-                                    break;
-                                case OHARE:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        float f6 = MathHelper.sin( (MathHelper.sqrt_float(f1) * 3.1415927f));
-                                        GL11.glTranslated(-0.05D, 0.0D, -0.25);
-                                        this.transformFirstPersonItem(f / 2, 0.0f);
-                                        GlStateManager.rotate(-f6 * 60.0F, 2.0F, -f6 * 2, -0.0f);
-                                        this.func_178103_d();
-                                    }
-                                    break;
-                                case WIZZARD:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        float f6 = MathHelper.sin((float) (MathHelper.sqrt_float(f1) * 3.1));
-                                        this.transformFirstPersonItem(f / 3, 0.0f);
-                                        GlStateManager.rotate(f6 * 30.0F / 1.0F, f6 / -1.0F, 1.0F, 0.0F);
-                                        GlStateManager.rotate(f6 * 10.0F / 10.0F, -f6 / -1.0F, 1.0F, 0.0F);
-                                        GL11.glTranslated(0.0D, 0.4D, 0.0D);
-                                        this.func_178103_d();
-                                    }
-                                    break;
-                                case LENNOX:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        float f6 = MathHelper.sin((float) (MathHelper.sqrt_float(f1) * 3.1));
-                                        GL11.glTranslated(0.0D, 0.125D, -0.1D);
-                                        this.transformFirstPersonItem(f / 3, 0.0F);
-                                        GlStateManager.rotate(-f6 * 75.0F / 4.5F, f6 / 3.0F, -2.4F, 5.0F);
-                                        GlStateManager.rotate(-f6 * 75.0F, 1.5F, f6 / 3.0F, -0.0F);
-                                        GlStateManager.rotate(f6 * 72.5F / 2.25F, f6 / 3.0F, -2.7F, 5.0F);
-                                        this.func_178103_d();
-                                    }
-                                    break;
-                                case CUSTOM:
-                                    if (itemToRender.getItem() instanceof ItemSword) {
-                                        GlStateManager.translate(animation.X.getValue(),  -animation.Y.getValue(), 0);
-                                        this.transformFirstPersonItem(f + 1f, f1);
-                                        this.func_178103_d();
-                                        GlStateManager.translate( -animation.SCALE.getValue(), 0.0f, animation.ZOOM.getValue());
-                                    }
-                                    break;
-                            }
-                        } else {
-                            this.transformFirstPersonItem(f, 0.0F);
-                            this.func_178103_d();
-                        }
+                        this.transformFirstPersonItem(f, 0.0F);
+                        this.func_178103_d();
                         break;
 
                     case 5:
@@ -482,23 +376,10 @@ public class ItemRenderer
             }
 
             this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
-        } else if (!entityplayersp.isInvisible()) {
-            if (BaseClient.INSTANCE.getModuleManager().getModuleClass(Chams.class).isEnabled() && chams.hands.isEnabled()&& chams.colored.isEnabled()) {
-                GL11.glDisable(3008);
-                GL11.glDisable(3553);
-                GL11.glDisable(2896);
-                GL11.glEnable(3042);
-                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0f, 240.0f);
-                GL11.glColor4f((chams.rainbow.isEnabled() ? rgba[0] : visColor.getRed() / 255), (chams.rainbow.isEnabled() ? rgba[1] : visColor.getGreen() / 255), (chams.rainbow.isEnabled() ? rgba[2] : visColor.getBlue() / 255), 1);
-                this.func_178095_a(entityplayersp, f, f1);
-                GL11.glEnable(3042);
-                GL11.glEnable(2896);
-                GL11.glEnable(3553);
-                GL11.glEnable(3008);
-                GL11.glColor4f(1,1,1,1);
-            } else {
-                this.func_178095_a(entityplayersp, f, f1);
-            }
+        }
+        else if (!entityplayersp.isInvisible())
+        {
+            this.func_178095_a(entityplayersp, f, f1);
         }
 
         GlStateManager.popMatrix();
@@ -791,4 +672,3 @@ public class ItemRenderer
         }
     }
 }
-

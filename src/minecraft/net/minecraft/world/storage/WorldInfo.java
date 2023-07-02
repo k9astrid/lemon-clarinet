@@ -1,9 +1,6 @@
 package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
-
-import mc.clpz.base.BaseClient;
-import mc.clpz.base.module.impl.other.TimeChanger;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -414,7 +411,7 @@ public class WorldInfo
      */
     public long getWorldTime()
     {
-        return  BaseClient.INSTANCE.getModuleManager().getModule("timechanger").isEnabled() ? ((TimeChanger) BaseClient.INSTANCE.getModuleManager().getModule("timechanger")).time.getValue():worldTime;
+        return this.worldTime;
     }
 
     public long getSizeOnDisk()

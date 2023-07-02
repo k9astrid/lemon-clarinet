@@ -2,7 +2,6 @@ package net.minecraft.util;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import java.util.Iterator;
 import java.util.Map;
 

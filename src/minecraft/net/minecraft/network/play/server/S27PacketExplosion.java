@@ -120,30 +120,6 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
         return this.field_149159_h;
     }
 
-    public void setField_149152_f(float field_149152_f) {
-        this.field_149152_f = field_149152_f;
-    }
-
-    public void setField_149153_g(float field_149153_g) {
-        this.field_149153_g = field_149153_g;
-    }
-
-    public void setField_149159_h(float field_149159_h) {
-        this.field_149159_h = field_149159_h;
-    }
-
-    public float getField_149152_f() {
-        return field_149152_f;
-    }
-
-    public float getField_149153_g() {
-        return field_149153_g;
-    }
-
-    public float getField_149159_h() {
-        return field_149159_h;
-    }
-
     public double getX()
     {
         return this.posX;

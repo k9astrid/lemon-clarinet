@@ -2,6 +2,12 @@ package net.minecraft.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
@@ -10,21 +16,15 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.RandomMobs;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import shadersmod.client.ShadersTex;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.Callable;
-
 public class TextureManager implements ITickable, IResourceManagerReloadListener
 {
     private static final Logger logger = LogManager.getLogger();
-    public final Map mapTextureObjects = Maps.newHashMap();
+    private final Map mapTextureObjects = Maps.newHashMap();
     private final List listTickables = Lists.newArrayList();
     private final Map mapTextureCounters = Maps.newHashMap();
     private IResourceManager theResourceManager;
@@ -42,7 +42,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
             resource = RandomMobs.getTextureLocation(resource);
         }
 
-        Object object = this.mapTextureObjects.get(resource);
+        Object object = (ITextureObject)this.mapTextureObjects.get(resource);
 
         if (object == null)
         {

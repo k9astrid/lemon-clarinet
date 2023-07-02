@@ -1,12 +1,7 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
-
-import mc.clpz.base.BaseClient;
-import mc.clpz.base.module.impl.other.Cape;
-
 import java.io.File;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -95,32 +90,30 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public ResourceLocation getLocationCape()
     {
-        Cape capes = (Cape) BaseClient.INSTANCE.getModuleManager().getModule("cape");
-
         if (!Config.isShowCapes())
         {
             return null;
         }
         else if (this.locationOfCape != null)
         {
-            return capes.isEnabled() && capes.canRender(this) ? capes.getCape() : locationOfCape;
+            return this.locationOfCape;
         }
         else
         {
             NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-            return networkplayerinfo == null ? null : capes.isEnabled() && capes.canRender(this) ? capes.getCape() : networkplayerinfo.getLocationCape();
+            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
         }
     }
 
     public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username)
     {
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-        ITextureObject object = texturemanager.getTexture(resourceLocationIn);
+        Object object = texturemanager.getTexture(resourceLocationIn);
 
         if (object == null)
         {
-            object = new ThreadDownloadImageData(null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", StringUtils.stripControlCodes(username)), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
-            texturemanager.loadTexture(resourceLocationIn, object);
+            object = new ThreadDownloadImageData((File)null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(username)}), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
+            texturemanager.loadTexture(resourceLocationIn, (ITextureObject)object);
         }
 
         return (ThreadDownloadImageData)object;

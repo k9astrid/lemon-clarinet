@@ -228,6 +228,7 @@ multiplayer.player.joined=%s joined the game
 multiplayer.player.joined.renamed=%s (formerly known as %s) joined the game
 multiplayer.player.left=%s left the game
 
+chat.cannotSend=Cannot send chat message
 chat.type.text=<%s> %s
 chat.type.emote=* %s %s
 chat.type.announcement=[%s] %s

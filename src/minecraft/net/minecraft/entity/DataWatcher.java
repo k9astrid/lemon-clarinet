@@ -22,8 +22,8 @@ public class DataWatcher
 
     /** When isBlank is true the DataWatcher is not watching any objects */
     private boolean isBlank = true;
-    private static final Map < Class<?>, Integer > dataTypes = Maps.newHashMap();
-    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
+    private static final Map < Class<?>, Integer > dataTypes = Maps. < Class<?>, Integer > newHashMap();
+    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.<Integer, DataWatcher.WatchableObject>newHashMap();
 
     /** true if one or more object was changed */
     private boolean objectChanged;
@@ -36,7 +36,7 @@ public class DataWatcher
 
     public <T> void addObject(int id, T object)
     {
-        Integer integer = dataTypes.get(object.getClass());
+        Integer integer = (Integer)dataTypes.get(object.getClass());
 
         if (integer == null)
         {

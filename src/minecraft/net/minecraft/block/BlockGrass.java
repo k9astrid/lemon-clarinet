@@ -20,7 +20,7 @@ public class BlockGrass extends Block implements IGrowable
 {
     public static final PropertyBool SNOWY = PropertyBool.create("snowy");
 
-    public BlockGrass()
+    protected BlockGrass()
     {
         super(Material.grass);
         this.setDefaultState(this.blockState.getBaseState().withProperty(SNOWY, Boolean.valueOf(false)));
