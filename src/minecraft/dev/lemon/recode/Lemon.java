@@ -11,7 +11,7 @@ import org.lwjgl.opengl.Display;
 public enum Lemon {
     INSTANCE;
 
-    private final String name = "Lemon Recode", version = "2.0", authors = "clpz & eternadox";
+    private final String name = "Lemon", version = "2.0", authors = "clpz & eternadox";
 
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();

@@ -7,7 +7,9 @@ public class Module {
     private final String name = this.getClass().getDeclaredAnnotation(ModuleInfo.class).name();
     private int key = this.getClass().getDeclaredAnnotation(ModuleInfo.class).key();
     private final Category category = this.getClass().getDeclaredAnnotation(ModuleInfo.class).category();
-    private boolean toggled = this.getClass().getDeclaredAnnotation(ModuleInfo.class).toggled();
+    private boolean toggled;
+    private String suffix = this.getClass().getDeclaredAnnotation(ModuleInfo.class).suffix();
+
     protected Minecraft mc = Minecraft.getMinecraft();
     protected Lemon lemon = Lemon.INSTANCE;
 
@@ -29,6 +31,14 @@ public class Module {
 
     public boolean isToggled() {
         return toggled;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
     public void toggle(){
