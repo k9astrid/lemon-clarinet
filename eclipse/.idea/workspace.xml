@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/utils/render/RenderUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.2.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.2.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.2.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.2.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,30 +18,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="AnnotationType" />
         <option value="Enum" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="8398134e-9a35-4c56-9069-74b5678ee351" />
-        <option name="url" value="https://github.com/eternadox/lemon-clarinet.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2S1c3TdKsKmYN2Bac7ofD0ECMtm" />
   <component name="ProjectViewState">
@@ -55,18 +34,18 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/37126/Documents/GitHub/lemon-clarinet/eclipse&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/best/azura/eventbus/3.0.2/azura-event-bus-3.0.2.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.14941406&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.lemon.recode.managers" />
       <recent name="dev.lemon.recode.module.impl.render" />
     </key>
   </component>
@@ -75,7 +54,6 @@
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="MAIN_CLASS_NAME" value="Start" />
       <module name="Client" />
-      <option name="PROGRAM_PARAMETERS" value="-Xlint:unchecked" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=versions\1.8.8\1.8.8-natives" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../jars" />
       <method v="2">

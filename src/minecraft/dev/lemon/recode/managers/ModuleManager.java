@@ -7,7 +7,6 @@ import dev.lemon.recode.module.impl.render.HUD;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,7 @@
 package net.minecraft.client.entity;
 
 import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.impl.EventChat;
 import dev.lemon.recode.event.impl.EventPostMotion;
 import dev.lemon.recode.event.impl.EventPreMotion;
 import net.minecraft.client.Minecraft;
@@ -304,7 +305,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
-        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+        EventChat eventChat = new EventChat(message);
+        Lemon.INSTANCE.getEventBus().post(eventChat);
+        if (!eventChat.isCancelled())
+            this.sendQueue.addToSendQueue(new C01PacketChatMessage(eventChat.getMessage()));
+
     }
 
     /**

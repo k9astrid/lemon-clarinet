@@ -4,6 +4,7 @@ import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.lemon.recode.event.impl.EventKey;
+import dev.lemon.recode.managers.CommandManager;
 import dev.lemon.recode.managers.ModuleManager;
 import dev.lemon.recode.module.Module;
 import org.lwjgl.opengl.Display;
@@ -15,6 +16,7 @@ public enum Lemon {
 
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
+    private final CommandManager commandManager = new CommandManager();
 
     public void startClient(){
         Display.setTitle(this.name +" version "+this.version+" by "+this.authors);
@@ -22,7 +24,8 @@ public enum Lemon {
         System.out.println("Subscribed to event bus!");
         moduleManager.initialize();
         System.out.println("Initialized module manager!");
-
+        commandManager.initialize();
+        System.out.println("Initialized command manager!");
     }
 
     @EventHandler
