@@ -12,7 +12,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerCape;
+import net.minecraft.client.renderer.entity.layers.LayerEnderDragonEyes;
+import net.minecraft.client.renderer.entity.layers.LayerEndermanEyes;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerSheepWool;
+import net.minecraft.client.renderer.entity.layers.LayerSpiderEyes;
+import net.minecraft.client.renderer.entity.layers.LayerWolfCollar;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -54,6 +60,31 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
     {
         return this.layerRenderers.add((LayerRenderer<T>)layer);
     }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer2(LayerCape layerCape)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerCape);
+    }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer3(LayerSheepWool layerSheepWool)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerSheepWool);
+    }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer4(LayerEndermanEyes layerEndermanEyes)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerEndermanEyes);
+    }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer5(LayerEnderDragonEyes layerEnderDragonEyes)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerEnderDragonEyes);
+    }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer6(LayerSpiderEyes layerSpiderEyes)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerSpiderEyes);
+    }
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer7(LayerWolfCollar layerWolfCollar)
+    {
+        return this.layerRenderers.add((LayerRenderer<T>)layerWolfCollar);
+    }
+
 
     protected <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean removeLayer(U layer)
     {
