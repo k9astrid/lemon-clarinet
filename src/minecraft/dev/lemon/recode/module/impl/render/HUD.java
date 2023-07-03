@@ -3,7 +3,6 @@ package dev.lemon.recode.module.impl.render;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.lemon.recode.event.impl.Event2DRender;
-import dev.lemon.recode.event.impl.EventPreMotion;
 import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
@@ -15,9 +14,8 @@ public class HUD extends Module {
 
     @EventHandler
     public Listener<Event2DRender> event2DRenderListener = e -> {
-
         mc.fontRendererObj.drawStringWithShadow(lemon.getName().substring(0, 1)+ EnumChatFormatting.WHITE+lemon.getName().substring(1), 5, 5, 0xFFFFFF00);
-        int moduleY = 5;
+        int moduleY = 4;
         int spacing = 2;
         int index = 0;
         for (Module m : lemon.getModuleManager().getEnabledSortedModules()){
@@ -25,6 +23,5 @@ public class HUD extends Module {
             moduleY += mc.fontRendererObj.FONT_HEIGHT+spacing;
             index++;
         }
-
     };
 }
