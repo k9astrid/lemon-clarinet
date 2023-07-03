@@ -3,10 +3,10 @@ package dev.lemon.recode.module.impl.render;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.lemon.recode.event.impl.Event2DRender;
-import dev.lemon.recode.event.impl.EventPreMotion;
 import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
+import dev.lemon.recode.utils.render.ColorUtil;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
@@ -15,13 +15,16 @@ public class HUD extends Module {
 
     @EventHandler
     public Listener<Event2DRender> event2DRenderListener = e -> {
+        int color = ColorUtil.fadeBetween(0xffffff00, 0xff00ffff, (float) ((System.currentTimeMillis()) % 1000L) / 500.0f);
 
-        mc.fontRendererObj.drawStringWithShadow(lemon.getName().substring(0, 1)+ EnumChatFormatting.WHITE+lemon.getName().substring(1), 5, 5, 0xFFFFFF00);
+        mc.fontRendererObj.drawStringWithShadow(lemon.getName().substring(0, 1)+ EnumChatFormatting.WHITE+lemon.getName().substring(1), 5, 5, color);
+
         int moduleY = 5;
         int spacing = 2;
         int index = 0;
         for (Module m : lemon.getModuleManager().getEnabledSortedModules()){
-            mc.fontRendererObj.drawStringWithShadow(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix(),e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix()) - 5, moduleY, -1);
+            color = ColorUtil.fadeBetween(0xffffff00, 0xff00ffff, (float) ((System.currentTimeMillis() + (index * 100L)) % 1000L) / 500.0f);
+            mc.fontRendererObj.drawStringWithShadow(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix(),e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix()) - 5, moduleY, color);
             moduleY += mc.fontRendererObj.FONT_HEIGHT+spacing;
             index++;
         }

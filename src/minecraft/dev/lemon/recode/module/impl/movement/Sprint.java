@@ -6,6 +6,7 @@ import dev.lemon.recode.event.impl.EventPreMotion;
 import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
+import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(name = "Sprint", key = Keyboard.KEY_B, category = Category.MOVEMENT, suffix = "")
@@ -18,6 +19,6 @@ public class Sprint extends Module {
 
     @EventHandler
     public Listener<EventPreMotion> eventPreMotionListener = e -> {
-        mc.thePlayer.setSprinting(true);
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
     };
 }
