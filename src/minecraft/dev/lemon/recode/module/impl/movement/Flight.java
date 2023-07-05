@@ -16,11 +16,16 @@ public class Flight extends Module {
         super.onEnable();
         System.out.println("funny");
     }
+    public void onDisable() {
+        super.onDisable();
+        mc.thePlayer.capabilities.isFlying = false;
+        mc.thePlayer.capabilities.isCreativeMode = false;
+        System.out.println("2");
+    }
 
     @EventHandler
     public Listener<EventPreMotion> eventPreMotionListener = e -> {
         mc.thePlayer.capabilities.isFlying = true;
         mc.thePlayer.capabilities.isCreativeMode = true;
-        System.out.println("flying");
     };
 }

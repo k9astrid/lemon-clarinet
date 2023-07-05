@@ -2,6 +2,7 @@ package dev.lemon.recode.managers;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Module;
+import dev.lemon.recode.module.impl.movement.Flight;
 import dev.lemon.recode.module.impl.movement.Speed;
 import dev.lemon.recode.module.impl.movement.Sprint;
 import dev.lemon.recode.module.impl.render.HUD;
@@ -19,6 +20,7 @@ public class ModuleManager {
         modules.add(new Sprint());
         modules.add(new HUD());
         modules.add(new Speed());
+        modules.add(new Flight());
 
     }
 

@@ -12,14 +12,18 @@ import org.lwjgl.opengl.Display;
 public enum Lemon {
     INSTANCE;
 
-    private final String name = "Lemon", version = "2.0", authors = "clpz, eternadox";
+    private final String name = "Lemon";
+    private final String version = "0.7";
+    private final String authors = "clpz, eternadox";
     private final String chatName = "(っ◕‿◕)っ";
+    private final ClientEnum clientEnum = ClientEnum.Developer;
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
 
     public void startClient(){
-        Display.setTitle(this.name +" | "+this.version);
+        Display.setTitle(this.name + " | " + this.version + " | " + this.clientEnum);
+
         eventBus.subscribe(this);
         System.out.println("Subscribed to event bus!");
         moduleManager.initialize();
@@ -40,7 +44,6 @@ public enum Lemon {
     public String getName() {
         return name;
     }
-
     public String getChatName() {
         return chatName;
     }
