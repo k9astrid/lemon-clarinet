@@ -21,7 +21,7 @@ public class HUD extends Module {
         int index = 0;
         for (Module m : lemon.getModuleManager().getEnabledSortedModules()){
             color = ColorUtil.fadeBetween(0xffffff00, 0xff00ffff, (float) ((System.currentTimeMillis() + index * 100L) % 1000L) / 500.0f);
-            mc.fontRendererObj.drawStringWithShadow(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix(),e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix()) - 5, moduleY, -1);
+            mc.fontRendererObj.drawStringWithShadow(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix(),e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName()+(m.getSuffix().isEmpty() ? "" : " ")+EnumChatFormatting.WHITE+m.getSuffix()) - 5, moduleY, color);
             moduleY += mc.fontRendererObj.FONT_HEIGHT+spacing;
             index++;
         }
