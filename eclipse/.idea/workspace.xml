@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/utils/player/MoveUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/utils/player/MoveUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Mineshaft.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Mineshaft.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
