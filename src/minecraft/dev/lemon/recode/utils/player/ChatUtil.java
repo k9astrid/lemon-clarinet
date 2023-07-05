@@ -1,16 +1,14 @@
 package dev.lemon.recode.utils.player;
 
 import dev.lemon.recode.Lemon;
-import net.minecraft.client.Minecraft;
+import dev.lemon.recode.utils.Util;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ChatUtil {
-
-    private static Minecraft mc = Minecraft.getMinecraft();
+public class ChatUtil implements Util {
 
     public static void addMessage(String message){
-        ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getName()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);
+        ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getChatName()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);
         mc.thePlayer.addChatMessage(chatComponentText);
     }
 

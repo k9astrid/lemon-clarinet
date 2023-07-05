@@ -13,7 +13,7 @@ public enum Lemon {
     INSTANCE;
 
     private final String name = "Lemon", version = "2.0", authors = "clpz, eternadox";
-
+    private final String chatName = "(っ◕‿◕)っ";
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
@@ -39,6 +39,10 @@ public enum Lemon {
 
     public String getName() {
         return name;
+    }
+
+    public String getChatName() {
+        return chatName;
     }
 
     public String getVersion() {

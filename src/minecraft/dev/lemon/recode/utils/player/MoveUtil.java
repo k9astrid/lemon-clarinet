@@ -1,8 +1,9 @@
 package dev.lemon.recode.utils.player;
 
+import dev.lemon.recode.utils.Util;
 import net.minecraft.client.Minecraft;
 
-public class MoveUtil {
+public class MoveUtil implements Util {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
 

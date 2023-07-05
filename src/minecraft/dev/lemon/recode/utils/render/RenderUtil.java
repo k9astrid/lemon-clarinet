@@ -3,6 +3,7 @@ package dev.lemon.recode.utils.render;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.lemon.recode.utils.Util;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class RenderUtil extends GuiScreen {
+public class RenderUtil extends GuiScreen implements Util {
     private static Minecraft mc = Minecraft.getMinecraft();
     public static RenderUtil instance = new RenderUtil();
     private static final Map<Integer, Boolean> glCapMap = new HashMap<>();

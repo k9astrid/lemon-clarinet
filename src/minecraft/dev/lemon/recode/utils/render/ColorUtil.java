@@ -1,7 +1,9 @@
 package dev.lemon.recode.utils.render;
 
 
-public class ColorUtil {
+import dev.lemon.recode.utils.Util;
+
+public class ColorUtil implements Util {
 
     public static int fadeBetween(int paramInt1, int paramInt2, float paramFloat) {
         if (paramFloat > 1.0F)

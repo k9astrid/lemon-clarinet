@@ -15,7 +15,6 @@ public class Speed extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
-        System.out.println("works");
     }
 
     @EventHandler

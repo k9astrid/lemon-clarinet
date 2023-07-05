@@ -14,7 +14,6 @@ public class Sprint extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
-        System.out.println("works");
     }
 
     @EventHandler
