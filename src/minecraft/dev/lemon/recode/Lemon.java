@@ -12,14 +12,14 @@ import org.lwjgl.opengl.Display;
 public enum Lemon {
     INSTANCE;
 
-    private final String name = "Lemon", version = "2.0", authors = "clpz & eternadox";
+    private final String name = "Lemon", version = "2.0", authors = "clpz, eternadox";
 
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
 
     public void startClient(){
-        Display.setTitle(this.name +" version "+this.version+" by "+this.authors);
+        Display.setTitle(this.name +" | "+this.version);
         eventBus.subscribe(this);
         System.out.println("Subscribed to event bus!");
         moduleManager.initialize();

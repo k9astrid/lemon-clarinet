@@ -6,6 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/managers/ModuleManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/module/impl/render/HUD.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/Main$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/main/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderDragon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderEnderman.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderSheep.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderSpider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RenderWolf.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RendererLivingEntity$RendererLivingEntity$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/bin/net/minecraft/client/renderer/entity/RendererLivingEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
