@@ -17,7 +17,7 @@ public class HUD extends Module {
     public Listener<Event2DRender> event2DRenderListener = e -> {
         mc.fontRendererObj.drawStringWithShadow(lemon.getName().substring(0, 1)+ EnumChatFormatting.WHITE+lemon.getName().substring(1), 5, 5, color);
         int moduleY = 4;
-        int spacing = 2; // customizable
+        int spacing = 2;
         int index = 0;
         for (Module m : lemon.getModuleManager().getEnabledSortedModules()){
             color = ColorUtil.fadeBetween(0xffffff00, 0xff00ffff, (float) ((System.currentTimeMillis() + index * 100L) % 1000L) / 500.0f);

@@ -2,6 +2,7 @@ package dev.lemon.recode.managers;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Module;
+import dev.lemon.recode.module.impl.movement.Speed;
 import dev.lemon.recode.module.impl.movement.Sprint;
 import dev.lemon.recode.module.impl.render.HUD;
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,7 @@ public class ModuleManager {
         Lemon.INSTANCE.getEventBus().subscribe(this);
         modules.add(new Sprint());
         modules.add(new HUD());
+        modules.add(new Speed());
 
     }
 

@@ -35,8 +35,8 @@ public class MoveUtil {
     }
 
     public static void setSpeed(float speed){
-        mc.thePlayer.motionX = Math.sin(getPlayerDirection()) * speed;
-        mc.thePlayer.motionZ = -Math.cos(getPlayerDirection()) * speed;
+        mc.thePlayer.motionX = Math.cos(Math.toRadians(getPlayerDirection())) * speed;
+        mc.thePlayer.motionZ = -Math.sin(Math.toRadians(getPlayerDirection())) * speed;
     }
 
 
