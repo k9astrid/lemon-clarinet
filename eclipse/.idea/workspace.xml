@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/managers/CommandManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/managers/CommandManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/module/impl/movement/Speed.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/module/impl/movement/Speed.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/CommandManager.java" afterDir="false" />
-    </list>
+    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,18 +31,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "last_opened_file_path": "C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/best/azura/eventbus/3.0.2/azura-event-bus-3.0.2.jar",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.14941406",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/best/azura/eventbus/3.0.2/azura-event-bus-3.0.2.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.14941406&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="dev.lemon.recode.command.impl" />
