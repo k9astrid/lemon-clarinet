@@ -8,8 +8,7 @@ import dev.lemon.recode.module.impl.movement.Sprint;
 import dev.lemon.recode.module.impl.render.HUD;
 import net.minecraft.client.Minecraft;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModuleManager {
@@ -34,7 +33,10 @@ public class ModuleManager {
 
     public List<Module> getSortedModules() {
         List<Module> moduleList = modules;
-        moduleList.sort((m, m1) -> mc.fontRendererObj.getStringWidth(m.getName()+" "+m.getSuffix()));
+        moduleList.sort(Comparator.comparingInt(m -> Minecraft.getMinecraft().fontRendererObj.getStringWidth(
+                m.getName() + ((Objects.isNull(m.getSuffix())) ? "" : " " + m.getSuffix())
+        )));
+        Collections.reverse(moduleList);
         return moduleList;
     }
 
