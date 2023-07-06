@@ -14,13 +14,11 @@ public class Flight extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        System.out.println("funny");
     }
     public void onDisable() {
         super.onDisable();
         mc.thePlayer.capabilities.isFlying = false;
         mc.thePlayer.capabilities.isCreativeMode = false;
-        System.out.println("2");
     }
 
     @EventHandler
