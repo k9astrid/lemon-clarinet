@@ -1,7 +1,7 @@
 invertYMouse:false
 mouseSensitivity:0.5
-fov:0.05
-gamma:2000.0
+fov:-0.025
+gamma:1.0
 saturation:0.0
 renderDistance:2
 guiScale:2
@@ -18,7 +18,7 @@ resourcePacks:["3IceEsdeath.zip"]
 incompatibleResourcePacks:[]
 lastServer:zentic.cc
 lang:en_US
-chatVisibility:0
+chatVisibility:2
 chatColors:true
 chatLinks:true
 chatLinksPrompt:true
