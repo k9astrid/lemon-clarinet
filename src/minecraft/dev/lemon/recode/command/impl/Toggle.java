@@ -1,0 +1,26 @@
+package dev.lemon.recode.command.impl;
+
+import dev.lemon.recode.command.Command;
+import dev.lemon.recode.command.CommandInfo;
+import dev.lemon.recode.module.Module;
+import dev.lemon.recode.utils.player.ChatUtil;
+import org.lwjgl.input.Keyboard;
+
+@CommandInfo(name = "Toggle", description = "Enables or disables the specified module.")
+public class Toggle extends Command {
+
+    @Override
+    public void onExecute(String[] args){
+       if (args.length != 2){
+           ChatUtil.addMessage(".toggle <module>");
+           return;
+       }
+       for (Module m : lemon.getModuleManager().getModules()){
+           if (m.getName().equalsIgnoreCase(args[1])){
+               m.toggle();
+               ChatUtil.addMessage("Toggled "+m.getName()+" "+(m.isToggled() ? "on." : "off."));
+           }
+       }
+
+    }
+}

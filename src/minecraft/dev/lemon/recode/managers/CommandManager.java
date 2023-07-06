@@ -4,10 +4,11 @@ import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.command.Command;
-import dev.lemon.recode.command.impl.Test;
+import dev.lemon.recode.command.impl.*;
 import dev.lemon.recode.event.impl.EventChat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommandManager {
@@ -16,6 +17,9 @@ public class CommandManager {
     public void initialize(){
         Lemon.INSTANCE.getEventBus().subscribe(this);
         commands.add(new Test());
+        commands.add(new Bind());
+        commands.add(new Toggle());
+
     }
 
     public List<Command> getCommands() {
@@ -36,6 +40,7 @@ public class CommandManager {
       for (Command c : commands){
           if (c.getName().equalsIgnoreCase(commandName)){
               c.onExecute(args);
+              System.out.println(Arrays.toString(args));
           }
       }
     };
