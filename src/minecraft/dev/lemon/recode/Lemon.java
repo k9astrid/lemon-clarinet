@@ -16,13 +16,13 @@ public enum Lemon {
     private final String version = "0.7";
     private final String authors = "clpz, eternadox";
     private final String chatName = "(っ◕‿◕)っ";
-    private final ClientEnum clientEnum = ClientEnum.Developer;
+    private final ClientEnum clientEnum = ClientEnum.DEVELOPER;
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
 
     public void startClient(){
-        Display.setTitle(this.name + " | " + this.version + " | " + this.clientEnum);
+        Display.setTitle(this.name+ " " + this.version + "-" + this.clientEnum);
 
         eventBus.subscribe(this);
         System.out.println("Subscribed to event bus!");
