@@ -6,21 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Mineshaft.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Mineshaft.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Temple.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/Temple.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/options.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/optionsof.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/optionsof.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/ClientEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/ClientEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +20,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>

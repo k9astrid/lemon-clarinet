@@ -10,13 +10,13 @@ bobView:false
 anaglyph3d:false
 maxFps:260
 fboEnable:true
-difficulty:0
+difficulty:2
 fancyGraphics:false
 ao:0
 renderClouds:fast
 resourcePacks:["3IceEsdeath.zip"]
 incompatibleResourcePacks:[]
-lastServer:zentic.cc
+lastServer:jartex.fun
 lang:en_US
 chatVisibility:0
 chatColors:true
