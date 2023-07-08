@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="fixed some of the stuff in the utils">
+    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="deleted a util cuz its shit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -105,13 +105,21 @@
       <option name="project" value="LOCAL" />
       <updated>1688819892764</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="deleted a util cuz its shit">
+      <created>1688820709849</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688820709849</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="AAAAAAAAAAAAAAAA" />
     <MESSAGE value="added a couple of utils xD" />
     <MESSAGE value="fixed some of the stuff in the utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some of the stuff in the utils" />
+    <MESSAGE value="deleted a util cuz its shit" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted a util cuz its shit" />
   </component>
 </project>
