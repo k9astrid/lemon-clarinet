@@ -40,7 +40,6 @@ public class CommandManager {
       for (Command c : commands){
           if (c.getName().equalsIgnoreCase(commandName)){
               c.onExecute(args);
-              System.out.println(Arrays.toString(args));
           }
       }
     };
