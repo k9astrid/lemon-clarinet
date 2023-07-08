@@ -7,6 +7,7 @@ import dev.lemon.recode.event.impl.EventKey;
 import dev.lemon.recode.managers.CommandManager;
 import dev.lemon.recode.managers.ModuleManager;
 import dev.lemon.recode.module.Module;
+import dev.lemon.recode.utils.player.LoginUtil;
 import org.lwjgl.opengl.Display;
 
 public enum Lemon {
@@ -30,6 +31,7 @@ public enum Lemon {
         System.out.println("Initialized module manager!");
         commandManager.initialize();
         System.out.println("Initialized command manager!");
+        LoginUtil.logIn();
     }
 
     @EventHandler

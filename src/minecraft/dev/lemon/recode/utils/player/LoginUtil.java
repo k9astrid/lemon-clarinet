@@ -1,44 +1,49 @@
 package dev.lemon.recode.utils.player;
 
+import com.sun.net.httpserver.HttpServer;
 import dev.lemon.recode.utils.Util;
 
 import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev.lemon.recode.utils.player.handler.LoginHandler;
 import optifine.Json;
 
 public class LoginUtil implements Util {
 
-private static String clientId = "";
-private static String clientSecret = "";
+private static String clientId = "526b3e37-6aa9-45ef-989f-ed84bfb47f18";
+private static String clientSecret = "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB\n";
 
 public static URI uriForLogin;
 
     static {
         try {
-            uriForLogin = new URI("https://login.live.com/oauth20_authorize.srf?client_id=" + clientId + "&response_type=code&redirect_uri=localhost:8080/login&scope=XboxLive.signin%20offline_access&state=NOT_NEEDED");
+            uriForLogin = new URI("https://login.live.com/oauth20_authorize.srf?client_id=" + clientId + "&response_type=code&redirect_uri=http://localhost:8080/login&scope=XboxLive.signin%20offline_access&state=NOT_NEEDED");
         } catch (URISyntaxException ignored) {
         }
     }
 
-    public static void logIn(String clientId){
+    public static void logIn(){
         try {
             Desktop.getDesktop().browse(uriForLogin);
-        } catch (IOException ignored){
-            System.out.println("AAA");
+
+            HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+            System.out.println("server started at " + 8080);
+            server.createContext("/login", new LoginHandler());
+            server.setExecutor(null);
+            server.start();
+        } catch (IOException e){
+            System.out.println(e.getStackTrace());
         }
 
 
     }
     public static void getAccessToken(String code){
-        String params  = "client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&grant_type=authorization_code&redirect_uri=http://localhost:8080/part2";
-
+        String params  = "client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&grant_type=authorization_code&redirect_uri=http://localhost:8080/login";
+        System.out.println("GETTING ACCESS TOKEN");
         try {
             URL url = new URL("https://login.live.com/oauth20_token.srf");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -78,11 +83,13 @@ public static URI uriForLogin;
         try {
             JsonParser parser = new JsonParser();
             JsonObject responseParsed = parser.parse(response).getAsJsonObject();
-            String jsonInputString = "{ \"Properties\": { \"AuthMethod\": \"RPS\", \"SiteName\": \"user.auth.xboxlive.com\", \"RpsTicket\": \"" + responseParsed.get("access_token").getAsString() + "\"}, \"RelyingParty\": \"http://auth.xboxlive.com\", \"TokenType\": \"JWT\" }";
+            String jsonInputString = "{ \"Properties\": { \"AuthMethod\": \"RPS\", \"SiteName\": \"user.auth.xboxlive.com\", \"RpsTicket\": " + responseParsed.get("access_token").getAsString() + "}, \"RelyingParty\": \"http://auth.xboxlive.com\", \"TokenType\": \"JWT\" }";
+            System.out.println("SIGN IN TO XBOB LIVE "+responseParsed.get("access_token"));
 
             URL url = new URL("https://login.live.com/oauth20_token.srf");
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("Accept", "application/json");
@@ -96,19 +103,26 @@ public static URI uriForLogin;
             try (OutputStream os = con.getOutputStream()) {
                 os.write(data, 0, data.length);
             }
-
+            System.out.println("hello 1");
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "utf-8"))) {
                 StringBuilder res = new StringBuilder();
                 String responseLine = null;
+                System.out.println("hello 12");
 
                 while ((responseLine = br.readLine()) != null) {
                     res.append(responseLine.trim());
                 }
+                System.out.println("hello 13");
 
                 responseParsed = parser.parse(res.toString()).getAsJsonObject();
+                System.out.println("hello 2");
 
+            } catch (Exception e){
+                e.printStackTrace();
             }
+            System.out.println(responseParsed.get("Token").getAsString() !=null);
+
             if (responseParsed.get("Token").getAsString() != null) {
                 getXSTSToken(responseParsed.get("Token").getAsString(), responseParsed.get("uhs").getAsString());
             }
@@ -122,6 +136,7 @@ public static URI uriForLogin;
         JsonParser parser = new JsonParser();
         JsonObject responseParsed;
         try {
+            System.out.println("GETTING XSTS TOKEN");
                 String jsonInputString = "{ \"Properties\": { \"SandboxId\": \"RETAIL\", \"UserTokens\": [ "+token+" ] }, \"RelyingParty\": \"rp://api.minecraftservices.com/\", \"TokenType\": \"JWT\" }";
 
                 URL url = new URL("https://login.live.com/oauth20_token.srf");
@@ -155,6 +170,8 @@ public static URI uriForLogin;
                 if (con.getResponseCode() == 200){
                     System.out.println("User Hash Match? "+responseParsed.get("uhs").getAsString().equals(userHash));
                     getBearerToken(responseParsed.get("Token").getAsString(), responseParsed.get("uhs").getAsString());
+                } else {
+                    System.out.println(responseParsed.getAsString());
                 }
 
             } catch (Exception ignored){
@@ -163,7 +180,8 @@ public static URI uriForLogin;
     }
 
     public static void getBearerToken(String token, String userHash){
-            
+        System.out.println("Token: "+token+" USER HASH: "+userHash);
+
     }
 }
 
