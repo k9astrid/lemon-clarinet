@@ -6,17 +6,16 @@ import java.util.Map;
 import dev.lemon.recode.utils.Util;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
+import static dev.lemon.recode.utils.Util.mc;
 import static org.lwjgl.opengl.GL11.*;
 
-public class RenderUtil extends GuiScreen implements Util {
-    private static Minecraft mc = Minecraft.getMinecraft();
+public class RenderUtil extends GuiScreen {
     public static RenderUtil instance = new RenderUtil();
     private static final Map<Integer, Boolean> glCapMap = new HashMap<>();
     public static void drawRoundedRect(double x, double y, double x1, double y1, double radius, int color) {
