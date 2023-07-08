@@ -16,7 +16,7 @@ ao:0
 renderClouds:fast
 resourcePacks:["3IceEsdeath.zip"]
 incompatibleResourcePacks:[]
-lastServer:zentic.cc
+lastServer:jartex.fun
 lang:en_US
 chatVisibility:0
 chatColors:true
