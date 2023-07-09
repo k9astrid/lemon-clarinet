@@ -21,9 +21,10 @@ public enum Lemon {
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
+    private long startTime;
 
-    public void startClient(){
-        Display.setTitle(this.name+ " " + this.version + "-" + this.clientEnum);
+    public void startClient() {
+        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum);
 
         eventBus.subscribe(this);
         System.out.println("Subscribed to event bus!");
@@ -36,8 +37,8 @@ public enum Lemon {
 
     @EventHandler
     public Listener<EventKey> eventKeyListener = e -> {
-        for (Module m : moduleManager.getModules()){
-            if (m.getKey() == e.getKeyCode()){
+        for (Module m : moduleManager.getModules()) {
+            if (m.getKey() == e.getKeyCode()) {
                 m.toggle();
             }
         }
@@ -46,6 +47,7 @@ public enum Lemon {
     public String getName() {
         return name;
     }
+
     public String getChatName() {
         return chatName;
     }
@@ -66,4 +68,11 @@ public enum Lemon {
         return moduleManager;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
 }

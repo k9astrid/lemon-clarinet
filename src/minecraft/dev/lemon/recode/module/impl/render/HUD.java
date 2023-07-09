@@ -27,6 +27,6 @@ public class HUD extends Module {
             mc.fontRendererObj.drawStringWithShadow(m.getName() + (m.getSuffix().isEmpty() ? "" : " ") + EnumChatFormatting.WHITE + m.getSuffix(), e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName() + (m.getSuffix().isEmpty() ? "" : " ") + EnumChatFormatting.WHITE + m.getSuffix()) - 5, offsetY, color);
             offsetY += mc.fontRendererObj.FONT_HEIGHT + spacing;
             index++;
-            };
+        };
     };
 }

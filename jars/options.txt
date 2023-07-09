@@ -14,7 +14,7 @@ difficulty:0
 fancyGraphics:false
 ao:0
 renderClouds:fast
-resourcePacks:["3IceEsdeath.zip"]
+resourcePacks:[]
 incompatibleResourcePacks:[]
 lastServer:zentic.cc
 lang:en_US

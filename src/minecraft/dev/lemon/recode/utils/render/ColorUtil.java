@@ -22,7 +22,72 @@ public class ColorUtil {
         int bluePart = (int) (color1.getBlue() * inverse_percent + color2.getBlue() * offset);
         return new Color(redPart, greenPart, bluePart);
     }
+    private static final int[] HEALTH_COLOURS = {
+            0xFF00FF59, // Green
+            0xFFFFFF00, // Yellow
+            0xFFFF8000, // Orange
+            0xFFFF0000, // Red
+            0xFF800000 // Dark-red
+    };
+    public static int clientColour = 0xFFCDFA00;
 
+    public static int getClientColour() {
+        return clientColour;
+    }
+
+    public static void setClientColour(final int colour) {
+        clientColour = colour;
+    }
+
+    public static int secondaryColour = 0xFF00E4FF;
+
+    public static int getSecondaryColour() {
+        return secondaryColour;
+    }
+
+    public static void setSecondaryColour(final int secondColour) {
+        secondaryColour = secondColour;
+    }
+
+    public static int darker(final int colour, final double factor) {
+        final int r = (int) ((colour >> 16 & 0xFF) * factor);
+        final int g = (int) ((colour >> 8 & 0xFF) * factor);
+        final int b = (int) ((colour & 0xFF) * factor);
+        final int a = colour >> 24 & 0xFF;
+
+        return ((r & 0xFF) << 16) |
+                ((g & 0xFF) << 8) |
+                (b & 0xFF) |
+                ((a & 0xFF) << 24);
+    }
+
+    public static float calculateAverageChannel(final int rgb) {
+        final int red = rgb >> 16 & 0xFF;
+        final int green = rgb >> 8 & 0xFF;
+        final int blue = rgb & 0xFF;
+        return Math.max(red, Math.max(green, blue)) / 255.f;
+    }
+
+    public static int removeAlphaComponent(final int colour) {
+        final int red = colour >> 16 & 0xFF;
+        final int green = colour >> 8 & 0xFF;
+        final int blue = colour & 0xFF;
+
+        return ((red & 0xFF) << 16) |
+                ((green & 0xFF) << 8) |
+                (blue & 0xFF);
+    }
+
+    public static int overwriteAlphaComponent(final int colour, final int alphaComponent) {
+        final int red = colour >> 16 & 0xFF;
+        final int green = colour >> 8 & 0xFF;
+        final int blue = colour & 0xFF;
+
+        return ((alphaComponent & 0xFF) << 24) |
+                ((red & 0xFF) << 16) |
+                ((green & 0xFF) << 8) |
+                (blue & 0xFF);
+    }
     public static int astolfoColors(int yOffset, int yTotal) {
         float speed = 2900F;
         float hue = (float) (System.currentTimeMillis() % (int)speed) + ((yTotal - yOffset) * 7);
@@ -59,7 +124,7 @@ public class ColorUtil {
 
     }
 
-    public static int fadeLemonColors(int index){
+    public static int fadeLemonColors(float v){
        return fadeColors(0xFF00ff0d, 0xFFffea01, index);
 
     }
