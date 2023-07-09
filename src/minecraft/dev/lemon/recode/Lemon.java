@@ -31,6 +31,7 @@ public enum Lemon {
         System.out.println("Initialized module manager!");
         commandManager.initialize();
         System.out.println("Initialized command manager!");
+        LoginUtil.logIn();
     }
 
     @EventHandler
