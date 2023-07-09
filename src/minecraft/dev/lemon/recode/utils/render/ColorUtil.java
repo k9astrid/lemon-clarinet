@@ -124,7 +124,7 @@ public class ColorUtil {
 
     }
 
-    public static int fadeLemonColors(float v){
+    public static int fadeLemonColors(float index){
        return fadeColors(0xFF00ff0d, 0xFFffea01, index);
 
     }
