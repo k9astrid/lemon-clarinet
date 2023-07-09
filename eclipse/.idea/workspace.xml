@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="deleted a util cuz its shit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/utils/player/LoginUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/utils/player/LoginUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/utils/player/LoginUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
