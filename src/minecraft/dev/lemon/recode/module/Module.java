@@ -1,7 +1,13 @@
 package dev.lemon.recode.module;
 
 import dev.lemon.recode.Lemon;
+import dev.lemon.recode.setting.Setting;
 import net.minecraft.client.Minecraft;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Module {
     private final String name = this.getClass().getDeclaredAnnotation(ModuleInfo.class).name();
@@ -9,7 +15,7 @@ public class Module {
     private final Category category = this.getClass().getDeclaredAnnotation(ModuleInfo.class).category();
     private boolean toggled;
     private String suffix = this.getClass().getDeclaredAnnotation(ModuleInfo.class).suffix();
-
+    private final List<Setting> settings = new ArrayList<>();
     protected Minecraft mc = Minecraft.getMinecraft();
     protected Lemon lemon = Lemon.INSTANCE;
 
@@ -56,5 +62,21 @@ public class Module {
 
     public void onDisable(){
         lemon.getEventBus().unsubscribe(this);
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public void addSetting(Setting setting) {
+       settings.add(setting);
+    }
+
+    public void addSettings(Setting... settingArray) {
+        settings.addAll(Arrays.asList(settingArray));
+    }
+
+    public List<Setting> getSettingsByName(String name) {
+        return this.getSettings().stream().filter(s -> s.getName().equals(name)).collect(Collectors.toList());
     }
 }
