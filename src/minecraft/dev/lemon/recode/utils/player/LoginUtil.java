@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.lemon.recode.utils.player.handler.LoginHandler;
+import net.minecraft.util.Session;
 import optifine.Json;
 
 public class LoginUtil implements Util {
@@ -43,7 +44,7 @@ public static URI uriForLogin;
     }
     public static void getAccessToken(String code){
         String params  = "client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&grant_type=authorization_code&redirect_uri=http://localhost:8080/login";
-        System.out.println("GETTING ACCESS TOKEN");
+        System.out.println("Getting access token...");
         try {
             URL url = new URL("https://login.live.com/oauth20_token.srf");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -83,10 +84,10 @@ public static URI uriForLogin;
         try {
             JsonParser parser = new JsonParser();
             JsonObject responseParsed = parser.parse(response).getAsJsonObject();
-            String jsonInputString = "{ \"Properties\": { \"AuthMethod\": \"RPS\", \"SiteName\": \"user.auth.xboxlive.com\", \"RpsTicket\": " + responseParsed.get("access_token").getAsString() + "}, \"RelyingParty\": \"http://auth.xboxlive.com\", \"TokenType\": \"JWT\" }";
-            System.out.println("SIGN IN TO XBOB LIVE "+responseParsed.get("access_token"));
+            String jsonInputString = "{ \"Properties\": { \"AuthMethod\": \"RPS\", \"SiteName\": \"user.auth.xboxlive.com\", \"RpsTicket\": \"d=" +responseParsed.get("access_token").getAsString() + "\"}, \"RelyingParty\": \"http://auth.xboxlive.com\", \"TokenType\": \"JWT\" }";
+            System.out.println("Signing in to Xbox Live... ");
 
-            URL url = new URL("https://login.live.com/oauth20_token.srf");
+            URL url = new URL("https://user.auth.xboxlive.com/user/authenticate");
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -103,43 +104,44 @@ public static URI uriForLogin;
             try (OutputStream os = con.getOutputStream()) {
                 os.write(data, 0, data.length);
             }
-            System.out.println("hello 1");
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "utf-8"))) {
                 StringBuilder res = new StringBuilder();
                 String responseLine = null;
-                System.out.println("hello 12");
 
                 while ((responseLine = br.readLine()) != null) {
                     res.append(responseLine.trim());
                 }
-                System.out.println("hello 13");
 
                 responseParsed = parser.parse(res.toString()).getAsJsonObject();
-                System.out.println("hello 2");
 
             } catch (Exception e){
                 e.printStackTrace();
             }
-            System.out.println(responseParsed.get("Token").getAsString() !=null);
+            getXSTSToken(responseParsed.get("Token").getAsString(), responseParsed.get("DisplayClaims").getAsJsonObject().get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString());
 
-            if (responseParsed.get("Token").getAsString() != null) {
-                getXSTSToken(responseParsed.get("Token").getAsString(), responseParsed.get("uhs").getAsString());
-            }
 
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static void getXSTSToken(String token, String userHash){
+        System.out.println("Getting XSTS token...");
         JsonParser parser = new JsonParser();
         JsonObject responseParsed;
-        try {
-            System.out.println("GETTING XSTS TOKEN");
-                String jsonInputString = "{ \"Properties\": { \"SandboxId\": \"RETAIL\", \"UserTokens\": [ "+token+" ] }, \"RelyingParty\": \"rp://api.minecraftservices.com/\", \"TokenType\": \"JWT\" }";
 
-                URL url = new URL("https://login.live.com/oauth20_token.srf");
+        try {
+                String jsonInputString = " {\n" +
+                        " \t\"Properties\": {\n" +
+                        " \t\t\"SandboxId\": \"RETAIL\",\n" +
+                        " \t\t\"UserTokens\": [\""+token+"\"]\n" +
+                        " \t},\n" +
+                        " \t\"RelyingParty\": \"rp://api.minecraftservices.com/\",\n" +
+                        " \t\"TokenType\": \"JWT\"\n" +
+                        " }";
+
+                URL url = new URL("https://xsts.auth.xboxlive.com/xsts/authorize");
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
@@ -168,20 +170,93 @@ public static URI uriForLogin;
                 }
 
                 if (con.getResponseCode() == 200){
-                    System.out.println("User Hash Match? "+responseParsed.get("uhs").getAsString().equals(userHash));
-                    getBearerToken(responseParsed.get("Token").getAsString(), responseParsed.get("uhs").getAsString());
+                    System.out.println("User Hash Match? "+responseParsed.get("DisplayClaims").getAsJsonObject().get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString().equals(userHash));
+
+                    getBearerToken(responseParsed.get("Token").getAsString(), responseParsed.get("DisplayClaims").getAsJsonObject().get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString());
                 } else {
                     System.out.println(responseParsed.getAsString());
                 }
 
-            } catch (Exception ignored){
-
+            } catch (Exception e){
+            System.out.println("AAAAAAA");
+            e.printStackTrace();
             }
     }
 
     public static void getBearerToken(String token, String userHash){
-        System.out.println("Token: "+token+" USER HASH: "+userHash);
+        System.out.println("Getting bearer token...");
+        try {
+            JsonParser parser = new JsonParser();
+            String jsonInputString = "{ \"identityToken\" : \"XBL3.0 x="+userHash+";"+token+"\" }";
+            System.out.println(jsonInputString);
+            URL url = new URL("https://api.minecraftservices.com/authentication/login_with_xbox");
 
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+
+
+            byte[] data = jsonInputString.getBytes(StandardCharsets.UTF_8);
+
+            con.setDoOutput(true);
+            con.setRequestProperty("charset", "utf-8");
+
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(data, 0, data.length);
+            }
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                StringBuilder res = new StringBuilder();
+                String responseLine = null;
+
+                while ((responseLine = br.readLine()) != null) {
+                    res.append(responseLine.trim());
+                }
+
+                JsonObject responseParsed = parser.parse(res.toString()).getAsJsonObject();
+                System.out.println("Bearer token: "+responseParsed.get("access_token").getAsString());
+                createNewSession(responseParsed.get("access_token").getAsString());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e){
+
+        }
+    }
+
+    public static void createNewSession(String accessToken){
+        JsonParser parser = new JsonParser();
+        JsonObject responseParsed;
+        try {
+            URL url = new URL("https://api.minecraftservices.com/minecraft/profile");
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "Bearer "+accessToken);
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                StringBuilder res = new StringBuilder();
+                String responseLine = null;
+
+                while ((responseLine = br.readLine()) != null) {
+                    res.append(responseLine.trim());
+                }
+
+                responseParsed = parser.parse(res.toString()).getAsJsonObject();
+                if (con.getResponseCode() == 200){
+                    mc.session = new Session(responseParsed.get("name").getAsString(), responseParsed.get("id").getAsString(), accessToken, "legacy");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e){
+
+        }
     }
 }
 
