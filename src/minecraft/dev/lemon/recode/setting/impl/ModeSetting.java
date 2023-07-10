@@ -1,79 +1,46 @@
 package dev.lemon.recode.setting.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import dev.lemon.recode.module.Module;
 import dev.lemon.recode.setting.Setting;
 
+import java.util.Arrays;
+
 public class ModeSetting extends Setting {
-	public int index;
-	public List<String> modes;
-	public Module parent;
+    private String mode;
+    private String[] modes;
 
-	public ModeSetting(String name, Module parent, String defaultMode, String... modes) {
-		this.name = name;
-		this.modes = Arrays.asList(modes);
-		index = this.modes.indexOf(defaultMode);
-		this.parent = parent;
-	}
-	
-	public ModeSetting(String name, String defaultMode, String... modes) {
-		this.name = name;
-		this.modes = Arrays.asList(modes);
-		index = this.modes.indexOf(defaultMode);
-		this.parent = parent;
-	}
-	
-	public String getMode() {
-		return modes.get(index);
-	}
-	
-	public boolean is(String mode) {
-		return index == modes.indexOf(mode);
-	}
-	
-	public void cycle() {
-		if(index < modes.size() - 1) {
-			index++;
-		} else {
-			index = 0;
-		}
-	}
+    public ModeSetting(String name, String defaultValue, String... modes){
+        super(name);
+        this.mode = defaultValue;
+        this.modes = modes;
+    }
 
-	public void increment() {
-		if(index < modes.size() - 1) {
-			index++;
-		} else {
-			index = 0;
-		}
-	}
-	
-	public void decrement() {
-		if(index > 0) {
-			index--;
-		} else {
-			index = modes.size() - 1;
-		}
-	}
+    public String getMode() {
+        return mode;
+    }
 
-	public String getValueName() {
-		return modes.get(index);
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setMode(String mode) {
-		boolean found = false;
-		for(String s : modes) {
-			if(s.equals(mode)) {
-				found = true;
-			}
-		}
-		if(found) {
-			this.index = this.modes.indexOf(mode);
-		}
+    public String[] getModes(){
+        return modes;
+    }
+
+    public void setMode(String mode){
+        if (Arrays.asList(modes).contains(mode)){
+            this.mode = mode;
+        }
+    }
+
+    public void nextMode(){
+        if (Arrays.asList(modes).indexOf(this.mode) == modes.length - 1){
+            this.mode = modes[0];
+        } else {
+            this.mode = modes[Arrays.asList(modes).indexOf(this.mode) + 1];
+
+        }
+    }
+    public void previousMode(){
+     if (Arrays.asList(modes).indexOf(this.mode) == 0){
+            this.mode = modes[modes.length - 1];
+     } else {
+            this.mode = modes[Arrays.asList(modes).indexOf(this.mode) - 1];
+        }
     }
 }

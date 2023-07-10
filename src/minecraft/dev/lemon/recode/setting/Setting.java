@@ -1,41 +1,18 @@
 package dev.lemon.recode.setting;
 
-import dev.lemon.recode.module.Module;
+public abstract class Setting {
+    private String name;
+    private boolean visible;
 
-public class Setting {
-	
-	protected String name;
-	protected Module parent;
-	
-	private boolean showed = true;
-	private boolean holdingMouseButton;
-	
-	public Setting() {
-		
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public boolean isShowed() {
-		return showed;
-	}
-	
-	public void setShowed(boolean showed) {
-		this.showed = showed;
-	}
-	
-	public boolean isHoldingMouseButton() {
-		return holdingMouseButton;
-	}
+    public Setting(String name) {
+        this.name = name;
+    }
 
-	public void setHoldingMouseButton(boolean holdingMouseButton) {
-		this.holdingMouseButton = holdingMouseButton;
-	}
-	
+    public String getName() {
+        return name;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
 }

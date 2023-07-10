@@ -1,57 +1,39 @@
 package dev.lemon.recode.setting.impl;
 
-import dev.lemon.recode.module.Module;
 import dev.lemon.recode.setting.Setting;
+import net.minecraft.util.MathHelper;
+import optifine.MathUtils;
+
+import java.util.Arrays;
 
 public class NumberSetting extends Setting {
-	private double value;
-	private final double minimum, maximum, increment;
-	private Module parent;
-	private boolean holdingMouseButton;
-	public double getValue() {
-		return value;
-	}
+    private double min;
+    private double max;
+    private double value;
 
-	public void setValue(double value) {
-		double precision = 1 / increment;
-		this.value = Math.round(Math.max(minimum, Math.min(maximum, value)) * precision) / precision;
-	}
-	
-	public void increment(boolean positive) {
-		setValue(getValue() + (positive ? 1 : -1) * increment);
-	}
+    public NumberSetting(String name, double defaultValue, double min, double max){
+        super(name);
+        this.value = defaultValue;
+        this.min = min;
+        this.max = max;
 
-	public double getMinimum() {
-		return minimum;
-	}
-	
-	public double getMaximum() {
-		return maximum;
-	}
+    }
 
-	public double getIncrement() {
-		return increment;
-	}
+    public double getMin() {
+        return min;
+    }
 
-	public NumberSetting(String name, double value, double minimum, double maximum, double increment,  Module parent) {
-		this.name = name;
-		this.value = value;
-		this.minimum = minimum;
-		this.maximum = maximum;
-		this.increment = increment;
-		this.parent = parent;
-	}
-	
-	public NumberSetting(String name, double value, double minimum, double maximum, double increment) {
-		this.name = name;
-		this.value = value;
-		this.minimum = minimum;
-		this.maximum = maximum;
-		this.increment = increment;
-	}
+    public double getMax() {
+        return max;
+    }
 
-	public String getName() {
-		return name;
-	}
-	
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = MathHelper.clamp_double(value, this.min, this.max);
+    }
+
+
 }

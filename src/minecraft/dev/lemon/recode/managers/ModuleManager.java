@@ -6,6 +6,7 @@ import dev.lemon.recode.module.impl.combat.Velocity;
 import dev.lemon.recode.module.impl.movement.Flight;
 import dev.lemon.recode.module.impl.movement.Speed;
 import dev.lemon.recode.module.impl.movement.Sprint;
+import dev.lemon.recode.module.impl.render.ClickGUI;
 import dev.lemon.recode.module.impl.render.HUD;
 import net.minecraft.client.Minecraft;
 
@@ -22,6 +23,7 @@ public class ModuleManager {
         modules.add(new Speed());
         modules.add(new Flight());
         modules.add(new Velocity());
+        modules.add(new ClickGUI());
 
     }
 
@@ -31,6 +33,11 @@ public class ModuleManager {
 
     public List<Module> getEnabledModules() {
         return modules.stream().filter(Module::isToggled).collect(Collectors.toList());
+    }
+
+    public Module getModuleByName(String name){
+        return modules.stream().filter(m -> m.getName().equalsIgnoreCase(name)).collect(Collectors.toList()).get(0);
+
     }
 
     public List<Module> getSortedModules() {

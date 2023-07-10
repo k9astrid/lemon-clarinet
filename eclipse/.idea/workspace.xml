@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="big ass update fr">
-      <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/utils/render/ColorUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/utils/render/ColorUtil.java" afterDir="false" />
+    <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="deleted a util cuz its shit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/Lemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="AnnotationType" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -25,13 +27,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../../Program Files/OpenJDK/jdk-8.0.332.09-hotspot/src.zip!/java/lang/NoClassDefFoundError.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../../../../Program Files/OpenJDK/jdk-8.0.332.09-hotspot/src.zip!/java/net/URLClassLoader.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="2S1c3TdKsKmYN2Bac7ofD0ECMtm" />
-  <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="false" id="Update" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -42,15 +42,18 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/av3games/Documents/lemon-clarinet/jars/libraries/best/azura/eventbus/3.0.2/azura-event-bus-3.0.2.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.14941406&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dev.lemon.recode.managers" />
       <recent name="dev.lemon.recode.module.impl.render" />
+      <recent name="dev.lemon.recode.setting.impl" />
+      <recent name="dev.lemon.recode.command.impl" />
+      <recent name="dev.lemon.recode.managers" />
     </key>
   </component>
   <component name="RunManager">
@@ -85,18 +88,42 @@
       <option name="presentableId" value="Default" />
       <updated>1688317342256</updated>
     </task>
-    <task id="LOCAL-00001" summary="big ass update fr">
-      <created>1688931714377</created>
+    <task id="LOCAL-00001" summary="AAAAAAAAAAAAAAAA">
+      <created>1688597080982</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1688931714377</updated>
+      <updated>1688597080983</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added a couple of utils xD">
+      <created>1688818523553</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1688818523553</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fixed some of the stuff in the utils">
+      <created>1688819892764</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1688819892764</updated>
+    </task>
+    <task id="LOCAL-00004" summary="deleted a util cuz its shit">
+      <created>1688820709849</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688820709849</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="big ass update fr" />
-    <option name="LAST_COMMIT_MESSAGE" value="big ass update fr" />
+    <MESSAGE value="AAAAAAAAAAAAAAAA" />
+    <MESSAGE value="added a couple of utils xD" />
+    <MESSAGE value="fixed some of the stuff in the utils" />
+    <MESSAGE value="deleted a util cuz its shit" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted a util cuz its shit" />
   </component>
 </project>
