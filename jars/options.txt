@@ -14,7 +14,7 @@ difficulty:2
 fancyGraphics:false
 ao:0
 renderClouds:fast
-resourcePacks:[]
+resourcePacks:["3IceEsdeath.zip"]
 incompatibleResourcePacks:[]
 lastServer:zentic.cc
 lang:en_US
@@ -24,7 +24,7 @@ chatLinks:true
 chatLinksPrompt:true
 chatOpacity:1.0
 snooperEnabled:true
-fullscreen:false
+fullscreen:true
 enableVsync:false
 useVbo:false
 hideServerAddress:false
