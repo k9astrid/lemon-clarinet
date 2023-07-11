@@ -7,6 +7,10 @@
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="deleted a util cuz its shit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/gui/clickgui/ClickGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/Client/bin/dev/lemon/recode/gui/clickgui/ClickGui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/options.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_end.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/data/villages_nether.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/level.dat_old" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.0.-1.mca" afterDir="false" />
@@ -15,7 +19,6 @@
       <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/region/r.1.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/saves/MCP Development World/session.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jars/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jars/usercache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/assets/minecraft/lemon/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/assets/minecraft/lemon/images/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

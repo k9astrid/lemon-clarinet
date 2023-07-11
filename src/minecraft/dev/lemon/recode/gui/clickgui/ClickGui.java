@@ -61,7 +61,7 @@ public class ClickGui extends GuiScreen {
             startX = mouseX;
             startY = mouseY;
 
-            if (mouseHoveredOver(guiPosX, guiPosY, 300 + guiPosX, 10 + guiPosY, mouseX, mouseY)) {
+            if (mouseHoveredOver(guiPosX, guiPosY, 300 + guiPosX, 24 + guiPosY, mouseX, mouseY)) {
                 isDragging = true;
             }
         }
@@ -91,7 +91,11 @@ public class ClickGui extends GuiScreen {
         // Drawrect(x, y, width + x, height + or - y)
 
         Gui.drawRect(guiPosX, guiPosY,  300 + guiPosX, 250 + guiPosY, 0xff111111);
-        RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY + 5, 77, 24);
+        Gui.drawRect(guiPosX, guiPosY,  300 + guiPosX, 24 + guiPosY, 0xff141414);
+
+        RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY, 70, 24);
+
+        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 70 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 8,-1);
         for (Category c : Category.values()){
             GlStateManager.pushMatrix();
             GlStateManager.popMatrix();
