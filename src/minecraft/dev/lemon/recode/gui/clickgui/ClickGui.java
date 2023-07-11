@@ -2,18 +2,22 @@ package dev.lemon.recode.gui.clickgui;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Category;
+import dev.lemon.recode.utils.render.ColorUtil;
 import dev.lemon.recode.utils.render.RenderUtil;
+import dev.lemon.recode.utils.math.TimerUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+
 public class ClickGui extends GuiScreen {
-
-
+    TimerUtil timer = new TimerUtil();
     private int guiPosX = this.width /2;
     private int guiPosY = this.height / 2;
     private boolean isDragging = false;
@@ -56,7 +60,6 @@ public class ClickGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-
         if (mouseButton == 0) {
             startX = mouseX;
             startY = mouseY;
@@ -87,15 +90,17 @@ public class ClickGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
+        ScaledResolution sr = new ScaledResolution(mc);
 
         // Drawrect(x, y, width + x, height + or - y)
 
-        Gui.drawRect(guiPosX, guiPosY,  300 + guiPosX, 250 + guiPosY, 0xff111111);
-        Gui.drawRect(guiPosX, guiPosY,  300 + guiPosX, 24 + guiPosY, 0xff141414);
+        Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 250 + guiPosY, 0xff111111);
+        Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 24 + guiPosY, 0xff191919);
+        Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, -2 + guiPosY, ColorUtil.fadeLemonColors(0));
 
         RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY, 70, 24);
 
-        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 70 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 8,-1);
+        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 70 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 9,-1);
         for (Category c : Category.values()){
             GlStateManager.pushMatrix();
             GlStateManager.popMatrix();
@@ -110,6 +115,7 @@ public class ClickGui extends GuiScreen {
             startX = mouseX;
             startY = mouseY;
         }
+
 
     }
 

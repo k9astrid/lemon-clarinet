@@ -4,6 +4,8 @@ import dev.lemon.recode.utils.Util;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL11;
 
 public class RenderUtil implements Util {
 
@@ -21,4 +23,8 @@ public class RenderUtil implements Util {
 
         GlStateManager.popMatrix();
     }
+
+    //code was too retarted had to remove it, no rounded rect :sob: - clpz
+
+
 }
