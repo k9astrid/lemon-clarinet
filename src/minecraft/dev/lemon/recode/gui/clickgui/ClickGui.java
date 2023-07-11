@@ -23,6 +23,8 @@ public class ClickGui extends GuiScreen {
     private boolean isDragging = false;
     private int startX, startY;
 
+    public double PosX, PosY;
+
     /**
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
      * window resizes, the buttonList is cleared beforehand.
@@ -91,19 +93,24 @@ public class ClickGui extends GuiScreen {
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution sr = new ScaledResolution(mc);
+        PosX = sr.getScaledWidth() / 2 - 150;
+        PosY = sr.getScaledHeight() / 2 - 100;
 
         // Drawrect(x, y, width + x, height + or - y)
 
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 250 + guiPosY, 0xff111111);
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 24 + guiPosY, 0xff191919);
-        Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, -2 + guiPosY, ColorUtil.fadeLemonColors(0));
+        Gui.drawRect(guiPosX, guiPosY -3,  400 + guiPosX, 2 + guiPosY, ColorUtil.fadeLemonColors(0));
 
         RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY, 70, 24);
 
-        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 70 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 9,-1);
+        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 64 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 4,-1);
+        int offset = 0;
         for (Category c : Category.values()){
+            mc.fontRendererObj.drawString(c.name(),guiPosX + 5, (guiPosY + 5) + 26 + offset, 0xffFFFFFF);
             GlStateManager.pushMatrix();
             GlStateManager.popMatrix();
+            offset += 15;
         }
         if (isDragging) {
             int offsetX = mouseX - startX;
@@ -115,9 +122,5 @@ public class ClickGui extends GuiScreen {
             startX = mouseX;
             startY = mouseY;
         }
-
-
     }
-
-
 }
