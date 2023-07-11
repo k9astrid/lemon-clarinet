@@ -2,10 +2,12 @@ package dev.lemon.recode.gui.clickgui;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Category;
+import dev.lemon.recode.utils.render.RenderUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 
@@ -89,7 +91,7 @@ public class ClickGui extends GuiScreen {
         // Drawrect(x, y, width + x, height + or - y)
 
         Gui.drawRect(guiPosX, guiPosY,  300 + guiPosX, 250 + guiPosY, 0xff111111);
-        mc.fontRendererObj.drawStringWithShadow("test", guiPosX +  5, guiPosY + 5, -1);
+        RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY + 5, 77, 24);
         for (Category c : Category.values()){
             GlStateManager.pushMatrix();
             GlStateManager.popMatrix();
