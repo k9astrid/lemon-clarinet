@@ -1,4 +1,4 @@
-package dev.lemon.recode.module.misc;
+package dev.lemon.recode.module.impl.misc;
 
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
@@ -7,11 +7,7 @@ import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
 import dev.lemon.recode.utils.player.ChatUtil;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
-import net.minecraft.network.play.client.C18PacketSpectate;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.network.play.server.S18PacketEntityTeleport;
 
 @ModuleInfo(name = "Test", key= org.lwjgl.input.Keyboard.KEY_Y, category= Category.MISC, suffix = "")
 public class Test extends Module {

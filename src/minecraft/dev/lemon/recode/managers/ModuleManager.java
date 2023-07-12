@@ -8,7 +8,7 @@ import dev.lemon.recode.module.impl.movement.Speed;
 import dev.lemon.recode.module.impl.movement.Sprint;
 import dev.lemon.recode.module.impl.render.ClickGUI;
 import dev.lemon.recode.module.impl.render.HUD;
-import dev.lemon.recode.module.misc.Test;
+import dev.lemon.recode.module.impl.misc.Test;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
