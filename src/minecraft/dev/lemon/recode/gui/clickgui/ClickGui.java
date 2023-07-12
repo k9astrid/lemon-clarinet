@@ -110,7 +110,7 @@ public class ClickGui extends GuiScreen {
             mc.fontRendererObj.drawString(c.name(),guiPosX + 5, (guiPosY + 5) + 26 + offset, 0xffFFFFFF);
             GlStateManager.pushMatrix();
             GlStateManager.popMatrix();
-            offset += 15;
+            offset += 30;
         }
         if (isDragging) {
             int offsetX = mouseX - startX;

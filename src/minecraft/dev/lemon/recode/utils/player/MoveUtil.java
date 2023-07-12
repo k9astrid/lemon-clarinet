@@ -73,4 +73,23 @@ public class MoveUtil implements Util {
             mc.thePlayer.motionZ = 0;
         }
     }
+
+    public static void strafe(double speed){
+        if(isWalking()) {
+            mc.thePlayer.motionX = -Math.sin(getPlayerDirection()) * speed;
+            mc.thePlayer.motionZ = Math.cos(getPlayerDirection()) * speed;
+        } else {
+            mc.thePlayer.motionX = 0;
+            mc.thePlayer.motionZ = 0;
+        }
+    }
+
+
+    public static double getBaseSpeed(){
+            return mc.thePlayer.isSprinting() ? 0.2805D : 0.216D;
+
+    }
+    public static void strafe(){
+        strafe(getBaseSpeed());
+    }
 }

@@ -7,6 +7,7 @@ import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
 import dev.lemon.recode.utils.math.MathUtils;
+import dev.lemon.recode.utils.player.MoveUtil;
 import dev.lemon.recode.utils.render.ColorUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -37,10 +38,9 @@ public class HUD extends Module {
     };
     private void drawLemon() {
 
-        funny = (float) (MathUtils.square(mc.thePlayer.posX - mc.thePlayer.lastTickPosX) + MathUtils.square(mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ));
-        bps = (float) MathUtils.round((Math.sqrt(funny) * 20) * mc.timer.timerSpeed, 0.01);
+        bps = (float) MathUtils.round(MoveUtil.getSpeed(), 0.01);
 
-        String text = lemon.getName() + " " + lemon.getVersion() + " | " + mc.getDebugFPS() + "FPS" + " | " + "BPS: " + bps;
+        String text = lemon.getName() + " " + lemon.getVersion() + " | " + "FPS: "+mc.getDebugFPS() + " | " + "BPS: " + bps;
         for(int i = 0; i < 2; i++) {
             Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 18, 0x40000000);
         }

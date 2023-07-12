@@ -20,12 +20,8 @@ public class Speed extends Module {
     @EventHandler
     public Listener<EventPreMotion> eventPreMotionListener = e -> {
         if(mc.thePlayer.onGround){
-            mc.thePlayer.motionY = 0.42F;
             mc.thePlayer.jump();
-        }else if(mc.thePlayer.posY >= mc.thePlayer.posY){
-            e.setY(mc.thePlayer.posY);
-            e.setOnGround(true);
         }
-        MoveUtil.setSpeed(0.3F);
+        MoveUtil.strafe();
     };
 }
