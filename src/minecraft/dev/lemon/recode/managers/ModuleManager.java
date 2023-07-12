@@ -8,6 +8,7 @@ import dev.lemon.recode.module.impl.movement.Speed;
 import dev.lemon.recode.module.impl.movement.Sprint;
 import dev.lemon.recode.module.impl.render.ClickGUI;
 import dev.lemon.recode.module.impl.render.HUD;
+import dev.lemon.recode.module.misc.Test;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -24,6 +25,7 @@ public class ModuleManager {
         modules.add(new Flight());
         modules.add(new Velocity());
         modules.add(new ClickGUI());
+        modules.add(new Test());
 
     }
 
