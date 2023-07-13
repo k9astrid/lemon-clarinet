@@ -5,11 +5,13 @@ import dev.lemon.recode.module.Category;
 import dev.lemon.recode.utils.render.ColorUtil;
 import dev.lemon.recode.utils.render.RenderUtil;
 import dev.lemon.recode.utils.math.TimerUtil;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import java.io.IOException;
@@ -18,12 +20,11 @@ import org.lwjgl.opengl.GL11;
 
 public class ClickGui extends GuiScreen {
     TimerUtil timer = new TimerUtil();
-    private int guiPosX = this.width /2;
-    private int guiPosY = this.height / 2;
+    private ScaledResolution sr = new ScaledResolution(mc);
+    private int guiPosX = sr.getScaledWidth() / 2 - 200;
+    private int guiPosY = sr.getScaledHeight() / 2 - 125;
     private boolean isDragging = false;
     private int startX, startY;
-
-    public double PosX, PosY;
 
     /**
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
@@ -31,6 +32,7 @@ public class ClickGui extends GuiScreen {
      */
     public void initGui()
     {
+
     }
 
     private boolean mouseHoveredOver(float left, float top, float right, float bottom, int mouseX, int mouseY){
@@ -92,11 +94,13 @@ public class ClickGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        ScaledResolution sr = new ScaledResolution(mc);
-        PosX = sr.getScaledWidth() / 2 - 150;
-        PosY = sr.getScaledHeight() / 2 - 100;
+
+
 
         // Drawrect(x, y, width + x, height + or - y)
+        GlStateManager.pushMatrix();
+        //GL11.glScalef(MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1));
+        GL11.glScalef(MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1));
 
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 250 + guiPosY, 0xff111111);
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 24 + guiPosY, 0xff191919);
@@ -108,10 +112,11 @@ public class ClickGui extends GuiScreen {
         int offset = 0;
         for (Category c : Category.values()){
             mc.fontRendererObj.drawString(c.name(),guiPosX + 5, (guiPosY + 5) + 26 + offset, 0xffFFFFFF);
-            GlStateManager.pushMatrix();
-            GlStateManager.popMatrix();
+
             offset += 30;
         }
+        GlStateManager.popMatrix();
+
         if (isDragging) {
             int offsetX = mouseX - startX;
             int offsetY = mouseY - startY;

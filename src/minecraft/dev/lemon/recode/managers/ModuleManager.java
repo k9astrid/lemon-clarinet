@@ -2,13 +2,10 @@ package dev.lemon.recode.managers;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.module.Module;
-import dev.lemon.recode.module.impl.combat.Velocity;
-import dev.lemon.recode.module.impl.movement.Flight;
-import dev.lemon.recode.module.impl.movement.Speed;
-import dev.lemon.recode.module.impl.movement.Sprint;
-import dev.lemon.recode.module.impl.render.ClickGUI;
-import dev.lemon.recode.module.impl.render.HUD;
-import dev.lemon.recode.module.impl.misc.Test;
+import dev.lemon.recode.module.impl.combat.*;
+import dev.lemon.recode.module.impl.movement.*;
+import dev.lemon.recode.module.impl.render.*;
+
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -25,7 +22,6 @@ public class ModuleManager {
         modules.add(new Flight());
         modules.add(new Velocity());
         modules.add(new ClickGUI());
-        modules.add(new Test());
 
     }
 
