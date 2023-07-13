@@ -97,8 +97,8 @@ public class ClickGui extends GuiScreen {
 
         float mult = 0.0035F;
 
-        if(mult * timer.getTimeElapsed() < 2.1) {mult -= (float) (timer.getTimeElapsed() * 0.0000022);}
-        mult *= timer.getTimeElapsed();
+        if(mult * timer.getElapsedTime() < 2.1) {mult -= (float) (timer.getElapsedTime() * 0.0000022);}
+        mult *= timer.getElapsedTime();
         mult = Math.min(mult, 1); //makes it inf large without this :(
 
         GL11.glTranslatef(sr.getScaledWidth() / 2 - mult * sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - mult * sr.getScaledHeight() / 2, 1);
@@ -110,6 +110,7 @@ public class ClickGui extends GuiScreen {
         //GL11.glScalef(MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1));
         GL11.glScalef(MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1), MathHelper.clamp_float((float) timer.getTimeElapsed() /500, 0.2f, 1));
     */
+        GlStateManager.pushMatrix();
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 250 + guiPosY, 0xff111111);
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 24 + guiPosY, 0xff191919);
         Gui.drawRect(guiPosX, guiPosY -3,  400 + guiPosX, 2 + guiPosY, ColorUtil.fadeLemonColors(0));

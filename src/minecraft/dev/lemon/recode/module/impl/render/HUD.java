@@ -6,7 +6,6 @@ import dev.lemon.recode.event.impl.Event2DRender;
 import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
-import dev.lemon.recode.utils.math.MathUtils;
 import dev.lemon.recode.utils.player.MoveUtil;
 import dev.lemon.recode.utils.render.ColorUtil;
 import net.minecraft.client.gui.Gui;
@@ -14,10 +13,13 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 @ModuleInfo(name = "HUD", key = Keyboard.KEY_P, category = Category.RENDER, suffix = "")
 public class HUD extends Module {
-    float funny;
-    float bps;
 
     @EventHandler
     public Listener<Event2DRender> event2DRenderListener = e -> {
@@ -38,7 +40,7 @@ public class HUD extends Module {
     };
     private void drawLemon() {
 
-        bps = (float) MathUtils.round(MoveUtil.getSpeed(), 0.01);
+        String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());
 
         String text = lemon.getName() + " " + lemon.getVersion() + " | " + "FPS: "+mc.getDebugFPS() + " | " + "BPS: " + bps;
         for(int i = 0; i < 2; i++) {
