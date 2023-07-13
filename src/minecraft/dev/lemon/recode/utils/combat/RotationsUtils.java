@@ -20,8 +20,8 @@ public class RotationsUtils implements Util {
 		double yDiff = y - Minecraft.getMinecraft().thePlayer.posY - 1.2;
 
 		double dist = MathHelper.sqrt_double(xDiff * xDiff + zDiff * zDiff);
-		float yaw = (float) (Math.atan2(zDiff, xDiff) * 180.0D / 3.141592653589793D) - 90.0F;
-		float pitch = (float) -(Math.atan2(yDiff, dist) * 180.0D / 3.141592653589793D);
+		float yaw = (float) (Math.atan2(zDiff, xDiff) * 180.0D / Math.PI) - 90.0F;
+		float pitch = (float) -(Math.atan2(yDiff, dist) * 180.0D / Math.PI);
 		return new float[] { yaw, pitch };
 	}
 }
