@@ -22,6 +22,7 @@ public class ModuleManager {
         modules.add(new Flight());
         modules.add(new Velocity());
         modules.add(new ClickGUI());
+        modules.add(new KillAura());
 
     }
 

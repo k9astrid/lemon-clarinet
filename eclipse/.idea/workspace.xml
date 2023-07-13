@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d6de098-5160-4ec2-bfc0-fff554b45a82" name="Changes" comment="what">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/gui/clickgui/ClickGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/render/HUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/managers/ModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/combat/KillAura.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/minecraft/dev/lemon/recode/module/impl/combat/KillAura.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +54,7 @@
       <recent name="C:\Users\av3games\Documents\lemon-clarinet\src\minecraft\assets\minecraft\lemon\images" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.lemon.recode.module.impl.combat" />
       <recent name="dev.lemon.recode.module.impl.render" />
       <recent name="dev.lemon.recode.setting.impl" />
       <recent name="dev.lemon.recode.command.impl" />
