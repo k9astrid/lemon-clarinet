@@ -43,10 +43,9 @@ public class HUD extends Module {
         String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());
 
         String text = lemon.getName() + " " + lemon.getVersion() + " | " + "FPS: "+mc.getDebugFPS() + " | " + "BPS: " + bps;
-        for(int i = 0; i < 2; i++) {
-            Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 18, 0x40000000);
-        }
-        Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 5, ColorUtil.fadeLemonColors(0));
+        Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 18, 0x40000000);
+
+        Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));
         mc.fontRendererObj.drawString(text, 6, 8, 0xffFFFFFF);
     }
 }

@@ -113,7 +113,7 @@ public class ClickGui extends GuiScreen {
         GlStateManager.pushMatrix();
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 250 + guiPosY, 0xff111111);
         Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 24 + guiPosY, 0xff191919);
-        Gui.drawRect(guiPosX, guiPosY -3,  400 + guiPosX, 2 + guiPosY, ColorUtil.fadeLemonColors(0));
+        Gui.drawRect(guiPosX, guiPosY,  400 + guiPosX, 2 + guiPosY, ColorUtil.fadeLemonColors(0));
 
         RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY, 70, 24);
 

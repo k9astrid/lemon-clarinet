@@ -1,6 +1,6 @@
 invertYMouse:false
-mouseSensitivity:0.35211268
-fov:0.4
+mouseSensitivity:0.32394367
+fov:0.25
 gamma:1.0
 saturation:0.0
 renderDistance:2
@@ -10,13 +10,13 @@ bobView:false
 anaglyph3d:false
 maxFps:260
 fboEnable:true
-difficulty:2
+difficulty:0
 fancyGraphics:false
 ao:0
 renderClouds:fast
 resourcePacks:["3IceEsdeath.zip"]
 incompatibleResourcePacks:[]
-lastServer:mc.hycraft.us
+lastServer:zentic.cc
 lang:en_US
 chatVisibility:0
 chatColors:true
