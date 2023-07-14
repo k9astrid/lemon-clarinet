@@ -18,8 +18,7 @@ public class ModuleManager {
     private List<Module> modules = new ArrayList<>();
 
     public void initialize(){
-        Lemon.INSTANCE.getEventBus().register(this);
-
+        //TODO: use reflection for adding modules so we wont put thousand of modules.add ?
         modules.add(new Sprint());
         modules.add(new HUD());
         modules.add(new Speed());
@@ -27,6 +26,11 @@ public class ModuleManager {
         modules.add(new Velocity());
         modules.add(new ClickGUI());
         modules.add(new KillAura());
+
+        modules.stream().filter(m -> m.getInfo().autoEnabled()).forEach(m -> m.setToggled(true));
+        modules.forEach(Module::reflectValues);
+
+        Lemon.INSTANCE.getEventBus().register(this);
     }
 
     @Subscribe
