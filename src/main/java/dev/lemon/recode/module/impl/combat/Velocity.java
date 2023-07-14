@@ -11,7 +11,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Velocity", key = Keyboard.KEY_NONE, category = Category.COMBAT, suffix = "")
+@ModuleInfo(name = "Velocity", category = Category.COMBAT)
 public class Velocity extends Module {
     @EventHandler
     public Listener<EventPacket> eventPacketListener = e -> {

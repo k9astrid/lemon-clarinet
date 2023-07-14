@@ -53,12 +53,15 @@ public class ClickGui extends GuiScreen {
      */
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
+        /*
         switch (keyCode){
             case Keyboard.KEY_RSHIFT:
                 Lemon.INSTANCE.getModuleManager().getModuleByName("ClickGUI").toggle();
                 mc.displayGuiScreen(null);
                 break;
         }
+
+         */
     }
 
     @Override

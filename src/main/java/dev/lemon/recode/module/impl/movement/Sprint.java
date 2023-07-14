@@ -9,7 +9,7 @@ import dev.lemon.recode.module.ModuleInfo;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Sprint", key = Keyboard.KEY_B, category = Category.MOVEMENT, suffix = "")
+@ModuleInfo(name = "Sprint", category = Category.MOVEMENT, suffix = "")
 public class Sprint extends Module {
     @Override
     public void onEnable(){

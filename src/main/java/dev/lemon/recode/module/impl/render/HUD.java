@@ -18,7 +18,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-@ModuleInfo(name = "HUD", key = Keyboard.KEY_P, category = Category.RENDER, suffix = "")
+@ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
 
     @EventHandler

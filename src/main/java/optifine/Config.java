@@ -1765,43 +1765,10 @@ public class Config
             DisplayMode displaymode = Display.getDisplayMode();
             dbg("FSAA Samples: " + i);
 
-            try
-            {
-                Display.destroy();
-                Display.setDisplayMode(displaymode);
-                Display.create((new PixelFormat()).withDepthBits(24).withSamples(i));
-                Display.setResizable(false);
-                Display.setResizable(true);
-            }
-            catch (LWJGLException lwjglexception2)
-            {
-                warn("Error setting FSAA: " + i + "x");
-                lwjglexception2.printStackTrace();
-
-                try
-                {
-                    Display.setDisplayMode(displaymode);
-                    Display.create((new PixelFormat()).withDepthBits(24));
-                    Display.setResizable(false);
-                    Display.setResizable(true);
-                }
-                catch (LWJGLException lwjglexception1)
-                {
-                    lwjglexception1.printStackTrace();
-
-                    try
-                    {
-                        Display.setDisplayMode(displaymode);
-                        Display.create();
-                        Display.setResizable(false);
-                        Display.setResizable(true);
-                    }
-                    catch (LWJGLException lwjglexception)
-                    {
-                        lwjglexception.printStackTrace();
-                    }
-                }
-            }
+            Display.destroy();
+            Display.setDisplayMode(displaymode);
+            Display.create((new PixelFormat()).withDepthBits(24).withDepthBits(i));
+            Display.setResizable(true);
 
             if (!Minecraft.isRunningOnMac && getDefaultResourcePack() != null)
             {

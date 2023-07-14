@@ -10,7 +10,7 @@ import dev.lemon.recode.utils.player.MoveUtil;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Speed", key = Keyboard.KEY_F, category = Category.MOVEMENT, suffix = "Strafe")
+@ModuleInfo(name = "Speed", category = Category.MOVEMENT, suffix = "Strafe")
 public class Speed extends Module {
     @Override
     public void onEnable(){

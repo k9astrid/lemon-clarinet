@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ModuleInfo(name = "KillAura", key = Keyboard.KEY_M, category = Category.COMBAT, suffix = "")
+@ModuleInfo(name = "KillAura", category = Category.COMBAT)
 public class KillAura extends Module {
     private double reach = 6.0;
     private double cps = 10.0;

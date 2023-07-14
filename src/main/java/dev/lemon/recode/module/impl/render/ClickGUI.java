@@ -8,7 +8,7 @@ import dev.lemon.recode.module.ModuleInfo;
 
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "ClickGUI", key = Keyboard.KEY_RSHIFT, category = Category.RENDER, suffix = "")
+@ModuleInfo(name = "ClickGUI", category = Category.RENDER)
 public class ClickGUI extends Module {
 
 

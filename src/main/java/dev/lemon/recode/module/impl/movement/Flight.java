@@ -9,7 +9,7 @@ import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.ModuleInfo;
 import dev.lemon.recode.utils.player.MoveUtil;
 
-@ModuleInfo(name = "Flight", key = org.lwjgl.input.Keyboard.KEY_V, category = Category.MOVEMENT, suffix = "Creative")
+@ModuleInfo(name = "Flight", category = Category.MOVEMENT, suffix = "Creative")
 public class Flight extends Module {
     @Override
     public void onEnable() {

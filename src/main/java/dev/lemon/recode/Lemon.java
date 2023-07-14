@@ -1,79 +1,35 @@
 package dev.lemon.recode;
 
 import best.azura.eventbus.core.EventBus;
-import best.azura.eventbus.handler.EventHandler;
-import best.azura.eventbus.handler.Listener;
-import dev.lemon.recode.event.impl.EventKey;
 import dev.lemon.recode.managers.CommandManager;
 import dev.lemon.recode.managers.ModuleManager;
-import dev.lemon.recode.module.Module;
+import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
+@Getter
 public enum Lemon {
     INSTANCE;
 
-    private final String name = "Lemon";
-    private final String version = "0.7";
-    private final String authors = "clpz, eternadox";
-    private final String chatName = "(っ◕‿◕)っ";
-    private final ClientEnum clientEnum = ClientEnum.DEVELOPER;
+    public final String name = "Lemon";
+    public final String version = "0.7";
+    public final String authors = "clpz, eternadox, szypko, groszus";
+    public final String chatName = "(っ◕‿◕)っ";
+    public final ClientEnum clientEnum = ClientEnum.DEVELOPER;
+
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
+
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
-    private long startTime;
 
     public void startClient() {
-        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum);
+        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
 
         eventBus.subscribe(this);
-        System.out.println("Subscribed to event bus!");
         moduleManager.initialize();
-        System.out.println("Initialized module manager!");
         commandManager.initialize();
-        System.out.println("Initialized command manager!");
         authenticator.login();
-    }
-
-    @EventHandler
-    public Listener<EventKey> eventKeyListener = e -> {
-        for (Module m : moduleManager.getModules()) {
-            if (m.getKey() == e.getKeyCode()) {
-                m.toggle();
-            }
-        }
-    };
-
-    public String getName() {
-        return name;
-    }
-
-    public String getChatName() {
-        return chatName;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getAuthors() {
-        return authors;
-    }
-
-    public EventBus getEventBus() {
-        return eventBus;
-    }
-
-    public ModuleManager getModuleManager() {
-        return moduleManager;
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
     }
 }
