@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class MoveUtil implements Util {
 
     public static double getSpeed(){
-        return Math.abs(Math.hypot(mc.thePlayer.posX - mc.thePlayer.lastTickPosX, mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ)) * 20;
+        return Math.abs(Math.hypot(mc.thePlayer.posX - mc.thePlayer.lastTickPosX, mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ)) * mc.timer.timerSpeed * 20;
     }
 
     public static boolean isWalking() {

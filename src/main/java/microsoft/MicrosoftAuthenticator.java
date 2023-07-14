@@ -229,7 +229,7 @@ public class MicrosoftAuthenticator {
 
     private void setSession() {
         Minecraft.getMinecraft().session = new Session(username, uuid, accessToken, "mojang");
-        LogManager.getLogger().info("Setting user: " + username);
+        System.out.println("Setting user: " + username);
     }
 
     static class MyHandler implements HttpHandler {
