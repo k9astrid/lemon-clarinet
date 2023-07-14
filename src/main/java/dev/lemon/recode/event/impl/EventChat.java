@@ -1,6 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.events.CancellableEvent;
+import dev.lemon.recode.event.CancellableEvent;
 
 public class EventChat extends CancellableEvent {
     private String message;

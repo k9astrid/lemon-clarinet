@@ -1,15 +1,11 @@
 package dev.lemon.recode.module.impl.movement;
 
-import best.azura.eventbus.core.Event;
-import best.azura.eventbus.handler.EventHandler;
-import best.azura.eventbus.handler.Listener;
+import dev.lemon.recode.event.IEventListener;
+import dev.lemon.recode.event.annotations.Subscribe;
 import dev.lemon.recode.event.impl.EventPreMotion;
-import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
-import dev.lemon.recode.module.ModuleInfo;
-import dev.lemon.recode.utils.player.MoveUtil;
 
-@ModuleInfo(name = "Flight", category = Category.MOVEMENT, suffix = "Creative")
+@Module.Info(name = "Flight", category = Module.Category.MOVEMENT)
 public class Flight extends Module {
     @Override
     public void onEnable() {
@@ -21,8 +17,8 @@ public class Flight extends Module {
         mc.thePlayer.capabilities.isCreativeMode = false;
     }
 
-    @EventHandler
-    public Listener<EventPreMotion> eventPreMotionListener = e -> {
+    @Subscribe
+    public final IEventListener<EventPreMotion> onPreMotion = e -> {
         mc.thePlayer.capabilities.isFlying = true;
         mc.thePlayer.capabilities.isCreativeMode = true;
     };

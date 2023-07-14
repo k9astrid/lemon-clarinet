@@ -1,11 +1,11 @@
 package dev.lemon.recode.utils.player;
 
 import dev.lemon.recode.Lemon;
-import dev.lemon.recode.utils.Util;
+import dev.lemon.recode.utils.IMethods;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ChatUtil implements Util {
+public class ChatUtil implements IMethods {
 
     public static void addMessage(String message){
         ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getChatName()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);

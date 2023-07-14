@@ -1,7 +1,7 @@
 package dev.lemon.recode.gui.clickgui;
 
 import dev.lemon.recode.Lemon;
-import dev.lemon.recode.module.Category;
+import dev.lemon.recode.module.Module;
 import dev.lemon.recode.utils.render.ColorUtil;
 import dev.lemon.recode.utils.render.RenderUtil;
 import dev.lemon.recode.utils.math.TimerUtil;
@@ -11,7 +11,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import java.io.IOException;
@@ -122,7 +121,7 @@ public class ClickGui extends GuiScreen {
 
         mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 64 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 4,-1);
         int offset = 0;
-        for (Category c : Category.values()){
+        for (Module.Category c : Module.Category.values()){
             mc.fontRendererObj.drawString(c.name(),guiPosX + 5, (guiPosY + 5) + 26 + offset, 0xffFFFFFF);
 
             offset += 30;

@@ -1,8 +1,8 @@
 package dev.lemon.recode.managers;
 
-import best.azura.eventbus.handler.EventHandler;
-import best.azura.eventbus.handler.Listener;
 import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.IEventListener;
+import dev.lemon.recode.event.annotations.Subscribe;
 import dev.lemon.recode.event.impl.EventKey;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.module.impl.combat.*;
@@ -16,11 +16,10 @@ import java.util.stream.Collectors;
 
 public class ModuleManager {
     private List<Module> modules = new ArrayList<>();
-    private Minecraft mc = Minecraft.getMinecraft();
-
 
     public void initialize(){
-        Lemon.INSTANCE.getEventBus().subscribe(this);
+        Lemon.INSTANCE.getEventBus().register(this);
+
         modules.add(new Sprint());
         modules.add(new HUD());
         modules.add(new Speed());
@@ -30,13 +29,11 @@ public class ModuleManager {
         modules.add(new KillAura());
     }
 
-    @EventHandler
-    public final Listener<EventKey> onKey = e -> {
-        for (Module m : getModules()) {
-            if (m.getKey() == e.getKeyCode()) {
+    @Subscribe
+    public final IEventListener<EventKey> onKey = e -> {
+        for (Module m : getModules())
+            if (m.getKey() == e.getKeyCode())
                 m.toggle();
-            }
-        }
     };
 
     public List<Module> getModules() {

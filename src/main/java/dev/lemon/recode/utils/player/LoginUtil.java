@@ -1,7 +1,7 @@
 package dev.lemon.recode.utils.player;
 
 import com.sun.net.httpserver.HttpServer;
-import dev.lemon.recode.utils.Util;
+import dev.lemon.recode.utils.IMethods;
 
 import java.awt.*;
 import java.io.*;
@@ -11,23 +11,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.lemon.recode.utils.player.handler.LoginHandler;
 import net.minecraft.util.Session;
-import optifine.Json;
 
-public class LoginUtil implements Util {
+public class LoginUtil implements IMethods {
 
-private static String clientId = "526b3e37-6aa9-45ef-989f-ed84bfb47f18";
-private static String clientSecret = "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB";
+    private static String clientId = "526b3e37-6aa9-45ef-989f-ed84bfb47f18";
+    private static String clientSecret = "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB";
 
-public static URI uriForLogin;
+    public static URI uriForLogin;
 
     static {
         try {
             uriForLogin = new URI("https://login.live.com/oauth20_authorize.srf?client_id=" + clientId + "&response_type=code&redirect_uri=http://localhost:8080/login&scope=XboxLive.signin%20offline_access&state=NOT_NEEDED");
-        } catch (URISyntaxException ignored) {
-        }
+        } catch (URISyntaxException ignored) { }
     }
 
-    public static void logIn(){
+    public static void login(){
         try {
             Desktop.getDesktop().browse(uriForLogin);
 
@@ -39,9 +37,8 @@ public static URI uriForLogin;
         } catch (IOException e){
             System.out.println(e.getStackTrace());
         }
-
-
     }
+
     public static void getAccessToken(String code){
         String params  = "client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&grant_type=authorization_code&redirect_uri=http://localhost:8080/login";
         System.out.println("Getting access token...");

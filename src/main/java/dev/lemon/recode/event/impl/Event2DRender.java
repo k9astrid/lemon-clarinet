@@ -1,8 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.core.Event;
-
-public class Event2DRender implements Event {
+public class Event2DRender {
     private int width, height;
 
     public Event2DRender(int width, int height){

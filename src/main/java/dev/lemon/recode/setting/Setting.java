@@ -1,18 +1,11 @@
 package dev.lemon.recode.setting;
 
-public abstract class Setting {
-    private String name;
-    private boolean visible;
+import lombok.Getter;
 
-    public Setting(String name) {
-        this.name = name;
-    }
+import java.util.function.Supplier;
 
-    public String getName() {
-        return name;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
+@Getter
+public class Setting<T> {
+    public String name;
+    protected Supplier<Boolean> visible;
 }

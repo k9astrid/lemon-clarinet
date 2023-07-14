@@ -1,28 +1,23 @@
 package dev.lemon.recode.module.impl.render;
 
-import best.azura.eventbus.handler.EventHandler;
-import best.azura.eventbus.handler.Listener;
+import dev.lemon.recode.Lemon;
+import dev.lemon.recode.event.IEventListener;
+import dev.lemon.recode.event.annotations.Subscribe;
 import dev.lemon.recode.event.impl.Event2DRender;
-import dev.lemon.recode.module.Category;
 import dev.lemon.recode.module.Module;
-import dev.lemon.recode.module.ModuleInfo;
 import dev.lemon.recode.utils.player.MoveUtil;
 import dev.lemon.recode.utils.render.ColorUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.input.Keyboard;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-@ModuleInfo(name = "HUD", category = Category.RENDER)
+@Module.Info(name = "HUD", category = Module.Category.RENDER, autoEnabled = true)
 public class HUD extends Module {
 
-    @EventHandler
-    public Listener<Event2DRender> event2DRenderListener = e -> {
+    @Subscribe
+    public final IEventListener<Event2DRender> event2DRenderListener = e -> {
         ScaledResolution sr = new ScaledResolution(mc);
 
         drawLemon();//draws hot thing
@@ -31,9 +26,9 @@ public class HUD extends Module {
         int offsetY = 4;
         int spacing = 2;
         int index = 0;
-        for (Module m : lemon.getModuleManager().getEnabledSortedModules()) {
+        for (Module m : Lemon.INSTANCE.getModuleManager().getEnabledSortedModules()) {
             color = ColorUtil.fadeLemonColors(index);
-            mc.fontRendererObj.drawStringWithShadow(m.getName() + (m.getSuffix().isEmpty() ? "" : " ") + EnumChatFormatting.WHITE + m.getSuffix(), e.getWidth() - mc.fontRendererObj.getStringWidth(m.getName() + (m.getSuffix().isEmpty() ? "" : " ") + EnumChatFormatting.WHITE + m.getSuffix()) - 5, offsetY, color);
+            mc.fontRendererObj.drawStringWithShadow(m.getDisplayName(), e.getWidth() - mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
             offsetY += mc.fontRendererObj.FONT_HEIGHT + spacing;
             index++;
         }
@@ -42,7 +37,7 @@ public class HUD extends Module {
 
         String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());
 
-        String text = lemon.getName() + " " + lemon.getVersion() + " | " + "FPS: "+mc.getDebugFPS() + " | " + "BPS: " + bps;
+        String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: "+ mc.getDebugFPS() + " | " + "BPS: " + bps;
         Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 18, 0x40000000);
 
         Gui.drawRect(3, 2, mc.fontRendererObj.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));

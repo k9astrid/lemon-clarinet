@@ -1,8 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.core.Event;
-
-public class Event3DRender implements Event {
+public class Event3DRender {
     private float partialTicks;
 
     public void Event3DRender(float partialTicks) {

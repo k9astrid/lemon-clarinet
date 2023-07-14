@@ -1,8 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.core.Event;
-
-public class EventKey implements Event {
+public class EventKey {
     private int keyCode;
 
     public EventKey(int keyCode){

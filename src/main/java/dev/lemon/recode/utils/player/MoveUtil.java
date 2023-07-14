@@ -1,22 +1,8 @@
 package dev.lemon.recode.utils.player;
 
-import dev.lemon.recode.utils.Util;
-import net.minecraft.block.BlockAir;
-import net.minecraft.client.Minecraft;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.BlockPos;
-import net.minecraft.block.BlockAir;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
+import dev.lemon.recode.utils.IMethods;
 
-public class MoveUtil implements Util {
+public class MoveUtil implements IMethods {
 
     public static double getSpeed(){
         return Math.abs(Math.hypot(mc.thePlayer.posX - mc.thePlayer.lastTickPosX, mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ)) * mc.timer.timerSpeed * 20;
@@ -44,26 +30,24 @@ public class MoveUtil implements Util {
 
         double direction = mc.thePlayer.rotationYaw;
 
-        if(movingForward && !isMovingSideways) {
-
-        } else if(movingBackward && !isMovingSideways) {
+        if(movingBackward && !isMovingSideways)
             direction += 180;
-        } else if(movingForward && movingLeft) {
+        else if(movingForward && movingLeft)
             direction += 45;
-        } else if(movingForward) {
+        else if(movingForward)
             direction -= 45;
-        } else if(!isMovingStraight && movingLeft) {
+        else if(!isMovingStraight && movingLeft)
             direction += 90;
-        } else if(!isMovingStraight && movingRight) {
+        else if(!isMovingStraight && movingRight)
             direction -= 90;
-        } else if(movingBackward && movingRight) {
+        else if(movingBackward && movingRight)
             direction -= 135;
-        } else if(movingBackward) {
+        else if(movingBackward)
             direction += 135;
-        }
 
         return (float) Math.toRadians(direction);
     }
+
     public static void setSpeed(double speed) {
         if(isWalking()) {
             mc.thePlayer.motionX = -Math.sin(getPlayerDirection()) * speed;
@@ -84,11 +68,10 @@ public class MoveUtil implements Util {
         }
     }
 
-
     public static double getBaseSpeed(){
-            return mc.thePlayer.isSprinting() ? 0.2805D : 0.216D;
-
+        return mc.thePlayer.isSprinting() ? 0.2805D : 0.216D;
     }
+
     public static void strafe(){
         strafe(getBaseSpeed());
     }

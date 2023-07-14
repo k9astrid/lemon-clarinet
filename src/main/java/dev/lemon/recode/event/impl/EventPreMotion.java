@@ -1,8 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.core.Event;
-
-public class EventPreMotion implements Event {
+public class EventPreMotion {
     private double x, y, z;
     private float yaw, pitch;
     private boolean onGround;

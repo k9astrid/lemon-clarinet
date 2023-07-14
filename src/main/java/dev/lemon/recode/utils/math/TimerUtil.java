@@ -1,9 +1,7 @@
 package dev.lemon.recode.utils.math;
 
-
 public class TimerUtil {
 	private long lastMillis;
-
 
 	public TimerUtil(){
 		this.reset();

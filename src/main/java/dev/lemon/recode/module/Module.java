@@ -2,81 +2,120 @@ package dev.lemon.recode.module;
 
 import dev.lemon.recode.Lemon;
 import dev.lemon.recode.setting.Setting;
-import net.minecraft.client.Minecraft;
+import dev.lemon.recode.utils.IMethods;
+import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.util.EnumChatFormatting;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class Module {
-    private final String name = this.getClass().getDeclaredAnnotation(ModuleInfo.class).name();
-    private int key = this.getClass().getDeclaredAnnotation(ModuleInfo.class).key();
-    private final Category category = this.getClass().getDeclaredAnnotation(ModuleInfo.class).category();
-    private boolean toggled;
-    private String suffix = this.getClass().getDeclaredAnnotation(ModuleInfo.class).suffix();
-    private final List<Setting> settings = new ArrayList<>();
-    protected Minecraft mc = Minecraft.getMinecraft();
-    protected Lemon lemon = Lemon.INSTANCE;
+public class Module implements IMethods {
 
-    public String getName() {
-        return name;
-    }
+    @Getter
+    private final Info info = this.getClass().getAnnotation(Info.class);
 
-    public int getKey() {
-        return key;
-    }
+    @Getter
+    private final String name = info.name();
 
-    public Category getCategory() {
-        return category;
-    }
+    @Setter @Getter
+    private int key = info.key();
 
-    public void setKey(int key) {
-        this.key = key;
-    }
+    @Getter
+    private final Category category = info.category();
 
-    public boolean isToggled() {
-        return toggled;
-    }
+    @Setter @Getter
+    private boolean toggled, expanded;
 
-    public String getSuffix() {
-        return suffix;
-    }
+    @Setter @Getter
+    private String suffix = "";
 
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
+    @Getter
+    private final ArrayList<Setting<?>> settings = new ArrayList<>();
 
-    public void toggle(){
-        this.toggled = !toggled;
-        if (toggled){
-            this.onEnable();
-        } else {
-            this.onDisable();
+    public void reflectValues() {
+        for (Field field : getClass().getDeclaredFields()) {
+            try {
+                if (field.get(this) instanceof Setting) {
+                    if (!field.isAccessible())
+                        field.setAccessible(true);
+
+                    settings.add((Setting<?>) field.get(this));
+                }
+            } catch (Exception ignored) {
+            }
         }
     }
 
-    public void onEnable(){
-        lemon.getEventBus().subscribe(this);
+    public <T extends Setting<?>> T getValueByName(String name) {
+        return (T) settings.stream().filter(value -> value.name.equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    public void onDisable(){
-        lemon.getEventBus().unsubscribe(this);
+    public void toggle() {
+        toggled = !toggled;
+
+        if (toggled) {
+            onEnable();
+            Lemon.INSTANCE.getEventBus().register(this);
+        } else {
+            Lemon.INSTANCE.getEventBus().unregister(this);
+            onDisable();
+        }
     }
 
-    public List<Setting> getSettings() {
-        return settings;
+    public void setToggled(boolean toggled) {
+        this.toggled = toggled;
+
+        if (this.toggled) {
+            onEnable();
+            Lemon.INSTANCE.getEventBus().register(this);
+        } else {
+            Lemon.INSTANCE.getEventBus().unregister(this);
+            onDisable();
+        }
     }
 
-    public void addSetting(Setting setting) {
-       settings.add(setting);
+    public String getDisplayName() {
+        String name = getName();
+
+        if (!suffix.isEmpty() || !suffix.equals(""))
+            name += " " + EnumChatFormatting.GRAY + suffix;
+
+        return name;
     }
 
-    public void addSettings(Setting... settingArray) {
-        settings.addAll(Arrays.asList(settingArray));
+    protected void onEnable()  { }
+    protected void onDisable() { }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Info {
+        String name();
+        int key() default 0;
+        Category category();
+        boolean autoEnabled() default false;
     }
 
-    public List<Setting> getSettingsByName(String name) {
-        return this.getSettings().stream().filter(s -> s.getName().equals(name)).collect(Collectors.toList());
+    @Getter
+    public enum Category {
+        COMBAT("Combat"),
+        EXPLOITS("Exploits"),
+        MISC("Misc"),
+        MOVEMENT("Movement"),
+        PLAYER("Player"),
+        RENDER("Render"),
+        WORLD("World");
+
+        private final String name;
+
+        public boolean expanded;
+
+        Category(String name) {
+            this.name = name;
+        }
     }
 }

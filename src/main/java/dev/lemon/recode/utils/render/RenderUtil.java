@@ -1,11 +1,9 @@
 package dev.lemon.recode.utils.render;
 
-import dev.lemon.recode.utils.Util;
+import dev.lemon.recode.utils.IMethods;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class RenderUtil implements Util {
+public class RenderUtil implements IMethods {
 
     public static void drawImage(ResourceLocation location, float x, float y, int width, int height) {
         GlStateManager.pushMatrix();
@@ -31,10 +29,6 @@ public class RenderUtil implements Util {
         GlStateManager.popMatrix();
     }
 
-    //code was too retarted had to remove it, no rounded rect :sob: - clpz
-
-
-    // from the lwjgl forum :D
     public static ByteBuffer[] loadIcon(String filepath)
     {
         BufferedImage image = null;
@@ -63,7 +57,7 @@ public class RenderUtil implements Util {
         }
         else
         {
-            ratio = (int) (scaledIcon.getWidth() / image.getWidth());
+            ratio = scaledIcon.getWidth() / image.getWidth();
         }
         if(image.getHeight() > scaledIcon.getHeight())
         {
@@ -75,7 +69,7 @@ public class RenderUtil implements Util {
         }
         else
         {
-            double r2 =  (int) (scaledIcon.getHeight() / image.getHeight());
+            double r2 = scaledIcon.getHeight() / image.getHeight();
             if(r2 < ratio)
             {
                 ratio = r2;
@@ -94,7 +88,7 @@ public class RenderUtil implements Util {
             for(int j = 0; j < dimension; j++)
             {
                 int colorSpace = scaledIcon.getRGB(j, i);
-                imageBuffer[counter + 0] =(byte)((colorSpace << 8) >> 24 );
+                imageBuffer[counter] =(byte)((colorSpace << 8) >> 24 );
                 imageBuffer[counter + 1] =(byte)((colorSpace << 16) >> 24 );
                 imageBuffer[counter + 2] =(byte)((colorSpace << 24) >> 24 );
                 imageBuffer[counter + 3] =(byte)(colorSpace >> 24 );

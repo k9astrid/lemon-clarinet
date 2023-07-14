@@ -1,39 +1,36 @@
 package dev.lemon.recode.setting.impl;
 
 import dev.lemon.recode.setting.Setting;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.util.MathHelper;
-import optifine.MathUtils;
 
-import java.util.Arrays;
+import java.util.function.Supplier;
 
+@Getter
+@Setter
 public class NumberSetting extends Setting {
     private double min;
     private double max;
     private double value;
 
-    public NumberSetting(String name, double defaultValue, double min, double max){
-        super(name);
+    public NumberSetting(String name, double defaultValue, double min, double max) {
+        this.name = name;
         this.value = defaultValue;
         this.min = min;
         this.max = max;
-
+        this.visible = () -> true;
     }
 
-    public double getMin() {
-        return min;
-    }
-
-    public double getMax() {
-        return max;
-    }
-
-    public double getValue() {
-        return value;
+    public NumberSetting(String name, double defaultValue, double min, double max, Supplier<Boolean> visible) {
+        this.name = name;
+        this.value = defaultValue;
+        this.min = min;
+        this.max = max;
+        this.visible = visible;
     }
 
     public void setValue(double value) {
         this.value = MathHelper.clamp_double(value, this.min, this.max);
     }
-
-
 }

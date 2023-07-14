@@ -41,7 +41,7 @@ import static org.lwjgl.opengl.GL12.*;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
 
 /**
- * Util.java
+ * IMethods.java
  * <p/>
  * <p/>
  * Created 7-jan-2004

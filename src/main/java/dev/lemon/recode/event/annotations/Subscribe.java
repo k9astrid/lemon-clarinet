@@ -1,4 +1,6 @@
-package dev.lemon.recode.module;
+package dev.lemon.recode.event.annotations;
+
+import dev.lemon.recode.event.Priority;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,10 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ModuleInfo {
-    String name();
-    String suffix() default "";
-    int key() default 0;
-    Category category();
+@Target(ElementType.FIELD)
+public @interface Subscribe {
+    byte value() default Priority.MEDIUM;
 }

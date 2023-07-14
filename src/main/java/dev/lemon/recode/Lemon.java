@@ -1,15 +1,16 @@
 package dev.lemon.recode;
 
-import best.azura.eventbus.core.EventBus;
+import dev.lemon.recode.event.bus.EventBus;
 import dev.lemon.recode.managers.CommandManager;
 import dev.lemon.recode.managers.ModuleManager;
+import dev.lemon.recode.utils.IMethods;
 import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
 @Getter
-public enum Lemon {
+public enum Lemon implements IMethods {
     INSTANCE;
 
     public final String name = "Lemon";
@@ -27,7 +28,6 @@ public enum Lemon {
     public void startClient() {
         Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
 
-        eventBus.subscribe(this);
         moduleManager.initialize();
         commandManager.initialize();
         authenticator.login();

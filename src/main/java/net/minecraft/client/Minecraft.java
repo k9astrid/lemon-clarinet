@@ -1901,7 +1901,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                         }
 
                         EventKey event = new EventKey(k);
-                        Lemon.INSTANCE.getEventBus().post(event);
+                        Lemon.INSTANCE.getEventBus().handle(event);
 
                         if (k == 32 && Keyboard.isKeyDown(61) && this.ingameGUI != null)
                         {

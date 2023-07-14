@@ -195,7 +195,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         boolean flag = this.isSprinting();
 
         EventPreMotion event = new EventPreMotion(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
-        Lemon.INSTANCE.getEventBus().post(event);
+        Lemon.INSTANCE.getEventBus().handle(event);
 
         if (flag != this.serverSprintState)
         {
@@ -214,7 +214,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         boolean flag1 = this.isSneaking();
 
         EventPostMotion event1 = new EventPostMotion();
-        Lemon.INSTANCE.getEventBus().post(event1);
+        Lemon.INSTANCE.getEventBus().handle(event1);
 
         if (flag1 != this.serverSneakState)
         {
@@ -306,7 +306,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void sendChatMessage(String message)
     {
         EventChat eventChat = new EventChat(message);
-        Lemon.INSTANCE.getEventBus().post(eventChat);
+        Lemon.INSTANCE.getEventBus().handle(eventChat);
         if (!eventChat.isCancelled())
             this.sendQueue.addToSendQueue(new C01PacketChatMessage(eventChat.getMessage()));
 

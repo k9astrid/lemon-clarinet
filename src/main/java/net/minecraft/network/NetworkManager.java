@@ -155,7 +155,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             try
             {
                 EventPacket event = new EventPacket(p_channelRead0_2_);
-                Lemon.INSTANCE.getEventBus().post(event);
+                Lemon.INSTANCE.getEventBus().handle(event);
                 if (!event.isCancelled())
                     p_channelRead0_2_.processPacket(this.packetListener);
 

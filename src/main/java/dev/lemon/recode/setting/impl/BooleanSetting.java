@@ -2,12 +2,21 @@ package dev.lemon.recode.setting.impl;
 
 import dev.lemon.recode.setting.Setting;
 
+import java.util.function.Supplier;
+
 public class BooleanSetting extends Setting {
     private boolean toggled;
 
-    public BooleanSetting(String name, boolean defaultValue){
-        super(name);
-        this.toggled = defaultValue;
+    public BooleanSetting(String name, boolean val) {
+        this.name = name;
+        this.toggled = val;
+        this.visible = () -> true;
+    }
+
+    public BooleanSetting(String name, boolean val, Supplier<Boolean> visible) {
+        this.name = name;
+        this.toggled = val;
+        this.visible = visible;
     }
 
     public boolean isToggled() {

@@ -1,12 +1,7 @@
 package dev.lemon.recode.utils.render;
 
-import java.awt.Color;
 
 public class ColorUtil {
-
-
-
-
 
     public static int fadeColors(int color1, int color2, float time ){
             if (time > 1.0F)
@@ -22,13 +17,10 @@ public class ColorUtil {
 
     public static int fadeLemonColors(int index){
        return fadeColors(0xFF00ff0d, 0xFFffea01, index);
-
     }
 
     public static int fadeColors(int color1, int color2, int index){
         return fadeColors(color1, color2, (float) ((System.currentTimeMillis() + index * 100L) % 1000L) / 500.0f);
-
     }
-
 
 }

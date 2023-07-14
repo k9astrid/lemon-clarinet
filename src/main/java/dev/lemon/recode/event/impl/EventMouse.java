@@ -1,8 +1,6 @@
 package dev.lemon.recode.event.impl;
 
-import best.azura.eventbus.core.Event;
-
-public class EventMouse implements Event {
+public class EventMouse {
 
     private int buttonID;
     private boolean mouseDown;

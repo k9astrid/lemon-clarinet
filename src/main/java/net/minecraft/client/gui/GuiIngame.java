@@ -125,7 +125,7 @@ public class GuiIngame extends Gui
         GlStateManager.enableBlend();
 
         Event2DRender event = new Event2DRender(i, j);
-        Lemon.INSTANCE.getEventBus().post(event);
+        Lemon.INSTANCE.getEventBus().handle(event);
 
         if (Config.isVignetteEnabled())
         {
