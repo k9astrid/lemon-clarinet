@@ -16,7 +16,7 @@ import optifine.Json;
 public class LoginUtil implements Util {
 
 private static String clientId = "526b3e37-6aa9-45ef-989f-ed84bfb47f18";
-private static String clientSecret = "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB\n";
+private static String clientSecret = "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB";
 
 public static URI uriForLogin;
 

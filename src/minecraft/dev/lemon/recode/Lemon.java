@@ -8,6 +8,7 @@ import dev.lemon.recode.managers.CommandManager;
 import dev.lemon.recode.managers.ModuleManager;
 import dev.lemon.recode.module.Module;
 import dev.lemon.recode.utils.player.LoginUtil;
+import me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator;
 import org.lwjgl.opengl.Display;
 
 public enum Lemon {
@@ -21,6 +22,7 @@ public enum Lemon {
     private final EventBus eventBus = new EventBus();
     private final ModuleManager moduleManager = new ModuleManager();
     private final CommandManager commandManager = new CommandManager();
+    private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
     private long startTime;
 
     public void startClient() {
@@ -32,6 +34,7 @@ public enum Lemon {
         System.out.println("Initialized module manager!");
         commandManager.initialize();
         System.out.println("Initialized command manager!");
+        authenticator.login();
     }
 
     @EventHandler
