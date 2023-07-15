@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import dev.lemon.recode.gui.altmanager.GuiAltManager;
+import dev.lemon.client.gui.altmanager.GuiAltManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

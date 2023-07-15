@@ -1,9 +1,9 @@
 package net.minecraft.client.entity;
 
-import dev.lemon.recode.Lemon;
-import dev.lemon.recode.event.impl.EventChat;
-import dev.lemon.recode.event.impl.EventPostMotion;
-import dev.lemon.recode.event.impl.EventPreMotion;
+import dev.lemon.client.main.Lemon;
+import dev.lemon.client.events.EventChat;
+import dev.lemon.client.events.EventPostMotion;
+import dev.lemon.client.events.EventPreMotion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

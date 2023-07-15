@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import dev.lemon.recode.Lemon;
-import dev.lemon.recode.event.impl.Event2DRender;
+import dev.lemon.client.main.Lemon;
+import dev.lemon.client.events.Event2DRender;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
