@@ -32,7 +32,7 @@ public class HUD extends Module {
         int index = 0;
         for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
             if (!m.isToggled())
-                return;
+                continue;
 
             color = ColorUtil.fadeLemonColors(index);
             IMethods.mc.fontRendererObj.drawStringWithShadow(m.getDisplayName(), e.getWidth() - IMethods.mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 5, offsetY, color);

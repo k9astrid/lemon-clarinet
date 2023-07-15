@@ -29,8 +29,9 @@ public class MoveUtil implements IMethods {
         boolean isMovingStraight = movingForward || movingBackward;
 
         double direction = mc.thePlayer.rotationYaw;
+        if(movingForward && !isMovingSideways) {
 
-        if(movingBackward && !isMovingSideways)
+        } else if(movingBackward && !isMovingSideways)
             direction += 180;
         else if(movingForward && movingLeft)
             direction += 45;
