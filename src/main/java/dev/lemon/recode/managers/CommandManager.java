@@ -6,6 +6,7 @@ import dev.lemon.recode.command.impl.*;
 import dev.lemon.recode.event.IEventListener;
 import dev.lemon.recode.event.annotations.Subscribe;
 import dev.lemon.recode.event.impl.EventChat;
+import dev.lemon.recode.utils.player.ChatUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class CommandManager {
     private List<Command> commands = new ArrayList<>();
 
     public void initialize() {
-        Lemon.INSTANCE.getEventBus().handle(this);
+        Lemon.INSTANCE.getEventBus().register(this);
         commands.add(new Test());
         commands.add(new Bind());
         commands.add(new Toggle());

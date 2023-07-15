@@ -17,7 +17,7 @@ public class Bind extends Command {
            return;
        }
        for (Module m : Lemon.INSTANCE.getModuleManager().getSortedModules()){
-           if (m.getName().equalsIgnoreCase(args[1])){
+           if (m.getName().replace(" ", "").equalsIgnoreCase(args[1])){
                m.setKey(Keyboard.getKeyIndex(args[2].toUpperCase()));
                ChatUtil.addMessage("Bound "+m.getName()+" to key "+Keyboard.getKeyName(m.getKey()));
            }

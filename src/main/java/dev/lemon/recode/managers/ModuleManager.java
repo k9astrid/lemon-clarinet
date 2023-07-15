@@ -9,6 +9,7 @@ import dev.lemon.recode.module.impl.combat.*;
 import dev.lemon.recode.module.impl.movement.*;
 import dev.lemon.recode.module.impl.render.*;
 
+import dev.lemon.recode.utils.player.ChatUtil;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -55,9 +56,7 @@ public class ModuleManager {
 
     public List<Module> getSortedModules() {
         List<Module> moduleList = modules;
-        moduleList.sort(Comparator.comparingInt(m -> Minecraft.getMinecraft().fontRendererObj.getStringWidth(
-                m.getName() + ((Objects.isNull(m.getSuffix())) ? "" : " " + m.getSuffix())
-        )));
+        moduleList.sort(Comparator.comparingInt(m -> Minecraft.getMinecraft().fontRendererObj.getStringWidth(m.getDisplayName())));
         Collections.reverse(moduleList);
         return moduleList;
     }

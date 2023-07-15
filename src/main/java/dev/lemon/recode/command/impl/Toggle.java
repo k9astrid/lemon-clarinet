@@ -16,7 +16,7 @@ public class Toggle extends Command {
            return;
        }
        for (Module m : Lemon.INSTANCE.getModuleManager().getModules()){
-           if (m.getName().equalsIgnoreCase(args[1])){
+           if (m.getName().replace(" ", "").equalsIgnoreCase(args[1])){
                m.toggle();
                ChatUtil.addMessage("Toggled "+m.getName()+" "+(m.isToggled() ? "on." : "off."));
            }

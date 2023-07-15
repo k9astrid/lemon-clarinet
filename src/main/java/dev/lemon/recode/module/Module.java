@@ -79,7 +79,7 @@ public class Module implements IMethods {
         }
     }
 
-    public String getDisplayName() {
+    public String sounds getDisplayName() {
         String name = getName();
 
         if (!suffix.isEmpty() || !suffix.equals(""))

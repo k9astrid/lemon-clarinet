@@ -30,6 +30,5 @@ public enum Lemon implements IMethods {
 
         moduleManager.initialize();
         commandManager.initialize();
-        authenticator.login();
     }
 }
