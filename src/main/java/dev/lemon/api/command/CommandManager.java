@@ -13,7 +13,7 @@ public class CommandManager {
     private List<Command> commands = new ArrayList<>();
 
     public void initialize() {
-        Lemon.INSTANCE.getEventBus().handle(this);
+        Lemon.INSTANCE.getEventBus().register(this);
         commands.add(new Test());
         commands.add(new Bind());
         commands.add(new Toggle());
