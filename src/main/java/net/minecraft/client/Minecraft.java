@@ -37,9 +37,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
-import dev.lemon.recode.Lemon;
-import dev.lemon.recode.event.impl.EventKey;
-import dev.lemon.recode.utils.render.RenderUtil;
+import dev.lemon.Lemon;
+import dev.lemon.event.impl.EventKey;
+import dev.lemon.utils.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
