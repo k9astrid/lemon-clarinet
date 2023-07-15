@@ -17,6 +17,8 @@ public class CommandManager {
         commands.add(new Test());
         commands.add(new Bind());
         commands.add(new Toggle());
+        commands.add(new Reload());
+
     }
 
     public List<Command> getCommands() {

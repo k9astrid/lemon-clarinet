@@ -87,6 +87,26 @@ public class Script implements IMethods {
         eventHash.put("render2D", handle);
     }
 
+    //public void onPacket(JSObject handle) {
+     //   eventHash.put("packet", handle);
+    //}
+
+    public void onPreMotion(JSObject handle) {
+        eventHash.put("preMotion", handle);
+    }
+
+    public void onPostMotion(JSObject handle) {
+        eventHash.put("postMotion", handle);
+    }
+
+    public void onChat(JSObject handle) {
+        eventHash.put("chat", handle);
+    }
+
+    public void onKey(JSObject handle) {
+        eventHash.put("key", handle);
+    }
+
     private class Initialize implements Function<JSObject, Script> {
 
         @Override

@@ -3,8 +3,7 @@ package dev.lemon.api.script;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
-import dev.lemon.client.events.Event2DRender;
-import dev.lemon.client.events.EventTick;
+import dev.lemon.client.events.*;
 import jdk.nashorn.api.scripting.JSObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -77,6 +76,54 @@ public class ScriptModule extends Module {
                 eventMap.get("tick").call(null);
             } catch (Exception ex) {
                 scriptLogger.error("Error tick " + this);
+                ex.printStackTrace();
+            }
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<EventChat> onChat = event -> {
+        if (eventMap.containsKey("chat")) {
+            try {
+                eventMap.get("chat").call(null);
+            } catch (Exception ex) {
+                scriptLogger.error("Error chat " + this);
+                ex.printStackTrace();
+            }
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<EventPreMotion> onPreMotion = event -> {
+        if (eventMap.containsKey("preMotion")) {
+            try {
+                eventMap.get("preMotion").call(null);
+            } catch (Exception ex) {
+                scriptLogger.error("Error preMotion " + this);
+                ex.printStackTrace();
+            }
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<EventPreMotion> onPostMotion = event -> {
+        if (eventMap.containsKey("postMotion")) {
+            try {
+                eventMap.get("postMotion").call(null);
+            } catch (Exception ex) {
+                scriptLogger.error("Error postMotion " + this);
+                ex.printStackTrace();
+            }
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<EventKey> onKey = event -> {
+        if (eventMap.containsKey("key")) {
+            try {
+                eventMap.get("key").call(null);
+            } catch (Exception ex) {
+                scriptLogger.error("Error key " + this);
                 ex.printStackTrace();
             }
         }
