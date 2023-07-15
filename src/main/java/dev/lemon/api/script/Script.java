@@ -1,5 +1,6 @@
 package dev.lemon.api.script;
 
+import dev.lemon.api.script.binding.PlayerBinding;
 import dev.lemon.api.setting.Setting;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.FileUtil;
@@ -44,6 +45,7 @@ public class Script implements IMethods {
         final ScriptEngine scriptEngine = factory.getScriptEngine(new ScriptFilter());
         final Bindings manager = new SimpleBindings();
 
+        manager.put("player", new PlayerBinding());
         manager.put("initialize", new Initialize());
 
         scriptEngine.setBindings(manager, ScriptContext.GLOBAL_SCOPE);
@@ -63,6 +65,10 @@ public class Script implements IMethods {
         scriptEngine.eval(scriptContent);
     }
 
+    public void onEnable(JSObject handle) {
+        eventHash.put("enable", handle);
+    }
+
     private class Initialize implements Function<JSObject, Script> {
 
         @Override
@@ -72,5 +78,4 @@ public class Script implements IMethods {
             return Script.this;
         }
     }
-
 }
