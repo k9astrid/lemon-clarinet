@@ -52,6 +52,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
+import viamcp.utils.FixedSoundEngine;
 
 public abstract class World implements IBlockAccess
 {
@@ -403,6 +404,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean destroyBlock(BlockPos pos, boolean dropBlock)
     {
+        /*
         IBlockState iblockstate = this.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
@@ -421,6 +423,8 @@ public abstract class World implements IBlockAccess
 
             return this.setBlockState(pos, Blocks.air.getDefaultState(), 3);
         }
+         */
+        return FixedSoundEngine.destroyBlock(this, pos, dropBlock);
     }
 
     /**

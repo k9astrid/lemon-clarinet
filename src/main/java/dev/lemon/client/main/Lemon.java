@@ -9,6 +9,7 @@ import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
+import viamcp.ViaMCP;
 
 @Getter
 public enum Lemon implements IMethods {
@@ -40,6 +41,13 @@ public enum Lemon implements IMethods {
         moduleManager.initialize();
         commandManager.initialize();
         scriptManager.reload(true);
+
+        try {
+            ViaMCP.getInstance().start();
+            ViaMCP.getInstance().initAsyncSlider();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
     }
