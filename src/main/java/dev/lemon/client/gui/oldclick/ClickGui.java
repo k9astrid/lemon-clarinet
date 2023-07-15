@@ -1,4 +1,4 @@
-package dev.lemon.client.gui.clickgui;
+package dev.lemon.client.gui.oldclick;
 
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.module.Module;
