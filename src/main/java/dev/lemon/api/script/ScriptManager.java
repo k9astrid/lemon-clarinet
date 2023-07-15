@@ -8,7 +8,7 @@ import java.io.File;
 @Getter
 public class ScriptManager implements IMethods {
 
-    private final File directory = new File(mc.mcDataDir, "/Solar/Scripts");
+    private final File directory = new File(mc.mcDataDir, "/Lemon/Scripts");
 
     public ScriptManager() {
         if (!directory.exists())
