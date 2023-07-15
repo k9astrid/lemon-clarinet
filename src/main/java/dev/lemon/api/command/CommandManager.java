@@ -1,10 +1,7 @@
 package dev.lemon.api.command;
 
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.commands.Bind;
-import dev.lemon.client.commands.Test;
-import dev.lemon.client.commands.Toggle;
-import dev.lemon.recode.command.impl.*;
+import dev.lemon.client.commands.*;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.EventChat;
@@ -44,6 +41,5 @@ public class CommandManager {
           }
       }
     };
-
 
 }

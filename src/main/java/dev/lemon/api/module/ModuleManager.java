@@ -4,16 +4,9 @@ import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.EventKey;
-import dev.lemon.client.modules.combat.KillAura;
-import dev.lemon.client.modules.combat.Velocity;
-import dev.lemon.client.modules.movement.Flight;
-import dev.lemon.client.modules.movement.Speed;
-import dev.lemon.client.modules.movement.Sprint;
-import dev.lemon.client.modules.render.ClickGUI;
-import dev.lemon.client.modules.render.HUD;
-import dev.lemon.recode.module.impl.combat.*;
-import dev.lemon.recode.module.impl.movement.*;
-import dev.lemon.recode.module.impl.render.*;
+import dev.lemon.client.modules.combat.*;
+import dev.lemon.client.modules.movement.*;
+import dev.lemon.client.modules.render.*;
 
 import net.minecraft.client.Minecraft;
 
