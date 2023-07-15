@@ -9,8 +9,11 @@ import dev.lemon.api.utils.IMethods;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
-@Module.Info(name = "Velocity", category = Module.Category.COMBAT)
 public class Velocity extends Module {
+
+    public Velocity() {
+        super("Velocity", Category.COMBAT);
+    }
 
     @Subscribe
     public final IEventListener<EventPacket> eventPacketListener = e -> {

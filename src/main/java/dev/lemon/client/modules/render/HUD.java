@@ -13,8 +13,12 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.text.DecimalFormat;
 
-@Module.Info(name = "HUD", category = Module.Category.RENDER, autoEnabled = true)
 public class HUD extends Module {
+
+    public HUD() {
+        super("HUD", Category.RENDER);
+        this.setAutoEnabled(true);
+    }
 
     @Subscribe
     public final IEventListener<Event2DRender> event2DRenderListener = e -> {
@@ -36,6 +40,7 @@ public class HUD extends Module {
             index++;
         }
     };
+
     private void drawLemon() {
 
         String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());

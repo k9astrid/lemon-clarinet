@@ -6,8 +6,11 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.EventPreMotion;
 import dev.lemon.api.utils.player.MoveUtil;
 
-@Module.Info(name = "Speed", category = Module.Category.MOVEMENT)
 public class Speed extends Module {
+    public Speed() {
+        super("Speed", Category.RENDER);
+    }
+
     @Override
     public void onEnable(){
         super.onEnable();

@@ -1,9 +1,13 @@
 package dev.lemon.client.modules.render;
 
 import dev.lemon.api.module.Module;
+import org.lwjgl.input.Keyboard;
 
-@Module.Info(name = "Click GUI", category = Module.Category.RENDER)
 public class ClickGUI extends Module {
+
+    public ClickGUI() {
+        super("Click Gui", Category.RENDER, Keyboard.KEY_RSHIFT);
+    }
 
     @Override
     public void onEnable() {

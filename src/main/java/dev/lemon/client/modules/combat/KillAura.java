@@ -16,11 +16,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Module.Info(name = "Kill Aura", category = Module.Category.COMBAT)
 public class KillAura extends Module {
     private double reach = 6.0;
     private double cps = 10.0;
     private TimerUtil timer = new TimerUtil();
+
+    public KillAura() {
+        super("Kill Aura", Category.COMBAT);
+    }
 
     private boolean checkEntity(Entity entity){
         return !entity.isDead && (entity instanceof EntityPlayer || entity instanceof EntityCreature) && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());

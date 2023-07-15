@@ -26,7 +26,7 @@ public class ModuleManager {
         modules.put(ClickGUI.class, new ClickGUI());
         modules.put(KillAura.class, new KillAura());
 
-        modules.values().stream().filter(m -> m.getInfo().autoEnabled()).forEach(m -> m.setToggled(true));
+        modules.values().stream().filter(Module::isAutoEnabled).forEach(m -> m.setToggled(true));
         modules.values().forEach(Module::reflectValues);
 
         Lemon.INSTANCE.getEventBus().register(this);

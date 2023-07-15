@@ -20,10 +20,13 @@ public class Script implements IMethods {
     private final ArrayList<Setting> settings = new ArrayList<>();
 
     @Getter
-    private String name, author, description;
+    private String name, author;
 
     @Getter
     private final File file;
+
+    @Getter
+    private ScriptModule scriptModule;
 
     @Getter
     private final HashMap<String, JSObject> eventHash = new HashMap<>();
@@ -49,8 +52,15 @@ public class Script implements IMethods {
 
         scriptEngine.eval(scriptContent);
 
-        if (name == null || author == null || description == null)
-            throw new ScriptException("Script is missing name, author or description!");
+        if (name == null || author == null)
+            throw new ScriptException("Script is missing name or author!");
+
+        // Registering Module
+        scriptModule = new ScriptModule(name, eventHash, author, file);
+        settings.forEach(s -> scriptModule.addSettings(s));
+        initializedSettings = true;
+
+        scriptEngine.eval(scriptContent);
     }
 
     private class Initialize implements Function<JSObject, Script> {
@@ -59,7 +69,6 @@ public class Script implements IMethods {
         public Script apply(JSObject jsObject) {
             name = (String) jsObject.getMember("name");
             author = (String) jsObject.getMember("author");
-            description = (String) jsObject.getMember("description");
             return Script.this;
         }
     }

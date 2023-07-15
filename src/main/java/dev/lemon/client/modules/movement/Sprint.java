@@ -6,8 +6,11 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.EventPreMotion;
 import net.minecraft.client.settings.KeyBinding;
 
-@Module.Info(name = "Sprint", category = Module.Category.MOVEMENT)
 public class Sprint extends Module {
+    public Sprint() {
+        super("Sprint", Category.MOVEMENT);
+    }
+
     @Override
     public void onEnable(){
         super.onEnable();

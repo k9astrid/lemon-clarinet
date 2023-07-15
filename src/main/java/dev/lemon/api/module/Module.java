@@ -13,29 +13,44 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class Module implements IMethods {
 
     @Getter
-    private final Info info = this.getClass().getAnnotation(Info.class);
-
-    @Getter
-    private final String name = info.name();
+    private String name;
 
     @Setter @Getter
-    private int key = info.key();
+    private int key = 0;
 
     @Getter
-    private final Category category = info.category();
+    private Category category;
 
     @Setter @Getter
-    private boolean toggled, expanded;
+    private boolean toggled, expanded, autoEnabled = false;
 
     @Setter @Getter
-    private String suffix = "";
+    private String suffix = "", author = "";
 
     @Getter
-    private final ArrayList<Setting<?>> settings = new ArrayList<>();
+    private final ArrayList<Setting> settings = new ArrayList<>();
+
+    public Module(String name, Category category) {
+        this.name = name;
+        this.category = category;
+        this.key = 0;
+    }
+
+    public Module(String name, Category category, int key) {
+        this.name = name;
+        this.category = category;
+        this.key = key;
+    }
+
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
+    }
 
     public void reflectValues() {
         for (Field field : getClass().getDeclaredFields()) {
@@ -44,14 +59,14 @@ public class Module implements IMethods {
                     if (!field.isAccessible())
                         field.setAccessible(true);
 
-                    settings.add((Setting<?>) field.get(this));
+                    settings.add((Setting) field.get(this));
                 }
             } catch (Exception ignored) {
             }
         }
     }
 
-    public <T extends Setting<?>> T getValueByName(String name) {
+    public <T extends Setting> T getValueByName(String name) {
         return (T) settings.stream().filter(value -> value.name.equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
@@ -90,15 +105,6 @@ public class Module implements IMethods {
 
     protected void onEnable()  { }
     protected void onDisable() { }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    public @interface Info {
-        String name();
-        int key() default 0;
-        Category category();
-        boolean autoEnabled() default false;
-    }
 
     @Getter
     public enum Category {

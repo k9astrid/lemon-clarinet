@@ -12,7 +12,7 @@ public class ModeSetting extends Setting {
         this.name = name;
         this.mode = defaultValue;
         this.modes = modes;
-        this.visible = () -> visible;
+        this.visible = () -> true;
     }
 
     public ModeSetting(String name, Supplier<Boolean> visible, String defaultValue, String... modes){
