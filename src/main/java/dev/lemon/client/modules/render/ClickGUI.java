@@ -10,7 +10,5 @@ public class ClickGUI extends Module {
     }
 
     @Override
-    public void onEnable() {
-        //TODO: add dropdown from solar tomorrow
-    }
+    public void onEnable() { }
 }

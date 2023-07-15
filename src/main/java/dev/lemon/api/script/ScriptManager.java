@@ -61,6 +61,10 @@ public class ScriptManager implements IMethods {
 
         scripts.forEach(s -> moduleList.put(s.getName(), s.getScriptModule()));
 
+        scripts.stream().filter(s -> !s.isReloadable()).forEach(s -> {
+            s.setReloadable(true);
+            s.getScriptModule().setReloadable(true);
+        });
         scriptLogger.info("Reloaded!");
     }
 
