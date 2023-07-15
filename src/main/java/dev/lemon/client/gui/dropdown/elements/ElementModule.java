@@ -37,7 +37,7 @@ public class ElementModule extends Element {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Fonts.BOLD_18.drawCenteredString(module.getName(), x + width / 2, y + 5, module.isToggled() ? new Color(215, 215, 21).getRGB() : -1);
+        Fonts.BOLD_18.drawCenteredString(binding ? "Binding..." : module.getName(), x + width / 2, y + 5, module.isToggled() ? new Color(215, 215, 21).getRGB() : -1);
 
         int offset = 0;
 

@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
+import dev.lemon.client.events.EventTick;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.events.EventKey;
 import dev.lemon.api.utils.render.RenderUtil;
@@ -1072,6 +1073,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         for (int j = 0; j < this.timer.elapsedTicks; ++j)
         {
+            this.timer.timerSpeed = 1f;
+            Lemon.INSTANCE.getEventBus().handle(new EventTick());
             this.runTick();
         }
 

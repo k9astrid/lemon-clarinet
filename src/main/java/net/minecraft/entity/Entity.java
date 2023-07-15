@@ -118,7 +118,7 @@ public abstract class Entity implements ICommandSender
      */
     public boolean isCollided;
     public boolean velocityChanged;
-    protected boolean isInWeb;
+    public boolean isInWeb;
     private boolean isOutsideBorder;
 
     /**
@@ -219,7 +219,7 @@ public abstract class Entity implements ICommandSender
     public int timeUntilPortal;
 
     /** Whether the entity is inside a Portal */
-    protected boolean inPortal;
+    public boolean inPortal;
     protected int portalCounter;
 
     /** Which dimension the player is in (-1 = the Nether, 0 = normal world) */

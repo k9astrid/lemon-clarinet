@@ -1,6 +1,9 @@
 package dev.lemon.api.script;
 
+import dev.lemon.api.script.binding.ClientBinding;
+import dev.lemon.api.script.binding.GuiBinding;
 import dev.lemon.api.script.binding.PlayerBinding;
+import dev.lemon.api.script.binding.WorldBinding;
 import dev.lemon.api.setting.Setting;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.FileUtil;
@@ -45,7 +48,10 @@ public class Script implements IMethods {
         final ScriptEngine scriptEngine = factory.getScriptEngine(new ScriptFilter());
         final Bindings manager = new SimpleBindings();
 
+        manager.put("client", new ClientBinding());
+        manager.put("world", new WorldBinding());
         manager.put("player", new PlayerBinding());
+        manager.put("gui", new GuiBinding());
         manager.put("initialize", new Initialize());
 
         scriptEngine.setBindings(manager, ScriptContext.GLOBAL_SCOPE);
@@ -67,6 +73,18 @@ public class Script implements IMethods {
 
     public void onEnable(JSObject handle) {
         eventHash.put("enable", handle);
+    }
+
+    public void onDisable(JSObject handle) {
+        eventHash.put("disable", handle);
+    }
+
+    public void onTick(JSObject handle) {
+        eventHash.put("tick", handle);
+    }
+
+    public void onRender2D(JSObject handle) {
+        eventHash.put("render2D", handle);
     }
 
     private class Initialize implements Function<JSObject, Script> {
