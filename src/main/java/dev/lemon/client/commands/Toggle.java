@@ -11,11 +11,12 @@ public class Toggle extends Command {
 
     @Override
     public void onExecute(String[] args){
-       if (args.length != 2){
+       if (args.length != 2) {
            ChatUtil.addMessage(".toggle <module>");
            return;
        }
-       for (Module m : Lemon.INSTANCE.getModuleManager().getModules()){
+
+       for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
            if (m.getName().replace(" ", "").equalsIgnoreCase(args[1])){
                m.toggle();
                ChatUtil.addMessage("Toggled "+m.getName()+" "+(m.isToggled() ? "on." : "off."));

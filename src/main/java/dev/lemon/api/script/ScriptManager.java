@@ -21,8 +21,9 @@ public class ScriptManager implements IMethods {
             directory.mkdirs();
     }
 
-    public void reload() {
-        scripts.removeIf(Script::isReloadable);
+    public void reload(boolean init) {
+        if (!init)
+            scripts.removeIf(Script::isReloadable);
 
         File[] scriptFiles = directory.listFiles(((dir, name) -> name.endsWith(".js")));
 
@@ -40,6 +41,8 @@ public class ScriptManager implements IMethods {
                 scriptLogger.error(e.getMessage().replace("\r", "").replace("<eval>", scriptFile.getName()));
             }
         }
+
+        scriptLogger.info("Reloaded!");
     }
 
 }

@@ -79,7 +79,7 @@ public class Module implements IMethods {
         }
     }
 
-    public String sounds getDisplayName() {
+    public String getDisplayName() {
         String name = getName();
 
         if (!suffix.isEmpty() || !suffix.equals(""))
@@ -108,7 +108,8 @@ public class Module implements IMethods {
         MOVEMENT("Movement"),
         PLAYER("Player"),
         RENDER("Render"),
-        WORLD("World");
+        WORLD("World"),
+        SCRIPTS("Scripts");
 
         private final String name;
 

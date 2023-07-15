@@ -1,66 +1,45 @@
 package dev.lemon.api.module;
 
-import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.EventKey;
-import dev.lemon.client.modules.combat.*;
-import dev.lemon.client.modules.movement.*;
-import dev.lemon.client.modules.render.*;
+import dev.lemon.client.main.Lemon;
+import dev.lemon.client.modules.combat.KillAura;
+import dev.lemon.client.modules.combat.Velocity;
+import dev.lemon.client.modules.movement.Flight;
+import dev.lemon.client.modules.movement.Speed;
+import dev.lemon.client.modules.movement.Sprint;
+import dev.lemon.client.modules.render.ClickGUI;
+import dev.lemon.client.modules.render.HUD;
 
-import dev.lemon.recode.utils.player.ChatUtil;
-import net.minecraft.client.Minecraft;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 public class ModuleManager {
-    private List<Module> modules = new ArrayList<>();
+    private HashMap<Object, Module> modules = new HashMap<>();
 
     public void initialize(){
-        //TODO: use reflection for adding modules so we wont put thousand of modules.add ?
-        modules.add(new Sprint());
-        modules.add(new HUD());
-        modules.add(new Speed());
-        modules.add(new Flight());
-        modules.add(new Velocity());
-        modules.add(new ClickGUI());
-        modules.add(new KillAura());
+        modules.put(Sprint.class, new Sprint());
+        modules.put(HUD.class, new HUD());
+        modules.put(Speed.class, new Speed());
+        modules.put(Flight.class, new Flight());
+        modules.put(Velocity.class, new Velocity());
+        modules.put(ClickGUI.class, new ClickGUI());
+        modules.put(KillAura.class, new KillAura());
 
-        modules.stream().filter(m -> m.getInfo().autoEnabled()).forEach(m -> m.setToggled(true));
-        modules.forEach(Module::reflectValues);
+        modules.values().stream().filter(m -> m.getInfo().autoEnabled()).forEach(m -> m.setToggled(true));
+        modules.values().forEach(Module::reflectValues);
 
         Lemon.INSTANCE.getEventBus().register(this);
     }
 
     @Subscribe
     public final IEventListener<EventKey> onKey = e -> {
-        for (Module m : getModules())
+        for (Module m : modules.values())
             if (m.getKey() == e.getKeyCode())
                 m.toggle();
     };
 
-    public List<Module> getModules() {
+    public HashMap<Object, Module> getModulesMap() {
         return modules;
-    }
-
-    public List<Module> getEnabledModules() {
-        return modules.stream().filter(Module::isToggled).collect(Collectors.toList());
-    }
-
-    public Module getModuleByName(String name){
-        return modules.stream().filter(m -> m.getName().equalsIgnoreCase(name)).collect(Collectors.toList()).get(0);
-
-    }
-
-    public List<Module> getSortedModules() {
-        List<Module> moduleList = modules;
-        moduleList.sort(Comparator.comparingInt(m -> Minecraft.getMinecraft().fontRendererObj.getStringWidth(m.getDisplayName())));
-        Collections.reverse(moduleList);
-        return moduleList;
-    }
-
-    public List<Module> getEnabledSortedModules(){
-        return getSortedModules().stream().filter(Module::isToggled).collect(Collectors.toList());
     }
 }

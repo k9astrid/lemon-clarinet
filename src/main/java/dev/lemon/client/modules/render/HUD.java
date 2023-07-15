@@ -26,7 +26,10 @@ public class HUD extends Module {
         int offsetY = 4;
         int spacing = 2;
         int index = 0;
-        for (Module m : Lemon.INSTANCE.getModuleManager().getEnabledSortedModules()) {
+        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
+            if (!m.isToggled())
+                return;
+
             color = ColorUtil.fadeLemonColors(index);
             IMethods.mc.fontRendererObj.drawStringWithShadow(m.getDisplayName(), e.getWidth() - IMethods.mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
             offsetY += IMethods.mc.fontRendererObj.FONT_HEIGHT + spacing;
