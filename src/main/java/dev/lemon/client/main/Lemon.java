@@ -28,7 +28,9 @@ public enum Lemon implements IMethods {
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
 
     public void startClient() {
-        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
+        mc.gameSettings.ofFastRender = false;
+        mc.gameSettings.fancyGraphics = false;
+        mc.gameSettings.guiScale = 2;
 
         eventBus = new EventBus();
         moduleManager = new ModuleManager();
@@ -38,5 +40,7 @@ public enum Lemon implements IMethods {
         moduleManager.initialize();
         commandManager.initialize();
         scriptManager.reload(true);
+
+        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
     }
 }
