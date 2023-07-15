@@ -1,5 +1,6 @@
 package dev.lemon.client.modules.render;
 
+import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.Event2DRender;
@@ -35,8 +36,8 @@ public class HUD extends Module {
                 continue;
 
             color = ColorUtil.fadeLemonColors(index);
-            IMethods.mc.fontRendererObj.drawStringWithShadow(m.getDisplayName(), e.getWidth() - IMethods.mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
-            offsetY += IMethods.mc.fontRendererObj.FONT_HEIGHT + spacing;
+            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
+            offsetY += Fonts.BOLD_18.getHeight() + spacing;
             index++;
         }
     };
@@ -46,9 +47,9 @@ public class HUD extends Module {
         String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());
 
         String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: "+ IMethods.mc.getDebugFPS() + " | " + "BPS: " + bps;
-        Gui.drawRect(3, 2, IMethods.mc.fontRendererObj.getStringWidth(text) + 10, 18, 0x40000000);
+        Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 8, 0x40000000);
 
-        Gui.drawRect(3, 2, IMethods.mc.fontRendererObj.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));
-        IMethods.mc.fontRendererObj.drawString(text, 6, 8, 0xffFFFFFF);
+        Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));
+        Fonts.BOLD_18.drawString(text, 6, 8, 0xffFFFFFF);
     }
 }
