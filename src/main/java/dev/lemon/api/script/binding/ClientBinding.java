@@ -9,6 +9,15 @@ public class ClientBinding {
         return Lemon.INSTANCE.getVersion();
     }
 
+    public String getBuild() {
+        return Lemon.INSTANCE.getClientEnum().toString();
+    }
+
+    public String getAuthors() {
+        return Lemon.INSTANCE.getAuthors();
+    }
+
+
     public void printMsg(String text) {
         ChatUtil.addMessage(text);
     }

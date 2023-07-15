@@ -1,9 +1,6 @@
 package dev.lemon.api.script;
 
-import dev.lemon.api.script.binding.ClientBinding;
-import dev.lemon.api.script.binding.GuiBinding;
-import dev.lemon.api.script.binding.PlayerBinding;
-import dev.lemon.api.script.binding.WorldBinding;
+import dev.lemon.api.script.binding.*;
 import dev.lemon.api.setting.Setting;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.FileUtil;

@@ -15,6 +15,7 @@ import dev.lemon.client.modules.render.HUD;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ModuleManager {
     private HashMap<Object, Module> modules = new HashMap<>();
@@ -53,5 +54,14 @@ public class ModuleManager {
                 modules.add(m);
 
         return modules;
+    }
+
+    public Module getModuleByName(String name) {
+
+        for (Module m : this.modules.values())
+            if (Objects.equals(m.getName(), name))
+                return m;
+
+        return null;
     }
 }
