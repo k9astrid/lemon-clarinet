@@ -1,6 +1,7 @@
 package dev.lemon.api.utils.render;
 
 import dev.lemon.api.utils.IMethods;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -10,6 +11,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.nio.ByteBuffer;
 
 public class RenderUtil implements IMethods {
@@ -96,6 +99,40 @@ public class RenderUtil implements IMethods {
             }
         }
         return ByteBuffer.wrap(imageBuffer);
+    }
+
+    public static double linearAnimation(double now, double desired, double speed) {
+        double dif = Math.abs(now - desired);
+
+        final int fps = Minecraft.getDebugFPS();
+
+        if (dif > 0) {
+            double animationSpeed = roundToDecimalPlace(Math.min(
+                    10.0D, Math.max(0.05D, (144.0D / fps) * (dif / 10) * speed)), 0.05D);
+
+            if (dif != 0 && dif < animationSpeed)
+                animationSpeed = dif;
+
+            if (now < desired)
+                return now + animationSpeed;
+            else if (now > desired)
+                return now - animationSpeed;
+        }
+
+        return now;
+    }
+
+    public static double roundToDecimalPlace(double value, double inc) {
+        final double halfOfInc = inc / 2.0D;
+        final double floored = StrictMath.floor(value / inc) * inc;
+        if (value >= floored + halfOfInc)
+            return new BigDecimal(StrictMath.ceil(value / inc) * inc, MathContext.DECIMAL64)
+                    .stripTrailingZeros()
+                    .doubleValue();
+        else
+            return new BigDecimal(floored, MathContext.DECIMAL64)
+                    .stripTrailingZeros()
+                    .doubleValue();
     }
 
 }

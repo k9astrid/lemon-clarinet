@@ -12,7 +12,9 @@ import dev.lemon.client.modules.movement.Sprint;
 import dev.lemon.client.modules.render.ClickGUI;
 import dev.lemon.client.modules.render.HUD;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ModuleManager {
     private HashMap<Object, Module> modules = new HashMap<>();
@@ -40,6 +42,16 @@ public class ModuleManager {
     };
 
     public HashMap<Object, Module> getModulesMap() {
+        return modules;
+    }
+
+    public List<Module> getModulesFromCategory(Module.Category category) {
+        List<Module> modules = new ArrayList<>();
+
+        for (Module m : this.modules.values())
+            if (m.getCategory() == category)
+                modules.add(m);
+
         return modules;
     }
 }

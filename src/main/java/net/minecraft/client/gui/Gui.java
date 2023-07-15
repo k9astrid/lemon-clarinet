@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class Gui
 {
     public static final ResourceLocation optionsBackground = new ResourceLocation("textures/gui/options_background.png");
@@ -47,18 +49,18 @@ public class Gui
     /**
      * Draws a solid color rectangle with the specified coordinates and color (ARGB format). Args: x1, y1, x2, y2, color
      */
-    public static void drawRect(int left, int top, int right, int bottom, int color)
+    public static void drawRect(double left, double top, double right, double bottom, int color)
     {
         if (left < right)
         {
-            int i = left;
+            double i = left;
             left = right;
             right = i;
         }
 
         if (top < bottom)
         {
-            int j = top;
+            double j = top;
             top = bottom;
             bottom = j;
         }
@@ -81,6 +83,43 @@ public class Gui
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void drawRect2(double x, double y, double width, double height, int color)
+    {
+        Gui.drawRect(x, y, x + width, y + height, color);
+    }
+
+    public static void drawVerticalGradient(double x, double y, double width, double height, int startColor, int endColor) {
+        width += x;
+        height += y;
+        float f = (float) (startColor >> 24 & 255) / 255.0F;
+        float f1 = (float) (startColor >> 16 & 255) / 255.0F;
+        float f2 = (float) (startColor >> 8 & 255) / 255.0F;
+        float f3 = (float) (startColor & 255) / 255.0F;
+        float f4 = (float) (endColor >> 24 & 255) / 255.0F;
+        float f5 = (float) (endColor >> 16 & 255) / 255.0F;
+        float f6 = (float) (endColor >> 8 & 255) / 255.0F;
+        float f7 = (float) (endColor & 255) / 255.0F;
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA,
+                GL_ONE_MINUS_SRC_ALPHA, GL_ONE,
+                GL_ZERO);
+        GlStateManager.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(x, y, 0).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(x, height, 0).color(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(width, height, 0).color(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(width, y, 0).color(f1, f2, f3, f).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
 
     /**

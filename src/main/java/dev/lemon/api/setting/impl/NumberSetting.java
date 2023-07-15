@@ -10,27 +10,28 @@ import java.util.function.Supplier;
 @Getter
 @Setter
 public class NumberSetting extends Setting {
-    private double min;
-    private double max;
-    private double value;
+    public double val, min, max, inc;
 
-    public NumberSetting(String name, double defaultValue, double min, double max) {
+    public NumberSetting(String name, double val, double min, double max, double inc) {
         this.name = name;
-        this.value = defaultValue;
+        this.val = val;
         this.min = min;
         this.max = max;
+        this.inc = inc;
         this.visible = () -> true;
     }
 
-    public NumberSetting(String name, double defaultValue, double min, double max, Supplier<Boolean> visible) {
+    public NumberSetting(String name, double val, double min, double max, double inc, Supplier<Boolean> visible) {
         this.name = name;
-        this.value = defaultValue;
+        this.val = val;
         this.min = min;
         this.max = max;
+        this.inc = inc;
         this.visible = visible;
     }
 
     public void setValue(double value) {
-        this.value = MathHelper.clamp_double(value, this.min, this.max);
+        double prec = 1 / inc;
+        this.val = Math.round(Math.max(min, Math.min(max, value)) * prec) / prec;
     }
 }
