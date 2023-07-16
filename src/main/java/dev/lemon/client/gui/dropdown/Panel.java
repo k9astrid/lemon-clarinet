@@ -39,7 +39,9 @@ public class Panel {
         float guiOffset = 0;
         if (open)
             for (ElementModule e : elements) {
-
+                e.x = this.x;
+                e.y = this.y + 18 + guiOffset;
+                e.width = this.width;
                 if (e.getModule().isExpanded())
                     for (Element element : e.getElements())
                         guiOffset += element.getHeight();
