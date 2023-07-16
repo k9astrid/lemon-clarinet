@@ -1,16 +1,16 @@
 package dev.lemon.client.events;
 
 import dev.lemon.api.event.CancellableEvent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.minecraft.network.Packet;
 
+@AllArgsConstructor @Getter
 public class EventPacket extends CancellableEvent {
     private Packet packet;
+    private Type type;
 
-    public EventPacket(Packet packet){
-        this.packet = packet;
-    }
-
-    public Packet getPacket() {
-        return packet;
+    public enum Type {
+        SENT, RECEIVE
     }
 }
