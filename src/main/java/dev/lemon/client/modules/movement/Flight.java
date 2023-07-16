@@ -6,13 +6,13 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
+import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.EventPreMotion;
 
 public class Flight extends Module {
 
-    public ModeSetting mode = new ModeSetting("Test Mode", "Test 1", "Test 1", "Test 2", "Test 3");
-    public BooleanSetting booleanSetting = new BooleanSetting("Test Boolean", false);
-    public NumberSetting numberSetting = new NumberSetting("Test Number", 0, 0, 5, 1);
+    public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla");
+    public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1);
 
     public Flight() {
         super("Flight", Category.MOVEMENT);
@@ -31,8 +31,17 @@ public class Flight extends Module {
 
     @Subscribe
     public final IEventListener<EventPreMotion> onPreMotion = e -> {
-        mc.thePlayer.capabilities.isFlying = true;
-        mc.thePlayer.capabilities.isCreativeMode = true;
+        switch (mode.getMode()){
+            case "Creative":
+                mc.thePlayer.capabilities.isFlying = true;
+                mc.thePlayer.capabilities.isCreativeMode = true;
+                break;
+            case "Vanilla":
+                mc.thePlayer.motionY = 0;
+                MoveUtil.setSpeed(vanillaSpeed.getVal());
+                break;
+        }
+
     };
 
 }
