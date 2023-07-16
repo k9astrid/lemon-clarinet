@@ -2679,7 +2679,7 @@ public class Shaders
     private static boolean printLogInfo(int obj, String name)
     {
         IntBuffer intbuffer = BufferUtils.createIntBuffer(1);
-        ARBShaderObjects.glGetObjectParameteriARB(obj, ARBShaderObjects.GL_OBJECT_INFO_LOG_LENGTH_ARB);
+        ARBShaderObjects.glGetObjectParameterARB(obj, ARBShaderObjects.GL_OBJECT_INFO_LOG_LENGTH_ARB, intbuffer);
         int i = intbuffer.get();
 
         if (i > 1)
@@ -3030,7 +3030,7 @@ public class Shaders
         if (i != 0 && matrix != null)
         {
             int j = ARBShaderObjects.glGetUniformLocationARB(i, (CharSequence)name);
-            ARBShaderObjects.glUniformMatrix2fvARB(j, transpose, matrix);
+            ARBShaderObjects.glUniformMatrix4ARB(j, transpose, matrix);
             checkGLError(programNames[activeProgram], name);
         }
     }
@@ -3761,11 +3761,11 @@ public class Shaders
         cameraPositionX = d0;
         cameraPositionY = d1;
         cameraPositionZ = d2;
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX);
+        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projection.position(0));
         SMath.invertMat4FBFA((FloatBuffer)projectionInverse.position(0), (FloatBuffer)projection.position(0), faProjectionInverse, faProjection);
         projection.position(0);
         projectionInverse.position(0);
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX);
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelView.position(0));
         SMath.invertMat4FBFA((FloatBuffer)modelViewInverse.position(0), (FloatBuffer)modelView.position(0), faModelViewInverse, faModelView);
         modelView.position(0);
         modelViewInverse.position(0);
@@ -3781,11 +3781,11 @@ public class Shaders
         cameraPositionX = d0;
         cameraPositionY = d1;
         cameraPositionZ = d2;
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX);
+        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projection.position(0));
         SMath.invertMat4FBFA((FloatBuffer)projectionInverse.position(0), (FloatBuffer)projection.position(0), faProjectionInverse, faProjection);
         projection.position(0);
         projectionInverse.position(0);
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX);
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelView.position(0));
         SMath.invertMat4FBFA((FloatBuffer)modelViewInverse.position(0), (FloatBuffer)modelView.position(0), faModelViewInverse, faModelView);
         modelView.position(0);
         modelViewInverse.position(0);
@@ -3882,7 +3882,7 @@ public class Shaders
     {
         FloatBuffer floatbuffer = tempMatrixDirectBuffer;
         floatbuffer.clear();
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX);
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, floatbuffer);
         floatbuffer.get(tempMat, 0, 16);
         SMath.multiplyMat4xVec4(sunPosition, tempMat, sunPosModelView);
         SMath.multiplyMat4xVec4(moonPosition, tempMat, moonPosModelView);
@@ -3897,7 +3897,7 @@ public class Shaders
     {
         FloatBuffer floatbuffer = tempMatrixDirectBuffer;
         floatbuffer.clear();
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX);
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, floatbuffer);
         floatbuffer.get(tempMat, 0, 16);
         SMath.multiplyMat4xVec4(upPosition, tempMat, upPosModelView);
         setProgramUniform3f("upPosition", upPosition[0], upPosition[1], upPosition[2]);
