@@ -6,6 +6,7 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import net.minecraft.client.settings.KeyBinding;
+import org.lwjgl.Sys;
 
 import javax.vecmath.Vector2f;
 

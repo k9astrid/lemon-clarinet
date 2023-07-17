@@ -30,7 +30,7 @@ public class KillAura extends Module {
     public NumberSetting maxCPS = new NumberSetting("Max CPS", 10, 0, 20, 0.5);
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
-    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized", "Smooth");
+    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting players = new BooleanSetting("Players", true);
     public BooleanSetting creatures = new BooleanSetting("Creatures", true);
@@ -50,20 +50,19 @@ public class KillAura extends Module {
                 .collect(Collectors.toList());
 
         for (Entity target : entityList) {
-            float[] rotations;
+            float[] rotations = new float[0];
             switch (rotationMode.getMode()) {
-                case "Smooth":
-                    RotationUtil.rotate(RotationUtil.rotations, 360);
-                    break;
                 case "Vanilla":
                     rotations = RotationUtil.getVanillaRotations(target);
-                    mc.player.rotationYawHead = rotations[0];
                     break;
                 case "Randomized":
                     rotations = RotationUtil.getVanillaRotations(target);
-                    mc.player.rotationYawHead = (float) (rotations[0] - Math.random());
+                    rotations[0] = (float) (rotations[0] - Math.random());
                     break;
             }
+
+            if (!rotationMode.is("None"))
+                RotationUtil.rotate(new Vector2f(rotations[0], rotations[1]), 80 + Math.random());
 
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
                 if (!(noSwing.isToggled()))

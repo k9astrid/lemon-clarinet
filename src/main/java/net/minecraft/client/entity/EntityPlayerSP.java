@@ -195,10 +195,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdateWalkingPlayer()
     {
-        boolean flag = this.isSprinting();
 
         PreMotionEvent event = new PreMotionEvent(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
         Lemon.INSTANCE.getEventBus().handle(event);
+        boolean flag = this.isSprinting();
 
         if (flag != this.serverSprintState)
         {

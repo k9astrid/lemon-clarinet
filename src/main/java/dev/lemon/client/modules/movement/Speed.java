@@ -4,9 +4,13 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
+import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
+import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
+
+import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave Legit");
@@ -22,6 +26,14 @@ public class Speed extends Module {
     }
 
     @Subscribe
+    public final IEventListener<PreUpdateEvent> onPreUpdate = e -> {
+        switch (mode.getMode()) {
+            case "Intave Legit":
+                break;
+        }
+    };
+
+    @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         this.setSuffix(mode.getMode());
 
@@ -34,8 +46,6 @@ public class Speed extends Module {
                 break;
 
             case "Intave Legit":
-                if (!mc.player.onGround)
-
                 mc.player.jumpTicks = 0;
                 mc.timer.timerSpeed = 1.004f;
                 break;
