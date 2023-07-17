@@ -12,7 +12,7 @@ public class InventoryBasic implements IInventory
 {
     private String inventoryTitle;
     private int slotsCount;
-    private ItemStack[] inventoryContents;
+    public ItemStack[] inventoryContents;
     private List<IInvBasic> field_70480_d;
     private boolean hasCustomName;
 

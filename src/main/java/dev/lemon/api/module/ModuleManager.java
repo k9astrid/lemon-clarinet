@@ -10,6 +10,7 @@ import dev.lemon.client.modules.exploits.Disabler;
 import dev.lemon.client.modules.movement.Flight;
 import dev.lemon.client.modules.movement.Speed;
 import dev.lemon.client.modules.movement.Sprint;
+import dev.lemon.client.modules.player.Stealer;
 import dev.lemon.client.modules.render.ClickGUI;
 import dev.lemon.client.modules.render.HUD;
 
@@ -30,6 +31,7 @@ public class ModuleManager {
         modules.put(ClickGUI.class, new ClickGUI());
         modules.put(KillAura.class, new KillAura());
         modules.put(Disabler.class, new Disabler());
+        modules.put(Stealer.class, new Stealer());
 
         modules.values().stream().filter(Module::isAutoEnabled).forEach(m -> m.setToggled(true));
         modules.values().forEach(Module::reflectValues);
