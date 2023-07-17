@@ -3,7 +3,7 @@ package dev.lemon.client.modules.combat;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
-import dev.lemon.client.events.EventPacket;
+import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 
@@ -21,7 +21,7 @@ public class Velocity extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventPacket> eventPacketListener = e -> {
+    public final IEventListener<PacketEvent> eventPacketListener = e -> {
         switch (mode.getMode()) {
             case "Cancel":
                 if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.thePlayer.getEntityId()) {

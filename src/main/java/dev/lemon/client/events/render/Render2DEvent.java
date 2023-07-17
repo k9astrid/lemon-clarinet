@@ -1,9 +1,9 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.render;
 
-public class Event2DRender {
+public class Render2DEvent {
     private int width, height;
 
-    public Event2DRender(int width, int height){
+    public Render2DEvent(int width, int height){
         this.width = width;
         this.height = height;
     }

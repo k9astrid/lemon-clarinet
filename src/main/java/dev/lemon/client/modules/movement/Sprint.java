@@ -3,7 +3,7 @@ package dev.lemon.client.modules.movement;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.client.events.EventPreMotion;
+import dev.lemon.client.events.motion.PreMotionEvent;
 import net.minecraft.client.settings.KeyBinding;
 
 public class Sprint extends Module {
@@ -17,7 +17,7 @@ public class Sprint extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventPreMotion> eventPreMotionListener = e -> {
+    public final IEventListener<PreMotionEvent> eventPreMotionListener = e -> {
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
     };
 }

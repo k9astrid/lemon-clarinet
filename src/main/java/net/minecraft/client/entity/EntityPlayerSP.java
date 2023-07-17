@@ -1,9 +1,9 @@
 package net.minecraft.client.entity;
 
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.EventChat;
-import dev.lemon.client.events.EventPostMotion;
-import dev.lemon.client.events.EventPreMotion;
+import dev.lemon.client.events.other.ChatEvent;
+import dev.lemon.client.events.motion.PostMotionEvent;
+import dev.lemon.client.events.motion.PreMotionEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -194,7 +194,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         boolean flag = this.isSprinting();
 
-        EventPreMotion event = new EventPreMotion(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
+        PreMotionEvent event = new PreMotionEvent(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
         Lemon.INSTANCE.getEventBus().handle(event);
 
         if (flag != this.serverSprintState)
@@ -213,7 +213,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         boolean flag1 = this.isSneaking();
 
-        EventPostMotion event1 = new EventPostMotion();
+        PostMotionEvent event1 = new PostMotionEvent();
         Lemon.INSTANCE.getEventBus().handle(event1);
 
         if (flag1 != this.serverSneakState)
@@ -305,7 +305,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
-        EventChat eventChat = new EventChat(message);
+        ChatEvent eventChat = new ChatEvent(message);
         Lemon.INSTANCE.getEventBus().handle(eventChat);
         if (!eventChat.isCancelled())
             this.sendQueue.addToSendQueue(new C01PacketChatMessage(eventChat.getMessage()));

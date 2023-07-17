@@ -1,6 +1,6 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.render;
 
-public class Event3DRender {
+public class Render3DEvent {
     private float partialTicks;
 
     public void Event3DRender(float partialTicks) {

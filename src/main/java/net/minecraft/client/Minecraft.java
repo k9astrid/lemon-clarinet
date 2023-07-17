@@ -36,9 +36,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
-import dev.lemon.client.events.EventTick;
+import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.EventKey;
+import dev.lemon.client.events.other.KeyboardInputEvent;
 import dev.lemon.api.utils.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1074,7 +1074,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         for (int j = 0; j < this.timer.elapsedTicks; ++j)
         {
             this.timer.timerSpeed = 1f;
-            Lemon.INSTANCE.getEventBus().handle(new EventTick());
+            Lemon.INSTANCE.getEventBus().handle(new TickEvent());
             this.runTick();
         }
 
@@ -1904,7 +1904,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                             this.displayInGameMenu();
                         }
 
-                        EventKey event = new EventKey(k);
+                        KeyboardInputEvent event = new KeyboardInputEvent(k);
                         Lemon.INSTANCE.getEventBus().handle(event);
 
                         if (k == 32 && Keyboard.isKeyDown(61) && this.ingameGUI != null)

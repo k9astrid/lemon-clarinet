@@ -1,11 +1,11 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.other;
 
 import dev.lemon.api.event.CancellableEvent;
 
-public class EventChat extends CancellableEvent {
+public class ChatEvent extends CancellableEvent {
     private String message;
 
-    public EventChat(String message){
+    public ChatEvent(String message){
         this.message = message;
     }
 

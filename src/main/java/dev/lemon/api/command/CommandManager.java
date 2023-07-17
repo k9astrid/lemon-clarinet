@@ -4,7 +4,7 @@ import dev.lemon.client.main.Lemon;
 import dev.lemon.client.commands.*;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.client.events.EventChat;
+import dev.lemon.client.events.other.ChatEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class CommandManager {
     }
 
     @Subscribe
-    public final IEventListener<EventChat> eventChatListener = e -> {
+    public final IEventListener<ChatEvent> eventChatListener = e -> {
       if (!e.getMessage().startsWith("."))
           return;
 
