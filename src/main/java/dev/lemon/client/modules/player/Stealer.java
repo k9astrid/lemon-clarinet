@@ -9,10 +9,8 @@ import dev.lemon.api.utils.math.RandomUtil;
 import dev.lemon.api.utils.math.TimerUtil;
 import dev.lemon.client.events.EventTick;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -44,7 +42,7 @@ public class Stealer extends Module {
             }
 
         }
-        if (Arrays.stream(((InventoryBasic)containerChest.getInventory()).inventoryContents).allMatch(Objects::isNull) && autoClose.isToggled())
+        if (Arrays.stream(((InventoryBasic)containerChest.getLowerChestInventory()).inventoryContents).allMatch(Objects::isNull) && autoClose.isToggled())
             this.mc.thePlayer.closeScreen();
     };
 }
