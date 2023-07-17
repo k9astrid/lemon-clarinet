@@ -2,6 +2,9 @@ package net.minecraft.block;
 
 import java.util.List;
 import java.util.Random;
+
+import dev.lemon.client.events.other.CollideEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -487,6 +490,11 @@ public class Block
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
         AxisAlignedBB axisalignedbb = this.getCollisionBoundingBox(worldIn, pos, state);
+
+        CollideEvent event = new CollideEvent(axisalignedbb, pos, collidingEntity);
+        Lemon.INSTANCE.getEventBus().handle(event);
+
+        if (event.isCancelled()) return;
 
         if (axisalignedbb != null && mask.intersectsWith(axisalignedbb))
         {
