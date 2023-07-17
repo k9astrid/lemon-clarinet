@@ -1,11 +1,11 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.other;
 
-public class EventMouse {
+public class MouseInput {
 
     private int buttonID;
     private boolean mouseDown;
 
-    public EventMouse(int buttonID, boolean mouseDown) {
+    public MouseInput(int buttonID, boolean mouseDown) {
         this.buttonID = buttonID;
     }
 

@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.EventPacket;
+import dev.lemon.client.events.other.PacketEvent;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;
@@ -815,7 +815,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void addToSendQueue(Packet p_147297_1_)
     {
-        EventPacket event = new EventPacket(p_147297_1_, EventPacket.Type.SENT);
+        PacketEvent event = new PacketEvent(p_147297_1_, PacketEvent.Type.SENT);
         Lemon.INSTANCE.getEventBus().handle(event);
         if (!event.isCancelled())
             this.netManager.sendPacket(p_147297_1_);

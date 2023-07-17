@@ -1,9 +1,9 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.other;
 
-public class EventKey {
+public class KeyboardInputEvent {
     private int keyCode;
 
-    public EventKey(int keyCode){
+    public KeyboardInputEvent(int keyCode){
         this.keyCode = keyCode;
     }
 

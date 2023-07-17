@@ -2,7 +2,7 @@ package dev.lemon.api.module;
 
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.client.events.EventKey;
+import dev.lemon.client.events.other.KeyboardInputEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
 import dev.lemon.client.modules.combat.Velocity;
@@ -40,7 +40,7 @@ public class ModuleManager {
     }
 
     @Subscribe
-    public final IEventListener<EventKey> onKey = e -> {
+    public final IEventListener<KeyboardInputEvent> onKey = e -> {
         for (Module m : modules.values())
             if (m.getKey() == e.getKeyCode())
                 m.toggle();

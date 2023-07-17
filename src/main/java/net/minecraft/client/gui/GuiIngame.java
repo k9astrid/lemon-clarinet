@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Random;
 
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.Event2DRender;
+import dev.lemon.client.events.render.Render2DEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -124,7 +124,7 @@ public class GuiIngame extends Gui
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
-        Event2DRender event = new Event2DRender(i, j);
+        Render2DEvent event = new Render2DEvent(i, j);
         Lemon.INSTANCE.getEventBus().handle(event);
 
         if (Config.isVignetteEnabled())

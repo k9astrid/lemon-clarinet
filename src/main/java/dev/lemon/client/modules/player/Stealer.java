@@ -7,12 +7,10 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.RandomUtil;
 import dev.lemon.api.utils.math.TimerUtil;
-import dev.lemon.client.events.EventTick;
+import dev.lemon.client.events.other.TickEvent;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -28,7 +26,7 @@ public class Stealer extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventTick> eventListener = e -> {
+    public final IEventListener<TickEvent> eventListener = e -> {
         if (mc.thePlayer.openContainer == null || !(mc.currentScreen instanceof GuiChest)) { return; }
 
 

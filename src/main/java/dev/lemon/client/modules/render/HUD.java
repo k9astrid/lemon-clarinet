@@ -3,7 +3,7 @@ package dev.lemon.client.modules.render;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.client.events.Event2DRender;
+import dev.lemon.client.events.render.Render2DEvent;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.utils.player.MoveUtil;
@@ -22,7 +22,7 @@ public class HUD extends Module {
     }
 
     @Subscribe
-    public final IEventListener<Event2DRender> event2DRenderListener = e -> {
+    public final IEventListener<Render2DEvent> event2DRenderListener = e -> {
         ScaledResolution sr = new ScaledResolution(IMethods.mc);
 
         drawLemon();//draws hot thing

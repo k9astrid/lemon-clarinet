@@ -3,11 +3,10 @@ package dev.lemon.client.modules.movement;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.player.MoveUtil;
-import dev.lemon.client.events.EventPreMotion;
+import dev.lemon.client.events.motion.PreMotionEvent;
 
 public class Flight extends Module {
 
@@ -30,7 +29,7 @@ public class Flight extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventPreMotion> onPreMotion = e -> {
+    public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         switch (mode.getMode()){
             case "Creative":
                 mc.thePlayer.capabilities.isFlying = true;

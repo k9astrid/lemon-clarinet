@@ -6,7 +6,7 @@ import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.RandomUtil;
 import dev.lemon.api.utils.player.RotationUtil;
-import dev.lemon.client.events.EventPreMotion;
+import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 
@@ -43,7 +43,7 @@ public class KillAura extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventPreMotion> eventPreMotionListener = e -> {
+    public final IEventListener<PreMotionEvent> eventPreMotionListener = e -> {
         List<Entity> entityList = mc.theWorld.loadedEntityList.stream()
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())

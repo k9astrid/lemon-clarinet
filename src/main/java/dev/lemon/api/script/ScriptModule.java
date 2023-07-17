@@ -3,7 +3,11 @@ package dev.lemon.api.script;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
-import dev.lemon.client.events.*;
+import dev.lemon.client.events.motion.PreMotionEvent;
+import dev.lemon.client.events.other.ChatEvent;
+import dev.lemon.client.events.other.KeyboardInputEvent;
+import dev.lemon.client.events.other.TickEvent;
+import dev.lemon.client.events.render.Render2DEvent;
 import jdk.nashorn.api.scripting.JSObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,7 +62,7 @@ public class ScriptModule extends Module {
     }
 
     @Subscribe
-    private final IEventListener<Event2DRender> on2DRender = event -> {
+    private final IEventListener<Render2DEvent> on2DRender = event -> {
         if (eventMap.containsKey("render2D")) {
             try {
                 eventMap.get("render2D").call(null);
@@ -70,7 +74,7 @@ public class ScriptModule extends Module {
     };
 
     @Subscribe
-    private final IEventListener<EventTick> onTick = event -> {
+    private final IEventListener<TickEvent> onTick = event -> {
         if (eventMap.containsKey("tick")) {
             try {
                 eventMap.get("tick").call(null);
@@ -82,7 +86,7 @@ public class ScriptModule extends Module {
     };
 
     @Subscribe
-    private final IEventListener<EventChat> onChat = event -> {
+    private final IEventListener<ChatEvent> onChat = event -> {
         if (eventMap.containsKey("chat")) {
             try {
                 eventMap.get("chat").call(null);
@@ -94,7 +98,7 @@ public class ScriptModule extends Module {
     };
 
     @Subscribe
-    private final IEventListener<EventPreMotion> onPreMotion = event -> {
+    private final IEventListener<PreMotionEvent> onPreMotion = event -> {
         if (eventMap.containsKey("preMotion")) {
             try {
                 eventMap.get("preMotion").call(null);
@@ -106,7 +110,7 @@ public class ScriptModule extends Module {
     };
 
     @Subscribe
-    private final IEventListener<EventPreMotion> onPostMotion = event -> {
+    private final IEventListener<PreMotionEvent> onPostMotion = event -> {
         if (eventMap.containsKey("postMotion")) {
             try {
                 eventMap.get("postMotion").call(null);
@@ -118,7 +122,7 @@ public class ScriptModule extends Module {
     };
 
     @Subscribe
-    private final IEventListener<EventKey> onKey = event -> {
+    private final IEventListener<KeyboardInputEvent> onKey = event -> {
         if (eventMap.containsKey("key")) {
             try {
                 eventMap.get("key").call(null);

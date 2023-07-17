@@ -6,7 +6,7 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.connection.UserConnectionImpl;
 import com.viaversion.viaversion.protocol.ProtocolPipelineImpl;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.EventPacket;
+import dev.lemon.client.events.other.PacketEvent;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -158,7 +158,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
     protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception
     {
-        EventPacket event = new EventPacket(p_channelRead0_2_, EventPacket.Type.RECEIVE);
+        PacketEvent event = new PacketEvent(p_channelRead0_2_, PacketEvent.Type.RECEIVE);
         Lemon.INSTANCE.getEventBus().handle(event);
         if (event.isCancelled())
             return;

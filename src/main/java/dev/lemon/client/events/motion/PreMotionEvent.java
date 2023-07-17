@@ -1,11 +1,11 @@
-package dev.lemon.client.events;
+package dev.lemon.client.events.motion;
 
-public class EventPreMotion {
+public class PreMotionEvent {
     private double x, y, z;
     private float yaw, pitch;
     private boolean onGround;
 
-    public EventPreMotion(double x, double y, double z, float yaw, float pitch, boolean onGround){
+    public PreMotionEvent(double x, double y, double z, float yaw, float pitch, boolean onGround){
         this.x = x;
         this.y = y;
         this.z = z;
