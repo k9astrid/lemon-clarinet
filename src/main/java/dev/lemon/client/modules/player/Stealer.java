@@ -17,8 +17,8 @@ import java.util.Objects;
 
 public class Stealer extends Module {
 
-    public NumberSetting minDelay = new NumberSetting("Min Delay", 200, 0, 5000, 50);
-    public NumberSetting maxDelay = new NumberSetting("Max Delay", 500, 0, 5000, 50);
+    public NumberSetting minDelay = new NumberSetting("Min Delay", 50, 0, 5000, 50);
+    public NumberSetting maxDelay = new NumberSetting("Max Delay", 100, 0, 5000, 50);
     public BooleanSetting autoClose = new BooleanSetting("Auto Close", true);
     private TimerUtil timer = new TimerUtil();
     public Stealer(){
