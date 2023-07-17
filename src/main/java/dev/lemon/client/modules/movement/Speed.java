@@ -12,7 +12,7 @@ public class Speed extends Module {
 
 
     public Speed() {
-        super("Speed", Category.RENDER);
+        super("Speed", Category.MOVEMENT);
     }
 
     @Override
@@ -22,6 +22,7 @@ public class Speed extends Module {
 
     @Subscribe
     public final IEventListener<EventPreMotion> eventPreMotionListener = e -> {
+        this.setSuffix(mode.getMode());
         switch (mode.getMode()) {
             case "Strafe":
                 if (mc.thePlayer.onGround) {

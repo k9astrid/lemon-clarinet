@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C0APacketAnimation;
 
 import java.util.Comparator;
 import java.util.List;
@@ -29,43 +30,21 @@ public class KillAura extends Module {
 
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
-   public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
+    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting players = new BooleanSetting("Players", true);
     public BooleanSetting creatures = new BooleanSetting("Creatures", true);
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
 
-
-    private TimerUtil timer = new TimerUtil();
+    private final TimerUtil timer = new TimerUtil();
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
     }
 
-    private boolean checkEntity(Entity entity){
-        return !entity.isDead
-                && (entity instanceof EntityPlayer == players.isToggled() || entity instanceof EntityCreature == creatures.isToggled())
-                && (invisibles.isToggled() || !entity.isInvisible())
-                && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach.getVal()
-                && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());
-    }
-
-    private Comparator<Entity> getSortingMode(){
-        switch (sortingMode.getMode()) {
-            default:
-            case "Health":
-                return Comparator.comparingInt(ent -> (int) ((EntityLivingBase) ent).getHealth());
-            case "Distance":
-                return Comparator.comparingInt(ent -> (int) ent.getDistanceToEntity(mc.thePlayer));
-            case "Hurt Time":
-                return Comparator.comparingInt(ent -> ((EntityLivingBase) ent).hurtTime);
-
-        }
-    }
-
     @Subscribe
     public final IEventListener<EventPreMotion> eventPreMotionListener = e -> {
-        List<Entity> entityList = IMethods.mc.theWorld.loadedEntityList.stream()
+        List<Entity> entityList = mc.theWorld.loadedEntityList.stream()
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())
                 .collect(Collectors.toList());
@@ -86,16 +65,38 @@ public class KillAura extends Module {
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))){
 
                 if (!(noSwing.isToggled()))
-                    IMethods.mc.thePlayer.swingItem();
+                    mc.thePlayer.swingItem();
+                else mc.thePlayer.sendQueue.addToSendQueueSilent(new C0APacketAnimation());
 
                 if (keepSprint.isToggled()){
-                    IMethods.mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
                 } else {
-                    IMethods.mc.playerController.attackEntity(IMethods.mc.thePlayer, target);
+                    mc.playerController.attackEntity(mc.thePlayer, target);
                 }
 
                 timer.reset();
             }
         }
     };
+
+    private boolean checkEntity(Entity entity){
+        return !entity.isDead
+                && (entity instanceof EntityPlayer == players.isToggled() || entity instanceof EntityCreature == creatures.isToggled())
+                && (invisibles.isToggled() || !entity.isInvisible())
+                && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach.getVal()
+                && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());
+    }
+
+    private Comparator<Entity> getSortingMode(){
+        switch (sortingMode.getMode()) {
+            default:
+            case "Health":
+                return Comparator.comparingInt(ent -> (int) ((EntityLivingBase) ent).getHealth());
+            case "Distance":
+                return Comparator.comparingInt(ent -> (int) ent.getDistanceToEntity(mc.thePlayer));
+            case "Hurt Time":
+                return Comparator.comparingInt(ent -> ((EntityLivingBase) ent).hurtTime);
+        }
+    }
+
 }
