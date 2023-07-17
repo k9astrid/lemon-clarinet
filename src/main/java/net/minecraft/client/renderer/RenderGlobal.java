@@ -319,7 +319,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
     protected boolean isRenderEntityOutlines()
     {
-        return !Config.isFastRender() && !Config.isShaders() && !Config.isAntialiasing() ? this.entityOutlineFramebuffer != null && this.entityOutlineShader != null && this.mc.thePlayer != null && this.mc.thePlayer.isSpectator() && this.mc.gameSettings.keyBindSpectatorOutlines.isKeyDown() : false;
+        return !Config.isFastRender() && !Config.isShaders() && !Config.isAntialiasing() ? this.entityOutlineFramebuffer != null && this.entityOutlineShader != null && this.mc.player != null && this.mc.player.isSpectator() && this.mc.gameSettings.keyBindSpectatorOutlines.isKeyDown() : false;
     }
 
     private void generateSky2()
@@ -710,7 +710,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     if (!flag || Reflector.callBoolean(entity3, Reflector.ForgeEntity_shouldRenderInPass, new Object[] {Integer.valueOf(i)}))
                     {
                         boolean flag2 = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
-                        boolean flag3 = entity3.isInRangeToRender3d(d0, d1, d2) && (entity3.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(entity3.getEntityBoundingBox()) || entity3.riddenByEntity == this.mc.thePlayer) && entity3 instanceof EntityPlayer;
+                        boolean flag3 = entity3.isInRangeToRender3d(d0, d1, d2) && (entity3.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(entity3.getEntityBoundingBox()) || entity3.riddenByEntity == this.mc.player) && entity3 instanceof EntityPlayer;
 
                         if ((entity3 != this.mc.getRenderViewEntity() || this.mc.gameSettings.thirdPersonView != 0 || flag2) && flag3)
                         {
@@ -773,7 +773,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                             if (!flag || Reflector.callBoolean(entity2, Reflector.ForgeEntity_shouldRenderInPass, new Object[] {Integer.valueOf(i)}))
                             {
-                                flag5 = this.renderManager.shouldRender(entity2, camera, d0, d1, d2) || entity2.riddenByEntity == this.mc.thePlayer;
+                                flag5 = this.renderManager.shouldRender(entity2, camera, d0, d1, d2) || entity2.riddenByEntity == this.mc.player;
 
                                 if (!flag5)
                                 {
@@ -880,7 +880,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                         if (oclass == TileEntitySign.class && !Config.zoomMode)
                         {
-                            EntityPlayer entityplayer = this.mc.thePlayer;
+                            EntityPlayer entityplayer = this.mc.player;
                             double d6 = tileentity.getDistanceSq(entityplayer.posX, entityplayer.posY, entityplayer.posZ);
 
                             if (d6 > 256.0D)
@@ -925,7 +925,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                     if (oclass1 == TileEntitySign.class && !Config.zoomMode)
                     {
-                        EntityPlayer entityplayer1 = this.mc.thePlayer;
+                        EntityPlayer entityplayer1 = this.mc.player;
                         double d7 = ((TileEntity) tileentity1).getDistanceSq(entityplayer1.posX, entityplayer1.posY, entityplayer1.posZ);
 
                         if (d7 > 256.0D)
@@ -1634,7 +1634,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     {
         if (Reflector.ForgeWorldProvider_getSkyRenderer.exists())
         {
-            WorldProvider worldprovider = this.mc.theWorld.provider;
+            WorldProvider worldprovider = this.mc.world.provider;
             Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getSkyRenderer, new Object[0]);
 
             if (object != null)
@@ -1644,11 +1644,11 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
         }
 
-        if (this.mc.theWorld.provider.getDimensionId() == 1)
+        if (this.mc.world.provider.getDimensionId() == 1)
         {
             this.renderSkyEnd();
         }
-        else if (this.mc.theWorld.provider.isSurfaceWorld())
+        else if (this.mc.world.provider.isSurfaceWorld())
         {
             GlStateManager.disableTexture2D();
             boolean flag1 = Config.isShaders();
@@ -1659,7 +1659,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
 
             Vec3 vec3 = this.theWorld.getSkyColor(this.mc.getRenderViewEntity(), partialTicks);
-            vec3 = CustomColors.getSkyColor(vec3, this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
+            vec3 = CustomColors.getSkyColor(vec3, this.mc.world, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
 
             if (flag1)
             {
@@ -1879,7 +1879,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
 
             GlStateManager.color(0.0F, 0.0F, 0.0F);
-            double d0 = this.mc.thePlayer.getPositionEyes(partialTicks).yCoord - this.theWorld.getHorizon();
+            double d0 = this.mc.player.getPositionEyes(partialTicks).yCoord - this.theWorld.getHorizon();
 
             if (d0 < 0.0D)
             {
@@ -1968,7 +1968,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         {
             if (Reflector.ForgeWorldProvider_getCloudRenderer.exists())
             {
-                WorldProvider worldprovider = this.mc.theWorld.provider;
+                WorldProvider worldprovider = this.mc.world.provider;
                 Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getCloudRenderer, new Object[0]);
 
                 if (object != null)
@@ -1978,7 +1978,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 }
             }
 
-            if (this.mc.theWorld.provider.isSurfaceWorld())
+            if (this.mc.world.provider.isSurfaceWorld())
             {
                 if (Config.isShaders())
                 {

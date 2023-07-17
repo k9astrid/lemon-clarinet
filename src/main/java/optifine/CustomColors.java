@@ -1398,7 +1398,7 @@ public class CustomColors
 
             case 0:
                 Minecraft minecraft = Minecraft.getMinecraft();
-                p_getWorldFogColor_0_ = getFogColor(p_getWorldFogColor_0_, minecraft.theWorld, p_getWorldFogColor_2_.posX, p_getWorldFogColor_2_.posY + 1.0D, p_getWorldFogColor_2_.posZ);
+                p_getWorldFogColor_0_ = getFogColor(p_getWorldFogColor_0_, minecraft.world, p_getWorldFogColor_2_.posX, p_getWorldFogColor_2_.posY + 1.0D, p_getWorldFogColor_2_.posZ);
                 break;
 
             case 1:
@@ -1416,7 +1416,7 @@ public class CustomColors
         {
             case 0:
                 Minecraft minecraft = Minecraft.getMinecraft();
-                p_getWorldSkyColor_0_ = getSkyColor(p_getWorldSkyColor_0_, minecraft.theWorld, p_getWorldSkyColor_2_.posX, p_getWorldSkyColor_2_.posY + 1.0D, p_getWorldSkyColor_2_.posZ);
+                p_getWorldSkyColor_0_ = getSkyColor(p_getWorldSkyColor_0_, minecraft.world, p_getWorldSkyColor_2_.posX, p_getWorldSkyColor_2_.posY + 1.0D, p_getWorldSkyColor_2_.posZ);
                 break;
 
             case 1:

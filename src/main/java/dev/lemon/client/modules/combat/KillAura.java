@@ -44,35 +44,34 @@ public class KillAura extends Module {
 
     @Subscribe
     public final IEventListener<PreMotionEvent> eventPreMotionListener = e -> {
-        List<Entity> entityList = mc.theWorld.loadedEntityList.stream()
+        List<Entity> entityList = mc.world.loadedEntityList.stream()
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())
                 .collect(Collectors.toList());
 
-        for (Entity target : entityList){
+        for (Entity target : entityList) {
             float[] rotations;
 
-            switch (rotationMode.getMode()){
+            switch (rotationMode.getMode()) {
                 case "Vanilla":
                     rotations = RotationUtil.getVanillaRotations(target);
-                    mc.thePlayer.rotationYawHead = rotations[0];
+                    mc.player.rotationYawHead = rotations[0];
                     break;
                 case "Randomized":
                     rotations = RotationUtil.getVanillaRotations(target);
-                    mc.thePlayer.rotationYawHead = (float) (rotations[0] - Math.random());
+                    mc.player.rotationYawHead = (float) (rotations[0] - Math.random());
                     break;
             }
-            if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))){
 
+            if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
                 if (!(noSwing.isToggled()))
-                    mc.thePlayer.swingItem();
-                else mc.thePlayer.sendQueue.addToSendQueueSilent(new C0APacketAnimation());
+                    mc.player.swingItem();
+                else mc.player.sendQueue.addToSendQueueSilent(new C0APacketAnimation());
 
-                if (keepSprint.isToggled()){
-                    mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
-                } else {
-                    mc.playerController.attackEntity(mc.thePlayer, target);
-                }
+                if (keepSprint.isToggled())
+                    mc.player.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+                else
+                    mc.playerController.attackEntity(mc.player, target);
 
                 timer.reset();
             }
@@ -83,8 +82,8 @@ public class KillAura extends Module {
         return !entity.isDead
                 && (entity instanceof EntityPlayer == players.isToggled() || entity instanceof EntityCreature == creatures.isToggled())
                 && (invisibles.isToggled() || !entity.isInvisible())
-                && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach.getVal()
-                && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());
+                && entity.getDistanceToEntity(IMethods.mc.player) <= reach.getVal()
+                && !(IMethods.mc.player.getEntityId() == entity.getEntityId());
     }
 
     private Comparator<Entity> getSortingMode(){
@@ -93,7 +92,7 @@ public class KillAura extends Module {
             case "Health":
                 return Comparator.comparingInt(ent -> (int) ((EntityLivingBase) ent).getHealth());
             case "Distance":
-                return Comparator.comparingInt(ent -> (int) ent.getDistanceToEntity(mc.thePlayer));
+                return Comparator.comparingInt(ent -> (int) ent.getDistanceToEntity(mc.player));
             case "Hurt Time":
                 return Comparator.comparingInt(ent -> ((EntityLivingBase) ent).hurtTime);
         }

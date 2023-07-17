@@ -235,7 +235,7 @@ public class GameSettings
     public boolean ofCustomItems = true;
     public boolean ofNaturalTextures = false;
     public boolean ofFastMath = false;
-    public boolean ofFastRender = true;
+    public boolean ofFastRender = false;
     public int ofTranslucentBlocks = 0;
     public boolean ofDynamicFov = true;
     public int ofDynamicLights = 3;
@@ -1309,7 +1309,7 @@ public class GameSettings
      */
     public void sendSettingsToServer()
     {
-        if (this.mc.thePlayer != null)
+        if (this.mc.player != null)
         {
             int i = 0;
 
@@ -1318,7 +1318,7 @@ public class GameSettings
                 i |= ((EnumPlayerModelParts) enumplayermodelparts).getPartMask();
             }
 
-            this.mc.thePlayer.sendQueue.addToSendQueue(new C15PacketClientSettings(this.language, this.renderDistanceChunks, this.chatVisibility, this.chatColours, i));
+            this.mc.player.sendQueue.addToSendQueue(new C15PacketClientSettings(this.language, this.renderDistanceChunks, this.chatVisibility, this.chatColours, i));
         }
     }
 
@@ -1815,7 +1815,7 @@ public class GameSettings
                 return;
             }
 
-            this.ofFastRender = !this.ofFastRender;
+            this.ofFastRender = false;
 
             if (this.ofFastRender)
             {
@@ -2720,7 +2720,7 @@ public class GameSettings
 
                     if (astring[0].equals("ofFastRender") && astring.length >= 2)
                     {
-                        this.ofFastRender = Boolean.valueOf(astring[1]).booleanValue();
+                        this.ofFastRender = false;
                     }
 
                     if (astring[0].equals("ofTranslucentBlocks") && astring.length >= 2)
@@ -2962,7 +2962,7 @@ public class GameSettings
             Config.waterOpacityChanged = true;
         }
 
-        ClearWater.updateWaterOpacity(this, this.mc.theWorld);
+        ClearWater.updateWaterOpacity(this, this.mc.world);
     }
 
     public void setAllAnimations(boolean p_setAllAnimations_1_)

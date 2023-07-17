@@ -267,7 +267,7 @@ public class WorldClient extends World
      */
     public Entity getEntityByID(int id)
     {
-        return (Entity)(id == this.mc.thePlayer.getEntityId() ? this.mc.thePlayer : super.getEntityByID(id));
+        return (Entity)(id == this.mc.player.getEntityId() ? this.mc.player : super.getEntityByID(id));
     }
 
     public Entity removeEntityFromWorld(int p_73028_1_)
@@ -316,7 +316,7 @@ public class WorldClient extends World
     {
         byte b0 = 16;
         Random random = new Random();
-        ItemStack itemstack = this.mc.thePlayer.getHeldItem();
+        ItemStack itemstack = this.mc.player.getHeldItem();
         boolean flag = this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE && itemstack != null && Block.getBlockFromItem(itemstack.getItem()) == Blocks.barrier;
         BlockPosM blockposm = this.randomTickPosM;
 
@@ -420,7 +420,7 @@ public class WorldClient extends World
             private static final String __OBFID = "CL_00000885";
             public String call() throws Exception
             {
-                return WorldClient.this.mc.thePlayer.getClientBrand();
+                return WorldClient.this.mc.player.getClientBrand();
             }
         });
         crashreportcategory.addCrashSectionCallable("Server type", new Callable()

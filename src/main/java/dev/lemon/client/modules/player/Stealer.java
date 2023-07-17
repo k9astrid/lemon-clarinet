@@ -27,24 +27,22 @@ public class Stealer extends Module {
 
     @Subscribe
     public final IEventListener<TickEvent> eventListener = e -> {
-        if (Objects.isNull(mc.thePlayer)) return;
-
-        if (mc.thePlayer.openContainer == null || !(mc.currentScreen instanceof GuiChest)) return;
+        if (mc.player.openContainer == null || !(mc.currentScreen instanceof GuiChest)) { return; }
 
 
-        ContainerChest containerChest = (ContainerChest) mc.thePlayer.openContainer;
+        ContainerChest containerChest = (ContainerChest) mc.player.openContainer;
 
         for (int i = 0; i < containerChest.getLowerChestInventory().getSizeInventory(); i++){
 
             if (timer.hasTimeElapsed((long)RandomUtil.getRandomDoubleInRange(minDelay.getVal(), maxDelay.getVal()))){
                 if (containerChest.getLowerChestInventory().getStackInSlot(i) == null)
                     continue;
-                mc.playerController.windowClick(containerChest.windowId, i, 0, 1, mc.thePlayer);
+                mc.playerController.windowClick(containerChest.windowId, i, 0, 1, mc.player);
                 timer.reset();
             }
 
         }
         if (Arrays.stream(((InventoryBasic)containerChest.getLowerChestInventory()).inventoryContents).allMatch(Objects::isNull) && autoClose.isToggled())
-            this.mc.thePlayer.closeScreen();
+            this.mc.player.closeScreen();
     };
 }

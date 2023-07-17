@@ -6,63 +6,63 @@ import dev.lemon.api.utils.player.MoveUtil;
 public class PlayerBinding implements IMethods {
 
     public void respawn() {
-        mc.thePlayer.respawnPlayer();
+        mc.player.respawnPlayer();
     }
 
     public void swingItem() {
-        mc.thePlayer.swingItem();
+        mc.player.swingItem();
     }
 
     public void setPitch(double pitch) {
-        mc.thePlayer.rotationPitch = (float) pitch;
+        mc.player.rotationPitch = (float) pitch;
     }
 
     public void setYaw(double yaw) {
-        mc.thePlayer.rotationYaw = (float) yaw;
+        mc.player.rotationYaw = (float) yaw;
     }
 
     public void setMotionX(double x) {
-        mc.thePlayer.motionZ = x;
+        mc.player.motionZ = x;
     }
 
     public void setMotionY(double y) {
-        mc.thePlayer.motionY = y;
+        mc.player.motionY = y;
     }
 
     public void setMotionZ(double z) {
-        mc.thePlayer.motionZ = z;
+        mc.player.motionZ = z;
     }
 
     public void setPosition(double x, double y, double z) {
-        mc.thePlayer.setPosition(x, y, z);
+        mc.player.setPosition(x, y, z);
     }
 
     public void jump() {
-        mc.thePlayer.jump();
+        mc.player.jump();
     }
 
     public void setSneaking(boolean state) {
-        mc.thePlayer.setSneaking(state);
+        mc.player.setSneaking(state);
     }
 
     public void setSprinting(boolean state) {
-        mc.thePlayer.setSprinting(state);
+        mc.player.setSprinting(state);
     }
 
     public void sendMessage(String message) {
-        mc.thePlayer.sendChatMessage(message);
+        mc.player.sendChatMessage(message);
     }
 
     public boolean collidedHorizontally() {
-        return mc.thePlayer.isCollidedHorizontally;
+        return mc.player.isCollidedHorizontally;
     }
 
     public boolean collidedVertically() {
-        return mc.thePlayer.isCollidedVertically;
+        return mc.player.isCollidedVertically;
     }
 
     public boolean collided() {
-        return mc.thePlayer.isCollided;
+        return mc.player.isCollided;
     }
 
     public boolean moving() {
@@ -70,95 +70,95 @@ public class PlayerBinding implements IMethods {
     }
 
     public boolean eating() {
-        return mc.thePlayer.isEating();
+        return mc.player.isEating();
     }
 
     public boolean onGround() {
-        return mc.thePlayer.onGround;
+        return mc.player.onGround;
     }
 
     public boolean airBorne() {
-        return mc.thePlayer.isAirBorne;
+        return mc.player.isAirBorne;
     }
 
     public boolean onLadder() {
-        return mc.thePlayer.isOnLadder();
+        return mc.player.isOnLadder();
     }
 
     public boolean inWater() {
-        return mc.thePlayer.isInWater();
+        return mc.player.isInWater();
     }
 
     public boolean inLava() {
-        return mc.thePlayer.isInLava();
+        return mc.player.isInLava();
     }
 
     public boolean inWeb() {
-        return mc.thePlayer.isInWeb;
+        return mc.player.isInWeb;
     }
 
     public boolean inPortal() {
-        return mc.thePlayer.inPortal;
+        return mc.player.inPortal;
     }
 
     public boolean usingItem() {
-        return mc.thePlayer.isUsingItem();
+        return mc.player.isUsingItem();
     }
 
     public boolean burning() {
-        return mc.thePlayer.isBurning();
+        return mc.player.isBurning();
     }
 
     public boolean dead() {
-        return mc.thePlayer.isDead;
+        return mc.player.isDead;
     }
 
     public boolean isPotionActive(int potionId) {
-        return mc.thePlayer.isPotionActive(potionId);
+        return mc.player.isPotionActive(potionId);
     }
 
     public String name() {
-        return mc.thePlayer.getName();
+        return mc.player.getName();
     }
 
     public int hurtTime() {
-        return mc.thePlayer.hurtTime;
+        return mc.player.hurtTime;
     }
 
     public int heldItemSlot() {
-        return mc.thePlayer.inventory.currentItem;
+        return mc.player.inventory.currentItem;
     }
 
     public float pitch() {
-        return mc.thePlayer.rotationPitch;
+        return mc.player.rotationPitch;
     }
 
     public float yaw() {
-        return mc.thePlayer.rotationYaw;
+        return mc.player.rotationYaw;
     }
 
     public double x() {
-        return mc.thePlayer.posX;
+        return mc.player.posX;
     }
 
     public double y() {
-        return mc.thePlayer.posY;
+        return mc.player.posY;
     }
 
     public double z() {
-        return mc.thePlayer.posZ;
+        return mc.player.posZ;
     }
 
     public double motionX() {
-        return mc.thePlayer.motionX;
+        return mc.player.motionX;
     }
 
     public double motionY() {
-        return mc.thePlayer.motionY;
+        return mc.player.motionY;
     }
 
     public double motionZ() {
-        return mc.thePlayer.motionZ;
+        return mc.player.motionZ;
     }
 
     public String ip() {

@@ -17,7 +17,7 @@ public class AttackOrder
     {
         if (mop != null && mop.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY)
         {
-            mc.thePlayer.swingItem();
+            mc.player.swingItem();
         }
     }
 
@@ -37,13 +37,13 @@ public class AttackOrder
 
     private static void send1_8Attack(EntityPlayer entityIn, Entity target)
     {
-        mc.thePlayer.swingItem();
+        mc.player.swingItem();
         mc.playerController.attackEntity(entityIn, target);
     }
 
     private static void send1_9Attack(EntityPlayer entityIn, Entity target)
     {
         mc.playerController.attackEntity(entityIn, target);
-        mc.thePlayer.swingItem();
+        mc.player.swingItem();
     }
 }

@@ -5,30 +5,30 @@ import dev.lemon.api.utils.IMethods;
 public class MoveUtil implements IMethods {
 
     public static double getSpeed(){
-        return Math.abs(Math.hypot(mc.thePlayer.posX - mc.thePlayer.lastTickPosX, mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ)) * mc.timer.timerSpeed * 20;
+        return Math.abs(Math.hypot(mc.player.posX - mc.player.lastTickPosX, mc.player.posZ - mc.player.lastTickPosZ)) * mc.timer.timerSpeed * 20;
     }
 
     public static boolean isWalking() {
-        return mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0;
+        return mc.player.moveForward != 0 || mc.player.moveStrafing != 0;
     }
 
     public static void jump(double motion) {
         if(!mc.gameSettings.keyBindJump.isKeyDown()) {
-            mc.thePlayer.jump();
+            mc.player.jump();
         }
-        mc.thePlayer.motionY = motion;
+        mc.player.motionY = motion;
     }
 
     private static float getPlayerDirection(){
-        boolean movingForward = mc.thePlayer.moveForward > 0.0F;
-        boolean movingBackward = mc.thePlayer.moveForward < 0.0F;
-        boolean movingRight = mc.thePlayer.moveStrafing > 0.0F;
-        boolean movingLeft = mc.thePlayer.moveStrafing < 0.0F;
+        boolean movingForward = mc.player.moveForward > 0.0F;
+        boolean movingBackward = mc.player.moveForward < 0.0F;
+        boolean movingRight = mc.player.moveStrafing > 0.0F;
+        boolean movingLeft = mc.player.moveStrafing < 0.0F;
 
         boolean isMovingSideways = movingLeft || movingRight;
         boolean isMovingStraight = movingForward || movingBackward;
 
-        double direction = mc.thePlayer.rotationYaw;
+        double direction = mc.player.rotationYaw;
         if(movingForward && !isMovingSideways) {
 
         } else if(movingBackward && !isMovingSideways)
@@ -51,26 +51,26 @@ public class MoveUtil implements IMethods {
 
     public static void setSpeed(double speed) {
         if(isWalking()) {
-            mc.thePlayer.motionX = -Math.sin(getPlayerDirection()) * speed;
-            mc.thePlayer.motionZ = Math.cos(getPlayerDirection()) * speed;
+            mc.player.motionX = -Math.sin(getPlayerDirection()) * speed;
+            mc.player.motionZ = Math.cos(getPlayerDirection()) * speed;
         } else {
-            mc.thePlayer.motionX = 0;
-            mc.thePlayer.motionZ = 0;
+            mc.player.motionX = 0;
+            mc.player.motionZ = 0;
         }
     }
 
     public static void strafe(double speed){
         if(isWalking()) {
-            mc.thePlayer.motionX = -Math.sin(getPlayerDirection()) * speed;
-            mc.thePlayer.motionZ = Math.cos(getPlayerDirection()) * speed;
+            mc.player.motionX = -Math.sin(getPlayerDirection()) * speed;
+            mc.player.motionZ = Math.cos(getPlayerDirection()) * speed;
         } else {
-            mc.thePlayer.motionX = 0;
-            mc.thePlayer.motionZ = 0;
+            mc.player.motionX = 0;
+            mc.player.motionZ = 0;
         }
     }
 
     public static double getBaseSpeed(){
-        return mc.thePlayer.isSprinting() ? 0.2805D : 0.216D;
+        return mc.player.isSprinting() ? 0.2805D : 0.216D;
     }
 
     public static void strafe(){

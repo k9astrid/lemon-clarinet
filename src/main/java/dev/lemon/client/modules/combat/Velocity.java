@@ -24,7 +24,7 @@ public class Velocity extends Module {
     public final IEventListener<PacketEvent> eventPacketListener = e -> {
         switch (mode.getMode()) {
             case "Cancel":
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.thePlayer.getEntityId()) {
+                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
                     e.setCancelled(true);
                 }
                 if (e.getPacket() instanceof S27PacketExplosion) {
@@ -32,7 +32,7 @@ public class Velocity extends Module {
                 }
             break;
             case "Custom":
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.thePlayer.getEntityId()) {
+                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
                     S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) e.getPacket();
                     velocityPacket.setMotionX((int) (velocityPacket.getMotionX() * (horizontal.getVal() / 100)));
                     velocityPacket.setMotionY((int) (velocityPacket.getMotionY() * (vertical.getVal() / 100)));

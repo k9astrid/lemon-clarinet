@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.events.other.ChatEvent;
 import dev.lemon.client.events.motion.PostMotionEvent;
@@ -173,6 +174,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
+            Lemon.INSTANCE.getEventBus().handle(new PreUpdateEvent());
+
             super.onUpdate();
 
             if (this.isRiding())

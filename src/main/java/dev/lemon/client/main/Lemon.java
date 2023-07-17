@@ -5,6 +5,7 @@ import dev.lemon.api.module.ModuleManager;
 import dev.lemon.api.event.bus.EventBus;
 import dev.lemon.api.script.ScriptManager;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.player.RotationUtil;
 import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
 import org.lwjgl.Sys;
@@ -41,6 +42,7 @@ public enum Lemon implements IMethods {
         moduleManager.initialize();
         commandManager.initialize();
         scriptManager.reload(true);
+        eventBus.register(new RotationUtil());
 
         try {
             ViaMCP.getInstance().start();

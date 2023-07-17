@@ -53,7 +53,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
@@ -1416,7 +1415,7 @@ public class Config
 
     public static boolean isFastRender()
     {
-        return gameSettings.ofFastRender;
+        return false;
     }
 
     public static boolean isTranslucentBlocksFancy()
@@ -1610,7 +1609,7 @@ public class Config
 
     public static WorldServer getWorldServer()
     {
-        World world = minecraft.theWorld;
+        World world = minecraft.world;
 
         if (world == null)
         {

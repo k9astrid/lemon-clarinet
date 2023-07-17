@@ -1219,7 +1219,7 @@ public abstract class Entity implements ICommandSender
     {
         float yaw = this.rotationYaw;
 
-        if (this == (Minecraft.getMinecraft().thePlayer)) {
+        if (this == (Minecraft.getMinecraft().player)) {
             StrafeEvent strafeEvent = new StrafeEvent(forward, strafe, friction, this.rotationYaw);
             Lemon.INSTANCE.getEventBus().handle(strafeEvent);
             if (strafeEvent.isCancelled())

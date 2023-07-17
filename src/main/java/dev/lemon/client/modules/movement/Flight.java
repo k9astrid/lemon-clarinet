@@ -26,15 +26,15 @@ public class Flight extends Module {
 
     public void onDisable() {
         super.onDisable();
-        mc.thePlayer.capabilities.isFlying = false;
-        mc.thePlayer.capabilities.isCreativeMode = false;
+        mc.player.capabilities.isFlying = false;
+        mc.player.capabilities.isCreativeMode = false;
     }
 
     @Subscribe
     public final IEventListener<CollideEvent> onCollide = e -> {
         switch (mode.getMode()){
             case "Collide":
-                if (e.getPos().getY() < mc.thePlayer.posY)
+                if (e.getPos().getY() < mc.player.posY)
                     e.setBoundingBox(new AxisAlignedBB(-15, 1, -15, 15, 1, 15).offset(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()));
                 break;
         }
@@ -44,11 +44,11 @@ public class Flight extends Module {
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         switch (mode.getMode()){
             case "Creative":
-                mc.thePlayer.capabilities.isFlying = true;
-                mc.thePlayer.capabilities.isCreativeMode = true;
+                mc.player.capabilities.isFlying = true;
+                mc.player.capabilities.isCreativeMode = true;
                 break;
             case "Vanilla":
-                mc.thePlayer.motionY = 0;
+                mc.player.motionY = 0;
                 MoveUtil.setSpeed(vanillaSpeed.getVal());
                 break;
         }
