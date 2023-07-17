@@ -1,6 +1,7 @@
 package dev.lemon.api.utils.player;
 
 import dev.lemon.api.utils.IMethods;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
@@ -8,36 +9,34 @@ import net.minecraft.util.MathHelper;
 public class RotationUtil  implements IMethods {
 
 
-    // from EntityLiving.java (in minecraft)
-    public float[] getVanillaRotations(Entity entityIn)
+    public static float[] getVanillaRotations(Entity entityIn) // from EntityLiving, originally called faceEntity
     {
-        double xDifference = entityIn.posX - mc.thePlayer.posX;
-        double zDifference = entityIn.posZ - mc.thePlayer.posZ;
-        double eyeDifference;
+        EntityPlayerSP entity = mc.thePlayer; // the player (your character)
+
+        double deltaX = entityIn.posX - entity.posX;
+        double deltaZ = entityIn.posZ - entity.posZ;
+        double deltaY;
 
         if (entityIn instanceof EntityLivingBase)
         {
             EntityLivingBase entitylivingbase = (EntityLivingBase)entityIn;
-            eyeDifference = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (mc.thePlayer.posY + (double)mc.thePlayer.getEyeHeight());
+            deltaY = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (entity.posY + (double)entity.getEyeHeight());
         }
         else
         {
-            eyeDifference = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D - (mc.thePlayer.posY + (double)mc.thePlayer.getEyeHeight());
+            deltaY = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D - (entity.posY + (double)entity.getEyeHeight());
         }
 
-        double hypotOfPosDifference = (double) MathHelper.sqrt_double(xDifference * xDifference + zDifference * zDifference); // hypotenuse of the x and z difference
-
-        float newYaw = (float)Math.toRadians(MathHelper.atan2(zDifference, xDifference)) - 90.0F; // 2 argument arctangent: the angle from the positive x axis (y = 0) to the line going from the center of the plane to the point (x, y)
-
-        float newPitch = (float)Math.toRadians(-(MathHelper.atan2(eyeDifference, hypotOfPosDifference)));
-
-        return new float[] {newYaw, newPitch};
+        double hypotXZ = Math.hypot(deltaX,  deltaZ);
+        float yaw = (float) Math.toDegrees(MathHelper.atan2(deltaZ, deltaX)) - 90.0F;
+        float pitch = (float) Math.toDegrees(-(MathHelper.atan2(deltaY, hypotXZ)));
+        return new float[]{yaw, pitch};
     }
 
     /**
      * Arguments: current rotation, intended rotation, max increment.
      */
-    private float updateRotation(float currentRotation, float nextRotation, float maxDifference) // interpolates the rotations (smooths it)
+    public static float updateRotation(float currentRotation, float nextRotation, float maxDifference) // interpolates the rotations (smooths it)
     {
         float f = MathHelper.wrapAngleTo180_float(nextRotation - currentRotation);
 

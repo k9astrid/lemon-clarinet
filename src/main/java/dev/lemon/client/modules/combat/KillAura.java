@@ -5,6 +5,7 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.RandomUtil;
+import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.EventPreMotion;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
@@ -28,8 +29,8 @@ public class KillAura extends Module {
 
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
-   public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None");
-    public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance");
+   public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
+    public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting players = new BooleanSetting("Players", true);
     public BooleanSetting creatures = new BooleanSetting("Creatures", true);
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
@@ -56,6 +57,9 @@ public class KillAura extends Module {
                 return Comparator.comparingInt(ent -> (int) ((EntityLivingBase) ent).getHealth());
             case "Distance":
                 return Comparator.comparingInt(ent -> (int) ent.getDistanceToEntity(mc.thePlayer));
+            case "Hurt Time":
+                return Comparator.comparingInt(ent -> ((EntityLivingBase) ent).hurtTime);
+
         }
     }
 
@@ -67,7 +71,20 @@ public class KillAura extends Module {
                 .collect(Collectors.toList());
 
         for (Entity target : entityList){
+            float[] rotations;
+
+            switch (rotationMode.getMode()){
+                case "Vanilla":
+                    rotations = RotationUtil.getVanillaRotations(target);
+                    mc.thePlayer.rotationYawHead = rotations[0];
+                    break;
+                case "Randomized":
+                    rotations = RotationUtil.getVanillaRotations(target);
+                    mc.thePlayer.rotationYawHead = (float) (rotations[0] - Math.random());
+                    break;
+            }
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))){
+
                 if (!(noSwing.isToggled()))
                     IMethods.mc.thePlayer.swingItem();
 

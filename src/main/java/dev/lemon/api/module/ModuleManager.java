@@ -6,6 +6,7 @@ import dev.lemon.client.events.EventKey;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
 import dev.lemon.client.modules.combat.Velocity;
+import dev.lemon.client.modules.exploits.Disabler;
 import dev.lemon.client.modules.movement.Flight;
 import dev.lemon.client.modules.movement.Speed;
 import dev.lemon.client.modules.movement.Sprint;
@@ -28,6 +29,7 @@ public class ModuleManager {
         modules.put(Velocity.class, new Velocity());
         modules.put(ClickGUI.class, new ClickGUI());
         modules.put(KillAura.class, new KillAura());
+        modules.put(Disabler.class, new Disabler());
 
         modules.values().stream().filter(Module::isAutoEnabled).forEach(m -> m.setToggled(true));
         modules.values().forEach(Module::reflectValues);
