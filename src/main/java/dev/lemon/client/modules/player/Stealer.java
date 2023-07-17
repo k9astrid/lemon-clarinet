@@ -27,7 +27,9 @@ public class Stealer extends Module {
 
     @Subscribe
     public final IEventListener<TickEvent> eventListener = e -> {
-        if (mc.thePlayer.openContainer == null || !(mc.currentScreen instanceof GuiChest)) { return; }
+        if (Objects.isNull(mc.thePlayer)) return;
+
+        if (mc.thePlayer.openContainer == null || !(mc.currentScreen instanceof GuiChest)) return;
 
 
         ContainerChest containerChest = (ContainerChest) mc.thePlayer.openContainer;
