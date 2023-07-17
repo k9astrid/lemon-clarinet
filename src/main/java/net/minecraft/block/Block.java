@@ -494,6 +494,8 @@ public class Block
         CollideEvent event = new CollideEvent(axisalignedbb, pos, collidingEntity);
         Lemon.INSTANCE.getEventBus().handle(event);
 
+        axisalignedbb = event.getBoundingBox();
+
         if (event.isCancelled()) return;
 
         if (axisalignedbb != null && mask.intersectsWith(axisalignedbb))

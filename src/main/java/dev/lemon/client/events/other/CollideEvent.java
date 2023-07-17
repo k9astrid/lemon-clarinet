@@ -14,7 +14,6 @@ public class CollideEvent extends CancellableEvent {
     private AxisAlignedBB boundingBox;
 
     @Getter
-    @Setter
     private BlockPos pos;
 
     @Getter
