@@ -30,6 +30,9 @@ public class KillAura extends Module {
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance");
+    public BooleanSetting players = new BooleanSetting("Players", true);
+    public BooleanSetting creatures = new BooleanSetting("Creatures", true);
+    public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
 
 
     private TimerUtil timer = new TimerUtil();
@@ -39,7 +42,11 @@ public class KillAura extends Module {
     }
 
     private boolean checkEntity(Entity entity){
-        return !entity.isDead && (entity instanceof EntityPlayer || entity instanceof EntityCreature) && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach.getVal() && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());
+        return !entity.isDead
+                && (entity instanceof EntityPlayer == players.isToggled() || entity instanceof EntityCreature == creatures.isToggled())
+                && (invisibles.isToggled() || !entity.isInvisible())
+                && entity.getDistanceToEntity(IMethods.mc.thePlayer) <= reach.getVal()
+                && !(IMethods.mc.thePlayer.getEntityId() == entity.getEntityId());
     }
 
     private Comparator<Entity> getSortingMode(){
@@ -53,7 +60,7 @@ public class KillAura extends Module {
     }
 
     @Subscribe
-    public final IEventListener<EventPreMotion> onPacket = e -> {
+    public final IEventListener<EventPreMotion> eventPreMotionListener = e -> {
         List<Entity> entityList = IMethods.mc.theWorld.loadedEntityList.stream()
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())
@@ -69,6 +76,7 @@ public class KillAura extends Module {
                 } else {
                     IMethods.mc.playerController.attackEntity(IMethods.mc.thePlayer, target);
                 }
+
                 timer.reset();
             }
         }
