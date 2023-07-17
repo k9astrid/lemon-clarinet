@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C0APacketAnimation;
 
+import javax.vecmath.Vector2f;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +28,9 @@ public class KillAura extends Module {
     public NumberSetting reach = new NumberSetting("Reach", 3.0, 1.0, 6.0, 0.1);
     public NumberSetting minCps = new NumberSetting("Min CPS", 10, 0, 20, 0.5);
     public NumberSetting maxCPS = new NumberSetting("Max CPS", 10, 0, 20, 0.5);
-
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
-    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
+    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized", "Smooth");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting players = new BooleanSetting("Players", true);
     public BooleanSetting creatures = new BooleanSetting("Creatures", true);
@@ -51,8 +51,10 @@ public class KillAura extends Module {
 
         for (Entity target : entityList) {
             float[] rotations;
-
             switch (rotationMode.getMode()) {
+                case "Smooth":
+                    RotationUtil.rotate(RotationUtil.rotations, 360);
+                    break;
                 case "Vanilla":
                     rotations = RotationUtil.getVanillaRotations(target);
                     mc.player.rotationYawHead = rotations[0];
