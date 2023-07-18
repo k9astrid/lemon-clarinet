@@ -5,6 +5,7 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.RandomUtil;
+import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.module.Module;
@@ -15,6 +16,7 @@ import dev.lemon.api.utils.IMethods;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -22,6 +24,7 @@ import net.minecraft.network.play.client.C0APacketAnimation;
 import javax.vecmath.Vector2f;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KillAura extends Module {
@@ -32,8 +35,6 @@ public class KillAura extends Module {
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
     public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
-    public BooleanSetting players = new BooleanSetting("Players", true);
-    public BooleanSetting creatures = new BooleanSetting("Creatures", true);
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
 
     private final TimerUtil timer = new TimerUtil();
@@ -80,11 +81,12 @@ public class KillAura extends Module {
     };
 
     private boolean checkEntity(Entity entity){
-        return !entity.isDead
-                && (entity instanceof EntityPlayer == players.isToggled() || entity instanceof EntityCreature == creatures.isToggled())
+
+        return !(mc.player.getEntityId() == entity.getEntityId())
+                && !entity.isDead
+                && (entity instanceof EntityPlayer || entity instanceof EntityCreature)
                 && (invisibles.isToggled() || !entity.isInvisible())
-                && entity.getDistanceToEntity(IMethods.mc.player) <= reach.getVal()
-                && !(IMethods.mc.player.getEntityId() == entity.getEntityId());
+                && entity.getDistanceToEntity(mc.player) <= reach.getVal();
     }
 
     private Comparator<Entity> getSortingMode(){
