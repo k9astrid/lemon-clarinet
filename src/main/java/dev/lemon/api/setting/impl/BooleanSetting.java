@@ -26,4 +26,8 @@ public class BooleanSetting extends Setting {
     public void toggle() {
         this.toggled = !toggled;
     }
+
+    public void setToggled(boolean toggled) {
+        this.toggled = toggled;
+    }
 }

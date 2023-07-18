@@ -1,14 +1,34 @@
 package dev.lemon.api.utils.other;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import lombok.experimental.UtilityClass;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 @UtilityClass
 public class FileUtil {
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    public JsonObject readJsonFromFile(String path) {
+        try {
+            return GSON.fromJson(new FileReader(path), JsonObject.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void writeJsonToFile(JsonObject json, String path) {
+        try {
+            FileWriter writer = new FileWriter(path);
+            GSON.toJson(json, writer);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public String readFile(File file) {
         StringBuilder stringBuilder = new StringBuilder();
