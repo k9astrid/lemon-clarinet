@@ -24,6 +24,7 @@ public class Velocity extends Module {
     public final IEventListener<PacketEvent> eventPacketListener = e -> {
         switch (mode.getMode()) {
             case "Cancel":
+                this.setSuffix(mode.getMode());
                 if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
                     e.setCancelled(true);
                 }
@@ -32,6 +33,7 @@ public class Velocity extends Module {
                 }
             break;
             case "Custom":
+                this.setSuffix(horizontal.getVal()+"% "+ vertical.getVal()+"%");
                 if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
                     S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) e.getPacket();
                     velocityPacket.setMotionX((int) (velocityPacket.getMotionX() * (horizontal.getVal() / 100)));

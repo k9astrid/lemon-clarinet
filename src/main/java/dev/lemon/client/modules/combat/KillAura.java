@@ -49,8 +49,12 @@ public class KillAura extends Module {
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())
                 .collect(Collectors.toList());
+        this.setSuffix(String.valueOf(reach.getVal()));
+
 
         for (Entity target : entityList) {
+            this.setSuffix(target.getName()+" @ "+reach.getVal());
+
             float[] rotations = new float[0];
             switch (rotationMode.getMode()) {
                 case "Vanilla":
@@ -66,6 +70,7 @@ public class KillAura extends Module {
                 RotationUtil.rotate(new Vector2f(rotations[0], rotations[1]), 80 + Math.random());
 
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
+
                 if (!(noSwing.isToggled()))
                     mc.player.swingItem();
                 else mc.player.sendQueue.addToSendQueueSilent(new C0APacketAnimation());

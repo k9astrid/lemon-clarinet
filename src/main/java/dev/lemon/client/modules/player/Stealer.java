@@ -27,6 +27,8 @@ public class Stealer extends Module {
 
     @Subscribe
     public final IEventListener<TickEvent> eventListener = e -> {
+        this.setSuffix(minDelay.getVal()+" - "+ maxDelay.getVal());
+
         if (mc.player == null) return;
         if (mc.player.openContainer == null || !(mc.currentScreen instanceof GuiChest)) { return; }
 

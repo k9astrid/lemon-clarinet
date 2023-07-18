@@ -42,6 +42,7 @@ public class Flight extends Module {
 
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
+        this.setSuffix(mode.getMode());
         switch (mode.getMode()){
             case "Creative":
                 mc.player.capabilities.isFlying = true;
