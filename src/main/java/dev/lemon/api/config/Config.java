@@ -35,25 +35,27 @@ public class Config implements IMethods {
     public void write() {
         JsonObject jsonObject = new JsonObject();
         Lemon.INSTANCE.getModuleManager().getModulesMap().values().forEach(m -> {
-            JsonObject mObject = new JsonObject();
-            mObject.addProperty("state", m.isToggled());
-            if (saveKeybinds)
-                mObject.addProperty("bind", m.getKey());
+            if (!(m.getCategory() == Module.Category.SCRIPTS)) {
+                JsonObject mObject = new JsonObject();
+                mObject.addProperty("state", m.isToggled());
+                if (saveKeybinds)
+                    mObject.addProperty("bind", m.getKey());
 
-            JsonObject vObject = new JsonObject();
-            m.getSettings().forEach(v -> {
-                if (v instanceof BooleanSetting)
-                    vObject.addProperty(v.name, ((BooleanSetting) v).isToggled());
+                JsonObject vObject = new JsonObject();
+                m.getSettings().forEach(v -> {
+                    if (v instanceof BooleanSetting)
+                        vObject.addProperty(v.name, ((BooleanSetting) v).isToggled());
 
-                if (v instanceof ModeSetting)
-                    vObject.addProperty(v.name, ((ModeSetting) v).getMode());
+                    if (v instanceof ModeSetting)
+                        vObject.addProperty(v.name, ((ModeSetting) v).getMode());
 
-                if (v instanceof NumberSetting)
-                    vObject.addProperty(v.name, ((NumberSetting) v).getVal());
-            });
+                    if (v instanceof NumberSetting)
+                        vObject.addProperty(v.name, ((NumberSetting) v).getVal());
+                });
 
-            mObject.add("values", vObject);
-            jsonObject.add(m.getName(), mObject);
+                mObject.add("values", vObject);
+                jsonObject.add(m.getName(), mObject);
+            }
         });
         FileUtil.writeJsonToFile(jsonObject, new File(directory, name + ".json").getAbsolutePath());
     }
@@ -64,29 +66,31 @@ public class Config implements IMethods {
 
         for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
             for (Module m : ok) {
-                if (entry.getKey().equalsIgnoreCase(m.getName())) {
-                    JsonObject jsonObject1 = (JsonObject) entry.getValue();
-                    m.setToggled(jsonObject1.get("state").getAsBoolean());
+                if (!(m.getCategory() == Module.Category.SCRIPTS)) {
+                    if (entry.getKey().equalsIgnoreCase(m.getName())) {
+                        JsonObject jsonObject1 = (JsonObject) entry.getValue();
+                        m.setToggled(jsonObject1.get("state").getAsBoolean());
 
-                    if (jsonObject1.has("bind"))
-                        m.setKey(jsonObject1.get("bind").getAsInt());
+                        if (jsonObject1.has("bind"))
+                            m.setKey(jsonObject1.get("bind").getAsInt());
 
-                    JsonObject values = jsonObject1.get("values").getAsJsonObject();
-                    for (Map.Entry<String, JsonElement> value : values.entrySet()) {
-                        if (m.getValueByName(value.getKey()) != null) {
-                            try {
-                                Setting v = m.getValueByName(value.getKey());
+                        JsonObject values = jsonObject1.get("values").getAsJsonObject();
+                        for (Map.Entry<String, JsonElement> value : values.entrySet()) {
+                            if (m.getValueByName(value.getKey()) != null) {
+                                try {
+                                    Setting v = m.getValueByName(value.getKey());
 
-                                if (v instanceof BooleanSetting)
-                                    ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
+                                    if (v instanceof BooleanSetting)
+                                        ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
 
-                                if (v instanceof ModeSetting)
-                                    ((ModeSetting) v).setMode(value.getValue().getAsString());
+                                    if (v instanceof ModeSetting)
+                                        ((ModeSetting) v).setMode(value.getValue().getAsString());
 
-                                if (v instanceof NumberSetting)
-                                    ((NumberSetting) v).setValue(value.getValue().getAsDouble());
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                    if (v instanceof NumberSetting)
+                                        ((NumberSetting) v).setValue(value.getValue().getAsDouble());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
