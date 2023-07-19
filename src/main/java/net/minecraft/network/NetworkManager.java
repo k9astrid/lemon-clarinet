@@ -37,16 +37,10 @@ import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.crypto.SecretKey;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.CryptManager;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.LazyLoadBase;
-import net.minecraft.util.MessageDeserializer;
-import net.minecraft.util.MessageDeserializer2;
-import net.minecraft.util.MessageSerializer;
-import net.minecraft.util.MessageSerializer2;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -158,7 +152,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
     protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception
     {
-        PacketEvent event = new PacketEvent(p_channelRead0_2_, PacketEvent.Type.RECEIVE);
+        PacketEvent event = new PacketEvent(p_channelRead0_2_, PacketEvent.Type.RECEIVE, this.packetListener, this.direction);
         Lemon.INSTANCE.getEventBus().handle(event);
         if (event.isCancelled())
             return;
@@ -189,6 +183,15 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
     public void sendPacket(Packet packetIn)
     {
+        if ((packetIn instanceof C03PacketPlayer.C04PacketPlayerPosition || packetIn instanceof C03PacketPlayer.C05PacketPlayerLook ||
+                packetIn instanceof C03PacketPlayer.C06PacketPlayerPosLook) && Minecraft.getMinecraft().world != null && (Minecraft.getMinecraft()).player != null) {
+            C03PacketPlayer c03PacketPlayer = (C03PacketPlayer)packetIn;
+            (Minecraft.getMinecraft()).player.rotIncrement = 3;
+            if (!(packetIn instanceof C03PacketPlayer.C05PacketPlayerLook)) {
+                (Minecraft.getMinecraft()).player.setLastServerPosition((Minecraft.getMinecraft()).player.getServerPosition());
+                (Minecraft.getMinecraft()).player.setServerPosition(new Vec3(c03PacketPlayer.getPositionX(), c03PacketPlayer.getPositionY(), c03PacketPlayer.getPositionZ()));
+            }
+        }
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();

@@ -6,6 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -175,5 +181,187 @@ public class RenderUtil implements IMethods {
 
     public static void drawRoundCircle(float x, float y, float radius, Color color) {
         drawRound(x - (radius / 2), y - (radius / 2), radius, radius, (radius / 2) - 0.5f, color);
+    }
+
+    public static void drawEntityServerESP(Entity entity, float red, float green, float blue, float alpha, float lineAlpha, float lineWidth) {
+        double d0 = entity.serverPosX / 32.0D;
+        double d1 = entity.serverPosY / 32.0D;
+        double d2 = entity.serverPosZ / 32.0D;
+        if (entity instanceof EntityLivingBase) {
+            EntityLivingBase livingBase = (EntityLivingBase)entity;
+            d0 = livingBase.realPosX / 32.0D;
+            d1 = livingBase.realPosY / 32.0D;
+            d2 = livingBase.realPosZ / 32.0D;
+        }
+        float x = (float)(d0 - mc.getRenderManager().renderPosX);
+        float y = (float)(d1 - mc.getRenderManager().renderPosY);
+        float z = (float)(d2 - mc.getRenderManager().renderPosZ);
+        GL11.glColor4f(red, green, blue, alpha);
+        otherDrawBoundingBox(entity, x, y, z, (entity.width - 0.2F), (entity.height + 0.1F));
+        if (lineWidth > 0.0F) {
+            GL11.glLineWidth(lineWidth);
+            GL11.glColor4f(red, green, blue, lineAlpha);
+            otherDrawOutlinedBoundingBox(entity, x, y, z, (entity.width - 0.2F), (entity.height + 0.1F));
+        }
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    public static void otherDrawOutlinedBoundingBox(Entity entity, float x, float y, float z, double width, double height) {
+        width *= 1.5D;
+        float newYaw1;
+        float yaw1 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 45.0F;
+        if (yaw1 < 0.0F) {
+            newYaw1 = 0.0F;
+            newYaw1 += 360.0F - Math.abs(yaw1);
+        } else {
+            newYaw1 = yaw1;
+        }
+        newYaw1 *= -1.0F;
+        newYaw1 = (float)(newYaw1 * 0.017453292519943295D);
+        float yaw2 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 135.0F;
+        float newYaw2;
+        if (yaw2 < 0.0F) {
+            newYaw2 = 0.0F;
+            newYaw2 += 360.0F - Math.abs(yaw2);
+        } else {
+            newYaw2 = yaw2;
+        }
+        newYaw2 *= -1.0F;
+        newYaw2 = (float)(newYaw2 * 0.017453292519943295D);
+        float yaw3 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 225.0F;
+        float newYaw3;
+        if (yaw3 < 0.0F) {
+            newYaw3 = 0.0F;
+            newYaw3 += 360.0F - Math.abs(yaw3);
+        } else {
+            newYaw3 = yaw3;
+        }
+        newYaw3 *= -1.0F;
+        newYaw3 = (float)(newYaw3 * 0.017453292519943295D);
+        float yaw4 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 315.0F;
+        float newYaw4;
+        if (yaw4 < 0.0F) {
+            newYaw4 = 0.0F;
+            newYaw4 += 360.0F - Math.abs(yaw4);
+        } else {
+            newYaw4 = yaw4;
+        }
+        newYaw4 *= -1.0F;
+        newYaw4 = (float)(newYaw4 * 0.017453292519943295D);
+        float x1 = (float)(Math.sin(newYaw1) * width + x);
+        float z1 = (float)(Math.cos(newYaw1) * width + z);
+        float x2 = (float)(Math.sin(newYaw2) * width + x);
+        float z2 = (float)(Math.cos(newYaw2) * width + z);
+        float x3 = (float)(Math.sin(newYaw3) * width + x);
+        float z3 = (float)(Math.cos(newYaw3) * width + z);
+        float x4 = (float)(Math.sin(newYaw4) * width + x);
+        float z4 = (float)(Math.cos(newYaw4) * width + z);
+        float y2 = (float)(y + height);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.pos(x1, y2, z1).endVertex();
+        worldrenderer.pos(x2, y2, z2).endVertex();
+        worldrenderer.pos(x2, y, z2).endVertex();
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x3, y, z3).endVertex();
+        worldrenderer.pos(x3, y2, z3).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.pos(x3, y2, z3).endVertex();
+        worldrenderer.pos(x2, y2, z2).endVertex();
+        worldrenderer.pos(x2, y, z2).endVertex();
+        worldrenderer.pos(x3, y, z3).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.pos(x1, y2, z1).endVertex();
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.endVertex();
+        tessellator.draw();
+    }
+
+    public static void otherDrawBoundingBox(Entity entity, float x, float y, float z, double width, double height) {
+        width *= 1.5D;
+        float newYaw1;
+        float yaw1 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 45.0F;
+        if (yaw1 < 0.0F) {
+            newYaw1 = 0.0F;
+            newYaw1 += 360.0F - Math.abs(yaw1);
+        } else {
+            newYaw1 = yaw1;
+        }
+        newYaw1 *= -1.0F;
+        newYaw1 = (float)(newYaw1 * 0.017453292519943295D);
+        float yaw2 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 135.0F;
+        float newYaw2;
+        if (yaw2 < 0.0F) {
+            newYaw2 = 0.0F;
+            newYaw2 += 360.0F - Math.abs(yaw2);
+        } else {
+            newYaw2 = yaw2;
+        }
+        newYaw2 *= -1.0F;
+        newYaw2 = (float)(newYaw2 * 0.017453292519943295D);
+        float yaw3 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 225.0F;
+        float newYaw3;
+        if (yaw3 < 0.0F) {
+            newYaw3 = 0.0F;
+            newYaw3 += 360.0F - Math.abs(yaw3);
+        } else {
+            newYaw3 = yaw3;
+        }
+        newYaw3 *= -1.0F;
+        newYaw3 = (float)(newYaw3 * 0.017453292519943295D);
+        float yaw4 = MathHelper.wrapAngleTo180_float(entity.getRotationYawHead()) + 315.0F;
+        float newYaw4;
+        if (yaw4 < 0.0F) {
+            newYaw4 = 0.0F;
+            newYaw4 += 360.0F - Math.abs(yaw4);
+        } else {
+            newYaw4 = yaw4;
+        }
+        newYaw4 *= -1.0F;
+        newYaw4 = (float)(newYaw4 * 0.017453292519943295D);
+        float x1 = (float)(Math.sin(newYaw1) * width + x);
+        float z1 = (float)(Math.cos(newYaw1) * width + z);
+        float x2 = (float)(Math.sin(newYaw2) * width + x);
+        float z2 = (float)(Math.cos(newYaw2) * width + z);
+        float x3 = (float)(Math.sin(newYaw3) * width + x);
+        float z3 = (float)(Math.cos(newYaw3) * width + z);
+        float x4 = (float)(Math.sin(newYaw4) * width + x);
+        float z4 = (float)(Math.cos(newYaw4) * width + z);
+        float y2 = (float)(y + height);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.pos(x1, y2, z1).endVertex();
+        worldrenderer.pos(x2, y2, z2).endVertex();
+        worldrenderer.pos(x2, y, z2).endVertex();
+        worldrenderer.pos(x2, y, z2).endVertex();
+        worldrenderer.pos(x2, y2, z2).endVertex();
+        worldrenderer.pos(x3, y2, z3).endVertex();
+        worldrenderer.pos(x3, y, z3).endVertex();
+        worldrenderer.pos(x3, y, z3).endVertex();
+        worldrenderer.pos(x3, y2, z3).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.pos(x1, y2, z1).endVertex();
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.pos(x1, y, z1).endVertex();
+        worldrenderer.pos(x2, y, z2).endVertex();
+        worldrenderer.pos(x3, y, z3).endVertex();
+        worldrenderer.pos(x4, y, z4).endVertex();
+        worldrenderer.pos(x1, y2, z1).endVertex();
+        worldrenderer.pos(x2, y2, z2).endVertex();
+        worldrenderer.pos(x3, y2, z3).endVertex();
+        worldrenderer.pos(x4, y2, z4).endVertex();
+        worldrenderer.endVertex();
+        tessellator.draw();
     }
 }

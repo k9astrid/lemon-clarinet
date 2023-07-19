@@ -47,13 +47,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MovementInput;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
@@ -85,6 +79,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
      * re-transmitted
      */
     private float lastReportedYaw;
+
+    public int rotIncrement;
 
     /**
      * The last pitch value which was transmitted to the server, used to determine when the pitch changes and needs to
@@ -131,6 +127,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
     /** The amount of time an entity has been in a Portal the previous tick */
     public float prevTimeInPortal;
 
+    private Vec3 serverPosition;
+
+    private Vec3 lastServerPosition;
+
     public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile)
     {
         super(worldIn, netHandler.getGameProfile());
@@ -138,6 +138,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.statWriter = statFile;
         this.mc = mcIn;
         this.dimension = 0;
+        this.serverPosition = new Vec3(0.0D, 0.0D, 0.0D);
+        this.lastServerPosition = new Vec3(0.0D, 0.0D, 0.0D);
     }
 
     /**
@@ -219,9 +221,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         boolean flag1 = this.isSneaking();
 
-        PostMotionEvent event1 = new PostMotionEvent();
-        Lemon.INSTANCE.getEventBus().handle(event1);
-
         if (flag1 != this.serverSneakState)
         {
             if (flag1)
@@ -286,7 +285,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastReportedYaw = event.getYaw();
                 this.lastReportedPitch = event.getPitch();
             }
+            Minecraft.getMinecraft().player.rotIncrement--;
         }
+
+        PostMotionEvent event1 = new PostMotionEvent();
+        Lemon.INSTANCE.getEventBus().handle(event1);
     }
 
     /**
@@ -926,5 +929,21 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.capabilities.isFlying = false;
             this.sendPlayerAbilities();
         }
+    }
+
+    public Vec3 getLastServerPosition() {
+        return this.lastServerPosition;
+    }
+
+    public Vec3 getServerPosition() {
+        return this.serverPosition;
+    }
+
+    public void setLastServerPosition(Vec3 lastServerPosition) {
+        this.lastServerPosition = lastServerPosition;
+    }
+
+    public void setServerPosition(Vec3 serverPosition) {
+        this.serverPosition = serverPosition;
     }
 }
