@@ -37,7 +37,7 @@ public class KillAura extends Module {
     public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
-    public ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
+    public static ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
 
 
     private final TimerUtil timer = new TimerUtil();
