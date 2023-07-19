@@ -3,6 +3,8 @@ package dev.lemon.api.bot.network;
 import com.google.common.collect.Queues;
 import com.sun.istack.internal.Nullable;
 import io.netty.channel.*;
+import io.netty.channel.local.LocalChannel;
+import io.netty.channel.local.LocalServerChannel;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -134,6 +136,34 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
     public void setConnectionState(EnumConnectionState state) {
         this.channel.attr(PROTOCOL_ATTRIBUTE_KEY).set(state);
         this.channel.config().setAutoRead(true);
+    }
+
+    public void setNetHandler(INetHandler netHandler) {
+        this.packetListener = netHandler;
+    }
+
+    public boolean isLocalChannel() {
+        return (this.channel instanceof LocalChannel || this.channel instanceof LocalServerChannel);
+    }
+
+    public void setCompressionThreshold(int compressionThreshold) {
+        if (compressionThreshold >= 0) {
+            if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder)
+                ((NettyCompressionDecoder) this.channel.pipeline().get("decompress")).setCompressionTreshold(compressionThreshold);
+            else
+                this.channel.pipeline().addBefore("decoder", "decompress", new NettyCompressionDecoder(compressionThreshold));
+
+            if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder)
+                ((NettyCompressionEncoder) this.channel.pipeline().get("compress")).setCompressionTreshold(compressionThreshold);
+            else
+                this.channel.pipeline().addBefore("encoder", "compress", new NettyCompressionEncoder(compressionThreshold));
+        } else {
+            if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder)
+                this.channel.pipeline().remove("decompress");
+
+            if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder)
+                this.channel.pipeline().remove("compress");
+        }
     }
 
     static class InboundHandlerTuplePacketListener {
