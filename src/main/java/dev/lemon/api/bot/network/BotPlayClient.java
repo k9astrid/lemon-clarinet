@@ -1,5 +1,6 @@
 package dev.lemon.api.bot.network;
 
+import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.viaversion.viaversion.protocols.protocol1_11to1_10.storage.EntityTracker1_11;
 import dev.lemon.api.bot.Bot;
@@ -8,20 +9,26 @@ import dev.lemon.api.bot.proxy.Proxy;
 import dev.lemon.api.bot.world.BotWorld;
 import lombok.Data;
 import lombok.Getter;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.*;
+import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.*;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.IChatComponent;
 import viamcp.ViaMCP;
 
 import java.net.InetAddress;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Getter
 public class BotPlayClient implements INetHandlerPlayClient {
@@ -34,7 +41,10 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     private BotWorld world;
 
+    private final Map<UUID, NetworkPlayerInfo> playerInfoMap;
+
     public BotPlayClient(BotNetwork network, GameProfile gameProfile) {
+        this.playerInfoMap = Maps.newHashMap();
         this.network = network;
         this.profile = gameProfile;
     }
@@ -110,68 +120,96 @@ public class BotPlayClient implements INetHandlerPlayClient {
     }
 
     @Override
-    public void handleScoreboardObjective(S3BPacketScoreboardObjective packetIn) {
-
-    }
+    public void handleScoreboardObjective(S3BPacketScoreboardObjective packetIn) { }
 
     @Override
     public void handleSpawnPainting(S10PacketSpawnPainting packetIn) {
-
+        EntityPainting entityPainting = new EntityPainting(this.world, packetIn.getPosition(), packetIn.getFacing(), packetIn.getTitle());
+        this.world.addEntityToWorld(packetIn.getEntityID(), entityPainting);
     }
 
     @Override
     public void handleSpawnPlayer(S0CPacketSpawnPlayer packetIn) {
+        double x = packetIn.getX();
+        double y = packetIn.getY();
+        double z = packetIn.getZ();
 
+        float f = (packetIn.getYaw() * 360) / 256.f;
+        float f2 = (packetIn.getPitch() * 360) / 256.f;
+
+        EntityOtherPlayerMP entityOtherPlayerMP = new EntityOtherPlayerMP(this.world, getPlayerInfo(packetIn.getPlayer()).getGameProfile());
+        entityOtherPlayerMP.prevPosX = x;
+        entityOtherPlayerMP.lastTickPosX = x;
+        entityOtherPlayerMP.prevPosY = y;
+        entityOtherPlayerMP.lastTickPosY = y;
+        entityOtherPlayerMP.prevPosZ = z;
+        entityOtherPlayerMP.lastTickPosZ = z;
+
+        EntityTracker.updateServerPosition(entityOtherPlayerMP, x, y, z);
+
+        entityOtherPlayerMP.setPositionAndRotation(x, y, z, f, f2);
+
+        this.world.addEntityToWorld(packetIn.getEntityID(), entityOtherPlayerMP);
+
+        //That should work without data manager...
     }
 
     @Override
-    public void handleAnimation(S0BPacketAnimation packetIn) {
-
-    }
+    public void handleAnimation(S0BPacketAnimation packetIn) { }
 
     @Override
-    public void handleStatistics(S37PacketStatistics packetIn) {
-
-    }
+    public void handleStatistics(S37PacketStatistics packetIn) { }
 
     @Override
     public void handleBlockBreakAnim(S25PacketBlockBreakAnim packetIn) {
-
+        this.world.sendBlockBreakProgress(packetIn.getBreakerId(), packetIn.getPosition(), packetIn.getProgress());
     }
 
     @Override
-    public void handleSignEditorOpen(S36PacketSignEditorOpen packetIn) {
-
-    }
+    public void handleSignEditorOpen(S36PacketSignEditorOpen packetIn) { }
 
     @Override
     public void handleUpdateTileEntity(S35PacketUpdateTileEntity packetIn) {
+        if (this.world.isBlockLoaded(packetIn.getPos())) {
+            TileEntity tileEntity = this.world.getTileEntity(packetIn.getPos());
 
+            int type = packetIn.getTileEntityType();
+
+            boolean cock = (type == 2 && tileEntity instanceof TileEntityCommandBlock), cock2 = cock;
+
+            if ((type == 1 && tileEntity instanceof TileEntityMobSpawner) ||
+                    cock ||
+                    (type == 3 && tileEntity instanceof TileEntityBeacon) ||
+                    (type == 4 && tileEntity instanceof TileEntitySkull) ||
+                    (type == 5 && tileEntity instanceof TileEntityFlowerPot) ||
+                    (type == 6 && tileEntity instanceof TileEntityBanner))
+                tileEntity.readFromNBT(packetIn.getNbtCompound());
+        }
     }
 
     @Override
     public void handleBlockAction(S24PacketBlockAction packetIn) {
-
+        this.world.addBlockEvent(packetIn.getBlockPosition(), packetIn.getBlockType(), packetIn.getData1(), packetIn.getData2());
     }
 
     @Override
     public void handleBlockChange(S23PacketBlockChange packetIn) {
-
+        this.world.invalidateRegionAndSetBlock(packetIn.getBlockPosition(), packetIn.getBlockState());
     }
 
     @Override
     public void handleChat(S02PacketChat packetIn) {
-
+        String string = stripColor(packetIn.getChatComponent().getFormattedText());
+        //TODO: make autoregister
     }
 
     @Override
-    public void handleTabComplete(S3APacketTabComplete packetIn) {
-
-    }
+    public void handleTabComplete(S3APacketTabComplete packetIn) { }
 
     @Override
     public void handleMultiBlockChange(S22PacketMultiBlockChange packetIn) {
-
+        for (S22PacketMultiBlockChange.BlockUpdateData blockUpdateData : packetIn.getChangedBlocks())
+            this.world.invalidateRegionAndSetBlock(blockUpdateData.getPos(), blockUpdateData.getBlockState());
     }
 
     @Override
@@ -444,6 +482,8 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     }
 
+    private static final Pattern COLOR_PATTERN = Pattern.compile("(?i)§[0-9A-FK-OR]");
+
     private Bot getBot2() {
         Bot bot = null;
         for (Bot bot2 : Bot.bots) {
@@ -452,5 +492,13 @@ public class BotPlayClient implements INetHandlerPlayClient {
             bot = bot2;
         }
         return bot;
+    }
+
+    public NetworkPlayerInfo getPlayerInfo(UUID uUID) {
+        return this.playerInfoMap.get(uUID);
+    }
+
+    public static String stripColor(String input) {
+        return COLOR_PATTERN.matcher(input).replaceAll("");
     }
 }

@@ -3,6 +3,7 @@ package dev.lemon.api.bot.world;
 import com.google.common.collect.Sets;
 import dev.lemon.api.bot.entity.BotPlayer;
 import dev.lemon.api.bot.network.BotPlayClient;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
@@ -62,5 +63,14 @@ public class BotWorld extends World {
             this.entitySpawnQueue.add(entityToSpawn);
 
         this.entitiesById.addKey(entityID, entityToSpawn);
+    }
+
+    @Deprecated
+    public boolean invalidateRegionAndSetBlock(BlockPos blockPos, IBlockState iBlockState) {
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+
+        return setBlockState(blockPos, iBlockState, 3);
     }
 }
