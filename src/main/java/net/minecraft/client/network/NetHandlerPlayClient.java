@@ -815,7 +815,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void addToSendQueue(Packet p_147297_1_)
     {
-        PacketEvent event = new PacketEvent(p_147297_1_, PacketEvent.Type.SENT);
+        PacketEvent event = new PacketEvent(p_147297_1_, PacketEvent.Type.SENT, null, null);
         Lemon.INSTANCE.getEventBus().handle(event);
         if (!event.isCancelled())
             this.netManager.sendPacket(p_147297_1_);
