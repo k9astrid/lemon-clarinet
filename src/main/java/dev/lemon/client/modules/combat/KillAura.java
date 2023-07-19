@@ -53,7 +53,7 @@ public class KillAura extends Module {
 
         this.setSuffix("");
         for (Entity target : entityList) {
-            Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
+            float[] rotations = new float[0];
 
             switch (rotationMode.getMode()) {
                 case "Vanilla":
@@ -61,13 +61,12 @@ public class KillAura extends Module {
                     break;
                 case "Randomized":
                     rotations = RotationUtil.getVanillaRotations(target);
-                    rotations.x -= Math.random() / 10000;
-                    rotations.y += Math.random() / 200;
+                    rotations[0] = (float) (rotations[0] - Math.random());
                     break;
             }
 
             if (!rotationMode.is("None"))
-                RotationUtil.rotate(rotations, 80 + Math.random());
+                RotationUtil.rotate(new Vector2f(rotations[0], rotations[1]), 80 + Math.random());
 
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
 
