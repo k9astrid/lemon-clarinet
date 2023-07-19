@@ -14,6 +14,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class HUD extends Module {
 
@@ -28,11 +30,16 @@ public class HUD extends Module {
 
         drawLemon();//draws hot thing
 
-        int color, offsetY = 4, spacing = 2, index = 0;
-        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
-            if (!m.isToggled())
-                continue;
+        ArrayList<Module> modules = new ArrayList<>();
 
+        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values())
+            if (m.isToggled())
+                modules.add(m);
+
+        modules.sort(Comparator.<Module>comparingDouble(m -> mc.fontRendererObj.getStringWidth(m.getDisplayName().toLowerCase())).reversed());
+
+        int color, offsetY = 4, spacing = 2, index = 0;
+        for (Module m : modules) {
             color = ColorUtil.fadeLemonColors(index);
             Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
             offsetY += Fonts.BOLD_18.getHeight() + spacing;

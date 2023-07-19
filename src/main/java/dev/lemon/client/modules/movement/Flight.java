@@ -50,8 +50,10 @@ public class Flight extends Module {
                 break;
 
             case "Vanilla":
-                mc.player.motionY = 0;
-                MoveUtil.setSpeed(vanillaSpeed.getVal());
+                mc.player.motionX = mc.player.motionZ = 0;
+                mc.player.motionY = mc.gameSettings.keyBindJump.isKeyDown() ? vanillaSpeed.getVal() : mc.gameSettings.keyBindSneak.isKeyDown() ? -vanillaSpeed.getVal() : 0;
+
+                MoveUtil.strafe(vanillaSpeed.getVal());
                 break;
         }
 
