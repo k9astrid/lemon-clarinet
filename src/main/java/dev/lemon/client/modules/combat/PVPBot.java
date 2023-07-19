@@ -55,8 +55,6 @@ public class PVPBot extends Module {
         if (entity != null) {
             this.allowMovement = mc.player.getDistanceToEntity(entity) > 3; // should W-Tap, edit: yes it works
             this.lockViewRotation = RotationUtil.getRotations(entity);
-            lockViewRotation.x += Math.random() / 100;
-            lockViewRotation.y -= Math.random() / 300;
 
             mc.player.rotationYaw = this.lockViewRotation.getX();
             mc.player.rotationPitch = this.lockViewRotation.getY();
