@@ -360,11 +360,11 @@ public class OpenGlHelper
     {
         if (arbShaders)
         {
-            ARBShaderObjects.glShaderSourceARB(shaderIn, (CharSequence) string);
+            ARBShaderObjects.glShaderSourceARB(shaderIn, string);
         }
         else
         {
-            GL20.glShaderSource(shaderIn, (CharSequence) string);
+            GL20.glShaderSource(shaderIn, string);
         }
     }
 

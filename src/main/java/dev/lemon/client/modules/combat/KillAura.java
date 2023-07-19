@@ -13,6 +13,7 @@ import dev.lemon.api.event.IEventListener;
 
 import dev.lemon.api.utils.math.TimerUtil;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.client.events.other.TickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,23 +29,31 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KillAura extends Module {
+    public NumberSetting maxReach = new NumberSetting("Max Reach", 4.0, 1.0, 6.0, 0.1);
     public NumberSetting minReach = new NumberSetting("Min Reach", 3.0, 1.0, 6.0, 0.1);
-    public NumberSetting maxReach = new NumberSetting("Max Reach", 3.0, 1.0, 6.0, 0.1);
+    public NumberSetting maxCPS = new NumberSetting("Max CPS", 15, 0, 20, 0.5);
     public NumberSetting minCps = new NumberSetting("Min CPS", 10, 0, 20, 0.5);
-    public NumberSetting maxCPS = new NumberSetting("Max CPS", 10, 0, 20, 0.5);
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
     public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
-    public ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
-
+    public static ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
 
     private final TimerUtil timer = new TimerUtil();
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
     }
+
+    @Subscribe
+    public final IEventListener<TickEvent> onTick = e -> {
+        if (minCps.getVal() > maxCPS.getVal())
+            minCps.setValue(maxCPS.getVal());
+
+        if (minReach.getVal() > maxReach.getVal())
+            minReach.setValue(maxReach.getVal());
+    };
 
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {

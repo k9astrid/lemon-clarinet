@@ -1,10 +1,13 @@
 package dev.lemon.api.utils.render;
 
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.shader.ShaderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,7 +18,11 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.nio.ByteBuffer;
 
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+
 public class RenderUtil implements IMethods {
+    public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
+    public static ShaderUtil roundedOutlineShader = new ShaderUtil("roundRectOutline");
 
     public static void drawImage(ResourceLocation location, float x, float y, int width, int height) {
         GlStateManager.pushMatrix();
@@ -135,4 +142,38 @@ public class RenderUtil implements IMethods {
                     .doubleValue();
     }
 
+    public static void drawRound(float x, float y, float width, float height, float radius, Color color) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        roundedShader.init();
+        ShaderUtil.setupRoundedRectUniforms(x, y, width, height, radius, roundedShader);
+        roundedShader.setUniformf("blur", 0);
+        roundedShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+        ShaderUtil.drawQuads(x - 1, y - 1, width + 2, height + 2);
+        roundedShader.unload();
+        GlStateManager.disableBlend();
+        GlStateManager.resetColor();
+    }
+
+    public static void drawRoundOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        roundedOutlineShader.init();
+
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ShaderUtil.setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
+        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
+        roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+        roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
+
+        ShaderUtil.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
+        roundedOutlineShader.unload();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawRoundCircle(float x, float y, float radius, Color color) {
+        drawRound(x - (radius / 2), y - (radius / 2), radius, radius, (radius / 2) - 0.5f, color);
+    }
 }

@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import dev.lemon.client.main.Lemon;
+import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -343,9 +345,10 @@ public class ItemRenderer
             {
                 this.renderItemMap(entityplayersp, f2, f, f1);
             }
-            else if (entityplayersp.getItemInUseCount() > 0)
+            else if (entityplayersp.getItemInUseCount() > 0 || Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled())
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
+                if (!KillAura.autoblockMode.is("None")) enumaction = EnumAction.BLOCK;
 
                 switch (ItemRenderer$1.field_178094_a[enumaction.ordinal()])
                 {

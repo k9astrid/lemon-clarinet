@@ -134,6 +134,11 @@ public abstract class Container
         return slot != null ? slot.getStack() : null;
     }
 
+    public void setAll(List<ItemStack> p_190896_1_) {
+        for (int i = 0; i < p_190896_1_.size(); i++)
+            getSlot(i).putStack(p_190896_1_.get(i));
+    }
+
     /**
      * Handles slot click.
      */

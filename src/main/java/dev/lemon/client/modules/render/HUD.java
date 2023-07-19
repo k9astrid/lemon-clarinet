@@ -51,9 +51,9 @@ public class HUD extends Module {
         String bps = new DecimalFormat("#.##").format(MoveUtil.speed());
         String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
 
-        Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 8, 0x40000000);
+        Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 9, 0x40000000);
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));
 
-        Fonts.BOLD_18.drawString(text, 6, 8, 0xffFFFFFF);
+        Fonts.BOLD_18.drawString(text, 6, 7, 0xffFFFFFF);
     }
 }
