@@ -234,6 +234,8 @@ public abstract class Entity implements ICommandSender
     private boolean invulnerable;
     protected UUID entityUniqueID;
 
+    public float movementYaw, velocityYaw, lastMovementYaw;
+
     /** The command result statistics for this Entity. */
     private final CommandResultStats cmdResultStats;
 

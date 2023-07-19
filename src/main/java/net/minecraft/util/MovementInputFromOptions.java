@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import dev.lemon.client.events.input.MoveInputEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput
@@ -38,6 +40,14 @@ public class MovementInputFromOptions extends MovementInput
 
         this.jump = this.gameSettings.keyBindJump.isKeyDown();
         this.sneak = this.gameSettings.keyBindSneak.isKeyDown();
+
+        final MoveInputEvent moveInputEvent = new MoveInputEvent(moveForward, moveStrafe, jump, sneak);
+        Lemon.INSTANCE.getEventBus().handle(moveInputEvent);
+
+        this.moveForward = moveInputEvent.getForward();
+        this.moveStrafe = moveInputEvent.getStrafe();
+        this.jump = moveInputEvent.isJump();
+        this.sneak = moveInputEvent.isSneak();
 
         if (this.sneak)
         {

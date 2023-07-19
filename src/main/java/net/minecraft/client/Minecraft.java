@@ -38,7 +38,7 @@ import javax.imageio.ImageIO;
 
 import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.other.KeyboardInputEvent;
+import dev.lemon.client.events.input.KeyboardInputEvent;
 import dev.lemon.api.utils.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1696,6 +1696,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void runTick() throws IOException
     {
+        if (this.player != null)
+        {
+            this.player.lastMovementYaw = this.player.movementYaw;
+            this.player.movementYaw = this.player.velocityYaw = this.player.rotationYaw;
+        }
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;

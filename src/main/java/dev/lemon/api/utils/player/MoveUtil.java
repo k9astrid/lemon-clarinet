@@ -31,40 +31,52 @@ public class MoveUtil implements IMethods {
         mc.player.motionY = motion;
     }
 
-    private float getDirection() {
-        boolean movingForward = mc.player.moveForward > 0.0F;
-        boolean movingBackward = mc.player.moveForward < 0.0F;
-        boolean movingRight = mc.player.moveStrafing > 0.0F;
-        boolean movingLeft = mc.player.moveStrafing < 0.0F;
+    public double direction() {
+        float rotationYaw = mc.player.rotationYaw;
 
-        boolean isMovingSideways = movingLeft || movingRight;
-        boolean isMovingStraight = movingForward || movingBackward;
+        if (mc.player.moveForward < 0)
+            rotationYaw += 180;
 
-        double direction = mc.player.rotationYaw;
-        if(movingForward && !isMovingSideways) {
+        float forward = 1;
 
-        } else if(movingBackward && !isMovingSideways)
-            direction += 180;
-        else if(movingForward && movingLeft)
-            direction += 45;
-        else if(movingForward)
-            direction -= 45;
-        else if(!isMovingStraight && movingLeft)
-            direction += 90;
-        else if(!isMovingStraight && movingRight)
-            direction -= 90;
-        else if(movingBackward && movingRight)
-            direction -= 135;
-        else if(movingBackward)
-            direction += 135;
+        if (mc.player.moveForward < 0)
+            forward = -.5f;
+        else if (mc.player.moveForward > 0)
+            forward = .5f;
 
-        return (float) Math.toRadians(direction);
+        if (mc.player.moveStrafing > 0)
+            rotationYaw -= 70 * forward;
+
+        if (mc.player.moveStrafing < 0)
+            rotationYaw += 70 * forward;
+
+        return Math.toRadians(rotationYaw);
+    }
+
+    public double direction(float yaw, final double forward, final double strafing) {
+        if (forward < 0)
+            yaw += 180f;
+
+        float moveForward = 1f;
+
+        if (forward < 0)
+            moveForward = -.5f;
+        else if (forward > 0)
+            moveForward = .5f;
+
+        if (strafing > 0)
+            yaw -= 90 * moveForward;
+
+        if (strafing < 0)
+            yaw += 90 * moveForward;
+
+        return Math.toRadians(yaw);
     }
 
     public void setSpeed(double speed) {
         if (moving()) {
-            mc.player.motionX = -Math.sin(getDirection()) * speed;
-            mc.player.motionZ = Math.cos(getDirection()) * speed;
+            mc.player.motionX = -Math.sin(direction()) * speed;
+            mc.player.motionZ = Math.cos(direction()) * speed;
         } else {
             mc.player.motionX = 0;
             mc.player.motionZ = 0;

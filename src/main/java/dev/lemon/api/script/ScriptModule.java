@@ -5,7 +5,7 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.other.ChatEvent;
-import dev.lemon.client.events.other.KeyboardInputEvent;
+import dev.lemon.client.events.input.KeyboardInputEvent;
 import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.events.render.Render2DEvent;
 import jdk.nashorn.api.scripting.JSObject;

@@ -3,8 +3,13 @@ package dev.lemon.api.utils.player;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.client.events.input.MoveInputEvent;
+import dev.lemon.client.events.motion.JumpEvent;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.motion.PreUpdateEvent;
+import dev.lemon.client.events.motion.StrafeEvent;
+import dev.lemon.client.main.Lemon;
+import dev.lemon.client.modules.misc.MovementCorrection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -64,6 +69,62 @@ public class RotationUtil implements IMethods {
         haveSmoothed = false;
     };
 
+    /////////////////////////////////////////////Movement Fix/////////////////////////////////////////////////////
+
+    @Subscribe
+    private final IEventListener<StrafeEvent> onStrafe = e -> {
+        if (active && Lemon.INSTANCE.getModuleManager().getModuleByName("Movement Correction").isToggled() && rotations != null) {
+            e.setYaw(rotations.x);
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<JumpEvent> onJump = e -> {
+        if (active && Lemon.INSTANCE.getModuleManager().getModuleByName("Movement Correction").isToggled() && rotations != null) {
+            e.setYaw(rotations.x);
+        }
+    };
+
+    @Subscribe
+    private final IEventListener<MoveInputEvent> onMoveInput = e -> {
+        if (active && Lemon.INSTANCE.getModuleManager().getModuleByName("Movement Correction").isToggled()
+                && MovementCorrection.mode.is("Silent") && rotations != null) {
+
+            final float yaw = rotations.x;
+
+            final float forward = e.getForward();
+            final float strafe = e.getStrafe();
+
+            final double angle = MathHelper.wrapAngleTo180_double(Math.toDegrees(MoveUtil.direction(mc.player.rotationYaw, forward, strafe)));
+
+            if (forward == 0 && strafe == 0)
+                return;
+
+            float closestForward = 0, closestStrafe = 0, closestDifference = Float.MAX_VALUE;
+
+            for (float predictedForward = -1f; predictedForward <= 1f; predictedForward += 1f) {
+                for (float predictedStrafe = -1f; predictedStrafe <= 1f; predictedStrafe += 1f) {
+                    if (predictedStrafe == 0 && predictedForward == 0)
+                        continue;
+
+                    final double predictedAngle = MathHelper.wrapAngleTo180_double(Math.toDegrees(MoveUtil.direction(yaw, predictedForward, predictedStrafe)));
+                    final double difference = Math.abs(angle - predictedAngle);
+
+                    if (difference < closestDifference) {
+                        closestDifference = (float) difference;
+                        closestForward = predictedForward;
+                        closestStrafe = predictedStrafe;
+                    }
+                }
+            }
+
+            e.setForward(closestForward);
+            e.setStrafe(closestStrafe);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static void smoothRotations() {
         if (!haveSmoothed)
             rotations = fixRotations(
@@ -74,8 +135,6 @@ public class RotationUtil implements IMethods {
 
         haveSmoothed = true;
     }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static Vector2f reset(final Vector2f rot) {
         if (rot == null)

@@ -2,17 +2,8 @@ package dev.lemon.api.module;
 
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.client.events.other.KeyboardInputEvent;
+import dev.lemon.client.events.input.KeyboardInputEvent;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.modules.combat.KillAura;
-import dev.lemon.client.modules.combat.Velocity;
-import dev.lemon.client.modules.exploits.Disabler;
-import dev.lemon.client.modules.movement.Flight;
-import dev.lemon.client.modules.movement.Speed;
-import dev.lemon.client.modules.movement.Sprint;
-import dev.lemon.client.modules.player.Stealer;
-import dev.lemon.client.modules.render.ClickGUI;
-import dev.lemon.client.modules.render.HUD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +41,6 @@ public class ModuleManager extends HashMap<Object, Module> {
     }
 
     public Module getModuleByName(String name) {
-
         for (Module m : this.values())
             if (Objects.equals(m.getName(), name))
                 return m;

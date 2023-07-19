@@ -1,4 +1,4 @@
-package dev.lemon.client.events.other;
+package dev.lemon.client.events.input;
 
 public class KeyboardInputEvent {
     private int keyCode;

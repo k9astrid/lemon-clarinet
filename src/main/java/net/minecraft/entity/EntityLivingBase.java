@@ -9,9 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import dev.lemon.client.events.motion.JumpEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -958,7 +963,7 @@ public abstract class EntityLivingBase extends Entity
                             d1 = (Math.random() - Math.random()) * 0.01D;
                         }
 
-                        this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * 180.0D / Math.PI - (double)this.rotationYaw);
+                        this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * 180.0D / Math.PI - this.movementYaw);
                         this.knockBack(entity, amount, d1, d0);
                     }
                     else
@@ -1555,18 +1560,35 @@ public abstract class EntityLivingBase extends Entity
      */
     protected void jump()
     {
-        this.motionY = (double)this.getJumpUpwardsMotion();
+        float jumpMotion = this.getJumpUpwardsMotion();
 
         if (this.isPotionActive(Potion.jump))
         {
-            this.motionY += (double)((float)(this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+            jumpMotion += (float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
         }
+
+        if (this instanceof EntityPlayerSP) {
+            final JumpEvent jumpEvent = new JumpEvent(jumpMotion, this.movementYaw);
+            Lemon.INSTANCE.getEventBus().handle(jumpEvent);
+
+            jumpMotion = jumpEvent.getJumpMotion();
+            this.movementYaw = jumpEvent.getYaw();
+            this.velocityYaw = jumpEvent.getYaw();
+
+            if (jumpEvent.isCancelled())
+                return;
+        }
+
+        this.motionY = jumpMotion;
 
         if (this.isSprinting())
         {
-            float f = this.rotationYaw * 0.017453292F;
-            this.motionX -= (double)(MathHelper.sin(f) * 0.2F);
-            this.motionZ += (double)(MathHelper.cos(f) * 0.2F);
+            float f = this.movementYaw * 0.017453292F;
+
+            final Minecraft mc = Minecraft.getMinecraft();
+
+            this.motionX -= MathHelper.sin(f) * 0.2F;
+            this.motionZ += MathHelper.cos(f) * 0.2F;
         }
 
         this.isAirBorne = true;
