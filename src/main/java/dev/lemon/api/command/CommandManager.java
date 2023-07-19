@@ -19,6 +19,7 @@ public class CommandManager {
         commands.add(new Toggle());
         commands.add(new Reload());
         commands.add(new Config());
+        commands.add(new Bot());
     }
 
     public List<Command> getCommands() {

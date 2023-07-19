@@ -3,10 +3,13 @@ package dev.lemon.api.bot.world;
 import com.google.common.collect.Sets;
 import dev.lemon.api.bot.entity.BotPlayer;
 import dev.lemon.api.bot.network.BotPlayClient;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.*;
@@ -18,6 +21,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 import java.util.Set;
 
+@Getter @Setter
 public class BotWorld extends World {
     private ChunkProviderClient clientChunkProvider;
 
@@ -25,7 +29,9 @@ public class BotWorld extends World {
 
     private final Set<Entity> entityList, entitySpawnQueue;
 
-    protected BotWorld(BotPlayClient botPlayClient, WorldSettings worldSettings, int dimension, EnumDifficulty difficulty) {
+    private BotPlayer bot;
+
+    public BotWorld(BotPlayClient botPlayClient, WorldSettings worldSettings, int dimension, EnumDifficulty difficulty) {
         super(new SaveHandlerMP(), new WorldInfo(worldSettings, "MpServer"), DimensionType.getById(dimension).createDimension(), Minecraft.getMinecraft().mcProfiler, true);
 
         this.entityList = Sets.newHashSet();
@@ -72,5 +78,14 @@ public class BotWorld extends World {
         int z = blockPos.getZ();
 
         return setBlockState(blockPos, iBlockState, 3);
+    }
+
+    public void doPreChunk(int x, int z, boolean fullChunk) {
+        if (fullChunk) {
+            this.clientChunkProvider.loadChunk(x, z);
+        } else {
+            this.clientChunkProvider.unloadChunk(x, z);
+            markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15);
+        }
     }
 }

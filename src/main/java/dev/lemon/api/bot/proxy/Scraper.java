@@ -14,9 +14,9 @@ public class Scraper {
             "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/socks4.txt"
     };
 
-    public int number;
+    public static int number;
 
-    public final List<Proxy> proxies = new ArrayList<>();
+    public static final List<Proxy> proxies = new ArrayList<>();
 
     public void initialize() {
         this.proxies.clear();
@@ -43,5 +43,12 @@ public class Scraper {
             System.out.println("[ Scraper ] added " + this.proxies.size() + " proxies.");
         } catch (Exception ignored) { }
 
+    }
+
+    public static Proxy getProxy() {
+        Scraper.number++;
+        if (Scraper.number > Scraper.proxies.size() - 1)
+            Scraper.number = 0;
+        return Scraper.proxies.get(Scraper.number);
     }
 }

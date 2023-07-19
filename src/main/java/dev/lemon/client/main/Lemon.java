@@ -88,4 +88,8 @@ public enum Lemon implements IMethods {
 
         Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
     }
+
+    public static void initializeClasses(final String... paths) throws ClassNotFoundException {
+        for (final String path : paths) Class.forName(path);
+    }
 }
