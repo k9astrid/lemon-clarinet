@@ -1,16 +1,23 @@
 package dev.lemon.api.bot.network;
 
 import com.google.common.collect.Queues;
+import dev.lemon.api.bot.proxy.Proxy;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalServerChannel;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.*;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.LazyLoadBase;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.net.InetAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -24,9 +31,20 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
 
     public static final AttributeKey<EnumConnectionState> PROTOCOL_ATTRIBUTE_KEY = AttributeKey.valueOf("protocol");
 
-    public BotNetwork(EnumPacketDirection direction) {
+    public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
+        protected NioEventLoopGroup load() {
+            return new NioEventLoopGroup();
+        }
+    };
+
+    private Proxy proxy;
+    private EnumPacketDirection direction;
+
+    public BotNetwork(EnumPacketDirection direction, Proxy proxy) {
         this.outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
         this.readWriteLock = new ReentrantReadWriteLock();
+        this.direction = direction;
+        this.proxy = proxy;
     }
 
     @Override
@@ -80,6 +98,29 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
                 this.readWriteLock.writeLock().unlock();
             }
         }
+    }
+
+    public static BotNetwork createNetworkManagerAndConnect(InetAddress inetAddress, int port, final Proxy proxy) {
+        final BotNetwork botNetwork = new BotNetwork(EnumPacketDirection.CLIENTBOUND, proxy);
+
+        (new Bootstrap()).group(CLIENT_NIO_EVENTLOOP.getValue()).handler(new ChannelInitializer() {
+            @Override
+            protected void initChannel(Channel channel) throws Exception {
+                try {
+                    channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+                } catch (ChannelException ignored) { }
+
+                //TODO: add proxy support
+
+                channel.pipeline().addLast("timeout", new ReadTimeoutHandler(30))
+                        .addLast("splitter", new NettyVarint21FrameDecoder())
+                        .addLast("decoder", new NettyPacketDecoder(EnumPacketDirection.CLIENTBOUND))
+                        .addLast("prepender", new NettyVarint21FrameEncoder())
+                        .addLast("encoder", new NettyPacketEncoder(EnumPacketDirection.SERVERBOUND))
+                        .addLast("packet_handler", botNetwork);
+            }
+        }).channel(NioSocketChannel.class).connect(inetAddress, port).syncUninterruptibly();
+        return botNetwork;
     }
 
     private void dispatchPacket(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>>[] array) {

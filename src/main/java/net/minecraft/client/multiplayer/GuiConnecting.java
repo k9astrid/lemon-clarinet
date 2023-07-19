@@ -27,6 +27,9 @@ public class GuiConnecting extends GuiScreen
     private boolean cancel;
     private final GuiScreen previousGuiScreen;
 
+    public static String ip;
+    public static int port;
+
     public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_)
     {
         this.mc = mcIn;
@@ -47,6 +50,8 @@ public class GuiConnecting extends GuiScreen
 
     private void connect(final String ip, final int port)
     {
+        GuiConnecting.ip = ip;
+        GuiConnecting.port = port;
         logger.info("Connecting to " + ip + ", " + port);
         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet())
         {
