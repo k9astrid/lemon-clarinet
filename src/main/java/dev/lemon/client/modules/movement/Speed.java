@@ -9,7 +9,6 @@ import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
-import javafx.print.PageLayout;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatList;
 
@@ -56,6 +55,15 @@ public class Speed extends Module {
                         else
                             mc.timer.timerSpeed = 1.15f;
                         break;
+
+                    case "Legit Fast":
+                        if (!mc.player.onGround)
+                            e.setYaw(mc.player.rotationYaw + 45);
+
+                        mc.player.jumpTicks = 0;
+                        mc.timer.timerSpeed = 1.204386728680024479550332481800278015503324817801f;
+                        break;
+
                 }
                 break;
         }
