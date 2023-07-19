@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class Flight extends Module {
 
     public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide");
-    public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1);
+    public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1,() -> mode.is("Vanilla"));
 
     public Flight() {
         super("Flight", Category.MOVEMENT);
