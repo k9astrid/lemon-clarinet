@@ -26,6 +26,11 @@ public class BotController {
         }
     }
 
+    public void setGameType(WorldSettings.GameType gameType) {
+        this.gameType = gameType;
+        this.gameType.configurePlayerCapabilities((this.connection.getBot()).capabilities);
+    }
+
     private void updateController() {
         syncCurrentPlayItem();
 

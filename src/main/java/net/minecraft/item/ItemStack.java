@@ -52,6 +52,8 @@ public final class ItemStack
     private NBTTagCompound stackTagCompound;
     private int itemDamage;
 
+    private boolean isEmpty;
+
     /** Item frame this stack is on, or null if not on an item frame. */
     private EntityItemFrame itemFrame;
     private Block canDestroyCacheBlock;
@@ -1082,5 +1084,9 @@ public final class ItemStack
             this.canPlaceOnCacheResult = false;
             return false;
         }
+    }
+
+    public void setAnimationsToGo(int animationsToGo) {
+        this.animationsToGo = animationsToGo;
     }
 }

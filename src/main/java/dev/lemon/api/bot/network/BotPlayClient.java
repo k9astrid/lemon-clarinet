@@ -4,27 +4,45 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.viaversion.viaversion.protocols.protocol1_11to1_10.storage.EntityTracker1_11;
 import dev.lemon.api.bot.Bot;
+import dev.lemon.api.bot.BotStarter;
+import dev.lemon.api.bot.entity.BotController;
 import dev.lemon.api.bot.entity.BotPlayer;
 import dev.lemon.api.bot.proxy.Proxy;
 import dev.lemon.api.bot.world.BotWorld;
 import lombok.Data;
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.player.inventory.ContainerLocalMenu;
+import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityPainting;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
+import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.network.play.server.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.WorldSettings;
 import viamcp.ViaMCP;
 
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,11 +53,13 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     private BotNetwork network;
 
+    private BotController controller;
+
     private BotPlayer bot;
 
     private final GameProfile profile;
 
-    private BotWorld world;
+    public BotWorld world;
 
     private final Map<UUID, NetworkPlayerInfo> playerInfoMap;
 
@@ -214,72 +234,184 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     @Override
     public void handleMaps(S34PacketMaps packetIn) {
-
+        //TODO: handleMaps...
     }
 
     @Override
     public void handleConfirmTransaction(S32PacketConfirmTransaction packetIn) {
+        Container container = null;
+        BotPlayer botPlayer = this.bot;
 
+        if (packetIn.getWindowId() == 0)
+            container = botPlayer.inventoryContainer;
+        else if (packetIn.getWindowId() == botPlayer.openContainer.windowId)
+            container = botPlayer.openContainer;
+
+        if (container != null && !packetIn.func_148888_e())
+            sendPacket(new C0FPacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), true));
     }
 
     @Override
     public void handleCloseWindow(S2EPacketCloseWindow packetIn) {
-
+        this.bot.closeScreenAndDropStack();
     }
 
     @Override
     public void handleWindowItems(S30PacketWindowItems packetIn) {
+        BotPlayer botPlayer = this.bot;
 
+        if (packetIn.func_148911_c() == 0)
+            botPlayer.inventoryContainer.setAll(Arrays.asList(packetIn.getItemStacks()));
+        else if (packetIn.func_148911_c() == botPlayer.openContainer.windowId) {
+            botPlayer.openContainer.setAll(Arrays.asList(packetIn.getItemStacks()));
+        }
     }
 
     @Override
     public void handleOpenWindow(S2DPacketOpenWindow packetIn) {
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, Minecraft.getMinecraft());
 
+        this.bot.currentContainerName = packetIn.getWindowTitle().getUnformattedText();
+
+        if ("minecraft:container".equals(packetIn.getGuiId())) {
+            this.bot.displayGUIChest(new InventoryBasic(packetIn.getWindowTitle(), packetIn.getSlotCount()));
+            this.bot.openContainer.windowId = packetIn.getWindowId();
+        } else if ("minecraft:villager".equals(packetIn.getGuiId())) {
+            this.bot.displayVillagerTradeGui(new NpcMerchant(this.bot, packetIn.getWindowTitle()));
+            this.bot.openContainer.windowId = packetIn.getWindowId();
+        } else if ("EntityHorse".equals(packetIn.getGuiId())) {
+            Entity entity = this.world.getEntityByID(packetIn.getEntityId());
+            if (entity instanceof EntityHorse) // Should work on 1.12.2 its AbstractHorse
+                this.bot.openContainer.windowId = packetIn.getWindowId();
+        } else if (!packetIn.hasSlots()) {
+            this.bot.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
+            this.bot.openContainer.windowId = packetIn.getWindowId();
+        } else {
+            ContainerLocalMenu containerLocalMenu = new ContainerLocalMenu(packetIn.getGuiId(), packetIn.getWindowTitle(), packetIn.getSlotCount());
+
+            this.bot.displayGUIChest(containerLocalMenu);
+            this.bot.openContainer.windowId = packetIn.getWindowId();
+        }
     }
 
     @Override
     public void handleWindowProperty(S31PacketWindowProperty packetIn) {
+        BotPlayer botPlayer = this.bot;
 
+        if (botPlayer.openContainer != null && botPlayer.openContainer.windowId == packetIn.getWindowId())
+            botPlayer.openContainer.updateProgressBar(packetIn.getVarIndex(), packetIn.getVarValue());
     }
 
     @Override
     public void handleSetSlot(S2FPacketSetSlot packetIn) {
+        ItemStack itemStack = packetIn.func_149174_e();
+        int slot = packetIn.func_149173_d();
 
+        if (packetIn.func_149175_c() == -1)
+            this.bot.inventory.setItemStack(itemStack);
+        else if (packetIn.func_149175_c() == -2)
+            this.bot.inventory.setInventorySlotContents(slot, itemStack);
+        else {
+            boolean flag = false;
+
+            if (BotStarter.mc.currentScreen instanceof GuiContainerCreative) {
+                GuiContainerCreative containerCreative = (GuiContainerCreative) BotStarter.mc.currentScreen;
+                flag = (containerCreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex());
+            }
+
+            if (packetIn.func_149175_c() == 0 && packetIn.func_149173_d() >= 36 && slot < 45) {
+                if (!(itemStack == null)) {
+                    ItemStack itemStack1 = this.bot.inventoryContainer.getSlot(slot).getStack();
+
+                    if (itemStack1 == null || itemStack1.stackSize < itemStack.stackSize)
+                        itemStack.setAnimationsToGo(5);
+                }
+
+                this.bot.inventoryContainer.putStackInSlot(slot, itemStack);
+            } else if (packetIn.func_149175_c() == this.bot.openContainer.windowId && (packetIn.func_149175_c() != 0 || !flag))
+                this.bot.openContainer.putStackInSlot(slot, itemStack);
+        }
     }
 
     @Override
     public void handleCustomPayload(S3FPacketCustomPayload packetIn) {
-
+        if ("MC|Brand".equals(packetIn.getChannelName()))
+            this.bot.setServerBrand(packetIn.getBufferData().readStringFromBuffer(32767));
     }
 
     @Override
     public void handleDisconnect(S40PacketDisconnect packetIn) {
-
+        //TODO: idk just fill it up..
     }
 
     @Override
     public void handleUseBed(S0APacketUseBed packetIn) {
-
+        packetIn.getPlayer(this.world).trySleep(packetIn.getBedPosition());
     }
 
     @Override
     public void handleEntityStatus(S19PacketEntityStatus packetIn) {
+        Entity entity = packetIn.getEntity(this.world);
 
+        if (entity != null && packetIn.getOpCode() != 21 && packetIn.getOpCode() != 35)
+            entity.handleStatusUpdate(packetIn.getOpCode());
     }
 
     @Override
     public void handleEntityAttach(S1BPacketEntityAttach packetIn) {
+        Entity entity = this.world.getEntityByID(packetIn.getEntityId());
+        Entity vehicleEntity = this.world.getEntityByID(packetIn.getVehicleEntityId());
 
+        if (entity instanceof EntityLiving)
+            if (vehicleEntity != null) {
+                ((EntityLiving) entity).setLeashedToEntity(vehicleEntity, false);
+            } else ((EntityLiving) entity).clearLeashed(false, false);
     }
 
     @Override
     public void handleExplosion(S27PacketExplosion packetIn) {
-
+        Explosion explosion = new Explosion(this.world, null, packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getStrength(), packetIn.getAffectedBlockPositions());
+        explosion.doExplosionB(true);
+        this.bot.motionX += packetIn.func_149149_c(); // Guessed
+        this.bot.motionY += packetIn.func_149144_d(); // Guessed
+        this.bot.motionZ += packetIn.func_149147_e(); // Guessed
     }
 
     @Override
     public void handleChangeGameState(S2BPacketChangeGameState packetIn) {
+        BotPlayer botPlayer = this.bot;
+        int state = packetIn.getGameState();
+        float value = packetIn.func_149137_d();
+        int groszusIsAVerySexyGuyIFuckedHim = MathHelper.floor_double(value + .5f);
 
+        switch (state) {
+            case 1:
+                this.world.getWorldInfo().setRaining(true);
+                this.world.setRainStrength(.0f);
+                break;
+
+            case 2:
+                this.world.getWorldInfo().setRaining(false);
+                this.world.setRainStrength(1.f);
+                break;
+
+            case 3:
+                this.controller.setGameType(WorldSettings.GameType.getByID(groszusIsAVerySexyGuyIFuckedHim));
+                break;
+
+            case 4:
+                if (groszusIsAVerySexyGuyIFuckedHim == 0)
+                    this.bot.connection.sendPacket(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
+                break;
+
+            case 7:
+                this.world.setRainStrength(value);
+                break;
+
+            case 8:
+                this.world.setThunderStrength(value);
+                break;
+        }
     }
 
     @Override
