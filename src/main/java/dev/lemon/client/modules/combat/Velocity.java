@@ -14,7 +14,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "Legit");
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
 
@@ -89,6 +89,10 @@ public class Velocity extends Module {
         switch (mode.getMode()) {
             case "MineMenClub":
                 this.mmcTicks++;
+                break;
+            case "Legit":
+                if (mc.player.hurtTime != 9 || !mc.player.onGround) return;
+                    mc.player.movementInput.jump = true;
                 break;
         }
     };

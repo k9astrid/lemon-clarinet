@@ -41,6 +41,7 @@ public class KillAura extends Module {
     public static ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
 
     private final TimerUtil timer = new TimerUtil();
+    public static Entity currentTarget;
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
@@ -53,6 +54,8 @@ public class KillAura extends Module {
 
         if (minReach.getVal() > maxReach.getVal())
             minReach.setValue(maxReach.getVal());
+
+        currentTarget = null;
     };
 
     @Subscribe
@@ -66,6 +69,8 @@ public class KillAura extends Module {
         this.setSuffix(minReach.getVal() + "-" + maxReach.getVal());
 
         for (Entity target : entityList) {
+            currentTarget = target;
+
             this.setSuffix(target.getName() + " - " + minReach.getVal()+"-"+ maxReach.getVal());
             Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 
