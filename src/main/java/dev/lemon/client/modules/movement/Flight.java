@@ -20,12 +20,10 @@ public class Flight extends Module {
     }
 
     @Override
-    public void onEnable() {
-        super.onEnable();
-    }
+    protected void onEnable() { }
 
-    public void onDisable() {
-        super.onDisable();
+    @Override
+    protected void onDisable() {
         mc.player.capabilities.isFlying = false;
         mc.player.capabilities.isCreativeMode = false;
     }
@@ -43,11 +41,13 @@ public class Flight extends Module {
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         this.setSuffix(mode.getMode());
+
         switch (mode.getMode()){
             case "Creative":
                 mc.player.capabilities.isFlying = true;
                 mc.player.capabilities.isCreativeMode = true;
                 break;
+
             case "Vanilla":
                 mc.player.motionY = 0;
                 MoveUtil.setSpeed(vanillaSpeed.getVal());

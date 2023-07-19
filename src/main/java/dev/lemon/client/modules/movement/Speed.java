@@ -15,15 +15,12 @@ import javax.vecmath.Vector2f;
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave Legit");
 
-
     public Speed() {
         super("Speed", Category.MOVEMENT);
     }
 
     @Override
-    public void onEnable(){
-        super.onEnable();
-    }
+    protected void onEnable() { }
 
     @Subscribe
     public final IEventListener<PreUpdateEvent> onPreUpdate = e -> {

@@ -9,6 +9,7 @@ import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.api.utils.render.ColorUtil;
 import dev.lemon.api.utils.IMethods;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -22,15 +23,12 @@ public class HUD extends Module {
     }
 
     @Subscribe
-    public final IEventListener<Render2DEvent> event2DRenderListener = e -> {
-        ScaledResolution sr = new ScaledResolution(IMethods.mc);
+    public final IEventListener<Render2DEvent> onRender2D = e -> {
+        ScaledResolution sr = new ScaledResolution(mc);
 
         drawLemon();//draws hot thing
 
-        int color = ColorUtil.fadeLemonColors(0);
-        int offsetY = 4;
-        int spacing = 2;
-        int index = 0;
+        int color, offsetY = 4, spacing = 2, index = 0;
         for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
             if (!m.isToggled())
                 continue;
@@ -43,13 +41,12 @@ public class HUD extends Module {
     };
 
     private void drawLemon() {
-
         String bps = new DecimalFormat("#.##").format(MoveUtil.getSpeed());
+        String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
 
-        String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: "+ IMethods.mc.getDebugFPS() + " | " + "BPS: " + bps;
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 8, 0x40000000);
-
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4, ColorUtil.fadeLemonColors(0));
+
         Fonts.BOLD_18.drawString(text, 6, 8, 0xffFFFFFF);
     }
 }

@@ -15,13 +15,8 @@ public class Sprint extends Module {
         super("Sprint", Category.MOVEMENT);
     }
 
-    @Override
-    public void onEnable(){
-        super.onEnable();
-    }
-
     @Subscribe
-    public final IEventListener<PreMotionEvent> eventPreMotionListener = e -> {
+    public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
     };
 }

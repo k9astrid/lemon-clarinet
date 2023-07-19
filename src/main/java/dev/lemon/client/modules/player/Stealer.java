@@ -20,31 +20,35 @@ public class Stealer extends Module {
     public NumberSetting minDelay = new NumberSetting("Min Delay", 50, 0, 5000, 50);
     public NumberSetting maxDelay = new NumberSetting("Max Delay", 100, 0, 5000, 50);
     public BooleanSetting autoClose = new BooleanSetting("Auto Close", true);
-    private TimerUtil timer = new TimerUtil();
-    public Stealer(){
+
+    private final TimerUtil timer = new TimerUtil();
+
+    public Stealer() {
         super("Stealer", Category.PLAYER);
     }
 
     @Subscribe
-    public final IEventListener<TickEvent> eventListener = e -> {
-        this.setSuffix(minDelay.getVal()+" - "+ maxDelay.getVal());
+    public final IEventListener<TickEvent> onTick = e -> {
+        this.setSuffix(minDelay.getVal() + " - " + maxDelay.getVal());
 
-        if (mc.player == null) return;
-        if (mc.player.openContainer == null || !(mc.currentScreen instanceof GuiChest)) { return; }
+        if (mc.player == null)
+            return;
 
+        if (mc.player.openContainer == null || !(mc.currentScreen instanceof GuiChest))
+            return;
 
         ContainerChest containerChest = (ContainerChest) mc.player.openContainer;
 
         for (int i = 0; i < containerChest.getLowerChestInventory().getSizeInventory(); i++){
-
             if (timer.hasTimeElapsed((long)RandomUtil.getRandomDoubleInRange(minDelay.getVal(), maxDelay.getVal()))){
                 if (containerChest.getLowerChestInventory().getStackInSlot(i) == null)
                     continue;
+
                 mc.playerController.windowClick(containerChest.windowId, i, 0, 1, mc.player);
                 timer.reset();
             }
-
         }
+
         if (Arrays.stream(((InventoryBasic)containerChest.getLowerChestInventory()).inventoryContents).allMatch(Objects::isNull) && autoClose.isToggled())
             this.mc.player.closeScreen();
     };

@@ -44,7 +44,7 @@ public class KillAura extends Module {
     }
 
     @Subscribe
-    public final IEventListener<PreMotionEvent> eventPreMotionListener = e -> {
+    public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         List<Entity> entityList = mc.world.loadedEntityList.stream()
                 .filter(this::checkEntity)
                 .sorted(getSortingMode())
@@ -86,7 +86,6 @@ public class KillAura extends Module {
     };
 
     private boolean checkEntity(Entity entity){
-
         return !(mc.player.getEntityId() == entity.getEntityId())
                 && !entity.isDead
                 && (entity instanceof EntityPlayer || entity instanceof EntityCreature)

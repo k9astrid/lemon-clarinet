@@ -21,28 +21,30 @@ public class Velocity extends Module {
     }
 
     @Subscribe
-    public final IEventListener<PacketEvent> eventPacketListener = e -> {
+    public final IEventListener<PacketEvent> onPacket = e -> {
+        this.setSuffix(mode.getMode());
+
         switch (mode.getMode()) {
             case "Cancel":
-                this.setSuffix(mode.getMode());
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
+                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId())
                     e.setCancelled(true);
-                }
-                if (e.getPacket() instanceof S27PacketExplosion) {
+                if (e.getPacket() instanceof S27PacketExplosion)
                     e.setCancelled(true);
-                }
-            break;
+                break;
+
             case "Custom":
-                this.setSuffix(horizontal.getVal()+"% "+ vertical.getVal()+"%");
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == IMethods.mc.player.getEntityId()) {
+                this.setSuffix(horizontal.getVal() + "% " + vertical.getVal() + "%");
+
+                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId()) {
                     S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) e.getPacket();
+
                     velocityPacket.setMotionX((int) (velocityPacket.getMotionX() * (horizontal.getVal() / 100)));
                     velocityPacket.setMotionY((int) (velocityPacket.getMotionY() * (vertical.getVal() / 100)));
                     velocityPacket.setMotionZ((int) (velocityPacket.getMotionZ() * (horizontal.getVal() / 100)));
                 }
-                if (e.getPacket() instanceof S27PacketExplosion) {
+
+                if (e.getPacket() instanceof S27PacketExplosion)
                     e.setCancelled(true);
-                }
                 break;
         }
     };
