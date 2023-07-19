@@ -4,6 +4,7 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
+import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
@@ -16,7 +17,9 @@ import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub");
-    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Test", "Legit Hop");
+    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "FastFall", "Test");
+
+    private final NumberSetting strafeHit = new NumberSetting("Strafe ticks after hit", 20, 0, 40, 1, () -> mode.is("MineMenClub"));
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -56,14 +59,33 @@ public class Speed extends Module {
                             mc.timer.timerSpeed = 1.15f;
                         break;
 
-                    case "Legit Fast":
+                    case "Fast":
                         if (!mc.player.onGround)
                             e.setYaw(mc.player.rotationYaw + 45);
 
                         mc.player.jumpTicks = 0;
                         mc.timer.timerSpeed = 1.20438672868002447955033248163757547256375754576812877471296728680024479550332481637575472563757545768128774712672868002447955033248163757547256375754576812877471220438672868002447955033248163757547256375754576812877471296728680024479550332481637575472563757545768128774712672868002447955033248163757547256375754576812877471220438672868002447955033248163757547256375754576812877471296728680024479550332481637575472563757545768128774712672868002447955033248163757547256375754576812877471220438672868002447955033248163757547256375754576812877471296728680024479550332481637575472563757545768128774712672868002447955033248163757547256375754576812877471220438672868002447955033248163757547256375754576812877471296728680024479550332481637575472563757545768128774712672868002447955033248163757547256375754576812877471214159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372457006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943f;
                         break;
+                    case "FastFall":
+                        if (!mc.player.onGround)
+                            e.setYaw(mc.player.rotationYaw + 45);
 
+                        if (Math.abs(mc.player.posY) < 0.05) {
+                            mc.timer.timerSpeed = 3.1f;
+                        }
+                        mc.player.jumpTicks = 0;
+                        mc.timer.timerSpeed = 1.214f;
+                        break;
+                    case "SlowFall":
+                        if (!mc.player.onGround)
+                            e.setYaw(mc.player.rotationYaw + 45);
+
+                        if (Math.abs(mc.player.posY) < 0.05) {
+                            mc.timer.timerSpeed = 0.3f;
+                        }
+                        mc.player.jumpTicks = 0;
+                        mc.timer.timerSpeed = 3.214f;
+                        break;
                 }
                 break;
         }
@@ -78,19 +100,15 @@ public class Speed extends Module {
                 break;
 
             case "Intave":
-                switch (intaveMode.getMode()) {
-                    case "Legit Hop":
-                        if (mc.player.onGround)
-                            mc.player.jump();
-                        break;
+                if (mc.player.onGround)
+                    mc.player.jump();
+                break;
 
-                    case "Test":
-                        if (mc.player.onGround) {
-                            mc.player.triggerAchievement(StatList.jumpStat);
-                            mc.player.motionY = 0.42f * .78;
-                            MoveUtil.strafe(MoveUtil.baseSpeed());
-                        }
-                        break;
+            case "Test":
+                if (mc.player.onGround) {
+                    mc.player.triggerAchievement(StatList.jumpStat);
+                    mc.player.motionY = 0.42f * .78;
+                    MoveUtil.strafe(MoveUtil.baseSpeed());
                 }
                 break;
         }
