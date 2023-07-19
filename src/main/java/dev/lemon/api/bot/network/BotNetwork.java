@@ -28,6 +28,9 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
     }
 
     @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception { }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
         if (this.channel.isOpen()) {
             try {
