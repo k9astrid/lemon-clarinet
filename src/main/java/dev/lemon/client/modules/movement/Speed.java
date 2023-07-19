@@ -9,26 +9,18 @@ import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
+import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatList;
 
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave Legit");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave");
+    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Test", "Legit Hop");
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
     }
-
-    @Override
-    protected void onEnable() { }
-
-    @Subscribe
-    public final IEventListener<PreUpdateEvent> onPreUpdate = e -> {
-        switch (mode.getMode()) {
-            case "Intave Legit":
-                break;
-        }
-    };
 
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
@@ -42,9 +34,23 @@ public class Speed extends Module {
                 MoveUtil.strafe();
                 break;
 
-            case "Intave Legit":
-                mc.player.jumpTicks = 0;
-                mc.timer.timerSpeed = 1.004f;
+            case "Intave":
+                switch (intaveMode.getMode()) {
+                    case "Legit Hop":
+                        if (!mc.player.onGround)
+                            e.setYaw(mc.player.rotationYaw + 45);
+
+                        mc.player.jumpTicks = 0;
+                        mc.timer.timerSpeed = 1.004f;
+                        break;
+
+                    case "Test":
+                        if (mc.player.onGround)
+                            mc.timer.timerSpeed = 1.2f;
+                        else
+                            mc.timer.timerSpeed = 1.15f;
+                        break;
+                }
                 break;
         }
     };
@@ -52,9 +58,21 @@ public class Speed extends Module {
     @Subscribe
     public final IEventListener<StrafeEvent> onStrafe = e -> {
         switch (mode.getMode()) {
-            case "Intave Legit":
-                if (mc.player.onGround)
-                    mc.player.jump();
+            case "Intave":
+                switch (intaveMode.getMode()) {
+                    case "Legit Hop":
+                        if (mc.player.onGround)
+                            mc.player.jump();
+                        break;
+
+                    case "Test":
+                        if (mc.player.onGround) {
+                            mc.player.triggerAchievement(StatList.jumpStat);
+                            mc.player.motionY = 0.42f * .78;
+                            MoveUtil.strafe(MoveUtil.baseSpeed());
+                        }
+                        break;
+                }
                 break;
         }
     };

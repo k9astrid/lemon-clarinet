@@ -38,6 +38,7 @@ public class Config implements IMethods {
             if (!(m.getCategory() == Module.Category.SCRIPTS)) {
                 JsonObject mObject = new JsonObject();
                 mObject.addProperty("state", m.isToggled());
+
                 if (saveKeybinds)
                     mObject.addProperty("bind", m.getKey());
 

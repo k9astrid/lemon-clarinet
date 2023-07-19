@@ -66,7 +66,7 @@ public class PlayerBinding implements IMethods {
     }
 
     public boolean moving() {
-        return MoveUtil.isWalking();
+        return MoveUtil.moving();
     }
 
     public boolean eating() {
