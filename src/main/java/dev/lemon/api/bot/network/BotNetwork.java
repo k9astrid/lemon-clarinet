@@ -2,16 +2,14 @@ package dev.lemon.api.bot.network;
 
 import com.google.common.collect.Queues;
 import com.sun.istack.internal.Nullable;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.*;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Queue;
-import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
@@ -51,7 +49,7 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
     public void sendPacket(Packet<?> packet) {
         if (isChannelOpen()) {
             flushOutQueue();
-            dispatch(packet, null);
+            dispatchPacket(packet, null);
         } else {
             this.readWriteLock.writeLock().lock();
 
@@ -67,20 +65,48 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
     public final void sendPacket(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> listener, GenericFutureListener<? extends Future<? super Void>>... array) {
         if (isChannelOpen()) {
             flushOutQueue();
-            dispatch(packet, (GenericFutureListener<? extends Future<? super Void>>[]) ArrayUtils.add((Object[]) array, 0, listener));
+            dispatchPacket(packet, ArrayUtils.add(array, 0, listener));
         } else {
             this.readWriteLock.writeLock().lock();
 
             try {
-                this.outboundPacketsQueue.add(new InboundHandlerTuplePacketListener(packet, (GenericFutureListener<? extends Future<? super Void>>[]) ArrayUtils.add((Object[]) array, 0, listener)));
+                this.outboundPacketsQueue.add(new InboundHandlerTuplePacketListener(packet, ArrayUtils.add(array, 0, listener)));
             } finally {
                 this.readWriteLock.writeLock().unlock();
             }
         }
     }
 
-    private void dispatch(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>>[] array) {
+    private void dispatchPacket(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>>[] array) {
         EnumConnectionState enumConnectionState = EnumConnectionState.getFromPacket(packet);
+        EnumConnectionState enumConnectionState1 = this.channel.attr(PROTOCOL_ATTRIBUTE_KEY).get();
+
+        if (enumConnectionState1 != enumConnectionState)
+            this.channel.config().setAutoRead(false);
+
+        if (this.channel.eventLoop().inEventLoop()) {
+            if (enumConnectionState != enumConnectionState1)
+                setConnectionState(enumConnectionState);
+
+            ChannelFuture channelFuture = this.channel.writeAndFlush(packet);
+
+            if (array != null)
+                channelFuture.addListeners(array);
+
+            channelFuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        } else {
+            this.channel.eventLoop().execute(() -> {
+               if (enumConnectionState != enumConnectionState1)
+                   setConnectionState(enumConnectionState);
+
+               ChannelFuture channelFuture = this.channel.writeAndFlush(packet);
+
+               if (array != null)
+                   channelFuture.addListeners(array);
+
+                channelFuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+            });
+        }
     }
 
     private void flushOutQueue() {
@@ -90,7 +116,7 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
             try {
                 while (!this.outboundPacketsQueue.isEmpty()) {
                     InboundHandlerTuplePacketListener listener = this.outboundPacketsQueue.poll();
-                    dispatch(listener.packet, listener.listener);
+                    dispatchPacket(listener.packet, listener.listener);
                 }
             } finally {
                 this.readWriteLock.readLock().unlock();
