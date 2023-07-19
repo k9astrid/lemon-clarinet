@@ -23,8 +23,7 @@ public class ElementBoolean extends Element {
     public void draw(int mouseX, int mouseY) {
         Fonts.BOLD_15.drawString(value.name, x + 4, y + 4, -1);
         lerp = (float) RenderUtil.linearAnimation(lerp, value.isToggled() ? 6 : 0, 0.9f);
-        //todo: for groszus
-        //RoundUtil.drawRoundedRect(x + parent.width - 16, y + 2, 12, 6, 3, value.isToggled() ? new Color(0, 0, 0, 50).getRGB() :  new Color(0, 0, 0, 100));
+        RenderUtil.drawRound((float) (x + parent.width - 16), (float) (y + 2), 12, 6, 3, value.isToggled() ? new Color(0, 0, 0, 50) :  new Color(0, 0, 0, 100));
         //RoundUtil.drawRoundCircle((float) (x + parent.width - 13 + lerp), (float) (y + 5), 3, value.isToggled() ? Color.black : Color.white);
     }
 

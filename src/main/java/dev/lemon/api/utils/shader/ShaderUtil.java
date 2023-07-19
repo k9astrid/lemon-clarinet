@@ -28,35 +28,11 @@ public class ShaderUtil {
         glUseProgram(0);
     }
 
-    public int getUniform(String name) {
-        return glGetUniformLocation(programID, name);
-    }
-
-
-
-    public void setUniformi(String name, int... args) {
-        int loc = glGetUniformLocation(programID, name);
-        if (args.length > 1) glUniform2i(loc, args[0], args[1]);
-        else glUniform1i(loc, args[0]);
-    }
     private final int programID;
 
-
     public ShaderUtil(String fragmentShaderLoc) {
-        this(fragmentShaderLoc, "client/shaders/vertex.vsh");
+        this(fragmentShaderLoc, "lemon/shaders/vertex.vsh");
     }
-
-
-    public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
-        if (framebuffer == null || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight) {
-            if (framebuffer != null) {
-                framebuffer.deleteFramebuffer();
-            }
-            return new Framebuffer(mc.displayWidth, mc.displayHeight, true);
-        }
-        return framebuffer;
-    }
-
 
     public ShaderUtil(String fragmentShaderLoc, String vertexShaderLoc) {
         int program = glCreateProgram();
@@ -66,24 +42,32 @@ public class ShaderUtil {
                 case "roundedRect":
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedRect.getBytes()), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
+
                 case "rounded":
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedRect.getBytes()), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
+
                 case "roundedRectGradient":
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedRectGradient.getBytes()), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
+
                 case "roundedTexturedShader":
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedTexturedShader.getBytes()), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
+
                 case "roundRectOutline":
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundRectOutline.getBytes()),OpenGlHelper. GL_FRAGMENT_SHADER);
                     break;
+
                 default:
                     fragmentShaderID = createShader(mc.getResourceManager().getResource(new ResourceLocation(fragmentShaderLoc)).getInputStream(), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
             }
+
             GL20.glAttachShader(program, fragmentShaderID);
 
+            int vertexID = createShader(mc.getResourceManager().getResource(new ResourceLocation(vertexShaderLoc)).getInputStream(), GL_VERTEX_SHADER);
+            glAttachShader(program, vertexID);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,15 +82,6 @@ public class ShaderUtil {
         this.programID = program;
     }
 
-
-
-    public static float calculateGaussianValue(float x, float sigma) {
-        double PI = 3.141592653;
-        double output = 1.0 / Math.sqrt(2.0 * PI * (sigma * sigma));
-        return (float) (output * Math.exp(-(x * x) / (2.0 * (sigma * sigma))));
-    }
-
-
     private int createShader(InputStream inputStream, int shaderType) {
         int shader = GL20.glCreateShader(shaderType);
         GL20. glShaderSource(shader, readInputStream(inputStream));
@@ -119,21 +94,6 @@ public class ShaderUtil {
         }
 
         return shader;
-    }
-    public static String readFile(File file) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            String line;
-            while ((line = bufferedReader.readLine()) != null)
-                stringBuilder.append(line).append('\n');
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
     }
 
     public static String readInputStream(InputStream inputStream) {
@@ -150,6 +110,7 @@ public class ShaderUtil {
         }
         return stringBuilder.toString();
     }
+
     public static void drawQuads() {
         if (mc.gameSettings.ofFastRender) return;
         ScaledResolution sr = new ScaledResolution(mc);
@@ -165,9 +126,7 @@ public class ShaderUtil {
         glTexCoord2f(1, 1);
         glVertex2f(width, 0);
         glEnd();
-
     }
-
 
     public static void drawQuads(float x, float y, float width, float height) {
         if (mc.gameSettings.ofFastRender) return;
@@ -183,14 +142,8 @@ public class ShaderUtil {
         glEnd();
     }
 
-
-
-
-
-
-
-
-    private String roundRectOutline = "#version 120\n" +
+    private String roundRectOutline =
+            "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
             "uniform vec4 color, outlineColor;\n" +
@@ -209,7 +162,9 @@ public class ShaderUtil {
             "    gl_FragColor = mix(outlineColor, insideColor, blendAmount);\n" +
             "\n" +
             "}";
-    private final String roundedRectGradient = "#version 120\n" +
+
+    private final String roundedRectGradient =
+            "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
             "uniform vec4 color1, color2, color3, color4;\n" +
@@ -237,11 +192,8 @@ public class ShaderUtil {
             "    gl_FragColor = vec4(createGradient(st, color1.rgb, color2.rgb, color3.rgb, color4.rgb), smoothedAlpha);\n" +
             "}";
 
-
-
-
-
-    private final String roundedTexturedShader = "#version 120\n" +
+    private final String roundedTexturedShader =
+            "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
             "uniform sampler2D textureIn;\n" +
@@ -258,9 +210,8 @@ public class ShaderUtil {
             "    gl_FragColor = vec4(texture2D(textureIn, gl_TexCoord[0].st).rgb, smoothedAlpha);\n" +
             "}";
 
-
-
-    private String roundedRect = "#version 120\n" +
+    private String roundedRect =
+            "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
             "uniform vec4 color;\n" +
@@ -279,11 +230,10 @@ public class ShaderUtil {
             "    gl_FragColor = vec4(color.rgb, smoothedAlpha);// mix(quadColor, shadowColor, 0.0);\n" +
             "\n" +
             "}";
+
     public static void bindTexture(int texture) {
         GlStateManager.bindTexture(texture);
     }
-
-
 
     public static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtil roundedTexturedShader) {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
@@ -292,7 +242,6 @@ public class ShaderUtil {
         roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());
         roundedTexturedShader.setUniformf("radius", radius * sr.getScaleFactor());
     }
-
 
     public void setUniformf(String name, float... args) {
         int loc = glGetUniformLocation(programID, name);
@@ -311,7 +260,5 @@ public class ShaderUtil {
                 break;
         }
     }
-
-
 
 }

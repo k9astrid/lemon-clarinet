@@ -627,7 +627,22 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         Display.setResizable(true);
         Display.setTitle(Lemon.INSTANCE.name + " " + Lemon.INSTANCE.version + "-" + Lemon.INSTANCE.clientEnum + " (LWJGL " + Sys.getVersion() + ") - Starting up");
 
-        Display.create((new PixelFormat()).withDepthBits(24));
+        try
+        {
+            Display.create((new PixelFormat()).withDepthBits(24));
+        }
+        catch (LWJGLException e) {
+            logger.error("Couldn't set pixel format");
+
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException ignored) { }
+
+            if (this.fullscreen)
+                this.updateDisplayMode();
+
+            Display.create();
+        }
     }
 
     private void setInitialDisplayMode() throws LWJGLException
@@ -654,14 +669,15 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             InputStream inputstream = null;
             InputStream inputstream1 = null;
 
-            try
-            {
-                Display.setIcon(RenderUtil.loadIcon("Lemon/icons/icon_32x32.png"));
+            try {
+                inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
+                inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
 
-            } catch (NullPointerException e){
-
-            }
-            {
+                if (inputstream != null && inputstream1 != null)
+                    Display.setIcon(new ByteBuffer[]{this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
+            } catch (IOException exception) {
+                logger.error("Couldn't set icon");
+            } finally {
                 IOUtils.closeQuietly(inputstream);
                 IOUtils.closeQuietly(inputstream1);
             }
