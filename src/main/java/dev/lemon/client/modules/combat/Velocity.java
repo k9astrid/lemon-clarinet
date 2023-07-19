@@ -3,48 +3,92 @@ package dev.lemon.client.modules.combat;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
+import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 
 import dev.lemon.api.utils.IMethods;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub");
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1);
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1);
+
+    private int mmcTicks;
 
     public Velocity() {
         super("Velocity", Category.COMBAT);
     }
 
+    @Override
+    protected void onEnable() {
+        mmcTicks = 0;
+    }
+
     @Subscribe
     public final IEventListener<PacketEvent> onPacket = e -> {
-        this.setSuffix(mode.getMode());
+        final Packet<?> packet = e.getPacket();
 
         switch (mode.getMode()) {
             case "Cancel":
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId())
-                    e.setCancelled(true);
-                if (e.getPacket() instanceof S27PacketExplosion)
+                if (packet instanceof S12PacketEntityVelocity) {
+                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
+
+                    if (wrapper.getEntityID() == mc.player.getEntityId())
+                        e.setCancelled(true);
+                }
+                if (packet instanceof S27PacketExplosion)
                     e.setCancelled(true);
                 break;
 
             case "Custom":
                 this.setSuffix(horizontal.getVal() + "% " + vertical.getVal() + "%");
 
-                if (e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId()) {
-                    S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) e.getPacket();
+                if (packet instanceof S12PacketEntityVelocity) {
+                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
 
-                    velocityPacket.setMotionX((int) (velocityPacket.getMotionX() * (horizontal.getVal() / 100)));
-                    velocityPacket.setMotionY((int) (velocityPacket.getMotionY() * (vertical.getVal() / 100)));
-                    velocityPacket.setMotionZ((int) (velocityPacket.getMotionZ() * (horizontal.getVal() / 100)));
+                    if (wrapper.getEntityID() == mc.player.getEntityId()) {
+                        S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) packet;
+
+                        velocityPacket.setMotionX((int) (velocityPacket.getMotionX() * (horizontal.getVal() / 100)));
+                        velocityPacket.setMotionY((int) (velocityPacket.getMotionY() * (vertical.getVal() / 100)));
+                        velocityPacket.setMotionZ((int) (velocityPacket.getMotionZ() * (horizontal.getVal() / 100)));
+                    }
                 }
 
-                if (e.getPacket() instanceof S27PacketExplosion)
+                if (packet instanceof S27PacketExplosion)
                     e.setCancelled(true);
+                break;
+
+            case "MineMenClub":
+                if (this.mmcTicks > 20) {
+                    if (packet instanceof S12PacketEntityVelocity) {
+                        final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
+
+                        if (wrapper.getEntityID() == mc.player.getEntityId()) {
+                            e.setCancelled(true);
+                            this.mmcTicks = 0;
+                        }
+                    } else if (packet instanceof S27PacketExplosion) {
+                        e.setCancelled(true);
+                        this.mmcTicks = 0;
+                    }
+                }
+                break;
+        }
+    };
+
+    @Subscribe
+    public final IEventListener<PreMotionEvent> onPreMotion = e -> {
+        this.setSuffix(mode.getMode());
+
+        switch (mode.getMode()) {
+            case "MineMenClub":
+                this.mmcTicks++;
                 break;
         }
     };
