@@ -1,12 +1,27 @@
 package dev.lemon.api.bot.network;
 
 import com.mojang.authlib.GameProfile;
+import com.viaversion.viaversion.protocols.protocol1_11to1_10.storage.EntityTracker1_11;
+import dev.lemon.api.bot.Bot;
 import dev.lemon.api.bot.entity.BotPlayer;
+import dev.lemon.api.bot.proxy.Proxy;
+import dev.lemon.api.bot.world.BotWorld;
+import lombok.Data;
 import lombok.Getter;
+import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.entity.*;
+import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
+import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.*;
 import net.minecraft.util.IChatComponent;
+import viamcp.ViaMCP;
+
+import java.net.InetAddress;
+import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class BotPlayClient implements INetHandlerPlayClient {
@@ -15,8 +30,13 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     private BotPlayer bot;
 
+    private final GameProfile profile;
+
+    private BotWorld world;
+
     public BotPlayClient(BotNetwork network, GameProfile gameProfile) {
         this.network = network;
+        this.profile = gameProfile;
     }
 
     public void sendPacket(Packet<?> packet) {
@@ -25,27 +45,68 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     @Override
     public void onDisconnect(IChatComponent reason) {
+        Bot.bots.remove(getBot2());
 
+        this.network.closeChannel();
+
+        (new Thread(() -> {
+            Proxy proxy = getBot2().getNetwork().proxy;
+            GameProfile gameProfile = new GameProfile(UUID.randomUUID(), getProfile().getName());
+
+            try {
+                BotNetwork botNetwork = BotNetwork.createNetworkManagerAndConnect(InetAddress.getByName(GuiConnecting.ip), GuiConnecting.port, proxy);
+                botNetwork.setNetHandler(new BotLoginClient(botNetwork));
+                botNetwork.sendPacket(new C00Handshake(ViaMCP.getInstance().getVersion(), GuiConnecting.ip, GuiConnecting.port, EnumConnectionState.LOGIN));
+                botNetwork.sendPacket(new C00PacketLoginStart(gameProfile));
+            } catch (Exception ignored) { }
+        })).start();
     }
 
     @Override
-    public void handleSpawnObject(S0EPacketSpawnObject packetIn) {
-
-    }
+    public void handleSpawnObject(S0EPacketSpawnObject packetIn) { }
 
     @Override
-    public void handleSpawnExperienceOrb(S11PacketSpawnExperienceOrb packetIn) {
-
-    }
+    public void handleSpawnExperienceOrb(S11PacketSpawnExperienceOrb packetIn) { }
 
     @Override
-    public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity packetIn) {
-
-    }
+    public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity packetIn) { }
 
     @Override
     public void handleSpawnMob(S0FPacketSpawnMob packetIn) {
+        double x = packetIn.getX();
+        double y = packetIn.getY();
+        double z = packetIn.getZ();
+        float f = (packetIn.getYaw() * 360) / 256.f;
+        float f2 = (packetIn.getPitch() * 360) / 256.f;
 
+        EntityLivingBase entityLivingBase = (EntityLivingBase) EntityList.createEntityByID(packetIn.getEntityType(), this.world);
+
+        if (entityLivingBase != null) {
+            EntityTracker.updateServerPosition(entityLivingBase, x, y, z);
+
+            entityLivingBase.renderYawOffset = (packetIn.getHeadPitch() * 360) / 256.f;
+            entityLivingBase.rotationYawHead = (packetIn.getHeadPitch() * 360) / 256.f;
+
+            Entity[] array = entityLivingBase.getParts();
+            if (array != null) {
+                int id = packetIn.getEntityID() - entityLivingBase.getEntityId();
+
+                for (Entity entity : array)
+                    entity.setEntityId(entity.getEntityId() + id);
+            }
+
+            entityLivingBase.setEntityId(packetIn.getEntityID()); // should work without entity unique ID
+
+            entityLivingBase.setPositionAndRotation(x, y, z, f, f2);
+
+            entityLivingBase.motionX = (packetIn.getVelocityX() / 8000.f);
+            entityLivingBase.motionY = (packetIn.getVelocityY() / 8000.f);
+            entityLivingBase.motionZ = (packetIn.getVelocityZ() / 8000.f);
+
+            this.world.addEntityToWorld(packetIn.getEntityID(), entityLivingBase);
+
+            //should work without data manager...
+        }
     }
 
     @Override
@@ -381,5 +442,15 @@ public class BotPlayClient implements INetHandlerPlayClient {
     @Override
     public void handleEntityNBT(S49PacketUpdateEntityNBT packetIn) {
 
+    }
+
+    private Bot getBot2() {
+        Bot bot = null;
+        for (Bot bot2 : Bot.bots) {
+            if (!bot2.getPlayer().getDisplayName().getUnformattedTextForChat().equalsIgnoreCase(this.bot.getDisplayName().getUnformattedText()))
+                continue;
+            bot = bot2;
+        }
+        return bot;
     }
 }

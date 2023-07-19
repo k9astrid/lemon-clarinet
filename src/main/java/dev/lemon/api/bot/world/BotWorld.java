@@ -1,24 +1,66 @@
 package dev.lemon.api.bot.world;
 
+import com.google.common.collect.Sets;
+import dev.lemon.api.bot.entity.BotPlayer;
+import dev.lemon.api.bot.network.BotPlayClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ChunkProviderClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.*;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveDataMemoryStorage;
+import net.minecraft.world.storage.SaveHandlerMP;
 import net.minecraft.world.storage.WorldInfo;
 
+import java.util.Set;
+
 public class BotWorld extends World {
-    protected BotWorld(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client) {
-        super(saveHandlerIn, info, providerIn, profilerIn, client);
+    private ChunkProviderClient clientChunkProvider;
+
+    private final BotPlayClient connection;
+
+    private final Set<Entity> entityList, entitySpawnQueue;
+
+    protected BotWorld(BotPlayClient botPlayClient, WorldSettings worldSettings, int dimension, EnumDifficulty difficulty) {
+        super(new SaveHandlerMP(), new WorldInfo(worldSettings, "MpServer"), DimensionType.getById(dimension).createDimension(), Minecraft.getMinecraft().mcProfiler, true);
+
+        this.entityList = Sets.newHashSet();
+        this.entitySpawnQueue = Sets.newHashSet();
+        this.connection = botPlayClient;
+        getWorldInfo().setDifficulty(difficulty);
+        this.provider.setWorldObj(this);
+        setSpawnPoint(new BlockPos(8, 64, 8));
+        this.chunkProvider = createChunkProvider();
+        this.mapStorage = new SaveDataMemoryStorage();
+        calculateInitialSkylight();
+        calculateInitialWeather();
     }
 
     @Override
     protected IChunkProvider createChunkProvider() {
-        return null;
+        this.clientChunkProvider = new ChunkProviderClient(this);
+        return this.clientChunkProvider;
     }
 
     @Override
     protected int getRenderDistanceChunks() {
-        return 0;
+        return 50;
+    }
+
+    public void addEntityToWorld(int entityID, Entity entityToSpawn) {
+        Entity entity = getEntityByID(entityID);
+
+        if (entity != null)
+            removeEntity(entity);
+
+        this.entityList.add(entityToSpawn);
+
+        if (!spawnEntityInWorld(entityToSpawn))
+            this.entitySpawnQueue.add(entityToSpawn);
+
+        this.entitiesById.addKey(entityID, entityToSpawn);
     }
 }

@@ -37,7 +37,7 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
         }
     };
 
-    private Proxy proxy;
+    public Proxy proxy;
     private EnumPacketDirection direction;
 
     public BotNetwork(EnumPacketDirection direction, Proxy proxy) {
@@ -215,6 +215,17 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
 
         if (this.channel != null)
             this.channel.flush();
+    }
+
+    public void closeChannel() {
+        if (this.channel.isOpen())
+            try {
+                try {
+                    this.channel.close().sync();
+                } catch (Exception exception) {
+                    this.channel.close();
+                }
+            } catch (Throwable throwable) {}
     }
 
     static class InboundHandlerTuplePacketListener {

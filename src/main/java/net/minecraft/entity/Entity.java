@@ -210,9 +210,9 @@ public abstract class Entity implements ICommandSender
     public int chunkCoordX;
     public int chunkCoordY;
     public int chunkCoordZ;
-    public int serverPosX;
-    public int serverPosY;
-    public int serverPosZ;
+    public long serverPosX;
+    public long serverPosY;
+    public long serverPosZ;
 
     /**
      * Render entity even if it is outside the camera frustum. Only true in EntityFish for now. Used in RenderGlobal:
@@ -2581,6 +2581,10 @@ public abstract class Entity implements ICommandSender
     public UUID getUniqueID()
     {
         return this.entityUniqueID;
+    }
+
+    public void setUniqueID(UUID uniqueID) {
+        this.entityUniqueID = uniqueID;
     }
 
     public boolean isPushedByWater()

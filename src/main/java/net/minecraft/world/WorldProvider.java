@@ -280,4 +280,8 @@ public abstract class WorldProvider
     {
         return new WorldBorder();
     }
+
+    public void setWorldObj(World worldObj) {
+        this.worldObj = worldObj;
+    }
 }
