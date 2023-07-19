@@ -4,6 +4,7 @@ import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.shader.ShaderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +22,7 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class RenderUtil implements IMethods {
     public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
+    public static ShaderUtil roundedOutlineShader = new ShaderUtil("roundRectOutline");
 
     public static void drawImage(ResourceLocation location, float x, float y, int width, int height) {
         GlStateManager.pushMatrix();
@@ -152,6 +154,23 @@ public class RenderUtil implements IMethods {
         roundedShader.unload();
         GlStateManager.disableBlend();
         GlStateManager.resetColor();
+    }
+
+    public static void drawRoundOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        roundedOutlineShader.init();
+
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ShaderUtil.setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
+        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
+        roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+        roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
+
+        ShaderUtil.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
+        roundedOutlineShader.unload();
+        GlStateManager.disableBlend();
     }
 
     public static void drawRoundCircle(float x, float y, float radius, Color color) {
