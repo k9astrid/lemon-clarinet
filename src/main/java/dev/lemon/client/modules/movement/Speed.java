@@ -16,7 +16,7 @@ import net.minecraft.stats.StatList;
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "FastFall", "Test");
 
     public Speed() {

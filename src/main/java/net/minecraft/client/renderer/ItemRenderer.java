@@ -345,7 +345,7 @@ public class ItemRenderer
             {
                 this.renderItemMap(entityplayersp, f2, f, f1);
             }
-            else if (entityplayersp.getItemInUseCount() > 0 || Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled())
+            else if (entityplayersp.getItemInUseCount() > 0 || (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null))
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
                 if (!KillAura.autoblockMode.is("None")) enumaction = EnumAction.BLOCK;
