@@ -18,7 +18,7 @@ public class CommandManager {
         commands.add(new Bind());
         commands.add(new Toggle());
         commands.add(new Reload());
-
+        commands.add(new Config());
     }
 
     public List<Command> getCommands() {

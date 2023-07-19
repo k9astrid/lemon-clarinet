@@ -51,4 +51,17 @@ public class ConfigManager implements IMethods {
     public Config getConfig(String name) {
         return configs.keySet().stream().filter(key -> key.equalsIgnoreCase(name)).findFirst().map(configs::get).orElse(null);
     }
+
+    public void saveConfig(String configName){
+        if (getConfig(configName) == null) {
+            Config config = new Config(configName, true);
+            config.write();
+        } else getConfig(configName).write();
+
+    }
+
+    public void loadConfig(String configName){
+        if (getConfig(configName) != null)
+            getConfig(configName).read();
+    }
 }
