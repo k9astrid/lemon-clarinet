@@ -19,41 +19,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class ModuleManager {
-    private HashMap<Object, Module> modules = new HashMap<>();
+public class ModuleManager extends HashMap<Object, Module> {
 
     public void initialize(){
-        modules.put(Sprint.class, new Sprint());
-        modules.put(HUD.class, new HUD());
-        modules.put(Speed.class, new Speed());
-        modules.put(Flight.class, new Flight());
-        modules.put(Velocity.class, new Velocity());
-        modules.put(ClickGUI.class, new ClickGUI());
-        modules.put(KillAura.class, new KillAura());
-        modules.put(Disabler.class, new Disabler());
-        modules.put(Stealer.class, new Stealer());
-
-        modules.values().stream().filter(Module::isAutoEnabled).forEach(m -> m.setToggled(true));
-        modules.values().forEach(Module::reflectValues);
+        this.values().stream().filter(Module::isAutoEnabled).forEach(m -> m.setToggled(true));
+        this.values().forEach(Module::reflectValues);
 
         Lemon.INSTANCE.getEventBus().register(this);
     }
 
     @Subscribe
     public final IEventListener<KeyboardInputEvent> onKey = e -> {
-        for (Module m : modules.values())
+        for (Module m : this.values())
             if (m.getKey() == e.getKeyCode())
                 m.toggle();
     };
 
     public HashMap<Object, Module> getModulesMap() {
-        return modules;
+        return this;
     }
 
     public List<Module> getModulesFromCategory(Module.Category category) {
         List<Module> modules = new ArrayList<>();
 
-        for (Module m : this.modules.values())
+        for (Module m : this.values())
             if (m.getCategory() == category)
                 modules.add(m);
 
@@ -62,7 +51,7 @@ public class ModuleManager {
 
     public Module getModuleByName(String name) {
 
-        for (Module m : this.modules.values())
+        for (Module m : this.values())
             if (Objects.equals(m.getName(), name))
                 return m;
 

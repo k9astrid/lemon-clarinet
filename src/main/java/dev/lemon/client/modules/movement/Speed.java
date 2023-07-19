@@ -9,13 +9,14 @@ import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
+import javafx.print.PageLayout;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatList;
 
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Test", "Legit Hop");
 
     public Speed() {
@@ -28,10 +29,15 @@ public class Speed extends Module {
 
         switch (mode.getMode()) {
             case "Strafe":
-                if (mc.player.onGround) {
+                if (mc.player.onGround)
                     mc.player.jump();
-                }
+
                 MoveUtil.strafe();
+                break;
+
+            case "MineMenClub":
+                if (mc.player.onGround)
+                    mc.player.jump();
                 break;
 
             case "Intave":
@@ -58,6 +64,11 @@ public class Speed extends Module {
     @Subscribe
     public final IEventListener<StrafeEvent> onStrafe = e -> {
         switch (mode.getMode()) {
+            case "MineMenClub":
+                if (mc.player.hurtTime <= 6)
+                    MoveUtil.strafe();
+                break;
+
             case "Intave":
                 switch (intaveMode.getMode()) {
                     case "Legit Hop":

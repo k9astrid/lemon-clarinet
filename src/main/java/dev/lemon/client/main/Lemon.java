@@ -2,10 +2,12 @@ package dev.lemon.client.main;
 
 import dev.lemon.api.command.CommandManager;
 import dev.lemon.api.config.ConfigManager;
+import dev.lemon.api.module.Module;
 import dev.lemon.api.module.ModuleManager;
 import dev.lemon.api.event.bus.EventBus;
 import dev.lemon.api.script.ScriptManager;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.other.ReflectionUtil;
 import dev.lemon.api.utils.player.RotationUtil;
 import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
@@ -45,6 +47,27 @@ public enum Lemon implements IMethods {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             configManager.stop();
         }));
+
+        // This can be usefull when we gonna use package obfuscator so we can collect every module from it
+        String[] paths = {
+            "dev.lemon.client"
+        };
+
+        for (String path : paths) {
+            if (!ReflectionUtil.exist(path))
+                continue;
+
+            Class<?>[] classes = ReflectionUtil.getClassesInPackage(path);
+
+            for (Class<?> clazz : classes) {
+                try {
+                    if (Module.class.isAssignableFrom(clazz) && clazz != Module.class)
+                        this.moduleManager.put(clazz, (Module) clazz.newInstance());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         moduleManager.initialize();
         configManager.initialize();
