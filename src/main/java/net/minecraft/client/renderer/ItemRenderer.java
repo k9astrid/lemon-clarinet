@@ -339,16 +339,18 @@ public class ItemRenderer
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
+        boolean doFakeAutoblock = (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null && !KillAura.autoblockMode.is("None"));
+
         if (this.itemToRender != null)
         {
             if (this.itemToRender.getItem() instanceof ItemMap)
             {
                 this.renderItemMap(entityplayersp, f2, f, f1);
             }
-            else if (entityplayersp.getItemInUseCount() > 0 || (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null))
+            else if (entityplayersp.getItemInUseCount() > 0 || doFakeAutoblock)
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
-                if (!KillAura.autoblockMode.is("None")) enumaction = EnumAction.BLOCK;
+                if (doFakeAutoblock) enumaction = EnumAction.BLOCK;
 
                 switch (ItemRenderer$1.field_178094_a[enumaction.ordinal()])
                 {
@@ -363,7 +365,7 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        this.transformFirstPersonItem(f, 0.0F);
+                        this.transformFirstPersonItem(f, f1);
                         this.func_178103_d();
                         break;
 
