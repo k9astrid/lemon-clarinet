@@ -61,7 +61,7 @@ public class Speed extends Module {
                             e.setYaw(mc.player.rotationYaw + 45);
 
                         mc.player.jumpTicks = 0;
-                        mc.timer.timerSpeed = 1.204386728680024479550332481800278015503324817801f;
+                        mc.timer.timerSpeed = 1.204386728680024479550332481637575472563757545768128774712967286800244795503324816375754725637575457681287747126728680024479550332481637575472563757545768128774712f;
                         break;
 
                 }
