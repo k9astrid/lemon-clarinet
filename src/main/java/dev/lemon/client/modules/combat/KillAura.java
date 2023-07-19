@@ -76,7 +76,7 @@ public class KillAura extends Module {
 
             switch (autoblockMode.getMode()){
                 case "Vanilla":
-                    mc.playerController.sendUseItem(mc.player, mc.world, mc.player.getItemInUse());
+                    mc.playerController.sendUseItem(mc.player, mc.world, mc.player.getCurrentEquippedItem());
                     break;
 
             }
