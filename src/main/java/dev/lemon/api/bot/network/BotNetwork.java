@@ -120,6 +120,7 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
                         .addLast("packet_handler", botNetwork);
             }
         }).channel(NioSocketChannel.class).connect(inetAddress, port).syncUninterruptibly();
+
         return botNetwork;
     }
 

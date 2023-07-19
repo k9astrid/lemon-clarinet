@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovementInput;
 import net.minecraft.world.World;
 
 @Getter @Setter
@@ -15,6 +16,8 @@ public class BotPlayer extends AbstractClientPlayer {
     private String serverBrand;
 
     public final BotPlayClient connection;
+
+    public MovementInput movementInput;
 
     public BotPlayer(BotPlayClient client) {
         super(client.getWorld(), client.getProfile());

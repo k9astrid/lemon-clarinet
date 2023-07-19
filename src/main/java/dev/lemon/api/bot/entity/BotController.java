@@ -38,6 +38,10 @@ public class BotController {
             this.connection.getNetwork().tick();
     }
 
+    public void setPlayerCapabilities(EntityPlayer entityPlayer) {
+        this.gameType.configurePlayerCapabilities(entityPlayer.capabilities);
+    }
+
     public boolean isSpectator() {
         return (this.gameType == WorldSettings.GameType.SPECTATOR);
     }

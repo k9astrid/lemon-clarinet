@@ -9,10 +9,13 @@ import dev.lemon.api.bot.entity.BotController;
 import dev.lemon.api.bot.entity.BotPlayer;
 import dev.lemon.api.bot.proxy.Proxy;
 import dev.lemon.api.bot.world.BotWorld;
+import io.netty.buffer.Unpooled;
 import lombok.Data;
 import lombok.Getter;
+import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -22,23 +25,28 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.INetHandlerPlayClient;
-import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovementInput;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
+import net.minecraft.world.chunk.Chunk;
+import org.lwjgl.input.Keyboard;
 import viamcp.ViaMCP;
 
 import java.net.InetAddress;
@@ -63,8 +71,41 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     private final Map<UUID, NetworkPlayerInfo> playerInfoMap;
 
+    public final MovementInput movementInput;
+
+    public boolean jump, sneak, forward, backward, left, right;
+
     public BotPlayClient(BotNetwork network, GameProfile gameProfile) {
         this.playerInfoMap = Maps.newHashMap();
+
+        this.movementInput = new MovementInput() {
+            @Override
+            public void updatePlayerMoveState() {
+                this.moveForward = 0.0F;
+                this.moveStrafe = 0.0F;
+                this.jump = false;
+                this.sneak = false;
+
+                if (!((Minecraft.getMinecraft()).currentScreen instanceof GuiChat)) {
+                    if (Keyboard.isKeyDown(72) || Keyboard.isKeyDown(200) || BotPlayClient.this.forward)
+                        this.moveForward++;
+                    if (Keyboard.isKeyDown(76) || Keyboard.isKeyDown(208) || BotPlayClient.this.backward)
+                        this.moveForward--;
+                    if (Keyboard.isKeyDown(75) || Keyboard.isKeyDown(203) || BotPlayClient.this.left)
+                        this.moveStrafe++;
+                    if (Keyboard.isKeyDown(77) || Keyboard.isKeyDown(205) || BotPlayClient.this.right)
+                        this.moveStrafe--;
+                    if (Keyboard.isKeyDown(79) || BotPlayClient.this.jump || BotPlayClient.this.bot.isInWater())
+                        this.jump = true;
+                    if (Keyboard.isKeyDown(81) || BotPlayClient.this.sneak) {
+                        this.sneak = true;
+                        this.moveStrafe = (float)(this.moveStrafe * 0.3D);
+                        this.moveForward = (float)(this.moveForward * 0.3D);
+                    }
+                }
+            }
+        };
+
         this.network = network;
         this.profile = gameProfile;
     }
@@ -416,27 +457,91 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     @Override
     public void handleKeepAlive(S00PacketKeepAlive packetIn) {
-
+        sendPacket(new C00PacketKeepAlive(packetIn.func_149134_c()));
     }
 
     @Override
     public void handleChunkData(S21PacketChunkData packetIn) {
+        if (packetIn.func_149274_i())
+            this.world.doPreChunk(packetIn.getChunkX(), packetIn.getChunkZ(), true);
 
+        Chunk chunk = this.world.getChunkFromChunkCoords(packetIn.getChunkX(), packetIn.getChunkZ());
+        chunk.fillChunk(packetIn.func_149272_d(), packetIn.getExtractedSize(), packetIn.func_149274_i()); //From 766 NetHandlerPlayClient.java
+
+        this.world.markBlockRangeForRenderUpdate(packetIn.getChunkX() << 4, 0, packetIn.getChunkZ() << 4, (packetIn.getChunkX() << 4) + 15, 256, (packetIn.getChunkZ() << 4) + 15);
+
+        if (!packetIn.func_149274_i() || !(this.world.provider instanceof WorldProviderSurface))
+            chunk.resetRelightChecks();
     }
 
+    // Copy pasted from minecraft
     @Override
     public void handleMapChunkBulk(S26PacketMapChunkBulk packetIn) {
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, Minecraft.getMinecraft());
 
+        for (int i = 0; i < packetIn.getChunkCount(); ++i)
+        {
+            int j = packetIn.getChunkX(i);
+            int k = packetIn.getChunkZ(i);
+            this.world.doPreChunk(j, k, true);
+            Chunk chunk = this.world.getChunkFromChunkCoords(j, k);
+            chunk.fillChunk(packetIn.getChunkBytes(i), packetIn.getChunkSize(i), true);
+            this.world.markBlockRangeForRenderUpdate(j << 4, 0, k << 4, (j << 4) + 15, 256, (k << 4) + 15);
+
+            if (!(this.world.provider instanceof WorldProviderSurface))
+            {
+                chunk.resetRelightChecks();
+            }
+        }
     }
 
     @Override
     public void handleEffect(S28PacketEffect packetIn) {
-
+        if (packetIn.isSoundServerwide())
+            this.world.playBroadcastSound(packetIn.getSoundType(), packetIn.getSoundPos(), packetIn.getSoundData());
     }
 
     @Override
     public void handleJoinGame(S01PacketJoinGame packetIn) {
+        this.controller = new BotController(this);
+        this.world = new BotWorld(
+                this,
+                new WorldSettings(
+                    0L,
+                    packetIn.getGameType(),
+                    true,
+                    packetIn.isHardcoreMode(),
+                    packetIn.getWorldType()
+                ),
+                packetIn.getDimension(),
+                packetIn.getDifficulty()
+        );
+        this.loadWorld(world);
 
+        this.bot.dimension = packetIn.getDimension();
+        this.bot.setEntityId(packetIn.getEntityId());
+        this.bot.setReducedDebug(packetIn.isReducedDebugInfo());
+        this.controller.setGameType(packetIn.getGameType());
+
+        sendPacket(new C15PacketClientSettings("en_US", 4, EntityPlayer.EnumChatVisibility.FULL, true, 0));
+        this.network.sendPacket(new C17PacketCustomPayload("MC|Brand", (new PacketBuffer(Unpooled.buffer())).writeString(ClientBrandRetriever.getClientModName())));
+
+        this.world.setBot(this.bot);
+
+        //TODO: notification for "Connected" here!
+
+        Bot.bots.add(new Bot(this.network, this, this.controller, this.bot, this.world));
+    }
+
+    private void loadWorld(BotWorld botWorld) {
+        this.world = botWorld;
+        this.bot = new BotPlayer(this);
+        this.controller.flipPlayer(this.bot);
+        this.bot.preparePlayerToSpawn();
+        this.world.spawnEntityInWorld(this.bot);
+        this.controller.setPlayerCapabilities(this.bot);
+        this.bot.movementInput = this.movementInput;
+        this.world.setBot(this.bot);
     }
 
     @Override
