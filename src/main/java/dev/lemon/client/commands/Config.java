@@ -1,6 +1,7 @@
 package dev.lemon.client.commands;
 
 import dev.lemon.api.command.Command;
+import dev.lemon.api.command.CommandInfo;
 import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.client.main.Lemon;
 
