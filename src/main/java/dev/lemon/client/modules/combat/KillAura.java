@@ -28,7 +28,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KillAura extends Module {
-    public NumberSetting reach = new NumberSetting("Reach", 3.0, 1.0, 6.0, 0.1);
+    public NumberSetting minReach = new NumberSetting("Min Reach", 3.0, 1.0, 6.0, 0.1);
+    public NumberSetting maxReach = new NumberSetting("Max Reach", 3.0, 1.0, 6.0, 0.1);
     public NumberSetting minCps = new NumberSetting("Min CPS", 10, 0, 20, 0.5);
     public NumberSetting maxCPS = new NumberSetting("Max CPS", 10, 0, 20, 0.5);
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
@@ -36,6 +37,8 @@ public class KillAura extends Module {
     public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
+    public ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
+
 
     private final TimerUtil timer = new TimerUtil();
 
@@ -50,10 +53,11 @@ public class KillAura extends Module {
                 .sorted(getSortingMode())
                 .collect(Collectors.toList());
 
-        this.setSuffix(String.valueOf(reach.getVal()));
+
+        this.setSuffix(minReach.getVal() + "-" + maxReach.getVal());
 
         for (Entity target : entityList) {
-            this.setSuffix(target.getName() + " - " + reach.getVal());
+            this.setSuffix(target.getName() + " - " + minReach.getVal()+"-"+ maxReach.getVal());
             Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 
             switch (rotationMode.getMode()) {
@@ -70,6 +74,12 @@ public class KillAura extends Module {
             if (!rotationMode.is("None"))
                 RotationUtil.rotate(rotations, 80 + Math.random());
 
+            switch (autoblockMode.getMode()){
+                case "Vanilla":
+                    mc.playerController.sendUseItem(mc.player, mc.world, mc.player.getItemInUse());
+                    break;
+
+            }
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
 
                 if (!(noSwing.isToggled()))
@@ -91,7 +101,7 @@ public class KillAura extends Module {
                 && !entity.isDead
                 && (entity instanceof EntityPlayer || entity instanceof EntityCreature)
                 && (invisibles.isToggled() || !entity.isInvisible())
-                && entity.getDistanceToEntity(mc.player) <= reach.getVal();
+                && entity.getDistanceToEntity(mc.player) <= RandomUtil.getRandomDoubleInRange(minReach.getVal(), maxReach.getVal());
     }
 
     private Comparator<Entity> getSortingMode(){
