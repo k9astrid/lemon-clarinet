@@ -345,6 +345,11 @@ public class MathHelper
         return calculateLogBaseTwoDeBruijn(value) - (isPowerOfTwo(value) ? 0 : 1);
     }
 
+    public static float randFloat(float min, float max) {
+        Random rand = new Random();
+        return rand.nextFloat() * (max - min) + min;
+    }
+
     public static int func_154354_b(int p_154354_0_, int p_154354_1_)
     {
         if (p_154354_1_ == 0)

@@ -15,6 +15,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 
 import javax.vecmath.Vector2f;
 
@@ -205,7 +206,22 @@ public class RotationUtil implements IMethods {
         return new Vector2f(targetYaw, targetPitch);
     }
 
-    public static float[] getVanillaRotations(Entity entityIn) // from EntityLiving, originally called faceEntity
+    public static Vector2f getRotations(Vec3 origin, Vec3 position) {
+        Vec3 org = new Vec3(origin.xCoord, origin.yCoord, origin.zCoord);
+        Vec3 difference = position.subtract(org);
+        double distance = difference.flat().lengthVector();
+        float yaw = ((float) Math.toDegrees(Math.atan2(difference.zCoord, difference.xCoord)) - 90.0F);
+        float pitch = (float) (-Math.toDegrees(Math.atan2(difference.yCoord, distance)));
+
+        return new Vector2f(yaw, pitch);
+    }
+
+    public static Vector2f getRotations(Entity entity) {
+        return getRotations(mc.player.getPositionVector().addVector(0.0D,
+                mc.player.getEyeHeight(), 0.0D), entity.getPositionVector().addVector(0.0D, entity.getEyeHeight() / 2, 0.0D));
+    }
+
+    public static Vector2f getVanillaRotations(Entity entityIn) // from EntityLiving, originally called faceEntity
     {
         EntityPlayerSP entity = mc.player; // the player (your character)
 
@@ -228,7 +244,7 @@ public class RotationUtil implements IMethods {
         double hypotXZ = Math.hypot(deltaX,  deltaZ);
         float yaw = (float) Math.toDegrees(MathHelper.atan2(deltaZ, deltaX)) - 90.0F;
         float pitch = (float) Math.toDegrees(-(MathHelper.atan2(deltaY, hypotXZ)));
-        return new float[]{yaw, pitch};
+        return new Vector2f(yaw, pitch);
     }
 
     /**

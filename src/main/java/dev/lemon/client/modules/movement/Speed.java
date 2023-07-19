@@ -65,7 +65,7 @@ public class Speed extends Module {
     public final IEventListener<StrafeEvent> onStrafe = e -> {
         switch (mode.getMode()) {
             case "MineMenClub":
-                if (mc.player.hurtTime <= 6)
+                if (mc.player.hurtTime >= 6)
                     MoveUtil.strafe();
                 break;
 

@@ -3,6 +3,8 @@ package net.minecraft.client.gui;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -232,6 +234,20 @@ public class GuiPlayerTabOverlay extends Gui
                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
             }
         }
+    }
+
+    public static List<EntityPlayer> getPlayerList() {
+        NetHandlerPlayClient var4 = Minecraft.getMinecraft().player.sendQueue;
+        List<EntityPlayer> list = new ArrayList<>();
+        List players = GuiPlayerTabOverlay.field_175252_a.sortedCopy(var4.getPlayerInfoMap());
+        for (Object o : players) {
+            NetworkPlayerInfo info = (NetworkPlayerInfo) o;
+            if (info == null) {
+                continue;
+            }
+            list.add(Minecraft.getMinecraft().world.getPlayerEntityByName(info.getGameProfile().getName()));
+        }
+        return list;
     }
 
     protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn)
