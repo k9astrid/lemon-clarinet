@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
+import dev.lemon.client.modules.render.BlockAnimation;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -339,16 +340,18 @@ public class ItemRenderer
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
+        boolean doFakeAutoblock = (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null && !KillAura.autoblockMode.is("None"));
+
         if (this.itemToRender != null)
         {
             if (this.itemToRender.getItem() instanceof ItemMap)
             {
                 this.renderItemMap(entityplayersp, f2, f, f1);
             }
-            else if (entityplayersp.getItemInUseCount() > 0 || (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null))
+            else if (entityplayersp.getItemInUseCount() > 0 || doFakeAutoblock)
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
-                if (!KillAura.autoblockMode.is("None")) enumaction = EnumAction.BLOCK;
+                if (doFakeAutoblock) enumaction = EnumAction.BLOCK;
 
                 switch (ItemRenderer$1.field_178094_a[enumaction.ordinal()])
                 {
@@ -363,8 +366,17 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        this.transformFirstPersonItem(f, 0.0F);
-                        this.func_178103_d();
+                        switch (BlockAnimation.mode.getMode()) {
+                            case "1.7":
+                                this.transformFirstPersonItem(f, f1);
+                                this.func_178103_d();
+                                break;
+                            case "1.8":
+                                this.transformFirstPersonItem(f, 0.0F);
+                                this.func_178103_d();
+                                break;
+                        }
+
                         break;
 
                     case 5:

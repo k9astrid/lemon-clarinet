@@ -36,7 +36,7 @@ public class HUD extends Module {
             if (m.isToggled())
                 modules.add(m);
 
-        modules.sort(Comparator.<Module>comparingDouble(m -> mc.fontRendererObj.getStringWidth(m.getDisplayName().toLowerCase())).reversed());
+        modules.sort(Comparator.<Module>comparingDouble(m -> Fonts.BOLD_18.getStringWidth(m.getDisplayName())).reversed());
 
         int color, offsetY = 4, spacing = 2, index = 0;
         for (Module m : modules) {
