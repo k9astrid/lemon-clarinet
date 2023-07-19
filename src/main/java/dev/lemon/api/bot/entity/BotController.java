@@ -1,6 +1,8 @@
 package dev.lemon.api.bot.entity;
 
 import dev.lemon.api.bot.network.BotPlayClient;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.world.WorldSettings;
 
 public class BotController {
@@ -16,6 +18,26 @@ public class BotController {
     }
 
     private void syncCurrentPlayItem() {
+        int slot = (this.connection.getBot()).inventory.currentItem;
 
+        if (slot != this.currrentPlayItem) {
+            this.currrentPlayItem = slot;
+            this.connection.sendPacket(new C09PacketHeldItemChange(this.currrentPlayItem));
+        }
+    }
+
+    private void updateController() {
+        syncCurrentPlayItem();
+
+        if (this.connection.getNetwork().isChannelOpen())
+            this.connection.getNetwork().tick();
+    }
+
+    public boolean isSpectator() {
+        return (this.gameType == WorldSettings.GameType.SPECTATOR);
+    }
+
+    public void flipPlayer(EntityPlayer player) {
+        player.rotationYaw = -180;
     }
 }

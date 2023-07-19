@@ -1,5 +1,6 @@
 package dev.lemon.client.main;
 
+import dev.lemon.api.bot.proxy.Scraper;
 import dev.lemon.api.command.CommandManager;
 import dev.lemon.api.config.ConfigManager;
 import dev.lemon.api.module.Module;
@@ -30,6 +31,7 @@ public enum Lemon implements IMethods {
     private CommandManager commandManager;
     private ScriptManager scriptManager;
     private ConfigManager configManager;
+    private Scraper scraper;
 
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
 
@@ -43,6 +45,7 @@ public enum Lemon implements IMethods {
         commandManager = new CommandManager();
         scriptManager = new ScriptManager();
         configManager = new ConfigManager();
+        scraper = new Scraper();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             configManager.stop();
@@ -69,6 +72,7 @@ public enum Lemon implements IMethods {
             }
         }
 
+        scraper.initialize();
         moduleManager.initialize();
         configManager.initialize();
         commandManager.initialize();

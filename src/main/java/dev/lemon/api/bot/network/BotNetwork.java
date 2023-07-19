@@ -9,6 +9,7 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.*;
+import net.minecraft.util.ITickable;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Queue;
@@ -164,6 +165,16 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
             if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder)
                 this.channel.pipeline().remove("compress");
         }
+    }
+
+    public void tick() {
+        flushOutQueue();
+
+        if (this.packetListener instanceof ITickable)
+            ((ITickable) this.packetListener).update();
+
+        if (this.channel != null)
+            this.channel.flush();
     }
 
     static class InboundHandlerTuplePacketListener {

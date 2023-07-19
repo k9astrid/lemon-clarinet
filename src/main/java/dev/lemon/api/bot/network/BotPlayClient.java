@@ -1,14 +1,19 @@
 package dev.lemon.api.bot.network;
 
 import com.mojang.authlib.GameProfile;
+import dev.lemon.api.bot.entity.BotPlayer;
+import lombok.Getter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.*;
 import net.minecraft.util.IChatComponent;
 
+@Getter
 public class BotPlayClient implements INetHandlerPlayClient {
 
     private BotNetwork network;
+
+    private BotPlayer bot;
 
     public BotPlayClient(BotNetwork network, GameProfile gameProfile) {
         this.network = network;
