@@ -123,6 +123,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public float prevRenderArmPitch;
     private int horseJumpPowerCounter;
     private float horseJumpPower;
+    public float rotationPitchHead, prevRotationPitchHead;
 
     /** The amount of time an entity has been in a Portal */
     public float timeInPortal;
@@ -174,6 +175,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
+            this.prevRotationPitchHead = this.rotationPitchHead;
+            this.rotationPitchHead = this.rotationPitch;
             Lemon.INSTANCE.getEventBus().handle(new PreUpdateEvent());
 
             super.onUpdate();

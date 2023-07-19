@@ -152,7 +152,7 @@ public class Config
             {
                 initialized = true;
                 checkOpenGlCaps();
-                startVersionCheckThread();
+                //startVersionCheckThread();
             }
         }
     }

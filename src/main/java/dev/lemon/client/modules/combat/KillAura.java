@@ -51,11 +51,10 @@ public class KillAura extends Module {
                 .collect(Collectors.toList());
         this.setSuffix(String.valueOf(reach.getVal()));
 
-
+        this.setSuffix("");
         for (Entity target : entityList) {
-            this.setSuffix(target.getName()+" @ "+reach.getVal());
-
             float[] rotations = new float[0];
+
             switch (rotationMode.getMode()) {
                 case "Vanilla":
                     rotations = RotationUtil.getVanillaRotations(target);

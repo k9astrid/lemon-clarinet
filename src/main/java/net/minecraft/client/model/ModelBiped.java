@@ -1,5 +1,6 @@
 package net.minecraft.client.model;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -130,9 +131,12 @@ public class ModelBiped extends ModelBase
     {
         this.bipedHead.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         this.bipedHead.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
+        if (entityIn == (Minecraft.getMinecraft()).player)
+            this.bipedHead.rotateAngleX = ((Minecraft.getMinecraft()).player.prevRotationPitchHead +
+                    ((Minecraft.getMinecraft()).player.rotationPitchHead -
+                            (Minecraft.getMinecraft()).player.prevRotationPitchHead) * (Minecraft.getMinecraft()).timer.renderPartialTicks) / 57.295776F;
         this.bipedRightArm.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float)Math.PI) * 2.0F * p_78087_2_ * 0.5F;
         this.bipedLeftArm.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 2.0F * p_78087_2_ * 0.5F;
-        this.bipedRightArm.rotateAngleZ = 0.0F;
         this.bipedLeftArm.rotateAngleZ = 0.0F;
         this.bipedRightLeg.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 1.4F * p_78087_2_;
         this.bipedLeftLeg.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float)Math.PI) * 1.4F * p_78087_2_;

@@ -49,7 +49,7 @@ public class RotationUtil implements IMethods {
 
             mc.player.renderYawOffset = rotations.x;
             mc.player.rotationYawHead = rotations.x;
-            //TODO: for luca: add "rotationPitchHead"
+            mc.player.rotationPitchHead = rotations.y;
 
             if (Math.abs((rotations.x - mc.player.rotationYaw) % 360) < 1 &&
                 Math.abs((rotations.y - mc.player.rotationPitch))     < 1) {
