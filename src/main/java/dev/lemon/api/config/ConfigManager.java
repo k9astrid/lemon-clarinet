@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ConfigManager implements IMethods {
 
@@ -24,6 +25,14 @@ public class ConfigManager implements IMethods {
     public void initialize() {
         if (!configFolder.exists())
             configFolder.mkdirs();
+
+        for (File file : Objects.requireNonNull(configFolder.listFiles())) {
+            if (file.isFile() && file.getName().endsWith(".json")) {
+                String name = file.getName().replaceAll(".json", "");
+                Config config = new Config(name, true);
+                configs.put(config.getName(), config);
+            }
+        }
 
         if (getConfig("default") == null) {
             Config config = new Config("default", true);

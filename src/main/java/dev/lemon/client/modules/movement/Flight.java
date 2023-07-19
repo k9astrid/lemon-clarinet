@@ -24,8 +24,10 @@ public class Flight extends Module {
 
     @Override
     protected void onDisable() {
+        if (mc.player == null)
+            return;
+
         mc.player.capabilities.isFlying = false;
-        mc.player.capabilities.isCreativeMode = false;
     }
 
     @Subscribe
@@ -45,7 +47,6 @@ public class Flight extends Module {
         switch (mode.getMode()){
             case "Creative":
                 mc.player.capabilities.isFlying = true;
-                mc.player.capabilities.isCreativeMode = true;
                 break;
 
             case "Vanilla":
