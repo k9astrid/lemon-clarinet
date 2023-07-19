@@ -1,7 +1,6 @@
 package dev.lemon.api.bot.network;
 
 import com.google.common.collect.Queues;
-import com.sun.istack.internal.Nullable;
 import io.netty.channel.*;
 import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalServerChannel;
@@ -83,7 +82,7 @@ public class BotNetwork extends SimpleChannelInboundHandler<Packet<?>> {
         }
     }
 
-    private void dispatchPacket(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>>[] array) {
+    private void dispatchPacket(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>>[] array) {
         EnumConnectionState enumConnectionState = EnumConnectionState.getFromPacket(packet);
         EnumConnectionState enumConnectionState1 = this.channel.attr(PROTOCOL_ATTRIBUTE_KEY).get();
 

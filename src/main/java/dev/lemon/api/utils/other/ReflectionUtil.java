@@ -1,6 +1,5 @@
 package dev.lemon.api.utils.other;
-
-import com.sun.security.ntlm.Client;
+import dev.lemon.client.main.Lemon;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,7 +105,7 @@ public class ReflectionUtil {
     }
 
     public static String path() throws URISyntaxException {
-        return new File(Client.class.getProtectionDomain().getCodeSource().getLocation()
+        return new File(Lemon.class.getProtectionDomain().getCodeSource().getLocation()
                 .toURI()).getPath();
     }
 }
