@@ -2,6 +2,7 @@ package dev.lemon.api.utils.render;
 
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.shader.ShaderUtil;
+import me.surge.animation.Animation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
@@ -24,11 +26,34 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.*;
 
 public class RenderUtil implements IMethods {
     public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
     public static ShaderUtil roundedOutlineShader = new ShaderUtil("roundRectOutline");
+    private static final ShaderUtil roundedGradientShader = new ShaderUtil("roundedRectGradient");
+
+    public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
+        return createFrameBuffer(framebuffer, false);
+    }
+
+    public static Framebuffer createFrameBuffer(Framebuffer framebuffer, boolean depth) {
+        if (needsNewFramebuffer(framebuffer)) {
+            if (framebuffer != null) {
+                framebuffer.deleteFramebuffer();
+            }
+            return new Framebuffer(mc.displayWidth, mc.displayHeight, depth);
+        }
+        return framebuffer;
+    }
+
+    public static boolean needsNewFramebuffer(Framebuffer framebuffer) {
+        return framebuffer == null || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight;
+    }
+
+    public static void bindTexture(int texture) {
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
 
     public static void drawImage(ResourceLocation location, float x, float y, int width, int height) {
         GlStateManager.pushMatrix();
@@ -114,6 +139,15 @@ public class RenderUtil implements IMethods {
         return ByteBuffer.wrap(imageBuffer);
     }
 
+    public static void scaleXY(float x, float y, Animation anim, Runnable runnable) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, 0.0f);
+        GlStateManager.scale(anim.getAnimationFactor(), anim.getAnimationFactor(), 1.0);
+        GlStateManager.translate(-x, -y, 0.0f);
+        runnable.run();
+        GlStateManager.popMatrix();
+    }
+
     public static double linearAnimation(double now, double desired, double speed) {
         double dif = Math.abs(now - desired);
 
@@ -176,6 +210,25 @@ public class RenderUtil implements IMethods {
 
         ShaderUtil.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
         roundedOutlineShader.unload();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawGradientRound(float x, float y, float width, float height, float radius, Color bottomLeft, Color topLeft, Color bottomRight, Color topRight) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        roundedGradientShader.init();
+        ShaderUtil.setupRoundedRectUniforms(x, y, width, height, radius, roundedGradientShader);
+        //Top left
+        roundedGradientShader.setUniformf("color1", topLeft.getRed() / 255f, topLeft.getGreen() / 255f, topLeft.getBlue() / 255f, topLeft.getAlpha() / 255f);
+        // Bottom Left
+        roundedGradientShader.setUniformf("color2", bottomLeft.getRed() / 255f, bottomLeft.getGreen() / 255f, bottomLeft.getBlue() / 255f, bottomLeft.getAlpha() / 255f);
+        //Top Right
+        roundedGradientShader.setUniformf("color3", topRight.getRed() / 255f, topRight.getGreen() / 255f, topRight.getBlue() / 255f, topRight.getAlpha() / 255f);
+        //Bottom Right
+        roundedGradientShader.setUniformf("color4", bottomRight.getRed() / 255f, bottomRight.getGreen() / 255f, bottomRight.getBlue() / 255f, bottomRight.getAlpha() / 255f);
+        ShaderUtil.drawQuads(x - 1, y - 1, width + 2, height + 2);
+        roundedGradientShader.unload();
         GlStateManager.disableBlend();
     }
 

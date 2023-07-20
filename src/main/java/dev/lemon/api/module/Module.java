@@ -1,5 +1,6 @@
 package dev.lemon.api.module;
 
+import dev.lemon.api.notification.NotificationType;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.setting.Setting;
 import dev.lemon.api.utils.IMethods;
@@ -72,6 +73,8 @@ public class Module implements IMethods {
 
     public void toggle() {
         toggled = !toggled;
+
+        Lemon.INSTANCE.getNotificationManager().call("toggled a fucking module (Please tell my why i am that " + EnumChatFormatting.RED + "BAD " + EnumChatFormatting.RESET + "at visuals)", NotificationType.SUCCESS);
 
         if (toggled) {
             onEnable();

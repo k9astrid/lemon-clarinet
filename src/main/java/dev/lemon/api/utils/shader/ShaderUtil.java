@@ -59,6 +59,14 @@ public class ShaderUtil {
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundRectOutline.getBytes()),OpenGlHelper. GL_FRAGMENT_SHADER);
                     break;
 
+                case "kawaseUpBloom":
+                    fragmentShaderID = createShader(new ByteArrayInputStream(kawaseUpBloom.getBytes()), GL_FRAGMENT_SHADER);
+                    break;
+
+                case "kawaseDownBloom":
+                    fragmentShaderID = createShader(new ByteArrayInputStream(kawaseDownBloom.getBytes()), GL_FRAGMENT_SHADER);
+                    break;
+
                 default:
                     fragmentShaderID = createShader(mc.getResourceManager().getResource(new ResourceLocation(fragmentShaderLoc)).getInputStream(), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
@@ -111,6 +119,12 @@ public class ShaderUtil {
         return stringBuilder.toString();
     }
 
+    public void setUniformi(String name, int... args) {
+        int loc = glGetUniformLocation(programID, name);
+        if (args.length > 1) glUniform2i(loc, args[0], args[1]);
+        else glUniform1i(loc, args[0]);
+    }
+
     public static void drawQuads() {
         if (mc.gameSettings.ofFastRender) return;
         ScaledResolution sr = new ScaledResolution(mc);
@@ -141,6 +155,71 @@ public class ShaderUtil {
         glVertex2f(x + width, y);
         glEnd();
     }
+
+    private String kawaseUpBloom =
+            "#version 120\n" +
+            "\n" +
+            "uniform sampler2D inTexture, textureToCheck;\n" +
+            "uniform vec2 halfpixel, offset, iResolution;\n" +
+            "uniform int check;\n" +
+            "\n" +
+            "void main() {\n" +
+            "  //  if(check && texture2D(textureToCheck, gl_TexCoord[0].st).a > 0.0) discard;\n" +
+            "    vec2 uv = vec2(gl_FragCoord.xy / iResolution);\n" +
+            "\n" +
+            "    vec4 sum = texture2D(inTexture, uv + vec2(-halfpixel.x * 2.0, 0.0) * offset);\n" +
+            "    sum.rgb *= sum.a;\n" +
+            "    vec4 smpl1 =  texture2D(inTexture, uv + vec2(-halfpixel.x, halfpixel.y) * offset);\n" +
+            "    smpl1.rgb *= smpl1.a;\n" +
+            "    sum += smpl1 * 2.0;\n" +
+            "    vec4 smp2 = texture2D(inTexture, uv + vec2(0.0, halfpixel.y * 2.0) * offset);\n" +
+            "    smp2.rgb *= smp2.a;\n" +
+            "    sum += smp2;\n" +
+            "    vec4 smp3 = texture2D(inTexture, uv + vec2(halfpixel.x, halfpixel.y) * offset);\n" +
+            "    smp3.rgb *= smp3.a;\n" +
+            "    sum += smp3 * 2.0;\n" +
+            "    vec4 smp4 = texture2D(inTexture, uv + vec2(halfpixel.x * 2.0, 0.0) * offset);\n" +
+            "    smp4.rgb *= smp4.a;\n" +
+            "    sum += smp4;\n" +
+            "    vec4 smp5 = texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset);\n" +
+            "    smp5.rgb *= smp5.a;\n" +
+            "    sum += smp5 * 2.0;\n" +
+            "    vec4 smp6 = texture2D(inTexture, uv + vec2(0.0, -halfpixel.y * 2.0) * offset);\n" +
+            "    smp6.rgb *= smp6.a;\n" +
+            "    sum += smp6;\n" +
+            "    vec4 smp7 = texture2D(inTexture, uv + vec2(-halfpixel.x, -halfpixel.y) * offset);\n" +
+            "    smp7.rgb *= smp7.a;\n" +
+            "    sum += smp7 * 2.0;\n" +
+            "    vec4 result = sum / 12.0;\n" +
+            "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - texture2D(textureToCheck, gl_TexCoord[0].st).a),check));\n" +
+            "}";
+
+    private String kawaseDownBloom =
+            "#version 120\n" +
+            "\n" +
+            "uniform sampler2D inTexture;\n" +
+            "uniform vec2 offset, halfpixel, iResolution;\n" +
+            "\n" +
+            "void main() {\n" +
+            "    vec2 uv = vec2(gl_FragCoord.xy / iResolution);\n" +
+            "    vec4 sum = texture2D(inTexture, gl_TexCoord[0].st);\n" +
+            "    sum.rgb *= sum.a;\n" +
+            "    sum *= 4.0;\n" +
+            "    vec4 smp1 = texture2D(inTexture, uv - halfpixel.xy * offset);\n" +
+            "    smp1.rgb *= smp1.a;\n" +
+            "    sum += smp1;\n" +
+            "    vec4 smp2 = texture2D(inTexture, uv + halfpixel.xy * offset);\n" +
+            "    smp2.rgb *= smp2.a;\n" +
+            "    sum += smp2;\n" +
+            "    vec4 smp3 = texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset);\n" +
+            "    smp3.rgb *= smp3.a;\n" +
+            "    sum += smp3;\n" +
+            "    vec4 smp4 = texture2D(inTexture, uv - vec2(halfpixel.x, -halfpixel.y) * offset);\n" +
+            "    smp4.rgb *= smp4.a;\n" +
+            "    sum += smp4;\n" +
+            "    vec4 result = sum / 8.0;\n" +
+            "    gl_FragColor = vec4(result.rgb / result.a, result.a);\n" +
+            "}";
 
     private String roundRectOutline =
             "#version 120\n" +
