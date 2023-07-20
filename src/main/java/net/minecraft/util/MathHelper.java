@@ -64,6 +64,10 @@ public class MathHelper
         return (float)Math.sqrt(value);
     }
 
+    public static int getRandomNumberBetween(int min, int max) {
+        return (int)(Math.random() * (max - min + 1) + min);
+    }
+
     /**
      * Returns the greatest integer less than or equal to the float argument
      */

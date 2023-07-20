@@ -88,4 +88,71 @@ public class BotWorld extends World {
             markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15);
         }
     }
+
+    public Entity removeEntityFromWorld(int p_73028_1_)
+    {
+        Entity entity = this.entitiesById.removeObject(p_73028_1_);
+
+        if (entity != null)
+        {
+            this.entityList.remove(entity);
+            this.removeEntity(entity);
+        }
+
+        return entity;
+    }
+
+    public void removeAllEntities()
+    {
+        this.loadedEntityList.removeAll(this.unloadedEntityList);
+
+        for (int i = 0; i < this.unloadedEntityList.size(); ++i)
+        {
+            Entity entity = (Entity)this.unloadedEntityList.get(i);
+            int j = entity.chunkCoordX;
+            int k = entity.chunkCoordZ;
+
+            if (entity.addedToChunk && this.isChunkLoaded(j, k, true))
+            {
+                this.getChunkFromChunkCoords(j, k).removeEntity(entity);
+            }
+        }
+
+        for (int l = 0; l < this.unloadedEntityList.size(); ++l)
+        {
+            this.onEntityRemoved((Entity)this.unloadedEntityList.get(l));
+        }
+
+        this.unloadedEntityList.clear();
+
+        for (int i1 = 0; i1 < this.loadedEntityList.size(); ++i1)
+        {
+            Entity entity1 = (Entity)this.loadedEntityList.get(i1);
+
+            if (entity1.ridingEntity != null)
+            {
+                if (!entity1.ridingEntity.isDead && entity1.ridingEntity.riddenByEntity == entity1)
+                {
+                    continue;
+                }
+
+                entity1.ridingEntity.riddenByEntity = null;
+                entity1.ridingEntity = null;
+            }
+
+            if (entity1.isDead)
+            {
+                int j1 = entity1.chunkCoordX;
+                int k1 = entity1.chunkCoordZ;
+
+                if (entity1.addedToChunk && this.isChunkLoaded(j1, k1, true))
+                {
+                    this.getChunkFromChunkCoords(j1, k1).removeEntity(entity1);
+                }
+
+                this.loadedEntityList.remove(i1--);
+                this.onEntityRemoved(entity1);
+            }
+        }
+    }
 }
