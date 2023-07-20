@@ -54,6 +54,8 @@ public class KillAura extends Module {
 
         if (minReach.getVal() > maxReach.getVal())
             minReach.setValue(maxReach.getVal());
+
+        currentTarget = null;
     };
 
     @Subscribe
@@ -67,6 +69,9 @@ public class KillAura extends Module {
         this.setSuffix(minReach.getVal() + "-" + maxReach.getVal());
 
         for (Entity target : entityList) {
+            //fuck y'all do not remove this thing.
+            currentTarget = target;
+
             this.setSuffix(target.getName() + " - " + minReach.getVal()+"-"+ maxReach.getVal());
             Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 

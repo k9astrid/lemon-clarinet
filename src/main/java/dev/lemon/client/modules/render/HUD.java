@@ -1,5 +1,6 @@
 package dev.lemon.client.modules.render;
 
+import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
@@ -8,16 +9,17 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.api.utils.render.ColorUtil;
-import dev.lemon.api.utils.IMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class HUD extends Module {
+    public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
 
     public HUD() {
         super("HUD", Category.RENDER);
@@ -38,10 +40,13 @@ public class HUD extends Module {
 
         modules.sort(Comparator.<Module>comparingDouble(m -> Fonts.BOLD_18.getStringWidth(m.getDisplayName())).reversed());
 
-        int color, offsetY = 4, spacing = 2, index = 0;
+        //powered by shitcode ™ ©
+        int color, offsetY = (int) this.offset.getVal() + 1, spacing = 3, index = 0, offsetX = (int) this.offset.getVal() + 2;
+
         for (Module m : modules) {
             color = ColorUtil.fadeLemonColors(index);
-            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - 5, offsetY, color);
+            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing, new Color(0,0,0, 80).getRGB());
+            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY, color);
             offsetY += Fonts.BOLD_18.getHeight() + spacing;
             index++;
         }

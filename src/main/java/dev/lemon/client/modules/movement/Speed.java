@@ -10,14 +10,21 @@ import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
+import dev.lemon.client.events.other.PacketEvent;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.potion.Potion;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatList;
 
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "FastFall", "Test");
+    public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
+
+    public double y;
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -73,6 +80,16 @@ public class Speed extends Module {
                         }
                         mc.player.jumpTicks = 0;
                         mc.timer.timerSpeed = 3.214f;
+                        break;
+                }
+                break;
+            case "Vulcan":
+                switch (vulcanMode.getMode()) {
+                    case "GroundStrafe":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
+                        }
                         break;
                 }
                 break;
