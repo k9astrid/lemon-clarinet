@@ -14,11 +14,12 @@ public abstract class Fonts {
     public static final CFontRenderer BOLD_18 = new CFontRenderer(Fonts.getFonts("bold.ttf", 18), true, true);
     public static final CFontRenderer BOLD_17 = new CFontRenderer(Fonts.getFonts("bold.ttf", 17), true, true);
     public static final CFontRenderer BOLD_15 = new CFontRenderer(Fonts.getFonts("bold.ttf", 15), true, true);
+    public static final CFontRenderer SUPER_HERO_40 = new CFontRenderer(Fonts.getFonts("superhero.ttf", 40), true, true);
 
     private static Font getFonts(String fontName, int size) {
         Font font;
         try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("Lemon/Fonts/" + fontName)).getInputStream();
+            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("lemon/fonts/" + fontName)).getInputStream();
             font = Font.createFont(0, is);
             font = font.deriveFont(0, size);
         } catch (Exception ex) {

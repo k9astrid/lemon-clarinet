@@ -78,7 +78,7 @@ public class BotPlayClient implements INetHandlerPlayClient {
 
     public boolean jump, sneak, forward, backward, left, right;
 
-    private boolean doneLoadingTerrain, reg, infinitySolved;
+    private boolean doneLoadingTerrain, reg;
 
     public BotPlayClient(BotNetwork network, GameProfile gameProfile) {
         this.playerInfoMap = Maps.newHashMap();

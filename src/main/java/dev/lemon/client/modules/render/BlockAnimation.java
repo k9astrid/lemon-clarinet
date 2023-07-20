@@ -8,7 +8,7 @@ public class BlockAnimation extends Module {
     public static ModeSetting mode = new ModeSetting("Mode", "1.7", "1.7", "1.8");
 
     public BlockAnimation() {
-        super("BlockAnimation", Category.RENDER, Keyboard.KEY_NONE);
+        super("Block Animations", Category.RENDER, Keyboard.KEY_NONE);
         this.setAutoEnabled(true);
     }
 }
