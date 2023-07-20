@@ -56,19 +56,19 @@ public class PVPBot extends Module {
             this.allowMovement = mc.player.getDistanceToEntity(entity) > 3; // should W-Tap, edit: yes it works
             this.lockViewRotation = RotationUtil.getRotations(entity);
 
-            mc.player.rotationYaw = this.lockViewRotation.getX();
-            mc.player.rotationPitch = this.lockViewRotation.getY();
+            mc.player.rotationYaw = this.lockViewRotation.getX() - MathHelper.randFloat(MathHelper.randFloat(1, 5), MathHelper.randFloat(-1, -5));
+            mc.player.rotationPitch = this.lockViewRotation.getY() - MathHelper.randFloat(MathHelper.randFloat(1, 3), MathHelper.randFloat(-1, -3)) - 10;
 
             if (this.aimTicks++ > 20)
                 mc.gameSettings.keyBindForward.pressed = this.allowMovement;
 
             if (this.aimTicks > 22) {
-                int cps = 13;
+                int cps = 9;
 
                 if (mc.player.getDistanceToEntity(entity) < 2.9) {
                     mc.gameSettings.keyBindSprint.pressed = false;
 
-                    double aps = (cps + MathHelper.randFloat(MathHelper.randFloat(1, 3), MathHelper.randFloat(3, 5)));
+                    double aps = (cps + MathHelper.randFloat(MathHelper.randFloat(2, 4), MathHelper.randFloat(4, 8)));
 
                     if (this.timerUtil.hasTimeElapsed((long) (1000L / aps))) {
                         this.timerUtil.reset();

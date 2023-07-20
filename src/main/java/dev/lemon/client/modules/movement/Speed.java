@@ -21,7 +21,7 @@ import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan");
-    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "FastFall", "Test");
+    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test" ,"Test2");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
 
     public double y;
@@ -63,7 +63,7 @@ public class Speed extends Module {
                         else
                             mc.timer.timerSpeed = 1.15f;
                         break;
-        
+
                     case "Fast":
                         if (mc.player.onGround)
                             e.setYaw(mc.player.rotationYaw);
@@ -71,27 +71,22 @@ public class Speed extends Module {
                         mc.player.jumpTicks = 0;
                         mc.timer.timerSpeed = 1.15f;
                         break;
-                    case "SlowFall":
-                        if (!mc.player.onGround)
-                            e.setYaw(mc.player.rotationYaw);
-
-                        if (Math.abs(mc.player.posY) < 0.05) {
-                            mc.timer.timerSpeed = 0.3f;
-                        }
-                        mc.player.jumpTicks = 0;
-                        mc.timer.timerSpeed = 3.214f;
+                    case "Test2":
+                        if (mc.player.onGround)
+                            mc.timer.timerSpeed = 0.1f;
+                        else
+                            mc.timer.timerSpeed = 2.2f;
                         break;
                 }
-                break;
-            case "Vulcan":
-                switch (vulcanMode.getMode()) {
-                    case "GroundStrafe":
-                        if (mc.player.onGround) {
-                            mc.player.jump();
-                            MoveUtil.strafe(0.4175f);
+                    case "Vulcan":
+                        switch (vulcanMode.getMode()) {
+                            case "GroundStrafe":
+                                if (mc.player.onGround) {
+                                    mc.player.jump();
+                                    MoveUtil.strafe(0.4175f);
+                                }
+                                break;
                         }
-                        break;
-                }
                 break;
         }
     };
