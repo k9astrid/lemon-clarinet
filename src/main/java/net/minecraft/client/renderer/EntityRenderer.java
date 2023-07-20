@@ -1414,6 +1414,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     throw new ReportedException(crashreport);
                 }
             }
+            Lemon.INSTANCE.getNotificationManager().draw();
         }
 
         this.frameFinish();

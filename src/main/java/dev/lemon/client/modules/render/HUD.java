@@ -1,7 +1,10 @@
 package dev.lemon.client.modules.render;
 
+import dev.lemon.api.color.Colors;
+import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
+import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.render.Render2DEvent;
@@ -19,6 +22,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class HUD extends Module {
+
+    //If u have a better way to do it then go ahead im stupid sorry
+    public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
+            "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Mirror", "Rock", "Eternal Constance",
+            "Exotic", "Antarctica", "Piglet");
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
 
     public HUD() {
@@ -27,9 +35,16 @@ public class HUD extends Module {
     }
 
     @Subscribe
-    public final IEventListener<Render2DEvent> onRender2D = e -> {
-        ScaledResolution sr = new ScaledResolution(mc);
+    private final IEventListener<TickEvent> onTick = e -> {
+        for (Colors colors : Colors.values()) {
+            if (colors.getColorName().equals(color.getMode())) {
+                Lemon.INSTANCE.getColorManager().setColor(colors);
+            }
+        }
+    };
 
+    @Subscribe
+    public final IEventListener<Render2DEvent> onRender2D = e -> {
         drawLemon();//draws hot thing
 
         ArrayList<Module> modules = new ArrayList<>();
