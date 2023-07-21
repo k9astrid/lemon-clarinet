@@ -1,5 +1,5 @@
 package dev.lemon.client.modules.combat;
-/*
+
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
@@ -298,4 +298,3 @@ public class BackTrack extends Module {
             }
     }
 }
-*/
