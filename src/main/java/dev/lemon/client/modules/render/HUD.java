@@ -114,6 +114,6 @@ public class HUD extends Module {
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4,
                 Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(3, 2)).getRGB());
 
-        Fonts.BOLD_18.drawString(text, 6, 7, 0xffFFFFFF);
+        Fonts.BOLD_18.drawString(text, 6, 8, 0xffFFFFFF);
     }
 }
