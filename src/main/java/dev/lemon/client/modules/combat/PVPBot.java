@@ -53,19 +53,19 @@ public class PVPBot extends Module {
         Entity entity = this.getTarget();
 
         if (entity != null) {
-            this.allowMovement = mc.player.getDistanceToEntity(entity) > 3; // should W-Tap, edit: yes it works
+            this.allowMovement = mc.player.getDistanceToEntity(entity) > 2.8; // should W-Tap, edit: yes it works
             this.lockViewRotation = RotationUtil.getRotations(entity);
 
-            mc.player.rotationYaw = this.lockViewRotation.getX() - MathHelper.randFloat(MathHelper.randFloat(1, 5), MathHelper.randFloat(-1, -5));
-            mc.player.rotationPitch = this.lockViewRotation.getY() - MathHelper.randFloat(MathHelper.randFloat(1, 3), MathHelper.randFloat(-1, -3)) - 10;
+            mc.player.rotationYaw = (float) (this.lockViewRotation.getX() - (Math.random()) / 1000);
+            mc.player.rotationPitch = (float) (this.lockViewRotation.getY() - (Math.random()) / 200);
 
             if (this.aimTicks++ > 20)
                 mc.gameSettings.keyBindForward.pressed = this.allowMovement;
 
             if (this.aimTicks > 22) {
-                int cps = 9;
+                int cps = 11;
 
-                if (mc.player.getDistanceToEntity(entity) < 2.9) {
+                if (mc.player.getDistanceToEntity(entity) < 3) {
                     mc.gameSettings.keyBindSprint.pressed = false;
 
                     double aps = (cps + MathHelper.randFloat(MathHelper.randFloat(2, 4), MathHelper.randFloat(4, 8)));
@@ -76,7 +76,10 @@ public class PVPBot extends Module {
                         mc.player.swingItem();
                         mc.playerController.attackEntity(mc.player, entity);
                     }
-                } else mc.gameSettings.keyBindSprint.pressed = true;
+                } else {
+                    mc.gameSettings.keyBindSprint.pressed = true;
+                    mc.gameSettings.keyBindUseItem.pressed = false;
+                }
             }
 
             if (mc.player.isCollidedHorizontally && mc.player.onGround)
@@ -89,7 +92,7 @@ public class PVPBot extends Module {
 
     private Entity getTarget() {
         for (Entity entity : mc.world.loadedEntityList) {
-            if (entity == null || mc.player.getDistanceToEntity(entity) > this.distance.getVal() * 5
+            if (entity == null || mc.player.getDistanceToEntity(entity) > this.distance.getVal()
                     || mc.player.isEntityEqual(entity) || (this.checkTab.isToggled()
                     && !this.checkTab(entity)) || !(entity instanceof EntityPlayer)) continue;
 
