@@ -17,7 +17,7 @@ public class Scaffold extends Module {
 
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
-        this.setSuffix("Watchdog 10bps");
+
         if (mc.world.getBlockState(new BlockPos(mc.player).add(0, -1, 0)).getBlock() instanceof BlockAir) {
             mc.getNetHandler().getNetworkManager().sendPacket(new C0APacketAnimation());
 

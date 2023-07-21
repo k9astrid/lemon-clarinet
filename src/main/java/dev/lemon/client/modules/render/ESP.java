@@ -147,9 +147,14 @@ public class ESP extends Module {
 
                 if (healthText.isToggled()) {
                     healthValue *= 100;
-                    BigDecimal bd = new BigDecimal(healthValue);
-                    bd = bd.setScale(1, RoundingMode.HALF_UP);
-                    String health = String.valueOf(bd.doubleValue()).substring(0, healthValue == 100 ? 3 : 2);
+                    String health;
+                    try {
+                        BigDecimal bd = new BigDecimal(healthValue);
+                        bd = bd.setScale(1, RoundingMode.HALF_UP);
+                        health = String.valueOf(bd.doubleValue()).substring(0, healthValue == 100 ? 3 : 2);
+                    } catch (NumberFormatException exception){
+                        health = "NaN";
+                    }
                     String text = health + "%";
                     double fontScale = .5;
                     float textX = x - 14;
