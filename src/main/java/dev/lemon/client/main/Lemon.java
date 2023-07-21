@@ -92,6 +92,6 @@ public enum Lemon implements IMethods {
             e.printStackTrace();
         }
 
-        Display.setTitle(this.name + " " + this.version + "-" + this.clientEnum + " (LWJGL " + Sys.getVersion() + ")");
+        Display.setTitle(this.name + " " + this.version + " (" + this.clientEnum + ")");
     }
 }
