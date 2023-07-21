@@ -3,6 +3,7 @@ package dev.lemon.client.gui.dropdown.elements;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.api.utils.render.RenderUtil;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
@@ -38,8 +39,8 @@ public class ElementSlider extends Element {
         }
 
         Gui.drawRect(x + 2, y + 8, x + 2 + parent.width - 4, y + 8 + 1, new Color(15, 15, 15).getRGB());
-        Gui.drawRect(x + 2, y + 8, x + 2 + (parent.width - 4) * lerp, y + 8 + 1, new Color(215, 215, 21).getRGB());
-        Gui.drawRect(x + 2 + (parent.width - 4) * lerp - 1, y + 7.5f, x + 2 + (parent.width - 4) * lerp - 1 + 2, y + 7.5f + 2, new Color(215, 215, 21).getRGB());
+        Gui.drawRect(x + 2, y + 8, x + 2 + (parent.width - 4) * lerp, y + 8 + 1, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
+        Gui.drawRect(x + 2 + (parent.width - 4) * lerp - 1, y + 7.5f, x + 2 + (parent.width - 4) * lerp - 1 + 2, y + 7.5f + 2, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
 
         Fonts.BOLD_15.drawString(String.valueOf(value.getVal()), x + parent.width - Fonts.BOLD_18.getStringWidth(String.valueOf(value.getVal())) - 2, y + 2, -1);
     }

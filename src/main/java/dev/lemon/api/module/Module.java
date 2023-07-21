@@ -4,6 +4,7 @@ import dev.lemon.api.notification.NotificationType;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.setting.Setting;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.client.modules.render.HUD;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.EnumChatFormatting;
@@ -23,7 +24,7 @@ public class Module implements IMethods {
     private String name;
 
     @Setter @Getter
-    private int key = 0;
+    private int key;
 
     @Getter
     private Category category;
@@ -74,14 +75,18 @@ public class Module implements IMethods {
     public void toggle() {
         toggled = !toggled;
 
-        Lemon.INSTANCE.getNotificationManager().call("toggled a fucking module (Please tell my why i am that " + EnumChatFormatting.RED + "BAD " + EnumChatFormatting.RESET + "at visuals)", NotificationType.SUCCESS);
-
         if (toggled) {
             onEnable();
             Lemon.INSTANCE.getEventBus().register(this);
+
+            if (HUD.toggleNotifications.isToggled())
+                Lemon.INSTANCE.getNotificationManager().call("Enabled " + this.getName(), NotificationType.SUCCESS);
         } else {
             Lemon.INSTANCE.getEventBus().unregister(this);
             onDisable();
+
+            if (HUD.toggleNotifications.isToggled())
+                Lemon.INSTANCE.getNotificationManager().call("Disabled " + this.getName(), NotificationType.SUCCESS);
         }
     }
 

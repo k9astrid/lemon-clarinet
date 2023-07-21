@@ -7,6 +7,7 @@ import dev.lemon.api.utils.render.ColorUtil;
 import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.main.Lemon;
+import dev.lemon.client.modules.render.HUD;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
@@ -24,7 +25,7 @@ public class NotificationManager implements IMethods {
     public void call(String text, NotificationType type) {
         ScaledResolution sr = new ScaledResolution(mc);
         Notification notification = new Notification(text, type);
-        notification.animationUtil = new AnimationUtil(calc(sr.getScaledWidth()) - Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) - 45, calc(sr.getScaledHeight()));
+        notification.animationUtil = new AnimationUtil(calc(sr.getScaledWidth()) - Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) - 45, calc(sr.getScaledHeight()) + 15);
         this.notifications.add(notification);
     }
 
@@ -38,18 +39,20 @@ public class NotificationManager implements IMethods {
                 continue;
 
             if (System.currentTimeMillis() - notification.startTime > 3000L) {
-                notification.animationUtil.interpolate(calc(sr.getScaledWidth()) - Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) - 45, calc(sr.getScaledHeight()), (((mc.getDebugFPS() > 0.0F) ? (1.0F / mc.getDebugFPS()) : 1.0F) * 10));
+                notification.animationUtil.interpolate(calc(sr.getScaledWidth()) - Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) - 45, calc(sr.getScaledHeight()) + 15, (((mc.getDebugFPS() > 0.0F) ? (1.0F / mc.getDebugFPS()) : 1.0F) * 10));
             } else {
                 notification.animationUtil.interpolate(calc(sr.getScaledWidth()) - Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) - 45, calc(sr.getScaledHeight()) - offset, (((mc.getDebugFPS() > 0.0F) ? (1.0F / mc.getDebugFPS()) : 1.0F) * 10));
             }
 
             RenderUtil.drawRound(Math.round(notification.animationUtil.getX()), Math.round(notification.animationUtil.getY()), Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) + 35, 17, 4,
                     new Color(25, 25, 25, 80));
-            PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(Math.round(notification.animationUtil.getX()), Math.round(notification.animationUtil.getY()), Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) + 35, 17, 4,
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
+
+            if (!HUD.optimizeVisuals.isToggled())
+                PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(Math.round(notification.animationUtil.getX()), Math.round(notification.animationUtil.getY()), Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) + 35, 17, 4,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
 
             Fonts.ICON_35.drawString(notification.type.getIcon(), Math.round(notification.animationUtil.getX()) + 5, (Math.round(notification.animationUtil.getY()) + 8) - Fonts.GREYCLIFF_BOLD_22.getHeight() / 2f, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
             Fonts.GREYCLIFF_BOLD_22.drawString(notification.text, Math.round(notification.animationUtil.getX()) + 10 + Fonts.ICON_35.getStringWidth(notification.type.getIcon()), (Math.round(notification.animationUtil.getY()) + 8) - Fonts.GREYCLIFF_BOLD_22.getHeight() / 2f, -1);

@@ -7,6 +7,7 @@ import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.client.gui.dropdown.Panel;
+import dev.lemon.client.main.Lemon;
 import lombok.*;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Keyboard;
@@ -37,7 +38,7 @@ public class ElementModule extends Element {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Fonts.BOLD_18.drawCenteredString(binding ? "Binding..." : module.getName(), x + width / 2, y + 5, module.isToggled() ? new Color(215, 215, 21).getRGB() : -1);
+        Fonts.BOLD_18.drawCenteredString(binding ? "Binding..." : module.getName(), x + width / 2, y + 5, module.isToggled() ? Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB() : -1);
 
         int offset = 0;
 
