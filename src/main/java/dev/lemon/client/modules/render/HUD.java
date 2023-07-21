@@ -14,10 +14,8 @@ import dev.lemon.client.events.render.Render2DEvent;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.utils.player.MoveUtil;
-import dev.lemon.api.utils.render.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 
 import javax.vecmath.Vector2d;
 import java.awt.*;
@@ -110,7 +108,7 @@ public class HUD extends Module {
 
     private void drawBasic() {
         String bps = new DecimalFormat("#.##").format(MoveUtil.speed());
-        String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
+        String text = Lemon.INSTANCE.getNAME() + " " + Lemon.INSTANCE.getVERSION() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
 
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 9, 0x40000000);
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4,

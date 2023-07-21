@@ -6,15 +6,15 @@ import dev.lemon.client.main.Lemon;
 public class ClientBinding {
 
     public String getVersion() {
-        return Lemon.INSTANCE.getVersion();
+        return Lemon.INSTANCE.getVERSION();
     }
 
     public String getBuild() {
-        return Lemon.INSTANCE.getClientEnum().toString();
+        return Lemon.INSTANCE.getCLIENT_ENUM().toString();
     }
 
     public String getAuthors() {
-        return Lemon.INSTANCE.getAuthors();
+        return Lemon.INSTANCE.getAUTHORS();
     }
 
 

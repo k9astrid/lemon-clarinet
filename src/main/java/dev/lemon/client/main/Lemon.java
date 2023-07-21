@@ -14,7 +14,6 @@ import dev.lemon.api.utils.other.ReflectionUtil;
 import dev.lemon.api.utils.player.RotationUtil;
 import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import viamcp.ViaMCP;
 
@@ -22,11 +21,11 @@ import viamcp.ViaMCP;
 public enum Lemon implements IMethods {
     INSTANCE;
 
-    public final String name = "Lemon";
-    public final String version = "0.7";
-    public final String authors = "clpz, eternadox, szypko, groszus";
-    public final String chatName = "(っ◕‿◕)っ";
-    public final ClientEnum clientEnum = ClientEnum.DEVELOPER;
+    public final String NAME = "Lemon";
+    public final String VERSION = "0.7";
+    public final String AUTHORS = "clpz, eternadox, szypko, groszus";
+    public final String CHAT_PREFIX = "(っ◕‿◕)っ";
+    public final ClientEnum CLIENT_ENUM = ClientEnum.DEVELOPER;
 
     private EventBus eventBus;
     private ModuleManager moduleManager;
@@ -40,6 +39,7 @@ public enum Lemon implements IMethods {
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
 
     public void startClient() {
+        Display.setTitle(this.NAME + " " + this.VERSION + " (" + this.CLIENT_ENUM + ")");
         mc.gameSettings.ofFastRender = false;
         mc.gameSettings.fancyGraphics = false;
         mc.gameSettings.guiScale = 2;
@@ -91,7 +91,5 @@ public enum Lemon implements IMethods {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Display.setTitle(this.name + " " + this.version + " (" + this.clientEnum + ")");
     }
 }

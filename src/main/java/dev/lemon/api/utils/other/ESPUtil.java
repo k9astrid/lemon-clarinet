@@ -41,7 +41,7 @@ public class ESPUtil implements IMethods {
 
     public static Vector3f projectOn2D(float x, float y, float z, int scaleFactor) {
         glGetFloat(GL_MODELVIEW_MATRIX, floatBuffer);
-        glGetFloat(GL_PROJECTION_MATRIX, floatBuffer);
+        glGetFloat(GL_PROJECTION_MATRIX, floatBuffer1);
         glGetInteger(GL_VIEWPORT, intBuffer);
 
         if (GLU.gluProject(x, y, z, floatBuffer, floatBuffer1, intBuffer, windPos))
@@ -55,11 +55,15 @@ public class ESPUtil implements IMethods {
     }
 
     public static Vector4f getPositions(Entity entity) {
-        final double[] renderingPos = getInterpolatedPos(entity);
-        final double width = entity.width / 1.5f;
-        final AxisAlignedBB bb = new AxisAlignedBB(renderingPos[0] - width, renderingPos[1], renderingPos[2] - width,
-                renderingPos[0] - width, renderingPos[1] + entity.height + (entity.isSneaking() ? -0.2 : 0.18), renderingPos[2] + width)
-                .expand(.15, .15, .15);
+        final double[] renderingEntityPos = getInterpolatedPos(entity);
+
+        final double entityRenderWidth = entity.width / 1.5;
+
+        final AxisAlignedBB bb = new AxisAlignedBB(renderingEntityPos[0] - entityRenderWidth,
+                renderingEntityPos[1], renderingEntityPos[2] - entityRenderWidth,
+                renderingEntityPos[0] + entityRenderWidth,
+                renderingEntityPos[1] + entity.height + (entity.isSneaking() ? -0.3 : 0.18),
+                renderingEntityPos[2] + entityRenderWidth).expand(0.15, 0.15, 0.15);
 
         final List<Vector3f> vectors = Arrays.asList(
                 new Vector3f((float) bb.minX, (float) bb.minY, (float) bb.minZ),
@@ -72,16 +76,16 @@ public class ESPUtil implements IMethods {
                 new Vector3f((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ)
         );
 
-        Vector4f entityPos = new Vector4f(Float.MAX_VALUE, Float.MAX_VALUE, -1, -1);
+        Vector4f entityPos = new Vector4f(Float.MAX_VALUE, Float.MAX_VALUE, -1.0f, -1.0f);
 
-        for (Vector3f vec : vectors) {
-            vec = projectOn2D(vec.x, vec.y, vec.z, ScaledResolution.getScaleFactor());
-
-            if (vec != null && vec.z >= 0 && vec.z < 1.0) {
-                entityPos.x = Math.min(vec.x, entityPos.x);
-                entityPos.y = Math.min(vec.y, entityPos.y);
-                entityPos.z = Math.min(vec.z, entityPos.z);
-                entityPos.w = Math.min(vec.y, entityPos.w);
+        ScaledResolution sr = new ScaledResolution(mc);
+        for (Vector3f vector3f : vectors) {
+            vector3f = projectOn2D(vector3f.x, vector3f.y, vector3f.z, sr.getScaleFactor());
+            if (vector3f != null && vector3f.z >= 0.0 && vector3f.z < 1.0) {
+                entityPos.x = Math.min(vector3f.x, entityPos.x);
+                entityPos.y = Math.min(vector3f.y, entityPos.y);
+                entityPos.z = Math.max(vector3f.x, entityPos.z);
+                entityPos.w = Math.max(vector3f.y, entityPos.w);
             }
         }
 

@@ -3,6 +3,9 @@ package net.minecraft.client.renderer.entity;
 import com.google.common.collect.Lists;
 import java.nio.FloatBuffer;
 import java.util.List;
+
+import dev.lemon.client.events.other.NametagRenderEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -563,6 +566,11 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     public void renderName(T entity, double x, double y, double z)
     {
+        if (entity instanceof EntityPlayer) {
+            NametagRenderEvent nametagRenderEvent = new NametagRenderEvent();
+            Lemon.INSTANCE.getEventBus().handle(nametagRenderEvent);
+            if (nametagRenderEvent.isCancelled()) return;
+        }
         if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, new Object[] {entity, this, Double.valueOf(x), Double.valueOf(y), Double.valueOf(z)}))
         {
             if (this.canRenderName(entity))

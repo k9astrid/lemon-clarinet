@@ -8,7 +8,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class ChatUtil implements IMethods {
 
     public static void addMessage(String message){
-        ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getChatName()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);
+        ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getCHAT_PREFIX()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);
         mc.player.addChatMessage(chatComponentText);
     }
 

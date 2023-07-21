@@ -67,6 +67,10 @@ public class ShaderUtil {
                     fragmentShaderID = createShader(new ByteArrayInputStream(kawaseDownBloom.getBytes()), GL_FRAGMENT_SHADER);
                     break;
 
+                case "gradient":
+                    fragmentShaderID = createShader(new ByteArrayInputStream(gradient.getBytes()), GL_FRAGMENT_SHADER);
+                    break;
+
                 default:
                     fragmentShaderID = createShader(mc.getResourceManager().getResource(new ResourceLocation(fragmentShaderLoc)).getInputStream(), OpenGlHelper.GL_FRAGMENT_SHADER);
                     break;
@@ -192,6 +196,27 @@ public class ShaderUtil {
             "    sum += smp7 * 2.0;\n" +
             "    vec4 result = sum / 12.0;\n" +
             "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - texture2D(textureToCheck, gl_TexCoord[0].st).a),check));\n" +
+            "}";
+
+    private String gradient =
+            "#version 120\n" +
+            "\n" +
+            "uniform vec2 location, rectSize;\n" +
+            "uniform sampler2D tex;\n" +
+            "uniform vec3 color1, color2, color3, color4;\n" +
+            "uniform float alpha;\n" +
+            "\n" +
+            "#define NOISE .5/255.0\n" +
+            "\n" +
+            "vec3 createGradient(vec2 coords, vec3 color1, vec3 color2, vec3 color3, vec3 color4){\n" +
+            "    vec3 color = mix(mix(color1, color2, coords.y), mix(color3, color4, coords.y), coords.x);\n" +
+            "    color += mix(NOISE, -NOISE, fract(sin(dot(coords.xy, vec2(12.9898, 78.233))) * 43758.5453));\n" +
+            "    return color;\n" +
+            "}\n" +
+            "\n" +
+            "void main() {\n" +
+            "    vec2 coords = (gl_FragCoord.xy - location) / rectSize;\n" +
+            "    gl_FragColor = vec4(createGradient(coords, color1, color2, color3, color4), alpha);\n" +
             "}";
 
     private String kawaseDownBloom =

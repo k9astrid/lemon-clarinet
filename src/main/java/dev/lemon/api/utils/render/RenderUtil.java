@@ -32,6 +32,7 @@ public class RenderUtil implements IMethods {
     public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
     public static ShaderUtil roundedOutlineShader = new ShaderUtil("roundRectOutline");
     private static final ShaderUtil roundedGradientShader = new ShaderUtil("roundedRectGradient");
+    private static final ShaderUtil gradientShader = new ShaderUtil("gradient");
 
     public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
         return createFrameBuffer(framebuffer, false);
@@ -180,6 +181,35 @@ public class RenderUtil implements IMethods {
             return new BigDecimal(floored, MathContext.DECIMAL64)
                     .stripTrailingZeros()
                     .doubleValue();
+    }
+
+    public static void drawGradientLR(float x, float y, float width, float height, float alpha, Color left, Color right) {
+        drawGradient(x, y, width, height, alpha, left, left, right, right);
+    }
+
+    public static void drawGradientTB(float x, float y, float width, float height, float alpha, Color top, Color bottom) {
+        drawGradient(x, y, width, height, alpha, bottom, top, bottom, top);
+    }
+
+    public static void drawGradient(float x, float y, float width, float height, float alpha, Color bottomLeft, Color topLeft, Color bottomRight, Color topRight) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        gradientShader.init();
+        gradientShader.setUniformf("location", x * ScaledResolution.getScaleFactor(), (Minecraft.getMinecraft().displayHeight - (height * ScaledResolution.getScaleFactor())) - (y * ScaledResolution.getScaleFactor()));
+        gradientShader.setUniformf("rectSize", width * ScaledResolution.getScaleFactor(), height * ScaledResolution.getScaleFactor());
+        gradientShader.setUniformf("alpha", alpha);
+        // Bottom Left
+        gradientShader.setUniformf("color1", bottomLeft.getRed() / 255f, bottomLeft.getGreen() / 255f, bottomLeft.getBlue() / 255f);
+        //Top left
+        gradientShader.setUniformf("color2", topLeft.getRed() / 255f, topLeft.getGreen() / 255f, topLeft.getBlue() / 255f);
+        //Bottom Right
+        gradientShader.setUniformf("color3", bottomRight.getRed() / 255f, bottomRight.getGreen() / 255f, bottomRight.getBlue() / 255f);
+        //Top Right
+        gradientShader.setUniformf("color4", topRight.getRed() / 255f, topRight.getGreen() / 255f, topRight.getBlue() / 255f);
+        ShaderUtil.drawQuads(x, y, width, height);
+        gradientShader.unload();
+        GlStateManager.disableBlend();
     }
 
     public static void drawRound(float x, float y, float width, float height, float radius, Color color) {

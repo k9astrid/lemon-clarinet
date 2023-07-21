@@ -119,7 +119,7 @@ public class ClickGui extends GuiScreen {
 
         RenderUtil.drawImage(new ResourceLocation("lemon/images/logo.png"), guiPosX +5, guiPosY, 70, 24); // TODO: make the texture load
 
-        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVersion(), guiPosX + 64 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVersion()), guiPosY + 4,-1);
+        mc.fontRendererObj.drawStringWithShadow(Lemon.INSTANCE.getVERSION(), guiPosX + 64 + mc.fontRendererObj.getStringWidth(Lemon.INSTANCE.getVERSION()), guiPosY + 4,-1);
         int offset = 0;
         for (Module.Category c : Module.Category.values()){
             mc.fontRendererObj.drawString(c.name(),guiPosX + 5, (guiPosY + 5) + 26 + offset, 0xffFFFFFF);

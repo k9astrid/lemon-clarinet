@@ -39,7 +39,6 @@ import javax.imageio.ImageIO;
 import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.events.input.KeyboardInputEvent;
-import dev.lemon.api.utils.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -625,7 +624,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle(Lemon.INSTANCE.name + " " + Lemon.INSTANCE.version + "-" + Lemon.INSTANCE.clientEnum + " (LWJGL " + Sys.getVersion() + ") - Starting up");
+        Display.setTitle(Lemon.INSTANCE.NAME + " " + Lemon.INSTANCE.VERSION + "-" + Lemon.INSTANCE.CLIENT_ENUM + " (LWJGL " + Sys.getVersion() + ") - Starting up");
 
         try
         {
