@@ -5,6 +5,8 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
+import dev.lemon.api.utils.render.PostProcessingUtil;
+import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
@@ -26,6 +28,7 @@ import java.util.Comparator;
 public class HUD extends Module {
 
     //If u have a better way to do it then go ahead im stupid sorry
+    public ModeSetting watermark = new ModeSetting("Watermark", "Basic", "Basic", "Neverlose");
     public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
             "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Mirror", "Rock", "Eternal Constance",
             "Exotic", "Antarctica", "Piglet");
@@ -49,7 +52,43 @@ public class HUD extends Module {
 
     @Subscribe
     public final IEventListener<Render2DEvent> onRender2D = e -> {
-        drawLemon();
+        switch (watermark.getMode()) {
+            case "Basic":
+                drawBasic();
+                break;
+
+            case "Neverlose":
+                float x = 3, y = 4;
+
+                final String name = "LEMON",
+                        ip = (mc.getCurrentServerData() == null ? "Singleplayer" : mc.getCurrentServerData().serverIP),
+                        username = mc.player.getName();
+
+                final float width = Fonts.MUSEO_20.getStringWidth(name) + Fonts.BOLD_18.getStringWidth(ip + Minecraft.getDebugFPS() + " FPS" + username);
+
+                RenderUtil.drawRound(x, y - 1, width + 25, 13, 3, Color.black);
+
+                if (!optimizeVisuals.isToggled()) {
+                    float finalX = x;
+                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width + 25, 12, 3, Color.black));
+                }
+
+                Fonts.MUSEO_20.drawString(name, x + 3, y + 3, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
+                Fonts.MUSEO_20.drawString(name, x + 2, y + 2, -1);
+
+                x += Fonts.MUSEO_20.getStringWidth(name) + 10;
+                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                Fonts.BOLD_18.drawString(username, x, y + 4, new Color(255, 255, 255, 220).getRGB());
+
+                x += Fonts.BOLD_18.getStringWidth(username) + 6;
+                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                Fonts.BOLD_18.drawString(ip, x, y + 4, new Color(255, 255, 255, 220).getRGB());
+
+                x += Fonts.BOLD_18.getStringWidth(ip) + 6;
+                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                Fonts.BOLD_18.drawString(Minecraft.getDebugFPS() + " FPS", x, y + 4, new Color(255, 255, 255, 220).getRGB());
+                break;
+        }
 
         ArrayList<Module> modules = new ArrayList<>();
 
@@ -69,7 +108,7 @@ public class HUD extends Module {
         }
     };
 
-    private void drawLemon() {
+    private void drawBasic() {
         String bps = new DecimalFormat("#.##").format(MoveUtil.speed());
         String text = Lemon.INSTANCE.getName() + " " + Lemon.INSTANCE.getVersion() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
 

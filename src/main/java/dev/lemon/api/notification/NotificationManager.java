@@ -3,21 +3,15 @@ package dev.lemon.api.notification;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.api.utils.render.AnimationUtil;
-import dev.lemon.api.utils.render.ColorUtil;
 import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.render.HUD;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.Sys;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class NotificationManager implements IMethods {
     public ArrayList<Notification> notifications = new ArrayList<>();
