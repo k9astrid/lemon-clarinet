@@ -106,7 +106,7 @@ public class HUD extends Module {
 
                 if (!optimizeVisuals.isToggled()) {
                     float finalX = x;
-                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width+6, 12, 3, Color.black));
+                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width + 6, 12, 3, Color.black));
                 }
 
                 Fonts.MUSEO_20.drawString(name, x + 3, y + 3, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
