@@ -20,14 +20,29 @@ import net.minecraft.stats.StatList;
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan", "Debug");
-    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test" ,"Test2");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe",
+            "Strafe",
+            "Intave",
+            "MineMenClub",
+            "Test",
+            "Vulcan",
+            "KoksCraft",
+            "Debug"
+    );
+    public ModeSetting cockMode = new ModeSetting("KoksCraft Mode", "Hop", () -> mode.is("KoksCraft"),"Hop", "Low Hop");
+    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test", "Test2");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
 
+    public int jumps;
     public double y;
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
+    }
+
+    @Override
+    protected void onEnable() {
+        jumps = 0;
     }
 
     @Subscribe
@@ -45,6 +60,31 @@ public class Speed extends Module {
             case "MineMenClub":
                 if (mc.player.onGround)
                     mc.player.jump();
+                break;
+
+            case "KoksCraft":
+                switch (cockMode.getMode()) {
+                    case "Low Hop":
+                        if (mc.player.onGround) {
+                            if (mc.player.hurtTime == 0)
+                                MoveUtil.setSpeed(MoveUtil.baseSpeed() * .99);
+
+                            mc.player.jump();
+
+                            jumps++;
+                        }
+
+                        if (mc.player.offGroundTicks == 1 && mc.player.hurtTime == 0) {
+                            double pred = mc.player.motionY;
+
+                            for (int i = 0; i < (jumps % 2 == 0 ? 2 : 4); i++) {
+                                pred = (pred - .08) *.98f;
+                            }
+
+                            mc.player.motionY = pred;
+                        }
+                        break;
+                }
                 break;
 
             case "Intave":
@@ -78,15 +118,17 @@ public class Speed extends Module {
                             mc.timer.timerSpeed = 2.2f;
                         break;
                 }
-                    case "Vulcan":
-                        switch (vulcanMode.getMode()) {
-                            case "GroundStrafe":
-                                if (mc.player.onGround) {
-                                    mc.player.jump();
-                                    MoveUtil.strafe(0.4175f);
-                                }
-                                break;
+                break;
+
+            case "Vulcan":
+                switch (vulcanMode.getMode()) {
+                    case "GroundStrafe":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
                         }
+                        break;
+                }
                 break;
         }
     };
@@ -111,6 +153,7 @@ public class Speed extends Module {
                     MoveUtil.strafe(MoveUtil.baseSpeed());
                 }
                 break;
+
             case "Debug":
                 break;
         }

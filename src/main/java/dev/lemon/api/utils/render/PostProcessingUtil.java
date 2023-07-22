@@ -15,7 +15,7 @@ public class PostProcessingUtil {
         runnable.run();
         stencilFramebuffer.unbindFramebuffer();
 
-        KawaseBloom.renderBlur(stencilFramebuffer.framebufferTexture, 3, 1);
+        KawaseBloom.renderBlur(stencilFramebuffer.framebufferTexture, 2, 3);
     }
 
 }

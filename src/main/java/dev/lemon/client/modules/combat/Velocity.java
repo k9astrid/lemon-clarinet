@@ -16,11 +16,9 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "Legit");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit");
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
-    public BooleanSetting cancelC0F = new BooleanSetting("Cancel C0F packet", true);
-    public BooleanSetting kokscraft = new BooleanSetting("Kokscraft", true, () -> cancelC0F.isToggled());
 
     private int mmcTicks;
 
@@ -37,19 +35,34 @@ public class Velocity extends Module {
     public final IEventListener<PacketEvent> onPacket = e -> {
         final Packet<?> packet = e.getPacket();
 
-        if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1) {
-            final C0FPacketConfirmTransaction wrapper = (C0FPacketConfirmTransaction) packet;
-
-            if (kokscraft.isToggled()) {
-                if (wrapper.getUid() >= -31767 && wrapper.getUid() <= -30769) {
-                    e.setCancelled(true);
-                }
-            } else {
-                e.setCancelled(true);
-            }
-        }
-
         switch (mode.getMode()) {
+            case "KoksCraft":
+                if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1) {
+                    final C0FPacketConfirmTransaction wrapper = (C0FPacketConfirmTransaction) packet;
+
+                    if (wrapper.getUid() >= -31767 && wrapper.getUid() <= -30769) {
+                        e.setCancelled(true);
+                    }
+                }
+
+                if (packet instanceof S12PacketEntityVelocity) {
+                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
+
+                    if (wrapper.getEntityID() == mc.player.getEntityId())
+                        e.setCancelled(true);
+                }
+                break;
+            case "C0F":
+                if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1)
+                    e.setCancelled(true);
+
+                if (packet instanceof S12PacketEntityVelocity) {
+                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
+
+                    if (wrapper.getEntityID() == mc.player.getEntityId())
+                        e.setCancelled(true);
+                }
+                break;
             case "Cancel":
                 if (packet instanceof S12PacketEntityVelocity) {
                     final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;

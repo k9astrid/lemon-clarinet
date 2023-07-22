@@ -140,6 +140,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
     private Vec3 lastServerPosition;
 
+    public int offGroundTicks, onGroundTicks;
+
     public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
         super(worldIn, netHandler.getGameProfile());
         this.sendQueue = netHandler;
@@ -198,6 +200,14 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * called every tick when the player is on foot. Performs all the things that normally happen during movement.
      */
     public void onUpdateWalkingPlayer() {
+
+        if (this.onGround) {
+            onGroundTicks++;
+            offGroundTicks = 0;
+        } else {
+            onGroundTicks = 0;
+            offGroundTicks++;
+        }
 
         PreMotionEvent event = new PreMotionEvent(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
         Lemon.INSTANCE.getEventBus().handle(event);

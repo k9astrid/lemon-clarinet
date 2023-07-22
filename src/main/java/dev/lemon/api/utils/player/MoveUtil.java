@@ -146,15 +146,4 @@ public class MoveUtil implements IMethods {
 
         return speed;
     }
-
-    public static double predictedMotion(final double motion, final int ticks) {
-        if (ticks == 0) return motion;
-        double predicted = motion;
-
-        for (int i = 0; i < ticks; i++) {
-            predicted = (predicted - 0.08) * 0.98F;
-        }
-
-        return predicted;
-    }
 }
