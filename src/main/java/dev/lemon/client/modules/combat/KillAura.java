@@ -34,7 +34,8 @@ public class KillAura extends Module {
     public NumberSetting minCps = new NumberSetting("Min CPS", 10, 0, 20, 0.5);
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
-    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized", "Sexy");
+    public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
+    public NumberSetting rotationSpeed = new NumberSetting("Rotation Speed", 80, 0, 190, 5);
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
     public static ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
@@ -68,14 +69,9 @@ public class KillAura extends Module {
             Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 
             switch (rotationMode.getMode()) {
-                case "Sexy":
-                    rotations = RotationUtil.getFunnyRotations(target);
-                    break;
-
                 case "Vanilla":
                     rotations = RotationUtil.getVanillaRotations(target);
                     break;
-
                 case "Randomized":
                     rotations = RotationUtil.getVanillaRotations(target);
                     rotations.x += Math.random() / 1000;
@@ -84,7 +80,7 @@ public class KillAura extends Module {
             }
 
             if (!rotationMode.is("None"))
-                RotationUtil.rotate(rotations, 80 + Math.random());
+                RotationUtil.rotate(rotations, rotationSpeed.getVal() + Math.random());
 
             switch (autoblockMode.getMode()){
                 case "Vanilla":
@@ -92,7 +88,6 @@ public class KillAura extends Module {
                     break;
 
             }
-
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
 
                 if (!(noSwing.isToggled()))
