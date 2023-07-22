@@ -36,8 +36,17 @@ public class HUD extends Module {
             "Exotic", "Antarctica", "Piglet");
 
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
+    public NumberSetting spacing = new NumberSetting("Spacing", 3, 0, 30, 1);
+
     public static BooleanSetting toggleNotifications = new BooleanSetting("Toggle Notifications", false);
     public static BooleanSetting optimizeVisuals = new BooleanSetting("Optimize Visuals", false);
+
+    public static BooleanSetting background = new BooleanSetting("Background", true);
+
+    public BooleanSetting infoServerIP = new BooleanSetting("Server IP", true);
+    public BooleanSetting infoUsername = new BooleanSetting("Username", true);
+    public BooleanSetting infoFPSCounter = new BooleanSetting("FPS Counter", true, () -> !watermark.is("Sense"));
+    public BooleanSetting infoBPSCounter = new BooleanSetting("BPS Counter", true, () -> watermark.is("Basic"));
 
     public HUD() {
         super("HUD", Category.RENDER);
@@ -64,7 +73,7 @@ public class HUD extends Module {
 
             case "Sense":
                 String text = EnumChatFormatting.WHITE + "lemon" + EnumChatFormatting.RESET + "sense" + EnumChatFormatting.WHITE +
-                        " - " + mc.player.getName() + " - " + (mc.isSingleplayer() ? "singleplayer" : mc.getCurrentServerData().serverIP) + " ";
+                        (infoUsername.isToggled() ? " - " + mc.player.getName() : "") + (infoServerIP.isToggled() ? " - " + (mc.isSingleplayer() ? "singleplayer" : mc.getCurrentServerData().serverIP) : "") + " ";
 
                 x = 4.5f;
                 y = 4.5f;
@@ -91,29 +100,35 @@ public class HUD extends Module {
                         ip = (mc.getCurrentServerData() == null ? "Singleplayer" : mc.getCurrentServerData().serverIP),
                         username = mc.player.getName();
 
-                final float width = Fonts.MUSEO_20.getStringWidth(name) + Fonts.BOLD_18.getStringWidth(ip + Minecraft.getDebugFPS() + " FPS" + username);
+                final float width = Fonts.MUSEO_20.getStringWidth(name)+Fonts.BOLD_18.getStringWidth((infoServerIP.isToggled() ? ip+" |  " : "") + (infoFPSCounter.isToggled() ? Minecraft.getDebugFPS() + " FPS"+" |  " : "") + (infoUsername.isToggled() ? username+" | " : ""));
 
-                RenderUtil.drawRound(x, y - 1, width + 25, 13, 3, Color.black);
+                RenderUtil.drawRound(x, y - 1, width+3, 13, 3, Color.black);
 
                 if (!optimizeVisuals.isToggled()) {
                     float finalX = x;
-                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width + 25, 12, 3, Color.black));
+                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width+6, 12, 3, Color.black));
                 }
 
                 Fonts.MUSEO_20.drawString(name, x + 3, y + 3, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
                 Fonts.MUSEO_20.drawString(name, x + 2, y + 2, -1);
 
                 x += Fonts.MUSEO_20.getStringWidth(name) + 10;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(username, x, y + 4, new Color(255, 255, 255, 220).getRGB());
+                if (infoUsername.isToggled()) {
+                    Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                    Fonts.BOLD_18.drawString(username, x, y + 4, new Color(255, 255, 255, 220).getRGB());
 
-                x += Fonts.BOLD_18.getStringWidth(username) + 6;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(ip, x, y + 4, new Color(255, 255, 255, 220).getRGB());
+                    x += Fonts.BOLD_18.getStringWidth(username) + 6;
+                }
+                if (infoServerIP.isToggled()) {
+                    Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                    Fonts.BOLD_18.drawString(ip, x, y + 4, new Color(255, 255, 255, 220).getRGB());
 
-                x += Fonts.BOLD_18.getStringWidth(ip) + 6;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(Minecraft.getDebugFPS() + " FPS", x, y + 4, new Color(255, 255, 255, 220).getRGB());
+                    x += Fonts.BOLD_18.getStringWidth(ip) + 6;
+                }
+                if (infoFPSCounter.isToggled()) {
+                    Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
+                    Fonts.BOLD_18.drawString(Minecraft.getDebugFPS() + " FPS", x, y + 4, new Color(255, 255, 255, 220).getRGB());
+                }
                 break;
         }
 
@@ -125,20 +140,22 @@ public class HUD extends Module {
         }
         modules.sort(Comparator.<Module>comparingDouble(m -> Fonts.BOLD_18.getStringWidth(m.getDisplayName())).reversed());
 
-        int offsetY = (int) this.offset.getVal() + 1, spacing = 3, offsetX = (int) this.offset.getVal() + 2;
+        int offsetY = (int) this.offset.getVal() + 1, offsetX = (int) this.offset.getVal() + 2;
 
 
         for (Module m : modules) {
-            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing, new Color(0, 0, 0, 80).getRGB());
+            if (background.isToggled())
+                Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing.getVal(), new Color(0, 0, 0, 80).getRGB());
+
             Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY + 1,
                     Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY)).getRGB());
-            offsetY += Fonts.BOLD_18.getHeight() + spacing;
+            offsetY += Fonts.BOLD_18.getHeight() + spacing.getVal();
         }
     };
 
     private void drawBasic() {
         String bps = new DecimalFormat("#.##").format(MoveUtil.speed());
-        String text = Lemon.INSTANCE.getNAME() + " " + Lemon.INSTANCE.getVERSION() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
+        String text = Lemon.INSTANCE.getNAME() + " " + Lemon.INSTANCE.getVERSION() + (infoFPSCounter.isToggled() ? " | " + "FPS: " + Minecraft.getDebugFPS() : "") + (infoBPSCounter.isToggled() ? " | " + "BPS: " + bps : "");
 
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, Fonts.BOLD_18.getHeight() + 9, 0x40000000);
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4,

@@ -86,7 +86,7 @@ public class Module implements IMethods {
             onDisable();
 
             if (HUD.toggleNotifications.isToggled())
-                Lemon.INSTANCE.getNotificationManager().call("Disabled " + this.getName(), NotificationType.SUCCESS);
+                Lemon.INSTANCE.getNotificationManager().call("Disabled " + this.getName(), NotificationType.ERROR);
         }
     }
 
