@@ -1,31 +1,27 @@
 package dev.lemon.client.modules.combat;
 
+import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
+import dev.lemon.api.module.Module;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.RandomUtil;
-import dev.lemon.api.utils.player.ChatUtil;
+import dev.lemon.api.utils.math.TimerUtil;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
-import dev.lemon.api.module.Module;
-import dev.lemon.api.event.IEventListener;
-
-import dev.lemon.api.utils.math.TimerUtil;
-import dev.lemon.api.utils.IMethods;
 import dev.lemon.client.events.other.TickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
 
 import javax.vecmath.Vector2f;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KillAura extends Module {
@@ -42,11 +38,15 @@ public class KillAura extends Module {
 
     private final TimerUtil timer = new TimerUtil();
     public static Entity currentTarget;
+    private boolean blocking = false;
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
     }
 
+    protected void onEnable() {
+        this.blocking = true;
+    }
     @Subscribe
     public final IEventListener<TickEvent> onTick = e -> {
         if (minCps.getVal() > maxCPS.getVal())
@@ -86,6 +86,9 @@ public class KillAura extends Module {
                 case "Vanilla":
                     mc.playerController.sendUseItem(mc.player, mc.world, mc.player.getCurrentEquippedItem());
                     break;
+                    case "Verus":
+                        mc.player.sendQueue.addToSendQueueSilent(new C08PacketPlayerBlockPlacement());
+                        break;
 
             }
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {

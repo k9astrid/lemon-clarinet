@@ -123,6 +123,41 @@ public class Speed extends Module {
                 }
                 break;
 
+            case "Vulcan":
+                switch (vulcanMode.getMode()) {
+                    case "GroundStrafe":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
+                        }
+                        break;
+                }
+                break;
+        }
+    };
+
+    @Subscribe
+    public final IEventListener<StrafeEvent> onStrafe = e -> {
+        switch (mode.getMode()) {
+            case "MineMenClub":
+                if (mc.player.hurtTime >= 6)
+                    MoveUtil.strafe();
+                break;
+
+            case "Intave":
+                if (mc.player.onGround)
+                    mc.player.jump();
+                break;
+
+            case "Test":
+                if (mc.player.onGround) {
+                    mc.player.triggerAchievement(StatList.jumpStat);
+                    mc.player.motionY = 0.42f * .78;
+                    MoveUtil.strafe(MoveUtil.baseSpeed());
+                }
+                break;
+            case "Debug":
+                break;
             case "Hypixel":
                 switch (hypixelMode.getMode()) {
                     case "GroundStrafe":
@@ -147,43 +182,6 @@ public class Speed extends Module {
                             }
                         }
                 }
-                break;
-
-            case "Vulcan":
-                switch (vulcanMode.getMode()) {
-                    case "GroundStrafe":
-                        if (mc.player.onGround) {
-                            mc.player.jump();
-                            MoveUtil.strafe(0.4175f);
-                        }
-                        break;
-                }
-                break;
-        }
-    };
-
-    @Subscribe
-    public final IEventListener<StrafeEvent> onStrafe = e -> {
-        switch (mode.getMode()) {
-            case "MineMenClub":
-                if (mc.player.hurtTime >= 6)
-                    MoveUtil.strafe();
-                break;
-
-            case "Intave":
-            case "Hypixel":
-                if (mc.player.onGround)
-                    mc.player.jump();
-                break;
-
-            case "Test":
-                if (mc.player.onGround) {
-                    mc.player.triggerAchievement(StatList.jumpStat);
-                    mc.player.motionY = 0.42f * .78;
-                    MoveUtil.strafe(MoveUtil.baseSpeed());
-                }
-                break;
-            case "Debug":
                 break;
         }
     };
