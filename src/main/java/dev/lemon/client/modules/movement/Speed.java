@@ -27,14 +27,17 @@ public class Speed extends Module {
             "Test",
             "Vulcan",
             "KoksCraft",
-            "Debug"
+            "Debug",
+            "Hypixel"
     );
     public ModeSetting cockMode = new ModeSetting("KoksCraft Mode", "Hop", () -> mode.is("KoksCraft"),"Hop", "Low Hop");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test", "Test2");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
+    public ModeSetting hypixelMode = new ModeSetting("Hypixel Mode", "GroundStrafe", () -> mode.is("Hypixel"), "GroundStrafe", "Strafe", "Fast", "Test");
 
     public int jumps;
     public double y;
+    public int ticks;
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -48,6 +51,8 @@ public class Speed extends Module {
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         this.setSuffix(mode.getMode());
+        if (mc.player.isCollidedHorizontally)
+            mc.player.jump();
 
         switch (mode.getMode()) {
             case "Strafe":
@@ -120,6 +125,32 @@ public class Speed extends Module {
                 }
                 break;
 
+            case "Hypixel":
+                switch (hypixelMode.getMode()) {
+                    case "GroundStrafe":
+                        if(mc.player.onGround) {
+                            mc.timer.timerSpeed = 1;
+                        } else {
+                            mc.timer.timerSpeed = (float) (1 + Math.random() / 30);
+                            if(mc.player.onGround) {
+                                ticks = 0;
+                                mc.player.jump();
+                                MoveUtil.strafe((float) (0.525 - Math.random() / 10));
+                            } else {
+                                ticks++;
+                                mc.player.motionY -= 0.0008;
+                                if(ticks == 1) {
+                                    mc.player.motionY -= 0.002;
+                                }
+
+                                if(ticks == 8) {
+                                    mc.player.motionY -= 0.003;
+                                }
+                            }
+                        }
+                }
+                break;
+
             case "Vulcan":
                 switch (vulcanMode.getMode()) {
                     case "GroundStrafe":
@@ -154,6 +185,11 @@ public class Speed extends Module {
                 }
                 break;
             case "Debug":
+                break;
+
+            case "Hypixel":
+                if (mc.player.onGround)
+                    mc.player.jump();
                 break;
         }
     };
