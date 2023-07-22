@@ -51,8 +51,6 @@ public class Speed extends Module {
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         this.setSuffix(mode.getMode());
-        if (mc.player.isCollidedHorizontally)
-            mc.player.jump();
 
         switch (mode.getMode()) {
             case "Strafe":
@@ -173,6 +171,7 @@ public class Speed extends Module {
                 break;
 
             case "Intave":
+            case "Hypixel":
                 if (mc.player.onGround)
                     mc.player.jump();
                 break;
@@ -185,11 +184,6 @@ public class Speed extends Module {
                 }
                 break;
             case "Debug":
-                break;
-
-            case "Hypixel":
-                if (mc.player.onGround)
-                    mc.player.jump();
                 break;
         }
     };
