@@ -119,9 +119,12 @@ public class Velocity extends Module {
             case "MineMenClub":
                 this.mmcTicks++;
                 break;
+
             case "Legit":
-                if (mc.player.hurtTime != 9 || !mc.player.onGround) return;
-                    mc.player.movementInput.jump = true;
+                if (mc.player.hurtTime != 9 || !mc.player.onGround)
+                    return;
+
+                mc.player.movementInput.jump = true;
                 break;
         }
     };
