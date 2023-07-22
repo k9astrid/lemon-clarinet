@@ -29,8 +29,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KillAura extends Module {
-    public NumberSetting maxReach = new NumberSetting("Max Reach", 4.0, 1.0, 6.0, 0.1);
-    public NumberSetting minReach = new NumberSetting("Min Reach", 3.0, 1.0, 6.0, 0.1);
+    public NumberSetting reach = new NumberSetting("Reach", 3.0, 1.0, 6.0, 0.1);
     public NumberSetting maxCPS = new NumberSetting("Max CPS", 15, 0, 20, 0.5);
     public NumberSetting minCps = new NumberSetting("Min CPS", 10, 0, 20, 0.5);
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
@@ -52,9 +51,6 @@ public class KillAura extends Module {
         if (minCps.getVal() > maxCPS.getVal())
             minCps.setValue(maxCPS.getVal());
 
-        if (minReach.getVal() > maxReach.getVal())
-            minReach.setValue(maxReach.getVal());
-
         currentTarget = null;
     };
 
@@ -66,13 +62,9 @@ public class KillAura extends Module {
                 .collect(Collectors.toList());
 
 
-        this.setSuffix(minReach.getVal() + "-" + maxReach.getVal());
-
         for (Entity target : entityList) {
-            //fuck y'all do not remove this thing.
             currentTarget = target;
 
-            this.setSuffix(target.getName() + " - " + minReach.getVal()+"-"+ maxReach.getVal());
             Vector2f rotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 
             switch (rotationMode.getMode()) {
@@ -116,7 +108,7 @@ public class KillAura extends Module {
                 && !entity.isDead
                 && (entity instanceof EntityPlayer || entity instanceof EntityCreature)
                 && (invisibles.isToggled() || !entity.isInvisible())
-                && entity.getDistanceToEntity(mc.player) <= RandomUtil.getRandomDoubleInRange(minReach.getVal(), maxReach.getVal());
+                && entity.getDistanceToEntity(mc.player) <= reach.getVal();
     }
 
     private Comparator<Entity> getSortingMode(){
