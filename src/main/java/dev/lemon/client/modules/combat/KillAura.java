@@ -35,6 +35,7 @@ public class KillAura extends Module {
     public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
     public BooleanSetting keepSprint = new BooleanSetting("Keep Sprint", true);
     public ModeSetting rotationMode = new ModeSetting("Rotations", "None", "None", "Vanilla", "Randomized");
+    public NumberSetting rotationSpeed = new NumberSetting("Rotation Speed", 80, 0, 190, 5);
     public ModeSetting sortingMode = new ModeSetting("Sort", "Health", "Health", "Distance", "Hurt Time");
     public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
     public static ModeSetting autoblockMode = new ModeSetting("Autoblock", "None", "Vanilla", "Fake", "None");
@@ -79,7 +80,7 @@ public class KillAura extends Module {
             }
 
             if (!rotationMode.is("None"))
-                RotationUtil.rotate(rotations, 80 + Math.random());
+                RotationUtil.rotate(rotations, rotationSpeed.getVal() + Math.random());
 
             switch (autoblockMode.getMode()){
                 case "Vanilla":
