@@ -38,15 +38,11 @@ public class KillAura extends Module {
 
     private final TimerUtil timer = new TimerUtil();
     public static Entity currentTarget;
-    private boolean blocking = false;
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
     }
 
-    protected void onEnable() {
-        this.blocking = true;
-    }
     @Subscribe
     public final IEventListener<TickEvent> onTick = e -> {
         if (minCps.getVal() > maxCPS.getVal())
@@ -86,9 +82,9 @@ public class KillAura extends Module {
                 case "Vanilla":
                     mc.playerController.sendUseItem(mc.player, mc.world, mc.player.getCurrentEquippedItem());
                     break;
-                    case "Verus":
-                        mc.player.sendQueue.addToSendQueueSilent(new C08PacketPlayerBlockPlacement());
-                        break;
+                case "Verus":
+                    mc.player.sendQueue.addToSendQueueSilent(new C08PacketPlayerBlockPlacement());
+                    break;
 
             }
             if (timer.hasTimeElapsed((long) (1000L / RandomUtil.getRandomDoubleInRange(minCps.getVal(), maxCPS.getVal())))) {
