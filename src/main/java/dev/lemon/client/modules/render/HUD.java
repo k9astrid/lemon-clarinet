@@ -102,7 +102,7 @@ public class HUD extends Module {
 
                 final float width = Fonts.MUSEO_20.getStringWidth(name)+Fonts.BOLD_18.getStringWidth((infoServerIP.isToggled() ? ip+" |  " : "") + (infoFPSCounter.isToggled() ? Minecraft.getDebugFPS() + " FPS"+" |  " : "") + (infoUsername.isToggled() ? username+" | " : ""));
 
-                RenderUtil.drawRound(x, y - 1, width+3, 13, 3, Color.black);
+                RenderUtil.drawRound(x, y - 1, width + 6, 13, 3, Color.black);
 
                 if (!optimizeVisuals.isToggled()) {
                     float finalX = x;
