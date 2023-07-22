@@ -6,6 +6,6 @@ import dev.lemon.api.setting.impl.ModeSetting;
 public class KeepSprint extends Module {
     public static ModeSetting mode = new ModeSetting("Mode", "Kokscraft", "Kokscraft");
     public KeepSprint() {
-        super("KeepSprint", Category.MOVEMENT);
+        super("Keep Sprint", Category.MOVEMENT);
     }
 }

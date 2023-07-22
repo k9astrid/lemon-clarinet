@@ -1354,7 +1354,7 @@ public abstract class EntityPlayer extends EntityLivingBase
                         {
                             targetEntity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
 
-                            if (Lemon.INSTANCE.getModuleManager().getModuleByName("KeepSprint").isToggled()) {
+                            if (Lemon.INSTANCE.getModuleManager().getModuleByName("Keep Sprint").isToggled()) {
                                 switch (KeepSprint.mode.getMode()) {
                                     case "Kokscraft":
                                         this.motionX *= 0.67D;
