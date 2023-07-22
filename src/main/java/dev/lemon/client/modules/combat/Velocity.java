@@ -37,15 +37,17 @@ public class Velocity extends Module {
     public final IEventListener<PacketEvent> onPacket = e -> {
         final Packet<?> packet = e.getPacket();
 
-        if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1) {
-            final C0FPacketConfirmTransaction wrapper = (C0FPacketConfirmTransaction) packet;
+        if (cancelC0F.isToggled()) {
+            if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1) {
+                final C0FPacketConfirmTransaction wrapper = (C0FPacketConfirmTransaction) packet;
 
-            if (kokscraft.isToggled()) {
-                if (wrapper.getUid() >= -31767 && wrapper.getUid() <= -30769) {
+                if (kokscraft.isToggled()) {
+                    if (wrapper.getUid() >= -31767 && wrapper.getUid() <= -30769) {
+                        e.setCancelled(true);
+                    }
+                } else {
                     e.setCancelled(true);
                 }
-            } else {
-                e.setCancelled(true);
             }
         }
 
@@ -108,7 +110,7 @@ public class Velocity extends Module {
                 break;
             case "Legit":
                 if (mc.player.hurtTime != 9 || !mc.player.onGround) return;
-                    mc.player.movementInput.jump = true;
+                mc.player.movementInput.jump = true;
                 break;
         }
     };

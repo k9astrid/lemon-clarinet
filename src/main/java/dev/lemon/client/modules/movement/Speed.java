@@ -98,9 +98,6 @@ public class Speed extends Module {
                         break;
                 }
                 break;
-            case "Debug":
-
-                break;
         }
     };
 
@@ -123,8 +120,6 @@ public class Speed extends Module {
                     mc.player.motionY = 0.42f * .78;
                     MoveUtil.strafe(MoveUtil.baseSpeed());
                 }
-                break;
-            case "Debug":
                 break;
         }
     };
