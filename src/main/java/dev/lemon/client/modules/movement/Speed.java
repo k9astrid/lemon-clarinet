@@ -20,7 +20,7 @@ import net.minecraft.stats.StatList;
 import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan");
+    public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan", "Debug");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test" ,"Test2");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
 
@@ -110,6 +110,8 @@ public class Speed extends Module {
                     mc.player.motionY = 0.42f * .78;
                     MoveUtil.strafe(MoveUtil.baseSpeed());
                 }
+                break;
+            case "Debug":
                 break;
         }
     };

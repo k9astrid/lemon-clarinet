@@ -5,6 +5,7 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
+import dev.lemon.api.utils.render.AnimationUtil;
 import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.events.other.TickEvent;
@@ -90,17 +91,18 @@ public class HUD extends Module {
 
         ArrayList<Module> modules = new ArrayList<>();
 
-        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values())
+        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
             if (m.isToggled())
                 modules.add(m);
-
+        }
         modules.sort(Comparator.<Module>comparingDouble(m -> Fonts.BOLD_18.getStringWidth(m.getDisplayName())).reversed());
 
         int offsetY = (int) this.offset.getVal() + 1, spacing = 3, offsetX = (int) this.offset.getVal() + 2;
 
+
         for (Module m : modules) {
-            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing, new Color(0,0,0, 80).getRGB());
-            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY,
+            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing, new Color(0, 0, 0, 80).getRGB());
+            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY + 1,
                     Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY)).getRGB());
             offsetY += Fonts.BOLD_18.getHeight() + spacing;
         }

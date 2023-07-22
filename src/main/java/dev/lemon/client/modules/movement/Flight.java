@@ -12,7 +12,8 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class Flight extends Module {
 
-    public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide");
+    public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide", "Vulcan");
+    public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Glide", () -> mode.is("Vulcan"), "Glide");
     public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1,() -> mode.is("Vanilla"));
 
     public Flight() {
@@ -54,6 +55,19 @@ public class Flight extends Module {
                 mc.player.motionY = mc.gameSettings.keyBindJump.isKeyDown() ? vanillaSpeed.getVal() : mc.gameSettings.keyBindSneak.isKeyDown() ? -vanillaSpeed.getVal() : 0;
 
                 MoveUtil.strafe(vanillaSpeed.getVal());
+                break;
+            case "Vulcan":
+                switch (vulcanMode.getMode()) {
+                    case "Glide":
+                        if (mc.player.ticksExisted % 10 == 5) {
+                            mc.player.motionY = -0.1;
+                        }
+
+                        if (mc.player.ticksExisted % 10 == 0) {
+                            mc.player.motionY = -0.1;
+                        }
+                        break;
+                }
                 break;
         }
 
