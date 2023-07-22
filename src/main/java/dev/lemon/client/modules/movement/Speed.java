@@ -4,20 +4,12 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
-import dev.lemon.api.setting.impl.NumberSetting;
-import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
-import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.events.other.PacketEvent;
-import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatList;
-
-import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe",
@@ -29,7 +21,7 @@ public class Speed extends Module {
             "KoksCraft",
             "Debug"
     );
-    public ModeSetting cockMode = new ModeSetting("KoksCraft Mode", "Hop", () -> mode.is("KoksCraft"),"Hop", "Low Hop");
+    public ModeSetting cockMode = new ModeSetting("KoksCraft Mode", "Hop", () -> mode.is("KoksCraft"),"Hop", "Low Hop", "Ground", "Ground2");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test", "Test2");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
 
@@ -43,6 +35,7 @@ public class Speed extends Module {
     @Override
     protected void onEnable() {
         jumps = 0;
+        y = 0;
     }
 
     @Subscribe
@@ -59,6 +52,30 @@ public class Speed extends Module {
 
             case "KoksCraft":
                 switch (cockMode.getMode()) {
+                    case "Ground2":
+                    case "Ground":
+                        if (mc.player.isCollidedHorizontally) {
+                            mc.timer.timerSpeed = 0.5f;
+                            return;
+                        }
+                        if (mc.player.onGround) {
+                            if (cockMode.is("Ground2"))
+                                mc.timer.timerSpeed = 1.1f;
+
+                            y = 0.01;
+
+                            mc.player.motionY = 0.01;
+                            MoveUtil.strafe(.4175);
+                        } else {
+                            if (cockMode.is("Ground2"))
+                                mc.timer.timerSpeed = .95f;
+
+                            if (y == .01) {
+                                MoveUtil.strafe(MoveUtil.baseSpeed() * 1.04f);
+                                y = 0;
+                            }
+                        }
+                        break;
                     case "Low Hop":
                         if (mc.player.onGround) {
                             if (mc.player.hurtTime == 0)
@@ -128,6 +145,25 @@ public class Speed extends Module {
                             MoveUtil.strafe(0.4175f);
                         }
                         break;
+                }
+                break;
+        }
+    };
+
+    @Subscribe
+    public final IEventListener<PacketEvent> onPacket = e -> {
+        if (mc.player == null)
+            return;
+
+        switch (mode.getMode()) {
+            case "KoksCraft":
+                if (mc.player.isCollidedHorizontally)
+                    return;
+
+                if (cockMode.is("Ground") || cockMode.is("Ground2")) {
+                    if(e.getPacket() instanceof C03PacketPlayer) {
+                        ((C03PacketPlayer) e.getPacket()).y = mc.player.posY + y;
+                    }
                 }
                 break;
         }

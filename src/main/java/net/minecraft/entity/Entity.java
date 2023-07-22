@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import dev.lemon.client.events.motion.StrafeEvent;
+import dev.lemon.client.events.other.StepEvent;
 import dev.lemon.client.main.Lemon;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
@@ -16,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -806,6 +808,9 @@ public abstract class Entity implements ICommandSender
                     z = d8;
                     this.setEntityBoundingBox(axisalignedbb3);
                 }
+
+                if (this instanceof EntityPlayerSP)
+                    Lemon.INSTANCE.getEventBus().handle(new StepEvent(getEntityBoundingBox().minY - this.posY));
             }
 
             this.worldObj.theProfiler.endSection();

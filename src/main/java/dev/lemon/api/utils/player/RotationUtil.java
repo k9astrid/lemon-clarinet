@@ -221,6 +221,23 @@ public class RotationUtil implements IMethods {
                 mc.player.getEyeHeight(), 0.0D), entity.getPositionVector().addVector(0.0D, entity.getEyeHeight() / 2, 0.0D));
     }
 
+    public static Vector2f getFunnyRotations(Entity entityIn) {
+        double deltaX = entityIn.posX + (entityIn.posX - entityIn.lastTickPosY) - mc.player.posX,
+                deltaY = entityIn.posY - 3.5 + entityIn.getEyeHeight() - mc.player.posY + mc.player.getEyeHeight(),
+                deltaZ = entityIn.posZ + (entityIn.posZ - entityIn.lastTickPosZ) - mc.player.posZ,
+                distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
+
+        float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ)),
+                pitch = (float) -Math.toDegrees(Math.atan(deltaY / distance));
+
+        if (deltaX < 0 && deltaZ < 0)
+            yaw = (float) (90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+        else if (deltaX > 0 && deltaZ < 0)
+            yaw = (float) (-90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+
+        return new Vector2f(yaw, pitch);
+    }
+
     public static Vector2f getVanillaRotations(Entity entityIn) // from EntityLiving, originally called faceEntity
     {
         EntityPlayerSP entity = mc.player; // the player (your character)

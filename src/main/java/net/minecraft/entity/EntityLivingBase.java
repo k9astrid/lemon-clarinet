@@ -193,6 +193,8 @@ public abstract class EntityLivingBase extends Entity
 
     public int realPosX, realPosY, realPosZ;
 
+    public int ticksSinceJump;
+
     /**
      * Called by the /kill command.
      */
@@ -1577,10 +1579,11 @@ public abstract class EntityLivingBase extends Entity
             this.movementYaw = jumpEvent.getYaw();
             this.velocityYaw = jumpEvent.getYaw();
 
-            if (jumpEvent.isCancelled())
+            if (jumpEvent.isCancelled() || this.ticksSinceJump <= 0)
                 return;
         }
 
+        this.ticksSinceJump = 0;
         this.motionY = jumpMotion;
 
         if (this.isSprinting())
@@ -1616,6 +1619,7 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isServerWorld())
         {
+            this.ticksSinceJump++;
             if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
             {
                 if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
