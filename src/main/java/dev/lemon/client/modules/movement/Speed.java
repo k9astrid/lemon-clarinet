@@ -21,8 +21,8 @@ import javax.vecmath.Vector2f;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe", "Strafe", "Intave", "MineMenClub", "Test", "Vulcan", "Debug");
-    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test" ,"Test2");
-    public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"),"Fast", "GroundStrafe", "Strafe");
+    public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"), "Legit Hop", "Fast", "Test", "Test2");
+    public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Fast", () -> mode.is("Vulcan"), "Fast", "GroundStrafe", "Strafe");
 
     public double y;
 
@@ -78,15 +78,28 @@ public class Speed extends Module {
                             mc.timer.timerSpeed = 2.2f;
                         break;
                 }
-                    case "Vulcan":
-                        switch (vulcanMode.getMode()) {
-                            case "GroundStrafe":
-                                if (mc.player.onGround) {
-                                    mc.player.jump();
-                                    MoveUtil.strafe(0.4175f);
-                                }
-                                break;
+            case "Vulcan":
+                switch (vulcanMode.getMode()) {
+                    case "GroundStrafe":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
                         }
+                        break;
+                    case "Fast":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
+                        }
+
+                        if (mc.player.ticksExisted % 10 == 0) {
+                            mc.player.motionY = -0.42f;
+                        }
+                        break;
+                }
+                break;
+            case "Debug":
+
                 break;
         }
     };
