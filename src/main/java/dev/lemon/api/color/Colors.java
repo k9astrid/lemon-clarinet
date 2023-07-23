@@ -10,6 +10,7 @@ import java.awt.*;
 public enum Colors {
 
     VENOMOUS("Venomous", new Color(58, 255, 156), new Color(68, 191, 255), EnumChatFormatting.AQUA),
+    BLACK("Black", new Color(11,9,10), new Color(233,236,239), EnumChatFormatting.WHITE),
     PEACHY("Peachy", new Color(234, 95, 113), new Color(250, 217, 179), EnumChatFormatting.LIGHT_PURPLE),
     SAND_DUNE("Sand Dune", new Color(118, 167, 211), new Color(231, 208, 178), EnumChatFormatting.DARK_BLUE),
     ORANGE_CORAL("Orange Coral", new Color(253, 143, 103), new Color(246, 107, 103), EnumChatFormatting.YELLOW),
@@ -22,7 +23,12 @@ public enum Colors {
     ETERNAL_CONSTANCE("Eternal Constance", new Color(17, 40, 71), new Color(77, 111, 137), EnumChatFormatting.DARK_PURPLE),
     EXOTIC("Exotic", new Color(244, 102, 198), new Color(252, 137, 153), EnumChatFormatting.LIGHT_PURPLE),
     ANTARCTICA("Antarctica", new Color(195, 180, 239), new Color(50, 173, 161), EnumChatFormatting.AQUA),
-    PIGLET("Piglet", new Color(234, 160, 173), new Color(251, 213, 217), EnumChatFormatting.LIGHT_PURPLE);
+    PIGLET("Piglet", new Color(234, 160, 173), new Color(251, 213, 217), EnumChatFormatting.LIGHT_PURPLE),
+    OCEANIC_AZURE("Oceanic Azure", new Color(0, 56, 168), new Color(135, 206, 250), EnumChatFormatting.DARK_BLUE),
+    ASTOLFO("Astolfo", new Color(255,153,200), new Color(169,222,249), EnumChatFormatting.BLUE),
+    PINKY("Pinky", new Color(255,10,84), new Color(251,177,189), EnumChatFormatting.LIGHT_PURPLE),
+    MINTY("Minty", new Color(152, 251, 152), new Color(240, 255, 240), EnumChatFormatting.LIGHT_PURPLE),
+    LUMINOUS_LAVENDER("Luminous Lavender", new Color(178, 130, 229), new Color(255, 255, 255), EnumChatFormatting.LIGHT_PURPLE);
 
     private final String colorName;
     private Color firstColor, secondColor;
