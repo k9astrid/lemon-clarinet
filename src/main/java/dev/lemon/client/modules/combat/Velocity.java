@@ -10,13 +10,14 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.math.TimerUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit", "Intave");
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
 
@@ -105,6 +106,21 @@ public class Velocity extends Module {
                     } else if (packet instanceof S27PacketExplosion) {
                         e.setCancelled(true);
                         this.mmcTicks = 0;
+                    }
+                }
+                break;
+            case "Intave":
+                if (!mc.player.isPotionActive(1)) {
+                    if (mc.player.onGround) {
+                        mc.gameSettings.keyBindSneak.pressed = false;
+                        if (mc.player.ticksExisted % 25 == 0) {
+                            mc.player.motionX *= 0.56;
+                            mc.player.motionZ *= 0.56;
+                            if (mc.player.ticksExisted % 6 == 0) {
+                                mc.player.jump();
+                            }
+                        }
+
                     }
                 }
                 break;
