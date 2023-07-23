@@ -17,7 +17,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit", "Intave");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit");
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
 
@@ -108,13 +108,6 @@ public class Velocity extends Module {
                         this.mmcTicks = 0;
                     }
                 }
-                break;
-            case "Intave":
-                    if (mc.player.onGround) {
-                        mc.gameSettings.keyBindSneak.pressed = false;
-                            mc.player.motionX *= 0.56;
-                            mc.player.motionZ *= 0.56;
-                        }
                 break;
         }
     };
