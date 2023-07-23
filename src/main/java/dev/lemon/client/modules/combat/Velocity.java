@@ -110,19 +110,11 @@ public class Velocity extends Module {
                 }
                 break;
             case "Intave":
-                if (!mc.player.isPotionActive(1)) {
                     if (mc.player.onGround) {
                         mc.gameSettings.keyBindSneak.pressed = false;
-                        if (mc.player.ticksExisted % 25 == 0) {
                             mc.player.motionX *= 0.56;
                             mc.player.motionZ *= 0.56;
-                            if (mc.player.ticksExisted % 6 == 0) {
-                                mc.player.jump();
-                            }
                         }
-
-                    }
-                }
                 break;
         }
     };
