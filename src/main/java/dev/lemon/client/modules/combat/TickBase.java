@@ -6,13 +6,7 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.api.utils.player.MoveUtil;
-import dev.lemon.client.events.motion.PreMotionEvent;
-import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.client.events.other.TickEvent;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.util.Vec3;
-
-import java.io.IOException;
 import java.util.Objects;
 
 public class TickBase extends Module {
@@ -20,12 +14,13 @@ public class TickBase extends Module {
         super("Tick Base", Category.COMBAT);
     }
 
+    public NumberSetting tickCap = new NumberSetting("Tick Cap", 5, 1, 20, 1);
     private int ticks;
     @Subscribe
     public IEventListener<TickEvent> onTick = e -> {
             if (Objects.isNull(mc.player)) return;
 
-            if (MoveUtil.moving() && ticks < 5)
+            if (MoveUtil.moving() && ticks < tickCap.getVal())
                 ticks++;
             else if (ticks > 0)
                 ticks--;
@@ -39,8 +34,6 @@ public class TickBase extends Module {
         try {
             Thread.sleep(ticks * 50L);
             for (int i = 0; i < ticks; i++){
-
-                ChatUtil.addMessage("tick "+i);
                 mc.runTick();
 
             }
@@ -54,7 +47,7 @@ public class TickBase extends Module {
     }
     private boolean shouldTickBase(){
 
-        return KillAura.target.getDistanceToEntity(mc.player) > 3.0D && (mc.player.hurtTime > 3);
+        return KillAura.target.getDistanceToEntity(mc.player) > 3.0D;
     }
 
 }
