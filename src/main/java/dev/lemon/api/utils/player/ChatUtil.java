@@ -15,7 +15,7 @@ public class ChatUtil implements IMethods {
     private static String getPrefix() {
         final String color = Lemon.INSTANCE.getColorManager().getColor().getAccent().toString();
         return EnumChatFormatting.BOLD + color + Lemon.INSTANCE.NAME
-                + EnumChatFormatting.RESET + color + " "
+                + EnumChatFormatting.RESET + color + " » "
                 + EnumChatFormatting.RESET;
     }
 }
