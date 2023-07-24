@@ -65,7 +65,7 @@ public class KillAura extends Module {
 
     public static List<EntityLivingBase> targets;
 
-    public Entity target;
+    public static Entity target;
 
     public KillAura() {
         super("Kill Aura", Category.COMBAT);
