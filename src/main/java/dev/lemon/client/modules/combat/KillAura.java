@@ -152,6 +152,15 @@ public class KillAura extends Module {
             this.postAttackBlock();
     };
 
+    @Subscribe
+    private final IEventListener<PreMotionEvent> onPreMotion = e -> {
+        this.hitTicks++;
+
+        if (target == null || mc.player.isDead) {
+            target = null;
+        }
+    };
+
     private void preBlock() {
         switch (autoblock.getMode()) {
             case "NCP":
@@ -178,7 +187,6 @@ public class KillAura extends Module {
             blocking = false;
         }
     }
-
 
     private void block(final boolean check, final boolean interact) {
         if (!blocking || !check) {
@@ -317,15 +325,6 @@ public class KillAura extends Module {
         return mc.player.inventoryContainer.getSlot(mc.player.inventory.currentItem + 36).getStack() != null
                 && mc.player.inventoryContainer.getSlot(mc.player.inventory.currentItem + 36).getStack().getItem() instanceof ItemSword;
     }
-
-    @Subscribe
-    private final IEventListener<PreMotionEvent> onPreMotion = e -> {
-        this.hitTicks++;
-
-        if (target == null || mc.player.isDead) {
-            target = null;
-        }
-    };
 
     public void rotate() {
         final Vector2f targetRotations = RotationUtil.calculateRotationsToEntity(target, closestPoint.isToggled(), range.getVal());
