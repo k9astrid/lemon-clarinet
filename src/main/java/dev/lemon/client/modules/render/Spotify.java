@@ -126,8 +126,8 @@ public class Spotify extends Module {
         boolean needsToScrollTrack = Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) > 48;
         boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 140 + (45);
 
-        Fonts.GREYCLIFF_BOLD_26.drawString(currentTrack.getName(), 45, 3, -1);
-        Fonts.GREYCLIFF_16.drawString(artistsDisplay.toString(), 46, 17, new Color(60, 60, 60, 255).getRGB());
+        Fonts.GREYCLIFF_BOLD_26.drawString(currentTrack.getName(), 45, 5, -1);
+        Fonts.GREYCLIFF_16.drawString(artistsDisplay.toString(), 46, 17 + 2, new Color(60, 60, 60, 255).getRGB());
         Scissoring.unset();
         Scissoring.pop();
 

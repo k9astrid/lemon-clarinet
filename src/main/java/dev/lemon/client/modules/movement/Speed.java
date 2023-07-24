@@ -74,6 +74,12 @@ public class Speed extends Module {
                             return;
                         }
 
+                        if (KillAura.target != null) {
+                            y = 0;
+                            MoveUtil.strafe(MoveUtil.baseSpeed() * 0.7f);
+                            return;
+                        }
+
                         if (mc.player.onGround) {
                             if (cockMode.is("Ground2"))
                                 mc.timer.timerSpeed = 1.12f;
