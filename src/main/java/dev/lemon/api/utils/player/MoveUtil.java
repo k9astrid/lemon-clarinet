@@ -73,6 +73,15 @@ public class MoveUtil implements IMethods {
         return Math.toRadians(yaw);
     }
 
+    public static float speedBoost(float times) {
+        float boost = (float) ((MoveUtil.baseSpeed() - 0.2875F) * times);
+
+        if(0 > boost)
+            boost = 0;
+
+        return boost;
+    }
+
     public void setSpeed(double speed) {
         if (moving()) {
             mc.player.motionX = -Math.sin(direction()) * speed;

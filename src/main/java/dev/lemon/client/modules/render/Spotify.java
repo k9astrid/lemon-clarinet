@@ -135,7 +135,7 @@ public class Spotify extends Module {
             mc.getTextureManager().bindTexture(currentAlbumCover);
             GlStateManager.color(1, 1, 1);
             GL11.glEnable(GL11.GL_BLEND);
-            RenderUtil.drawRoundTextured(5, 5, 35, 35, 3, 1);
+            RenderUtil.drawRoundTextured(5.5f, 5.5f, 34, 34, 3, 1);
         }
 
         if ((currentAlbumCover == null || !currentAlbumCover.getResourcePath().contains(currentTrack.getAlbum().getId()))) {

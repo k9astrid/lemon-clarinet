@@ -15,11 +15,16 @@ import dev.lemon.client.events.render.Render2DEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityWaterMob;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -45,8 +50,9 @@ public class TargetHUD extends Module {
     @Subscribe
     private final IEventListener<Render2DEvent> onRender2D = e -> {
         if (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.target != null) {
-            this.target = (EntityLivingBase) KillAura.target;
-            this.finalTarget = this.target;
+                this.target = (EntityLivingBase) KillAura.target;
+                if (!(this.target instanceof EntityMob || this.target instanceof EntityAnimal || this.target instanceof EntityAgeable || this.target instanceof EntityWaterMob))
+                    this.finalTarget = this.target;
         } else
             this.target = null;
 
@@ -59,7 +65,7 @@ public class TargetHUD extends Module {
             }
         }
 
-        if(finalTarget == null) return;
+        if (finalTarget == null) return;
 
         ScaledResolution sr = new ScaledResolution(mc);
         if(this.dragging){
@@ -114,8 +120,8 @@ public class TargetHUD extends Module {
                 Fonts.GREYCLIFF_BOLD_18.drawCenteredString(finalTarget.getName(), 90, 10, -1);
                 Fonts.GREYCLIFF_18.drawCenteredString(Math.round((finalTarget.getHealth() * 5)) + "% - " + Math.round(mc.player.getDistanceToEntity(finalTarget)) + "m", 87 + 3, 32, -1);
                 GlStateManager.pushMatrix();
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0,0,0, 90));
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255,255,255));
+                RenderUtil.drawRound(47, 22, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
+                RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255, 255, 255));
                 GlStateManager.popMatrix();
 
                 if (((AbstractClientPlayer) finalTarget) != null) {
@@ -131,7 +137,6 @@ public class TargetHUD extends Module {
                 }
                 break;
         }
-
         GlStateManager.popMatrix();
     };
 
