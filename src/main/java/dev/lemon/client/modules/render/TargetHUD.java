@@ -118,7 +118,7 @@ public class TargetHUD extends Module {
                 RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255,255,255));
                 GlStateManager.popMatrix();
 
-                if (((AbstractClientPlayer) finalTarget) != null) {
+                if (finalTarget != null && finalTarget instanceof AbstractClientPlayer) {
                     GlStateManager.enableCull();
                     mc.getTextureManager().bindTexture(((AbstractClientPlayer) finalTarget).getLocationSkin());
                     GlStateManager.pushMatrix();
