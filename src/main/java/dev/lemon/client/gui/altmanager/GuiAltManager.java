@@ -1,7 +1,6 @@
 package dev.lemon.client.gui.altmanager;
 
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -83,7 +82,7 @@ public class GuiAltManager extends GuiScreen {
                     this.mc.session = new Session(this.field_146302_g.getText(), "", "", "legacy");
                 }
             } else if (button.id == 2){
-                microsoft.MicrosoftAuthenticator authenticator = new microsoft.MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
+                me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator authenticator = new me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
                 authenticator.login();
             }
         }

@@ -18,7 +18,7 @@ import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.other.PacketEvent;
 import lombok.Getter;
 import lombok.Setter;
-import microsoft.MicrosoftAuthenticator;
+import me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import org.lwjgl.opengl.Display;

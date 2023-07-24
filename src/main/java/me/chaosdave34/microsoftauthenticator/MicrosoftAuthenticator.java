@@ -1,4 +1,4 @@
-package microsoft;
+package me.chaosdave34.microsoftauthenticator;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.LogManager;
 
 import java.awt.*;
 import java.io.*;
@@ -25,6 +24,11 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+/*
+    Credit to Chaosdave34 (https://github.com/Chaosdave34/MCP-Snippets)
+    I tried to make my own, but I gave up :)
+ */
 
 public class MicrosoftAuthenticator {
     private final String clientId;
