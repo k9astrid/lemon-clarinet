@@ -38,6 +38,8 @@ public class GuiAltManager extends GuiScreen {
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("Log In", new Object[0])));
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("Back", new Object[0])));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, this.height / 4 + 144 + 12, I18n.format("Log In with Webview", new Object[0])));
+
         this.field_146302_g = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, 116, 200, 20);
         this.field_146302_g.setMaxStringLength(128);
         this.field_146302_g.setFocused(true);
@@ -80,6 +82,9 @@ public class GuiAltManager extends GuiScreen {
                 } else {
                     this.mc.session = new Session(this.field_146302_g.getText(), "", "", "legacy");
                 }
+            } else if (button.id == 2){
+                microsoft.MicrosoftAuthenticator authenticator = new microsoft.MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
+                authenticator.login();
             }
         }
     }
