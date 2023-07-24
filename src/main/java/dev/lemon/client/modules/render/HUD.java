@@ -5,10 +5,10 @@ import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
-import dev.lemon.api.utils.render.AnimationUtil;
 import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.events.other.TickEvent;
+import dev.lemon.client.main.ClientEnum;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.client.events.render.Render2DEvent;
@@ -28,8 +28,8 @@ import java.util.Comparator;
 public class HUD extends Module {
 
     //If u have a better way to do it then go ahead im stupid sorry
-    public ModeSetting watermark = new ModeSetting("Watermark", "Basic",
-            "Basic", "Neverlose", "Sense");
+    public ModeSetting watermark = new ModeSetting("Watermark", "Bar",
+            "Text", "Bar", "Neverlose", "Sense");
 
     public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
             "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Astolfo", "Mirror", "Rock", "Eternal Constance",
@@ -58,8 +58,16 @@ public class HUD extends Module {
         float x, y;
 
         switch (watermark.getMode()) {
-            case "Basic":
-                drawBasic();
+            case "Text":
+                String text2 = Lemon.INSTANCE.getCLIENT_ENUM() == ClientEnum.RELEASE ?
+                        "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" :
+                        "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.GREEN + Lemon.INSTANCE.getCLIENT_ENUM() + EnumChatFormatting.GRAY + " # "
+                                + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS";
+                Fonts.GREYCLIFF_BOLD_18.drawStringWithShadow(text2, 2, 2, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
+                break;
+
+            case "Bar":
+                drawBar();
                 break;
 
             case "Sense":
@@ -136,7 +144,7 @@ public class HUD extends Module {
         }
     };
 
-    private void drawBasic() {
+    private void drawBar() {
         String bps = new DecimalFormat("#.##").format(MoveUtil.speed());
         String text = Lemon.INSTANCE.getNAME() + " " + Lemon.INSTANCE.getVERSION() + " | " + "FPS: " + Minecraft.getDebugFPS() + " | " + "BPS: " + bps;
 

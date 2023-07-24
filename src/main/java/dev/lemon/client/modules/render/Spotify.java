@@ -155,8 +155,8 @@ public class Spotify extends Module {
             mc.getTextureManager().loadTexture(currentAlbumCover = new ResourceLocation("spotifyAlbums/" + currentTrack.getAlbum().getId()), albumCover);
         }
 
-        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f), 5, 2, new Color(0, 0, 0, 170));
-        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 5, 2, new Color(255, 255, 255, 255));
+        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f), 4, 1.5f, new Color(0, 0, 0, 170));
+        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 4, 1.5f, new Color(255, 255, 255, 255));
 
         GlStateManager.popMatrix();
     };

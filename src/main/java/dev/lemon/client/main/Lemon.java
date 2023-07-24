@@ -17,6 +17,7 @@ import dev.lemon.api.utils.other.ReflectionUtil;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.other.PacketEvent;
 import lombok.Getter;
+import lombok.Setter;
 import microsoft.MicrosoftAuthenticator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
@@ -42,6 +43,9 @@ public enum Lemon implements IMethods {
     private ColorManager colorManager;
     private BotManager botManager;
     private Scraper scraper;
+
+    @Setter
+    private int deltaTime;
 
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
 

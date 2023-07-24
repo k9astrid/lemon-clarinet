@@ -57,6 +57,30 @@ public class RenderUtil implements IMethods {
         glBindTexture(GL_TEXTURE_2D, texture);
     }
 
+    public static void drawCircle(double x, double y, double radius, int from, int too, int color) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBegin(GL11.GL_POLYGON);
+        setColor(new Color(color));
+        for (int i = from; i <= too; i++) {
+            double x2 = Math.sin(((i * Math.PI) / 180)) * radius;
+            double y2 = Math.cos(((i * Math.PI) / 180)) * radius;
+            GL11.glVertex2d(x + x2, y + y2);
+        }
+        GL11.glVertex2d(x, y);
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void setColor(Color color) {
+        float alpha = (color.getRGB() >> 24 & 0xFF) / 255.0F;
+        float red = (color.getRGB() >> 16 & 0xFF) / 255.0F;
+        float green = (color.getRGB() >> 8 & 0xFF) / 255.0F;
+        float blue = (color.getRGB() & 0xFF) / 255.0F;
+        GL11.glColor4f(red, green, blue, alpha);
+    }
+
     public static void drawImage(ResourceLocation location, float x, float y, int width, int height) {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
