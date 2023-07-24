@@ -1051,8 +1051,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     /**
      * Called repeatedly from run()
      */
+
+    private long lastFrame = getSystemTime();
     private void runGameLoop() throws IOException
     {
+        long currentTime = getSystemTime();
+        int deltaTime = (int) (currentTime - this.lastFrame);
+        this.lastFrame = currentTime;
+        Lemon.INSTANCE.setDeltaTime(deltaTime);
         long i = System.nanoTime();
         this.mcProfiler.startSection("root");
 
