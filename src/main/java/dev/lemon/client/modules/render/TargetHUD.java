@@ -117,8 +117,8 @@ public class TargetHUD extends Module {
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
 
-                Fonts.GREYCLIFF_BOLD_18.drawCenteredString(finalTarget.getName(), 90, 10, -1);
-                Fonts.GREYCLIFF_18.drawCenteredString(Math.round((finalTarget.getHealth() * 5)) + "% - " + Math.round(mc.player.getDistanceToEntity(finalTarget)) + "m", 87 + 3, 32, -1);
+                Fonts.GREYCLIFF_BOLD_18.drawCenteredString(finalTarget.getName(), 90, 12, -1);
+                Fonts.GREYCLIFF_18.drawCenteredString(Math.round((finalTarget.getHealth() * 5)) + "% - " + Math.round(mc.player.getDistanceToEntity(finalTarget)) + "m", 87 + 3, 34, -1);
                 GlStateManager.pushMatrix();
                 RenderUtil.drawRound(47, 22, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
                 RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255, 255, 255));

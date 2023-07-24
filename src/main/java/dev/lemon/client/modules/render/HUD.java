@@ -63,7 +63,7 @@ public class HUD extends Module {
                         "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" :
                         "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.GREEN + Lemon.INSTANCE.getCLIENT_ENUM() + EnumChatFormatting.GRAY + " # "
                                 + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS";
-                Fonts.GREYCLIFF_BOLD_18.drawStringWithShadow(text2, 2, 2, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
+                Fonts.GREYCLIFF_BOLD_18.drawStringWithShadow(text2, 2, 4, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
                 break;
 
             case "Bar":
@@ -131,6 +131,6 @@ public class HUD extends Module {
         Gui.drawRect(3, 2, Fonts.BOLD_18.getStringWidth(text) + 10, 4,
                 Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(3, 2)).getRGB());
 
-        Fonts.BOLD_18.drawString(text, 6, 8, 0xffFFFFFF);
+        Fonts.BOLD_18.drawString(text, 6, 10, 0xffFFFFFF);
     }
 }
