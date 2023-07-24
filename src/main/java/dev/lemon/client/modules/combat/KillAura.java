@@ -79,8 +79,9 @@ public class KillAura extends Module {
 
     @Override
     protected void onDisable() {
-        blocking = false;
         target = null;
+
+        this.unblock(false);
     }
 
     @Subscribe
@@ -127,6 +128,9 @@ public class KillAura extends Module {
         if (autoblock.is("Fake"))
             blocking = target != null && canBlock();
 
+        if (autoblock.is("Vanilla") && blocking && target == null)
+            unblock(false);
+
         if (targets.isEmpty()) {
             randomYaw += (float) (Math.random() - 0.5f);
             randomPitch += (float) (Math.random() - 0.5f) * 2;
@@ -158,6 +162,7 @@ public class KillAura extends Module {
         this.hitTicks++;
 
         if (target == null || mc.player.isDead) {
+            this.unblock(false);
             target = null;
         }
     };
