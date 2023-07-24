@@ -16,7 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class Flight extends Module {
 
-    public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide", "Vulcan", "Negativity", "Updated NCP");
+    public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide", "Vulcan");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Glide", () -> mode.is("Vulcan"), "Glide", "");
 
     public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1,() -> mode.is("Vanilla"));
@@ -26,25 +26,7 @@ public class Flight extends Module {
         super("Flight", Category.MOVEMENT);
     }
 
-    @Override
-    protected void onEnable() {
-        switch (mode.getMode()){
-            case "Updated NCP":
-                if (hitHead()){
-                    mc.player.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.player.posX, mc.player.posY - 0.0654D, mc.player.posZ, mc.player.rotationYaw, mc.player.rotationPitch, mc.player.onGround));
-                    ChatUtil.send("Clipped");
-                } else {
-                    ChatUtil.send("You need to be under a block.");
-                }
-                break;
-        }
-    }
-
-
-    private boolean hitHead(){
-        Block blockAboveHead = mc.world.getBlockState(mc.player.getPosition().add(0, mc.player.getEyeHeight()+1, 0)).getBlock();
-        return !(blockAboveHead instanceof BlockAir);
-    }
+    
     @Override
     protected void onDisable() {
 
@@ -94,12 +76,6 @@ public class Flight extends Module {
                             mc.player.motionY = -0.1;
                         }
                         break;
-                }
-                break;
-            case "Updated NCP":
-                if (!hitHead()){
-                    mc.player.motionY += 0.12;
-                    MoveUtil.setSpeed(0.35);
                 }
                 break;
         }
