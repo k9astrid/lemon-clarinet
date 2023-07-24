@@ -10,6 +10,7 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.math.TimerUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;

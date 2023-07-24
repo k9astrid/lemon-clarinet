@@ -29,6 +29,10 @@ public class Flight extends Module {
             return;
 
         mc.player.capabilities.isFlying = false;
+
+        mc.player.motionX = 0;
+        mc.player.motionY = 0;
+        mc.player.motionZ = 0;
     }
 
     @Subscribe

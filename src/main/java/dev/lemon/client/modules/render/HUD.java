@@ -32,8 +32,8 @@ public class HUD extends Module {
             "Basic", "Neverlose", "Sense");
 
     public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
-            "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Mirror", "Rock", "Eternal Constance",
-            "Exotic", "Antarctica", "Piglet");
+            "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Astolfo", "Mirror", "Rock", "Eternal Constance",
+            "Exotic", "Antarctica", "Piglet", "Black", "Oceanic Azure", "Pinky", "Minty", "Luminous Lavender");
 
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
     public static BooleanSetting toggleNotifications = new BooleanSetting("Toggle Notifications", false);
