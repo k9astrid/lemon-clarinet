@@ -86,7 +86,7 @@ public class Speed extends Module {
                             y = 0.01;
 
                             mc.player.motionY = 0.01;
-                            MoveUtil.strafe(.4175);
+                            MoveUtil.strafe(.418);
                         } else {
                             if (cockMode.is("Ground2"))
                                 mc.timer.timerSpeed = .94f;
