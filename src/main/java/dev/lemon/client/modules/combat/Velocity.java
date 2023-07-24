@@ -4,6 +4,7 @@ import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
+import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.api.module.Module;
@@ -15,9 +16,21 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
+import net.minecraft.util.MovingObjectPosition;
 
 public class Velocity extends Module {
-    public ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Custom", "MineMenClub", "C0F", "KoksCraft", "Legit");
+    public ModeSetting mode = new ModeSetting("Mode", "Cancel",
+            "Cancel",
+            "Custom",
+            "MineMenClub",
+            "C0F",
+            "KoksCraft",
+            "Legit",
+            "Intave",
+            "Matrix",
+            "UniversoCraft"
+    );
+
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
 
@@ -53,6 +66,7 @@ public class Velocity extends Module {
                         e.setCancelled(true);
                 }
                 break;
+
             case "C0F":
                 if (packet instanceof C0FPacketConfirmTransaction && mc.player.hurtTime > 1)
                     e.setCancelled(true);
@@ -64,6 +78,7 @@ public class Velocity extends Module {
                         e.setCancelled(true);
                 }
                 break;
+
             case "Cancel":
                 if (packet instanceof S12PacketEntityVelocity) {
                     final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
@@ -73,6 +88,18 @@ public class Velocity extends Module {
                 }
                 if (packet instanceof S27PacketExplosion)
                     e.setCancelled(true);
+                break;
+
+            case "UniversoCraft":
+                if (packet instanceof S12PacketEntityVelocity) {
+                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
+
+                    if (wrapper.getEntityID() == mc.player.getEntityId()) {
+                        e.setCancelled(true);
+                        mc.player.motionY += .1 - Math.random() / 100f;
+                        ChatUtil.addMessage("boost");
+                    }
+                }
                 break;
 
             case "Custom":
@@ -117,6 +144,21 @@ public class Velocity extends Module {
         this.setSuffix(mode.getMode());
 
         switch (mode.getMode()) {
+            case "Intave":
+                if (mc.objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.ENTITY) && mc.player.hurtTime > 0) {
+                    mc.player.motionX *= .6;
+                    mc.player.motionZ *= .6;
+                    mc.player.setSprinting(false);
+                }
+                break;
+
+            case "Matrix":
+                if (mc.player.hurtTime > 0) {
+                    mc.player.motionX *= .6;
+                    mc.player.motionZ *= .6;
+                }
+                break;
+
             case "MineMenClub":
                 this.mmcTicks++;
                 break;
