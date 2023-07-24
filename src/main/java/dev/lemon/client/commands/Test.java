@@ -9,6 +9,6 @@ public class Test extends Command {
 
     @Override
     public void onExecute(String[] args){
-        ChatUtil.addMessage("the command system works!");
+        ChatUtil.send("the command system works!");
     }
 }

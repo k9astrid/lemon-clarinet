@@ -29,10 +29,9 @@ public enum Lemon implements IMethods {
     INSTANCE;
 
     public final String NAME = "Lemon";
-    public final String VERSION = "0.7";
+    public final String VERSION = "0.8";
     public final String AUTHORS = "clpz, eternadox, szypko, groszus";
-    public final String CHAT_PREFIX = "(っ◕‿◕)っ";
-    public final ClientEnum CLIENT_ENUM = ClientEnum.DEVELOPER;
+    public final ClientEnum CLIENT_ENUM = ClientEnum.BETA;
 
     private EventBus eventBus;
     private ModuleManager moduleManager;

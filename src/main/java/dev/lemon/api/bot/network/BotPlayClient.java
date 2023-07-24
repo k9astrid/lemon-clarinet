@@ -282,7 +282,7 @@ public class BotPlayClient implements INetHandlerPlayClient {
             (new Thread(() -> {
                 String pass = RandomStringUtils.randomAlphabetic(MathHelper.getRandomNumberBetween(6, 8)).toLowerCase();
                 this.bot.sendChatMessage(String.format("/register %s %s", pass, pass));
-                ChatUtil.addMessage("Successfully registered " + this.bot.getName() + " with " + pass);
+                ChatUtil.send("Successfully registered " + this.bot.getName() + " with " + pass);
             })).start();
         }
     }

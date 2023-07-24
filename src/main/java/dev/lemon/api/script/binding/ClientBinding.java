@@ -19,6 +19,6 @@ public class ClientBinding {
 
 
     public void printMsg(String text) {
-        ChatUtil.addMessage(text);
+        ChatUtil.send(text);
     }
 }

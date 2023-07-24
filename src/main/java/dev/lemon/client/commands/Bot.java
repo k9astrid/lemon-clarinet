@@ -22,7 +22,7 @@ public class Bot extends Command {
                         } catch (InterruptedException ignored) { }
 
                     BotStarter.run("Lemon" + RandomUtils.nextInt(1111, 9999), false, RandomStringUtils.randomAlphabetic(6).toLowerCase());
-                    ChatUtil.addMessage("sex " + "Lemon" + RandomUtils.nextInt(1111, 9999));
+                    ChatUtil.send("sex " + "Lemon" + RandomUtils.nextInt(1111, 9999));
                 }
             })).start();
         }
