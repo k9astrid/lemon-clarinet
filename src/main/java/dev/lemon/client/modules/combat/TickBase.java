@@ -30,7 +30,7 @@ public class TickBase extends Module {
             else if (ticks > 0)
                 ticks--;
 
-            if (MoveUtil.moving() && KillAura.currentTarget != null && shouldTickBase()){
+            if (MoveUtil.moving() && KillAura.target != null && shouldTickBase()){
                 getSomeSleep();
             }
     };
@@ -54,7 +54,7 @@ public class TickBase extends Module {
     }
     private boolean shouldTickBase(){
 
-        return KillAura.currentTarget.getDistanceToEntity(mc.player) > 3.0D && (mc.player.hurtTime > 3);
+        return KillAura.target.getDistanceToEntity(mc.player) > 3.0D && (mc.player.hurtTime > 3);
     }
 
 }
