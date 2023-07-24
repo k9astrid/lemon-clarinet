@@ -14,6 +14,8 @@ public abstract class Fonts {
     public static final CFontRenderer BOLD_18 = new CFontRenderer(Fonts.getFonts("bold.ttf", 18), true, true);
     public static final CFontRenderer BOLD_17 = new CFontRenderer(Fonts.getFonts("bold.ttf", 17), true, true);
     public static final CFontRenderer BOLD_15 = new CFontRenderer(Fonts.getFonts("bold.ttf", 15), true, true);
+    public static final CFontRenderer BOLD_12 = new CFontRenderer(Fonts.getFonts("bold.ttf", 12), true, true);
+    public static final CFontRenderer BOLD_16 = new CFontRenderer(Fonts.getFonts("bold.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_16 = new CFontRenderer(Fonts.getFonts("greycliff.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_22 = new CFontRenderer(Fonts.getFonts("greycliff.ttf", 22), true, true);
     public static final CFontRenderer ICON_35 = new CFontRenderer(Fonts.getFonts("icon.ttf", 35), true, true);

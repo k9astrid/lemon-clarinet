@@ -14,6 +14,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -93,6 +94,17 @@ public abstract class GuiContainer extends GuiScreen
         this.guiTop = (this.height - this.ySize) / 2;
     }
 
+    private short serverTransactionId;
+
+    public void onServerTransaction(S32PacketConfirmTransaction packet) {
+        if (this instanceof GuiInventory && packet.getWindowId() == inventorySlots.windowId && packet.getActionNumber() > 0) {
+            serverTransactionId = packet.getActionNumber();
+
+            if (serverTransactionId < inventorySlots.getTransactionID())
+                inventorySlots.setTransactionID((short) (serverTransactionId + 1));
+        }
+    }
+
     /**
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      */
@@ -102,6 +114,10 @@ public abstract class GuiContainer extends GuiScreen
         int i = this.guiLeft;
         int j = this.guiTop;
         this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+        boolean syncTransactions = inventorySlots.getTransactionID() >= serverTransactionId;
+        String text = (syncTransactions ? "\u00A72Inventory synchronized" : "\u00A7cInventory desynchronized");
+        if (mc.currentScreen instanceof GuiInventory)
+            mc.fontRendererObj.drawCenteredStringWithShadow(text, width / 2f, guiTop - fontRendererObj.FONT_HEIGHT * 2, -1);
         GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableLighting();

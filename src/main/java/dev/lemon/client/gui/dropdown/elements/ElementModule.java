@@ -5,6 +5,7 @@ import dev.lemon.api.setting.Setting;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
+import dev.lemon.api.setting.impl.TextSetting;
 import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.client.gui.dropdown.Panel;
 import dev.lemon.client.main.Lemon;
@@ -29,8 +30,13 @@ public class ElementModule extends Element {
         for (Setting v : module.getSettings()) {
             if (v instanceof BooleanSetting)
                 elements.add(new ElementBoolean(this, (BooleanSetting) v));
+
             if (v instanceof ModeSetting)
                 elements.add(new ElementMode(this, (ModeSetting) v));
+
+            if (v instanceof TextSetting)
+                elements.add(new ElementText(this, (TextSetting) v));
+
             if (v instanceof NumberSetting)
                 elements.add(new ElementSlider(this, (NumberSetting) v));
         }

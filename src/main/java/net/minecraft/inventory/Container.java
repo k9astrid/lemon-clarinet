@@ -74,6 +74,14 @@ public abstract class Container
         return list;
     }
 
+    public short getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(short transactionID) {
+        this.transactionID = transactionID;
+    }
+
     /**
      * Looks for changes made in the container, sends them to every listener.
      */

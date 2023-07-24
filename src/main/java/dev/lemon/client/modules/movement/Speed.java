@@ -8,6 +8,7 @@ import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.events.other.PacketEvent;
+import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.stats.StatList;
 
@@ -68,12 +69,17 @@ public class Speed extends Module {
                     case "Ground2":
                     case "Ground":
                         if (mc.player.isCollidedHorizontally) {
-                            mc.timer.timerSpeed = 0.5f;
                             return;
                         }
+
+                        if (KillAura.target != null) {
+                            y = 0;
+                            return;
+                        }
+
                         if (mc.player.onGround) {
                             if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = 1.1f;
+                                mc.timer.timerSpeed = 1.11f;
 
                             y = 0.01;
 
@@ -81,7 +87,7 @@ public class Speed extends Module {
                             MoveUtil.strafe(.4175);
                         } else {
                             if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = .95f;
+                                mc.timer.timerSpeed = .94f;
 
                             if (y == .01) {
                                 MoveUtil.strafe(MoveUtil.baseSpeed() * 1.04f);

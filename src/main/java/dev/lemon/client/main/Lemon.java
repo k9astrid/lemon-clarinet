@@ -5,6 +5,8 @@ import dev.lemon.api.bot.proxy.Scraper;
 import dev.lemon.api.color.ColorManager;
 import dev.lemon.api.command.CommandManager;
 import dev.lemon.api.config.ConfigManager;
+import dev.lemon.api.event.IEventListener;
+import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.module.ModuleManager;
 import dev.lemon.api.event.bus.EventBus;
@@ -13,8 +15,11 @@ import dev.lemon.api.script.ScriptManager;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.ReflectionUtil;
 import dev.lemon.api.utils.player.RotationUtil;
+import dev.lemon.client.events.other.PacketEvent;
 import lombok.Getter;
 import microsoft.MicrosoftAuthenticator;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import org.lwjgl.opengl.Display;
 import viamcp.ViaMCP;
 
@@ -88,6 +93,7 @@ public enum Lemon implements IMethods {
         botManager.initialize();
         scriptManager.reload(true);
         eventBus.register(new RotationUtil());
+        eventBus.register(this);
 
         try {
             ViaMCP.getInstance().start();
@@ -96,4 +102,10 @@ public enum Lemon implements IMethods {
             e.printStackTrace();
         }
     }
+
+    @Subscribe
+    private final IEventListener<PacketEvent> onPacket = e -> {
+        if (e.getPacket() instanceof S32PacketConfirmTransaction && mc.currentScreen instanceof GuiContainer)
+            ((GuiContainer) mc.currentScreen).onServerTransaction((S32PacketConfirmTransaction) e.getPacket());
+    };
 }

@@ -7,6 +7,7 @@ import dev.lemon.api.setting.Setting;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
+import dev.lemon.api.setting.impl.TextSetting;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.FileUtil;
 import dev.lemon.client.main.Lemon;
@@ -50,6 +51,9 @@ public class Config implements IMethods {
                     if (v instanceof ModeSetting)
                         vObject.addProperty(v.name, ((ModeSetting) v).getMode());
 
+                    if (v instanceof TextSetting)
+                        vObject.addProperty(v.name, ((TextSetting) v).getText());
+
                     if (v instanceof NumberSetting)
                         vObject.addProperty(v.name, ((NumberSetting) v).getVal());
                 });
@@ -83,6 +87,9 @@ public class Config implements IMethods {
 
                                     if (v instanceof BooleanSetting)
                                         ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
+
+                                    if (v instanceof TextSetting)
+                                        ((TextSetting) v).setText(value.getValue().getAsString());
 
                                     if (v instanceof ModeSetting)
                                         ((ModeSetting) v).setMode(value.getValue().getAsString());

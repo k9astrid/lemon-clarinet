@@ -219,6 +219,88 @@ public class CFontRenderer extends CFont {
 		this.texItalicBold = setupTexture(this.font.deriveFont(3), this.antiAlias, this.fractionalMetrics, this.boldItalicChars);
 	}
 
+	public String trimStringToWidth(String text, int width, boolean reverse) {
+		StringBuilder stringbuilder = new StringBuilder();
+		float f = 0.0F;
+		int i = reverse ? text.length() - 1 : 0;
+		int j = reverse ? -1 : 1;
+		boolean flag = false;
+		boolean flag1 = false;
+
+		for (int k = i; k >= 0 && k < text.length() && f < (float) width; k += j) {
+			char c0 = text.charAt(k);
+			float f1 = this.getStringWidthCust(Character.toString(c0));
+
+			if (flag) {
+				flag = false;
+
+				if (c0 != 'l' && c0 != 'L') {
+					if (c0 == 'r' || c0 == 'R') {
+						flag1 = false;
+					}
+				} else {
+					flag1 = true;
+				}
+			} else if (f1 < 0.0F) {
+				flag = true;
+			} else {
+				f += f1;
+
+				if (flag1) {
+					++f;
+				}
+			}
+
+			if (f > (float) width) {
+				break;
+			}
+
+			if (reverse) {
+				stringbuilder.insert(0, c0);
+			} else {
+				stringbuilder.append(c0);
+			}
+		}
+
+		return stringbuilder.toString();
+	}
+
+	public int getStringWidthCust(String text) {
+		if (text == null) {
+			return 0;
+		}
+		int width = 0;
+		CFont.CharData[] currentData = this.charData;
+		boolean bold = false;
+		boolean italic = false;
+		int size = text.length();
+		for (int i = 0; i < size; ++i) {
+			char character = text.charAt(i);
+			if (String.valueOf(character).equals("\u00a7") && i < size) {
+				int colorIndex = "0123456789abcdefklmnor".indexOf(character);
+				if (colorIndex < 16) {
+					bold = false;
+					italic = false;
+				} else if (colorIndex == 17) {
+					bold = true;
+					currentData = italic ? this.boldItalicChars : this.boldChars;
+				} else if (colorIndex == 20) {
+					italic = true;
+					currentData = bold ? this.boldItalicChars : this.italicChars;
+				} else if (colorIndex == 21) {
+					bold = false;
+					italic = false;
+					currentData = this.charData;
+				}
+				++i;
+				continue;
+			}
+			if (character >= currentData.length || character < '\u0000') continue;
+			width += currentData[character].width - 8 + this.charOffset;
+		}
+		return (width - this.charOffset) / 2;
+	}
+
 	private void drawLine(double x, double y, double x1, double y1, float width) {
 		GL11.glDisable(3553);
 		GL11.glLineWidth(width);

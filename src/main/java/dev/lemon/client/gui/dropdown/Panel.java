@@ -2,10 +2,12 @@ package dev.lemon.client.gui.dropdown;
 
 import dev.lemon.api.module.Module;
 import dev.lemon.api.utils.font.Fonts;
+import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.gui.dropdown.elements.Element;
 import dev.lemon.client.gui.dropdown.elements.ElementModule;
 import dev.lemon.client.main.Lemon;
+import dev.lemon.client.modules.render.HUD;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -52,6 +54,8 @@ public class Panel {
         float finalOffset = Math.min((Minecraft.getMinecraft().displayHeight * .5f), guiOffset);
         animated = (float) RenderUtil.linearAnimation(animated, finalOffset, .9f);
         RenderUtil.drawRound(x, y, width, 18 + animated, 5, new Color(23, 23, 23, 255));
+        if (!HUD.optimizeVisuals.isToggled())
+            PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(x, y, width, 18 + animated, 5, new Color(23, 23, 23, 255)));
 
         Fonts.BOLD_18.drawCenteredString(category.getName(), x + width / 2, y + 7, -1);
 

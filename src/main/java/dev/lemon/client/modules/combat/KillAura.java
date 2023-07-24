@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class KillAura extends Module {
 
     public final ModeSetting mode = new ModeSetting("Mode", "Single", "Single", "Multi");
-    public final ModeSetting autoblock = new ModeSetting("Auto Block", "None", "None", "Fake", "Vanilla", "NCP", "New NCP", "Vulcan");
+    public final ModeSetting autoblock = new ModeSetting("Auto Block", "None", "None", "Fake", "Vanilla", "NCP", "New NCP");
     public final ModeSetting clickDelay = new ModeSetting("Click Delay", "Normal", "Normal", "1.9+");
     public final NumberSetting range = new NumberSetting("Range", 3, 3, 6, 0.1);
     public final NumberSetting maxCPS = new NumberSetting("Max CPS", 15, 1, 20, 1);
@@ -204,7 +204,6 @@ public class KillAura extends Module {
 
     private void postAttackBlock() {
         switch (autoblock.getMode()) {
-            case "Vulcan":
             case "Vanilla":
                 if (this.hitTicks != 0)
                     this.block(false, true);
