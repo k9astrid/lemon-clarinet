@@ -29,7 +29,7 @@ public class HUD extends Module {
 
     //If u have a better way to do it then go ahead im stupid sorry
     public ModeSetting watermark = new ModeSetting("Watermark", "Bar",
-            "Text", "Bar", "Neverlose", "Sense");
+            "Text", "Bar", "Neverlose");
 
     public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
             "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Astolfo", "Mirror", "Rock", "Eternal Constance",
@@ -68,27 +68,6 @@ public class HUD extends Module {
 
             case "Bar":
                 drawBar();
-                break;
-
-            case "Sense":
-                String text = EnumChatFormatting.WHITE + "lemon" + EnumChatFormatting.RESET + "sense" + EnumChatFormatting.WHITE +
-                        " - " + mc.player.getName() + " - " + (mc.isSingleplayer() ? "singleplayer" : mc.getCurrentServerData().serverIP) + " ";
-
-                x = 4.5f;
-                y = 4.5f;
-
-                Gui.drawRect2(x, y, Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 7, 18.5, new Color(59, 57, 57).getRGB());
-                Gui.drawRect2(x + 2.5, y + 2.5, Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 2, 13, new Color(23, 23, 23).getRGB());
-
-                Gui.drawRect2(x + 1, y + 1, Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 5, .5, new Color(59, 57, 57).darker().getRGB());
-                Gui.drawRect2(x + 1, y + 17, Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 5, .5, new Color(59, 57, 57).darker().getRGB());
-                Gui.drawRect2(x + 1.5 + Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 4, y + 1.5, .5, 16, new Color(59, 57, 57).darker().getRGB());
-                Gui.drawRect2(x + 1, y + 1.5, .5, 16, new Color(59, 57, 57).darker().getRGB());
-
-                RenderUtil.drawGradientLR((float) (x + 2.5), (float) (y + 14.5), Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 2, 1, 1, Lemon.INSTANCE.getColorManager().getColor().getFirstColor(), Lemon.INSTANCE.getColorManager().getColor().getSecondColor());
-                Gui.drawRect2(x + 2.5, y + 16, Fonts.GREYCLIFF_BOLD_16.getStringWidth(text) + 2, .5, new Color(59, 57, 57).darker().getRGB());
-
-                Fonts.GREYCLIFF_BOLD_16.drawString(text, x + 4.5f, y + 5.5f, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
                 break;
 
             case "Neverlose":

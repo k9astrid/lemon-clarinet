@@ -4,12 +4,14 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
+import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatList;
 
 public class Speed extends Module {
@@ -72,25 +74,20 @@ public class Speed extends Module {
                             return;
                         }
 
-                        if (KillAura.target != null) {
-                            y = 0;
-                            return;
-                        }
-
                         if (mc.player.onGround) {
                             if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = 1.11f;
+                                mc.timer.timerSpeed = 1.12f;
 
                             y = 0.01;
 
                             mc.player.motionY = 0.01;
-                            MoveUtil.strafe(.418);
+                            MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? 0.53f : 0.59f : 0.489 + MoveUtil.speedBoost(1.5F));
                         } else {
                             if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = .94f;
+                                mc.timer.timerSpeed = .97f;
 
                             if (y == .01) {
-                                MoveUtil.strafe(MoveUtil.baseSpeed() * 1.04f);
+                                MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? MoveUtil.baseSpeed() * 1.08f : MoveUtil.baseSpeed() * 1.10F : MoveUtil.baseSpeed() * 1.04F);
                                 y = 0;
                             }
                         }
