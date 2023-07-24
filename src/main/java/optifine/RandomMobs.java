@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+
+import dev.lemon.client.events.other.WorldChangeEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -60,6 +63,7 @@ public class RandomMobs
 
     public static void worldChanged(World p_worldChanged_0_, World p_worldChanged_1_)
     {
+        Lemon.INSTANCE.getEventBus().handle(new WorldChangeEvent());
         if (p_worldChanged_1_ != null)
         {
             List list = p_worldChanged_1_.getLoadedEntityList();

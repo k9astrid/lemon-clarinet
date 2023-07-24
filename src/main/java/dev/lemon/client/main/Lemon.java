@@ -1,5 +1,6 @@
 package dev.lemon.client.main;
 
+import dev.lemon.api.bot.BotManager;
 import dev.lemon.api.bot.proxy.Scraper;
 import dev.lemon.api.color.ColorManager;
 import dev.lemon.api.command.CommandManager;
@@ -34,6 +35,7 @@ public enum Lemon implements IMethods {
     private ConfigManager configManager;
     private NotificationManager notificationManager;
     private ColorManager colorManager;
+    private BotManager botManager;
     private Scraper scraper;
 
     private final MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");
@@ -52,6 +54,7 @@ public enum Lemon implements IMethods {
         notificationManager = new NotificationManager();
         colorManager = new ColorManager();
         scraper = new Scraper();
+        botManager = new BotManager();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             configManager.stop();
@@ -82,6 +85,7 @@ public enum Lemon implements IMethods {
         moduleManager.initialize();
         configManager.initialize();
         commandManager.initialize();
+        botManager.initialize();
         scriptManager.reload(true);
         eventBus.register(new RotationUtil());
 

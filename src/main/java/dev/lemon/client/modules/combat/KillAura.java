@@ -15,6 +15,7 @@ import dev.lemon.api.event.IEventListener;
 
 import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.client.events.other.TickEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -362,6 +363,9 @@ public class KillAura extends Module {
                         return false;
 
                     if (e instanceof EntityArmorStand)
+                        return false;
+
+                    if (Lemon.INSTANCE.getBotManager().contains(e))
                         return false;
 
                     if (e instanceof EntityPlayer) {

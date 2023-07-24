@@ -244,7 +244,8 @@ public class BackTrack extends Module {
             if (entity.ticksExisted < 50)
                 return false;
 
-            //TODO: add team manager
+            if (Lemon.INSTANCE.getBotManager().contains(entity))
+                return false;
 
             if (entity.getName().equals("§aShop") || entity.getName().equals("SHOP") || entity.getName().equals("UPGRADES"))
                 return false;
