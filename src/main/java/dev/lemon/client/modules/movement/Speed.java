@@ -75,7 +75,7 @@ public class Speed extends Module {
                         if (KillAura.target != null) {
                             y = 0;
                             if (mc.player.onGround)
-                                MoveUtil.strafe((MoveUtil.baseSpeed() * 0.65f));
+                                MoveUtil.strafe((MoveUtil.baseSpeed() * 0.63f));
                             return;
                         }
 
