@@ -6,6 +6,7 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.math.TimerUtil;
+import dev.lemon.api.utils.math.Vector2f;
 import dev.lemon.api.utils.player.RotationUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.motion.PreUpdateEvent;
@@ -13,9 +14,6 @@ import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
-import optifine.MathUtils;
-
-import javax.vecmath.Vector2f;
 
 public class PVPBot extends Module {
 

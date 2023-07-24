@@ -340,7 +340,7 @@ public class ItemRenderer
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
-        boolean doFakeAutoblock = (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.currentTarget != null && !KillAura.autoblockMode.is("None"));
+        boolean doFakeAutoblock = (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.blocking);
 
         if (this.itemToRender != null)
         {
@@ -351,7 +351,8 @@ public class ItemRenderer
             else if (entityplayersp.getItemInUseCount() > 0 || doFakeAutoblock)
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
-                if (doFakeAutoblock) enumaction = EnumAction.BLOCK;
+                if (doFakeAutoblock)
+                    enumaction = EnumAction.BLOCK;
 
                 switch (ItemRenderer$1.field_178094_a[enumaction.ordinal()])
                 {

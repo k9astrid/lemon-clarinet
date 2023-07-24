@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.modules.movement.KeepSprint;
+import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -1354,15 +1354,10 @@ public abstract class EntityPlayer extends EntityLivingBase
                         {
                             targetEntity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
 
-                            if (Lemon.INSTANCE.getModuleManager().getModuleByName("Keep Sprint").isToggled()) {
-                                switch (KeepSprint.mode.getMode()) {
-                                    case "Kokscraft":
-                                        this.motionX *= 0.67D;
-                                        this.motionZ *= 0.67D;
-                                        break;
-                                }
-                            }
-                            else {
+                            if (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.kokscraftMoment.isToggled()) {
+                                this.motionX *= 0.67D;
+                                this.motionZ *= 0.67D;
+                            } else {
                                 this.motionX *= 0.6D;
                                 this.motionZ *= 0.6D;
                                 this.setSprinting(false);

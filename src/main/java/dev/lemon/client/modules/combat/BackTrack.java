@@ -164,8 +164,8 @@ public class BackTrack extends Module {
         }
 
         if (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled())
-            entity = (EntityLivingBase) KillAura.currentTarget;
-        else {
+           // entity = (EntityLivingBase) KillAura.currentTarget;
+        {
             List<Entity> list = mc.world.loadedEntityList
                     .stream()
                     .filter(this::isValid)

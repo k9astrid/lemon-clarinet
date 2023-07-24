@@ -272,6 +272,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                 this.lastReportedYaw = event.getYaw();
                 this.lastReportedPitch = event.getPitch();
             }
+
             Minecraft.getMinecraft().player.rotIncrement--;
         }
 

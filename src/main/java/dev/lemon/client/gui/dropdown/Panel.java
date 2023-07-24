@@ -51,7 +51,7 @@ public class Panel {
 
         float finalOffset = Math.min((Minecraft.getMinecraft().displayHeight * .5f), guiOffset);
         animated = (float) RenderUtil.linearAnimation(animated, finalOffset, .9f);
-        Gui.drawRect2(x, y, width, 18 + animated, new Color(23, 23, 23, 255).getRGB());
+        RenderUtil.drawRound(x, y, width, 18 + animated, 5, new Color(23, 23, 23, 255));
 
         Fonts.BOLD_18.drawCenteredString(category.getName(), x + width / 2, y + 7, -1);
 

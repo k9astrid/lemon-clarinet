@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public class ItemHoe extends Item
 {
-    protected ToolMaterial theToolMaterial;
+    public ToolMaterial theToolMaterial;
 
     public ItemHoe(ToolMaterial material)
     {

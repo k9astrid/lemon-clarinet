@@ -3,6 +3,9 @@ package dev.lemon.api.utils.player;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.utils.IMethods;
+import dev.lemon.api.utils.math.Vector2f;
+import dev.lemon.api.utils.math.Vector3d;
+import dev.lemon.api.utils.other.RayCastUtil;
 import dev.lemon.client.events.input.MoveInputEvent;
 import dev.lemon.client.events.motion.JumpEvent;
 import dev.lemon.client.events.motion.PreMotionEvent;
@@ -10,14 +13,12 @@ import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.misc.MovementCorrection;
+import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-
-import javax.vecmath.Vector2f;
 
 public class RotationUtil implements IMethods {
 
@@ -221,66 +222,49 @@ public class RotationUtil implements IMethods {
                 mc.player.getEyeHeight(), 0.0D), entity.getPositionVector().addVector(0.0D, entity.getEyeHeight() / 2, 0.0D));
     }
 
-    public static Vector2f getFunnyRotations(Entity entityIn) {
-        double deltaX = entityIn.posX + (entityIn.posX - entityIn.lastTickPosY) - mc.player.posX,
-                deltaY = entityIn.posY - 3.5 + entityIn.getEyeHeight() - mc.player.posY + mc.player.getEyeHeight(),
-                deltaZ = entityIn.posZ + (entityIn.posZ - entityIn.lastTickPosZ) - mc.player.posZ,
-                distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
+    public static Vector2f calculateRotationsFromTo(final Vector3d from, final Vector3d to) {
+        final Vector3d diff = to.subtract(from);
 
-        float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ)),
-                pitch = (float) -Math.toDegrees(Math.atan(deltaY / distance));
+        final double distance = Math.hypot(diff.getX(), diff.getZ());
 
-        if (deltaX < 0 && deltaZ < 0)
-            yaw = (float) (90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
-        else if (deltaX > 0 && deltaZ < 0)
-            yaw = (float) (-90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+        final float yaw = (float) (MathHelper.atan2(diff.getZ(), diff.getX()) * 180 / Math.PI) - 90.0F;
+        final float pitch = (float) (-(MathHelper.atan2(diff.getY(), distance) * 180 / Math.PI));
 
         return new Vector2f(yaw, pitch);
     }
 
-    public static Vector2f getVanillaRotations(Entity entityIn) // from EntityLiving, originally called faceEntity
-    {
-        EntityPlayerSP entity = mc.player; // the player (your character)
-
-        double deltaX = entityIn.posX - entity.posX;
-        double deltaZ = entityIn.posZ - entity.posZ;
-        double deltaY;
-
-        if (entityIn instanceof EntityLivingBase)
-        {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)entityIn;
-            deltaY = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (entity.posY +
-                    (double)entity.getEyeHeight());
-        }
-        else
-        {
-            deltaY = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D -
-                    (entity.posY + (double)entity.getEyeHeight());
-        }
-
-        double hypotXZ = Math.hypot(deltaX,  deltaZ);
-        float yaw = (float) Math.toDegrees(MathHelper.atan2(deltaZ, deltaX)) - 90.0F;
-        float pitch = (float) Math.toDegrees(-(MathHelper.atan2(deltaY, hypotXZ)));
-        return new Vector2f(yaw, pitch);
+    public static Vector2f calculateNormalRotationsToEntity(final Entity e) {
+        return calculateRotationsTo(e.getCustomPositionVector().add(0, Math.max(0, Math.min(
+                mc.player.posY - e.posY + mc.player.getEyeHeight(), (e.getEntityBoundingBox().maxY - e.getEntityBoundingBox().minY)
+                * .9)), 0));
     }
 
-    /**
-     * Arguments: current rotation, intended rotation, max increment.
-     */
-    public static float updateRotation(float currentRotation, float nextRotation, float maxDifference) // interpolates the rotations (smooths it)
-    {
-        float f = MathHelper.wrapAngleTo180_float(nextRotation - currentRotation);
+    public static Vector2f calculateRotationsTo(final Vector3d to) {
+        return calculateRotationsFromTo(mc.player.getCustomPositionVector().add(0, mc.player.getEyeHeight(), 0), to);
+    }
 
-        if (f > maxDifference) // clamp to max
-        {
-            f = maxDifference;
+    public static Vector2f calculateRotationsToEntity(final Entity e, final boolean closestPoint, final double range) {
+        Vector2f normal = calculateNormalRotationsToEntity(e);
+
+        if (!closestPoint || RayCastUtil.rayCast(normal, range, 0, mc.player).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+            return normal;
         }
 
-        if (f < -maxDifference)// clamp to min (-max)
-        {
-            f = -maxDifference;
+        for (double y = 1; y >= 0; y -= .25) {
+            for (double x = 1; x >= -.5; x -= .5) {
+                for (double z = 1; z >= -.5; z -= .5) {
+                    Vector2f closestRotations = calculateRotationsTo(e.getCustomPositionVector().add(
+                            (e.getEntityBoundingBox().maxX - e.getEntityBoundingBox().minX) * x,
+                            (e.getEntityBoundingBox().maxY - e.getEntityBoundingBox().minY) * y,
+                            (e.getEntityBoundingBox().maxZ - e.getEntityBoundingBox().minZ) * z
+                    ));
+
+                    if (RayCastUtil.rayCast(closestRotations, range, 0, mc.player).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
+                        return closestRotations;
+                }
+            }
         }
 
-        return currentRotation + f;
+        return normal;
     }
 }

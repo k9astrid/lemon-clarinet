@@ -19,7 +19,7 @@ public class Speed extends Module {
             "Test",
             "Vulcan",
             "KoksCraft",
-            "Debug"
+            "Incognito"
     );
     public ModeSetting cockMode = new ModeSetting("KoksCraft Mode", "Hop", () -> mode.is("KoksCraft"),"Hop", "Low Hop", "Ground", "Ground2");
     public ModeSetting intaveMode = new ModeSetting("Intave Mode", "Legit Hop", () -> mode.is("Intave"),"Legit Hop", "Fast", "Test", "Test2");
@@ -36,6 +36,7 @@ public class Speed extends Module {
     protected void onEnable() {
         jumps = 0;
         y = 0;
+        mc.gameSettings.keyBindJump.pressed = false;
     }
 
     @Subscribe
@@ -48,6 +49,18 @@ public class Speed extends Module {
                     mc.player.jump();
 
                 MoveUtil.strafe();
+                break;
+
+            case "Incognito":
+                mc.gameSettings.keyBindJump.pressed = MoveUtil.moving();
+
+                if (mc.player.onGround)
+                    MoveUtil.strafe(0.36 + Math.random() / 70);
+                else
+                    MoveUtil.strafe((MoveUtil.speed()  - (float) (Math.random() - 0.5F) / 70F));
+
+                if (MoveUtil.speed() < 0.25F)
+                    MoveUtil.strafe((float) (MoveUtil.speed() + 0.02));
                 break;
 
             case "KoksCraft":
