@@ -22,4 +22,8 @@ public class TimerUtil {
 	public long getLastMillis(){
 		return lastMillis;
 	}
+
+	public void setTime(long time) {
+		lastMillis = time;
+	}
 }

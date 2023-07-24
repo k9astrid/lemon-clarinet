@@ -17,6 +17,12 @@ public class TextSetting extends Setting {
         this.visible = () -> true;
     }
 
+    public TextSetting(String name) {
+        this.name = name;
+        this.text = "";
+        this.visible = () -> true;
+    }
+
     public TextSetting(String name, String text, Supplier<Boolean> visible) {
         this.name = name;
         this.text = text;

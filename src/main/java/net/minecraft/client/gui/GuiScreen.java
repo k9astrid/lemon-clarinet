@@ -15,6 +15,9 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import dev.lemon.client.events.input.MouseEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.stream.GuiTwitchUserMode;
 import net.minecraft.client.renderer.GlStateManager;
@@ -597,6 +600,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
             this.eventButton = k;
             this.lastMouseEvent = Minecraft.getSystemTime();
             this.mouseClicked(i, j, this.eventButton);
+            Lemon.INSTANCE.getEventBus().handle(new MouseEvent(i, j, this.eventButton, MouseEvent.Type.CLICK));
         }
         else if (k != -1)
         {
@@ -607,11 +611,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
 
             this.eventButton = -1;
             this.mouseReleased(i, j, k);
+            Lemon.INSTANCE.getEventBus().handle(new MouseEvent(i, j, this.eventButton, MouseEvent.Type.RELEASED));
         }
         else if (this.eventButton != -1 && this.lastMouseEvent > 0L)
         {
             long l = Minecraft.getSystemTime() - this.lastMouseEvent;
             this.mouseClickMove(i, j, this.eventButton, l);
+            Lemon.INSTANCE.getEventBus().handle(new MouseEvent(i, j, this.eventButton, MouseEvent.Type.CLICK_MOVE));
         }
     }
 

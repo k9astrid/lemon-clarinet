@@ -31,6 +31,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class RenderUtil implements IMethods {
     public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
     public static ShaderUtil roundedOutlineShader = new ShaderUtil("roundRectOutline");
+    public static ShaderUtil roundedTexturedShader = new ShaderUtil("roundedTexturedShader");
     private static final ShaderUtil roundedGradientShader = new ShaderUtil("roundedRectGradient");
     private static final ShaderUtil gradientShader = new ShaderUtil("gradient");
 
@@ -69,6 +70,34 @@ public class RenderUtil implements IMethods {
         Gui.drawModalRectWithCustomSizedTexture((int) x, (int) y, 0, 0, width, height, width, height);
 
         GlStateManager.popMatrix();
+    }
+
+    public static void scissor(double x, double y, double width, double height, Runnable data) {
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        scissor(x, y, width, height);
+        data.run();
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    }
+
+    public static void scissor(double x, double y, double width, double height) {
+        ScaledResolution sr = new ScaledResolution(mc);
+        final double scale = ScaledResolution.getScaleFactor();
+        double finalHeight = height * scale;
+        double finalY = (sr.getScaledHeight() - y) * scale;
+        double finalX = x * scale;
+        double finalWidth = width * scale;
+        glScissor((int) finalX, (int) (finalY - finalHeight), (int) finalWidth, (int) finalHeight);
+    }
+
+    public static void drawRoundTextured(float x, float y, float width, float height, float radius, float alpha) {
+        GlStateManager.resetColor();
+        roundedTexturedShader.init();
+        roundedTexturedShader.setUniformi("textureIn", 0);
+        ShaderUtil.setupRoundedRectUniforms(x, y, width, height, radius, roundedTexturedShader);
+        roundedTexturedShader.setUniformf("alpha", alpha);
+        ShaderUtil.drawQuads(x - 1, y - 1, width + 2, height + 2);
+        roundedTexturedShader.unload();
+        GlStateManager.disableBlend();
     }
 
     public static ByteBuffer[] loadIcon(String filepath)

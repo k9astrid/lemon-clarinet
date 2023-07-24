@@ -259,6 +259,11 @@ public class RotationUtil implements IMethods {
                             (e.getEntityBoundingBox().maxZ - e.getEntityBoundingBox().minZ) * z
                     ));
 
+                    if (RayCastUtil.rayCast(closestRotations, range, 0, mc.player) == null) {
+                        ChatUtil.addMessage("normal");
+                        return normal;
+                    }
+
                     if (RayCastUtil.rayCast(closestRotations, range, 0, mc.player).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
                         return closestRotations;
                 }

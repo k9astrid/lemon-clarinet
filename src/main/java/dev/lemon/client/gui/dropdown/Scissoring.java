@@ -31,8 +31,7 @@ public class Scissoring {
     }
 
     public void setFromComponentCoordinates(int x, int y, int width, int height) {
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-        int scaleFactor = res.getScaleFactor();
+        int scaleFactor = ScaledResolution.getScaleFactor();
 
         int screenX = x * scaleFactor;
         int screenY = y * scaleFactor;
