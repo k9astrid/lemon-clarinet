@@ -16,6 +16,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
+import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import net.minecraft.util.MovingObjectPosition;
 
 public class Velocity extends Module {
@@ -28,13 +29,13 @@ public class Velocity extends Module {
             "Legit",
             "Intave",
             "Matrix",
-            "UniversoCraft"
+            "Grim"
     );
 
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1, () -> mode.is("Custom"));
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1, () -> mode.is("Custom"));
 
-    private int mmcTicks;
+    private int mmcTicks, cancel = 6, reset = 8, grimC, updates;
 
     public Velocity() {
         super("Velocity", Category.COMBAT);
@@ -43,6 +44,7 @@ public class Velocity extends Module {
     @Override
     protected void onEnable() {
         mmcTicks = 0;
+        grimC = 0;
     }
 
     @Subscribe
@@ -90,16 +92,7 @@ public class Velocity extends Module {
                     e.setCancelled(true);
                 break;
 
-            case "UniversoCraft":
-                if (packet instanceof S12PacketEntityVelocity) {
-                    final S12PacketEntityVelocity wrapper = (S12PacketEntityVelocity) packet;
-
-                    if (wrapper.getEntityID() == mc.player.getEntityId()) {
-                        e.setCancelled(true);
-                        mc.player.motionY += .1 - Math.random() / 100f;
-                        ChatUtil.addMessage("boost");
-                    }
-                }
+            case "Grim":
                 break;
 
             case "Custom":
@@ -144,6 +137,18 @@ public class Velocity extends Module {
         this.setSuffix(mode.getMode());
 
         switch (mode.getMode()) {
+            case "Grim":
+                updates++;
+
+                if (reset > 0) {
+                    if (updates >= 0 || updates >= reset) {
+                        updates = 0;
+
+                        if (grimC > 0)
+                            grimC--;
+                    }
+                }
+                break;
             case "Intave":
                 if (mc.objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.ENTITY) && mc.player.hurtTime > 0) {
                     mc.player.motionX *= .6;

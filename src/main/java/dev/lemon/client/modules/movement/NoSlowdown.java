@@ -33,7 +33,8 @@ public class NoSlowdown extends Module {
 
         switch (mode.getMode()) {
             case "NCP":
-                mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                if (mc.player.isUsingItem())
+                    mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                 break;
 
             case "New NCP":
@@ -51,7 +52,8 @@ public class NoSlowdown extends Module {
     private final IEventListener<PostMotionEvent> onPostMotion = e -> {
         switch (mode.getMode()) {
             case "NCP":
-                mc.player.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.inventoryContainer.getSlot(mc.player.inventory.currentItem + 36).getStack()));
+                if (mc.player.isUsingItem())
+                    mc.player.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.inventoryContainer.getSlot(mc.player.inventory.currentItem + 36).getStack()));
                 break;
         }
     };
