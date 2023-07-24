@@ -54,7 +54,7 @@ public class ConfigManager implements IMethods {
 
     public void saveConfig(String configName){
         if (getConfig(configName) == null) {
-            Config config = new Config(configName, true);
+            Config config = new Config(configName, false);
             config.write();
         } else getConfig(configName).write();
 
