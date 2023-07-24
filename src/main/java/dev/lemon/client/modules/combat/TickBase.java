@@ -41,7 +41,7 @@ public class TickBase extends Module {
         } catch (Exception eepy){
             System.out.println("no eepy tonight");
         }
-        ChatUtil.addMessage("UBER CRAZY INTAVE FORCEOP 10/10 IM HAZE RATING TICK MANIPULATION COMPLETE!");
+        ChatUtil.send("UBER CRAZY INTAVE FORCEOP 10/10 IM HAZE RATING TICK MANIPULATION COMPLETE!");
         mc.timer.timerSpeed = 1f;
 
     }

@@ -3,15 +3,12 @@ package dev.lemon.client.modules.movement;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
-import dev.lemon.api.notification.NotificationType;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.other.CollideEvent;
-import dev.lemon.client.main.Lemon;
-import dev.lemon.client.modules.render.HUD;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -35,9 +32,9 @@ public class Flight extends Module {
             case "Updated NCP":
                 if (hitHead()){
                     mc.player.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.player.posX, mc.player.posY - 0.0654D, mc.player.posZ, mc.player.rotationYaw, mc.player.rotationPitch, mc.player.onGround));
-                    ChatUtil.addMessage("Clipped");
+                    ChatUtil.send("Clipped");
                 } else {
-                    ChatUtil.addMessage("You need to be under a block.");
+                    ChatUtil.send("You need to be under a block.");
                 }
                 break;
         }

@@ -13,7 +13,6 @@ import dev.lemon.client.events.motion.PreUpdateEvent;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.misc.MovementCorrection;
-import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -260,7 +259,7 @@ public class RotationUtil implements IMethods {
                     ));
 
                     if (RayCastUtil.rayCast(closestRotations, range, 0, mc.player) == null) {
-                        ChatUtil.addMessage("normal");
+                        ChatUtil.send("normal");
                         return normal;
                     }
 

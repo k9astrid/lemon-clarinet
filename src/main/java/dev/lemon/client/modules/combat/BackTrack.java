@@ -220,12 +220,12 @@ public class BackTrack extends Module {
             if (sexy && positionEyes.distanceTo(new Vec3(realX, realY, realZ)) > positionEyes.distanceTo(new Vec3(currentX, currentY, currentZ))
                     && mc.player.getServerPosition().distanceTo(new Vec3(d0, d1, d2)) < distance && !this.timerUtil.hasTimeElapsed((long)this.timerDelay.getVal())) {
                 this.block = true;
-                ChatUtil.addMessage("block");
+                ChatUtil.send("block");
             } else {
                 this.block = false;
                 resetPackets(this.packetListener);
                 this.timerUtil.reset();
-                ChatUtil.addMessage("bye");
+                ChatUtil.send("bye");
             }
         }
     };

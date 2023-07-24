@@ -7,14 +7,15 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ChatUtil implements IMethods {
 
-    public static void addMessage(String message){
-        ChatComponentText chatComponentText = new ChatComponentText(EnumChatFormatting.YELLOW+ Lemon.INSTANCE.getCHAT_PREFIX()+EnumChatFormatting.GRAY+" >> "+EnumChatFormatting.RESET+message);
+    public static void send(String message){
+        ChatComponentText chatComponentText = new ChatComponentText(getPrefix() + message);
         mc.player.addChatMessage(chatComponentText);
     }
 
-    public static void addRawMessage(String message){
-        ChatComponentText chatComponentText = new ChatComponentText(message);
-        mc.player.addChatMessage(chatComponentText);
+    private static String getPrefix() {
+        final String color = Lemon.INSTANCE.getColorManager().getColor().getAccent().toString();
+        return EnumChatFormatting.BOLD + color + Lemon.INSTANCE.NAME
+                + EnumChatFormatting.RESET + color + " "
+                + EnumChatFormatting.RESET;
     }
-
 }
