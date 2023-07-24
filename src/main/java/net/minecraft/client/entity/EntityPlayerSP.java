@@ -1,6 +1,7 @@
 package net.minecraft.client.entity;
 
 import dev.lemon.client.events.motion.PreUpdateEvent;
+import dev.lemon.client.events.motion.SlowDownEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.events.other.ChatEvent;
 import dev.lemon.client.events.motion.PostMotionEvent;
@@ -697,11 +698,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
 
-        boolean doNoSlowdown = Lemon.INSTANCE.getModuleManager().getModuleByName("No Slowdown").isToggled();
+        SlowDownEvent slowDownEvent = new SlowDownEvent(.2f, .2f);
+        Lemon.INSTANCE.getEventBus().handle(slowDownEvent);
 
-        if (this.isUsingItem() && !this.isRiding() && !doNoSlowdown) {
-            this.movementInput.moveStrafe *= 0.2F;
-            this.movementInput.moveForward *= 0.2F;
+        if (this.isUsingItem() && !this.isRiding() && !slowDownEvent.isCancelled()) {
+            this.movementInput.moveStrafe *= slowDownEvent.getStrafeMultiplier();
+            this.movementInput.moveForward *= slowDownEvent.getForwardMultiplier();
             this.sprintToggleTimer = 0;
         }
 
@@ -719,7 +721,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             }
         }
 
-        if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && (!this.isUsingItem() || doNoSlowdown)
+        if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && (!this.isUsingItem() && slowDownEvent.isCancelled())
                 && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
             this.setSprinting(true);
         }

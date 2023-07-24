@@ -128,9 +128,6 @@ public class KillAura extends Module {
         if (autoblock.is("Fake"))
             blocking = target != null && canBlock();
 
-        if (autoblock.is("Vanilla") && blocking && target == null)
-            unblock(false);
-
         if (targets.isEmpty()) {
             randomYaw += (float) (Math.random() - 0.5f);
             randomPitch += (float) (Math.random() - 0.5f) * 2;
