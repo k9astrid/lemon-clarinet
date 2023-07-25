@@ -112,12 +112,12 @@ public class HUD extends Module {
         }
         modules.sort(Comparator.<Module>comparingDouble(m -> Fonts.BOLD_18.getStringWidth(m.getDisplayName())).reversed());
 
-        int offsetY = (int) this.offset.getVal() + 1, spacing = 3, offsetX = (int) this.offset.getVal() + 2;
+        int offsetY = (int) this.offset.getVal() + 1, spacing = 4, offsetX = (int) this.offset.getVal() + 2;
 
 
         for (Module m : modules) {
-            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 3, Fonts.BOLD_18.getHeight() + spacing, new Color(0, 0, 0, 80).getRGB());
-            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY + 1,
+            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX - 1, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 5, Fonts.BOLD_18.getHeight() + spacing, new Color(0, 0, 0, 120).getRGB());
+            Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY + 2,
                     Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY)).getRGB());
             offsetY += Fonts.BOLD_18.getHeight() + spacing;
         }

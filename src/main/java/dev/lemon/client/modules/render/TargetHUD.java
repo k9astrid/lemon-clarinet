@@ -150,7 +150,7 @@ public class TargetHUD extends Module {
                 Fonts.GREYCLIFF_BOLD_18.drawString(finalTarget.getName(), 47, 12, -1);
                 Fonts.GREYCLIFF_18.drawString("HP: " + Math.round((finalTarget.getHealth() * 5)) + "%", 47, 23, -1);
                 GlStateManager.pushMatrix();
-                RenderUtil.drawRound(47, 33, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
+                RenderUtil.drawRound(47, 34.2f, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
                 RenderUtil.drawGradientRound(47, 35, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f) + 0.5f, 2.5f, 1.5f,
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),

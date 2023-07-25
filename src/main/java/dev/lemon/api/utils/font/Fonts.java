@@ -26,6 +26,7 @@ public abstract class Fonts {
     public static final CFontRenderer ICON_35 = new CFontRenderer(Fonts.getFonts("icon.ttf", 35), true, true);
     public static final CFontRenderer MUSEO_20 = new CFontRenderer(Fonts.getFonts("MuseoSans_900.otf", 22), true, true);
     public static final CFontRenderer EAVES_18 = new CFontRenderer(Fonts.getFonts("Eaves.ttf", 18), true, true);
+    public static final CFontRenderer NORMAL_18 = new CFontRenderer(Fonts.getFonts("Volte-Regular.ttf", 18), true, true);
 
     private static Font getFonts(String fontName, int size) {
         Font font;
