@@ -133,7 +133,9 @@ public class Spotify extends Module {
         boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 140 + (45);
 
         long mins = (TimeUnit.MILLISECONDS.toMinutes(currentPlayingContext.getProgress_ms()));
+        long mins2 = (TimeUnit.MILLISECONDS.toMinutes(currentTrack.getDurationMs()));
         long sec = (TimeUnit.MILLISECONDS.toSeconds(currentPlayingContext.getProgress_ms()) % 60);
+        long sec2 = (TimeUnit.MILLISECONDS.toSeconds(currentTrack.getDurationMs()) % 60);
         String secondsStr = Long.toString(sec);
         String secs;
         if (secondsStr.length() >= 2) {
@@ -142,9 +144,17 @@ public class Spotify extends Module {
             secs = "0" + secondsStr;
         }
 
+        String secondsStr2 = Long.toString(sec2);
+        String secs2;
+        if (secondsStr2.length() >= 2)
+            secs2 = secondsStr2.substring(0, 2);
+        else
+            secs2 = "0" + secondsStr2;
+
         Fonts.GREYCLIFF_BOLD_26.drawStringWithShadow(currentTrack.getName(), 45, 7, -1);
         Fonts.GREYCLIFF_16.drawStringWithShadow(artistsDisplay.toString(), 46, 21, new Color(201, 201, 201, 255).getRGB());
-        Fonts.GREYCLIFF_16.drawStringWithShadow( mins + ":" + secs, 137, 36, new Color(200,200,200).getRGB());
+        Fonts.GREYCLIFF_16.drawStringWithShadow(mins + ":" + secs + " / " + mins2 + ":" + secs2,
+                width - Fonts.GREYCLIFF_16.getStringWidth(mins + ":" + secs + " / " + mins2 + ":" + secs2) - 4, 29, new Color(200,200,200).getRGB());
         Scissoring.unset();
         Scissoring.pop();
 
@@ -171,8 +181,8 @@ public class Spotify extends Module {
 
             mc.getTextureManager().loadTexture(currentAlbumCover = new ResourceLocation("spotifyAlbums/" + currentTrack.getAlbum().getId()), albumCover);
         }
-        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f) - 15, 4, 1.5f, new Color(0, 0, 0, 170));
-        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f - 14) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 4, 1.5f, new Color(255, 255, 255, 255));
+        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f), 4, 1.5f, new Color(0, 0, 0, 170));
+        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f + 1) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 4, 1.5f, new Color(255, 255, 255, 255));
 
         GlStateManager.popMatrix();
     };

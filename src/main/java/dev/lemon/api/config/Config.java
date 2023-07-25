@@ -52,7 +52,7 @@ public class Config implements IMethods {
                         if (v instanceof ModeSetting)
                             vObject.addProperty(v.name, ((ModeSetting) v).getMode());
 
-                        if (v instanceof TextSetting)
+                        if (v instanceof TextSetting && saveKeybinds)
                             vObject.addProperty(v.name, ((TextSetting) v).getText());
 
                         if (v instanceof NumberSetting)
@@ -87,19 +87,17 @@ public class Config implements IMethods {
                                 try {
                                     Setting v = m.getValueByName(value.getKey());
 
-                                    if (v.canSave()) {
-                                        if (v instanceof BooleanSetting)
-                                            ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
+                                    if (v instanceof BooleanSetting)
+                                        ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
 
-                                        if (v instanceof TextSetting)
-                                            ((TextSetting) v).setText(value.getValue().getAsString());
+                                    if (v instanceof TextSetting && saveKeybinds)
+                                        ((TextSetting) v).setText(value.getValue().getAsString());
 
-                                        if (v instanceof ModeSetting)
-                                            ((ModeSetting) v).setMode(value.getValue().getAsString());
+                                    if (v instanceof ModeSetting)
+                                        ((ModeSetting) v).setMode(value.getValue().getAsString());
 
-                                        if (v instanceof NumberSetting)
-                                            ((NumberSetting) v).setValue(value.getValue().getAsDouble());
-                                    }
+                                    if (v instanceof NumberSetting)
+                                        ((NumberSetting) v).setValue(value.getValue().getAsDouble());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
