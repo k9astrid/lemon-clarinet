@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter @AllArgsConstructor
 public enum NotificationType {
-    SUCCESS("o"), ERROR("p"), INFO("m");
+    SUCCESS("s"), ERROR("e"), INFO("i");
 
     private final String icon;
 }

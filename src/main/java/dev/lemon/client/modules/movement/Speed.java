@@ -173,6 +173,22 @@ public class Speed extends Module {
                             MoveUtil.strafe(0.4175f);
                         }
                         break;
+                    case "Fast":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
+                            jumps++;
+                        }
+                        if (mc.player.onGroundTicks > 2 && jumps > 1) {
+                            mc.player.motionY = 0.3f;
+                        }
+                        if (mc.player.offGroundTicks == 4) {
+                            mc.player.motionY = -0.1;
+                        }
+                        if (mc.player.offGroundTicks == 6) {
+                            mc.player.motionY = -0.44;
+                        }
+                        break;
                 }
                 break;
         }
