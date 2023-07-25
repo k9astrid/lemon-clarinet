@@ -19,6 +19,7 @@ public class NumberSetting extends Setting {
         this.max = max;
         this.inc = inc;
         this.visible = () -> true;
+        this.save = () -> true;
     }
 
     public NumberSetting(String name, double val, double min, double max, double inc, Supplier<Boolean> visible) {
@@ -28,6 +29,7 @@ public class NumberSetting extends Setting {
         this.max = max;
         this.inc = inc;
         this.visible = visible;
+        this.save = () -> true;
     }
 
     public void setValue(double value) {

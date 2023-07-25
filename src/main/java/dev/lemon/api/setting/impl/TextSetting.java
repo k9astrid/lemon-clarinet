@@ -21,12 +21,14 @@ public class TextSetting extends Setting {
         this.name = name;
         this.text = "";
         this.visible = () -> true;
+        this.save = () -> false;
     }
 
     public TextSetting(String name, String text, Supplier<Boolean> visible) {
         this.name = name;
         this.text = text;
         this.visible = visible;
+        this.save = () -> true;
     }
 
 }
