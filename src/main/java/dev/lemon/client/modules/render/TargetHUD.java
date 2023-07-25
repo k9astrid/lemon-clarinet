@@ -30,7 +30,7 @@ import org.lwjgl.input.Mouse;
 import java.awt.*;
 
 public class TargetHUD extends Module {
-    public ModeSetting modeValue = new ModeSetting("Mode", "Tenacity", "Tenacity", "Old Tenacity", "Wave");
+    public ModeSetting modeValue = new ModeSetting("Mode", "Tenacity", "Tenacity", "Old Tenacity", "Wave", "Lemon");
     public NumberSetting posX = new NumberSetting("Pos X",
             0, 0, (double) Toolkit.getDefaultToolkit().getScreenSize().width / 2, 1, () -> false);
     public NumberSetting posY = new NumberSetting("Pos Y",
@@ -50,9 +50,9 @@ public class TargetHUD extends Module {
     @Subscribe
     private final IEventListener<Render2DEvent> onRender2D = e -> {
         if (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.target != null) {
-                this.target = (EntityLivingBase) KillAura.target;
-                if (!(this.target instanceof EntityMob || this.target instanceof EntityAnimal || this.target instanceof EntityAgeable || this.target instanceof EntityWaterMob))
-                    this.finalTarget = this.target;
+            this.target = (EntityLivingBase) KillAura.target;
+            if (!(this.target instanceof EntityMob || this.target instanceof EntityAnimal || this.target instanceof EntityAgeable || this.target instanceof EntityWaterMob))
+                this.finalTarget = this.target;
         } else
             this.target = null;
 
@@ -68,10 +68,10 @@ public class TargetHUD extends Module {
         if (finalTarget == null) return;
 
         ScaledResolution sr = new ScaledResolution(mc);
-        if(this.dragging){
+        if (this.dragging) {
             if (!(mc.currentScreen instanceof GuiChat)) {
                 this.dragging = false;
-            }else{
+            } else {
                 this.posX.setValue(this.draggingX + (Mouse.getX() * sr.getScaledWidth() / mc.displayWidth));
                 this.posY.setValue(this.draggingY + (sr.getScaledHeight() - Mouse.getY() *
                         sr.getScaledHeight() / mc.displayHeight - 1));
@@ -136,19 +136,54 @@ public class TargetHUD extends Module {
                     GlStateManager.popMatrix();
                 }
                 break;
+            case "Lemon":
+                this.width = 145;
+                this.height = 48;
+
+                RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 5,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+                RenderUtil.drawRound(1F, 1, (float) width - 2, (float) height - 2, 4, new Color(0, 0, 0, 160));
+
+                Fonts.GREYCLIFF_BOLD_18.drawString(finalTarget.getName(), 47, 12, -1);
+                Fonts.GREYCLIFF_18.drawString("HP: " + Math.round((finalTarget.getHealth() * 5)) + "%", 47, 23, -1);
+                GlStateManager.pushMatrix();
+                RenderUtil.drawRound(47, 33, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
+                RenderUtil.drawGradientRound(47, 35, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f) + 0.5f, 2.5f, 1.5f,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+                RenderUtil.drawRound(47.5f, 35.5f, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 2, 1.5f, new Color(255, 255, 255, 100));
+                GlStateManager.popMatrix();
+
+                if (finalTarget != null && finalTarget instanceof AbstractClientPlayer) {
+                    GlStateManager.enableCull();
+                    mc.getTextureManager().bindTexture(((AbstractClientPlayer) finalTarget).getLocationSkin());
+                    GlStateManager.pushMatrix();
+                    StencilUtils.write(false);
+                    RenderUtil.drawRound(9, 9, 31, 30, 8, new Color(0, 0, 0, 140));
+                    StencilUtils.erase(true);
+                    Gui.drawScaledCustomSizeModalRect(8, 6, 8.0F, 8.0F, 8, 8, 34, 34, 64.0F, 66.0F);
+                    StencilUtils.dispose();
+                    GlStateManager.popMatrix();
+                }
+                break;
         }
         GlStateManager.popMatrix();
     };
 
     @Subscribe
     private final IEventListener<MouseEvent> onMouse = e -> {
-        switch (e.getType()){
+        switch (e.getType()) {
             case CLICK:
-                if(e.getMouseButton() == 0){
-                    if(isMouseInBounds(e.getMouseX(), e.getMouseY(),
+                if (e.getMouseButton() == 0) {
+                    if (isMouseInBounds(e.getMouseX(), e.getMouseY(),
                             this.posX.getVal(), this.posY.getVal(),
                             this.posX.getVal() + this.width,
-                            this.posY.getVal() + this.height)){
+                            this.posY.getVal() + this.height)) {
                         this.dragging = true;
                         this.draggingX = this.posX.getVal() - e.getMouseX();
                         this.draggingY = this.posY.getVal() - e.getMouseY();
