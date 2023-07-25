@@ -27,15 +27,12 @@ import java.util.Comparator;
 
 public class HUD extends Module {
 
-    //If u have a better way to do it then go ahead im stupid sorry
-    public ModeSetting watermark = new ModeSetting("Watermark", "Bar",
-            "Text", "Bar", "Neverlose");
-
     public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
             "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Astolfo", "Mirror", "Rock", "Eternal Constance",
             "Exotic", "Antarctica", "Piglet", "Black", "Oceanic Azure", "Pinky", "Minty", "Luminous Lavender");
 
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
+    public static BooleanSetting watermark = new BooleanSetting("Watermark", false);
     public static BooleanSetting toggleNotifications = new BooleanSetting("Toggle Notifications", false);
     public static BooleanSetting optimizeVisuals = new BooleanSetting("Optimize Visuals", false);
 
@@ -55,54 +52,13 @@ public class HUD extends Module {
 
     @Subscribe
     public final IEventListener<Render2DEvent> onRender2D = e -> {
-        float x, y;
-
-        switch (watermark.getMode()) {
-            case "Text":
-                String text2 = Lemon.INSTANCE.getCLIENT_ENUM() == ClientEnum.RELEASE ?
-                        "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" :
-                        "Lemon " + EnumChatFormatting.GRAY + "# " + EnumChatFormatting.GREEN + Lemon.INSTANCE.getCLIENT_ENUM() + EnumChatFormatting.GRAY + " # "
-                                + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS";
-                Fonts.GREYCLIFF_BOLD_18.drawStringWithShadow(text2, 2, 4, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
-                break;
-
-            case "Bar":
-                drawBar();
-                break;
-
-            case "Neverlose":
-                x = 3;
-                y = 4;
-
-                final String name = "LEMON",
-                        ip = (mc.getCurrentServerData() == null ? "Singleplayer" : mc.getCurrentServerData().serverIP),
-                        username = mc.player.getName();
-
-                final float width = Fonts.MUSEO_20.getStringWidth(name) + Fonts.BOLD_18.getStringWidth(ip + Minecraft.getDebugFPS() + " FPS" + username);
-
-                RenderUtil.drawRound(x, y - 1, width + 25, 13, 3, Color.black);
-
-                if (!optimizeVisuals.isToggled()) {
-                    float finalX = x;
-                    PostProcessingUtil.drawBloom(() -> RenderUtil.drawRound(finalX, y, width + 25, 12, 3, Color.black));
-                }
-
-                Fonts.MUSEO_20.drawString(name, x + 3, y + 3, Lemon.INSTANCE.getColorManager().getColor().getFirstColor().getRGB());
-                Fonts.MUSEO_20.drawString(name, x + 2, y + 2, -1);
-
-                x += Fonts.MUSEO_20.getStringWidth(name) + 10;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(username, x, y + 4, new Color(255, 255, 255, 220).getRGB());
-
-                x += Fonts.BOLD_18.getStringWidth(username) + 6;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(ip, x, y + 4, new Color(255, 255, 255, 220).getRGB());
-
-                x += Fonts.BOLD_18.getStringWidth(ip) + 6;
-                Fonts.EAVES_18.drawString("|", x - 4, y + 4, new Color(255, 255, 255, 100).getRGB());
-                Fonts.BOLD_18.drawString(Minecraft.getDebugFPS() + " FPS", x, y + 4, new Color(255, 255, 255, 220).getRGB());
-                break;
-        }
+        RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+        RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
+        Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
 
         ArrayList<Module> modules = new ArrayList<>();
 
