@@ -15,7 +15,6 @@ import dev.lemon.client.events.render.Render2DEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;

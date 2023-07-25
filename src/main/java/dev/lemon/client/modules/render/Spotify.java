@@ -3,6 +3,7 @@ package dev.lemon.client.modules.render;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
+import dev.lemon.api.notification.NotificationType;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.setting.impl.TextSetting;
 import dev.lemon.api.spotify.SpotifyAPI;
@@ -76,9 +77,12 @@ public class Spotify extends Module {
         if (api.currentTrack == null || api.currentPlayingContext == null)
             return;
 
-        if (currentTrack != api.currentTrack || currentPlayingContext != api.currentPlayingContext) {
-            this.currentTrack = api.currentTrack;
+        if (currentPlayingContext != api.currentPlayingContext) {
             this.currentPlayingContext = api.currentPlayingContext;
+        }
+
+        if (currentTrack != api.currentTrack) {
+            this.currentTrack = api.currentTrack;
         }
 
         ScaledResolution sr = new ScaledResolution(mc);

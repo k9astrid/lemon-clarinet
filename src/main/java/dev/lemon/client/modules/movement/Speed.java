@@ -76,27 +76,31 @@ public class Speed extends Module {
 
                         if (KillAura.target != null) {
                             y = 0;
-                            MoveUtil.strafe(MoveUtil.baseSpeed() * 0.7f);
                             return;
                         }
 
-                        if (mc.player.onGround) {
-                            if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = 1.12f;
+                        if (MoveUtil.moving()) {
+                            if (mc.player.onGround) {
+                                if (cockMode.is("Ground2"))
+                                    mc.timer.timerSpeed = mc.player.ticksExisted % 10 == 0 ? 2.6f : 2.2f;
 
-                            y = 0.01;
+                                y = 0.01;
 
-                            mc.player.motionY = 0.01;
-                            MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? 0.53f : 0.59f : 0.489 + MoveUtil.speedBoost(1.5F));
-                        } else {
-                            if (cockMode.is("Ground2"))
-                                mc.timer.timerSpeed = .97f;
+                                mc.player.motionY = 0.01;
+                                MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? 0.53f : 0.594f : 0.48f + MoveUtil.speedBoost(1.5F));
+                            } else {
+                                if (cockMode.is("Ground2"))
+                                    mc.timer.timerSpeed = 0.65f;
 
-                            if (y == .01) {
-                                MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? MoveUtil.baseSpeed() * 1.08f : MoveUtil.baseSpeed() * 1.10F : MoveUtil.baseSpeed() * 1.04F);
-                                y = 0;
+                                if (y == .01) {
+                                    MoveUtil.strafe(mc.player.isPotionActive(Potion.moveSpeed) ? mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier() == 0 ? MoveUtil.baseSpeed() * 1.08f : MoveUtil.baseSpeed() * 1.115F : MoveUtil.baseSpeed() * 1.04F);
+                                    y = 0;
+                                }
                             }
                         }
+
+                        if (mc.player.fallDistance > 1)
+                            mc.timer.timerSpeed = 1f;
                         break;
                     case "Low Hop":
                         if (mc.player.onGround) {
@@ -183,9 +187,10 @@ public class Speed extends Module {
                     return;
 
                 if (cockMode.is("Ground") || cockMode.is("Ground2")) {
-                    if(e.getPacket() instanceof C03PacketPlayer) {
-                        ((C03PacketPlayer) e.getPacket()).y = mc.player.posY + y;
-                    }
+                    if (MoveUtil.moving())
+                        if (e.getPacket() instanceof C03PacketPlayer) {
+                            ((C03PacketPlayer) e.getPacket()).y = mc.player.posY + y;
+                        }
                 }
                 break;
         }
