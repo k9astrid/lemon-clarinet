@@ -3,6 +3,7 @@ package dev.lemon.client.modules.movement;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
+import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.player.MoveUtil;
@@ -15,9 +16,20 @@ public class Flight extends Module {
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Glide", () -> mode.is("Vulcan"), "Glide", "");
 
     public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1,() -> mode.is("Vanilla"));
+    public BooleanSetting bobbing = new BooleanSetting("Override camera yaw", true);
+    public BooleanSetting fakeDamage = new BooleanSetting("Fake damage", true);
+
 
     public Flight() {
         super("Flight", Category.MOVEMENT);
+    }
+
+    @Override
+    protected void onEnable() {
+        super.onEnable();
+        if (fakeDamage.isToggled()) {
+            mc.player.handleStatusUpdate((byte) 2);
+        }
     }
 
     @Override
@@ -45,6 +57,10 @@ public class Flight extends Module {
     @Subscribe
     public final IEventListener<PreMotionEvent> onPreMotion = e -> {
         this.setSuffix(mode.getMode());
+
+        if (bobbing.isToggled()) {
+            mc.player.cameraYaw = 0.1f;
+        }
 
         switch (mode.getMode()){
             case "Creative":

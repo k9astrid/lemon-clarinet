@@ -43,7 +43,7 @@ public class NotificationManager implements IMethods {
                 }
 
                 RenderUtil.drawRound(Math.round(notification.animationUtil.getX()), Math.round(notification.animationUtil.getY()), Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) + 35, 17, 4,
-                        new Color(25, 25, 25, 80));
+                        new Color(25, 25, 25, 160));
 
                 if (!HUD.optimizeVisuals.isToggled())
                     PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(Math.round(notification.animationUtil.getX()), Math.round(notification.animationUtil.getY()), Fonts.GREYCLIFF_BOLD_22.getStringWidth(notification.text) + 35, 17, 4,

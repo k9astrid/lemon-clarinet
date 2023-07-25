@@ -18,10 +18,12 @@ public abstract class Fonts {
     public static final CFontRenderer BOLD_16 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_16 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_22 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 22), true, true);
+    public static final CFontRenderer GREYCLIFF_BOLD_222 = new CFontRenderer(Fonts.getFonts("greycliff.ttf", 22), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_18 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 18), true, true);
     public static final CFontRenderer GREYCLIFF_22 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 22), true, true);
     public static final CFontRenderer GREYCLIFF_16 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_18 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 18), true, true);
+    public static final CFontRenderer SF_18 = new CFontRenderer(Fonts.getFonts("sf_semibold.ttf", 18), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_26 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 26), true, true);
     public static final CFontRenderer ICON_35 = new CFontRenderer(Fonts.getFonts("icons.ttf", 35), true, true);
     public static final CFontRenderer MUSEO_20 = new CFontRenderer(Fonts.getFonts("MuseoSans_900.otf", 22), true, true);

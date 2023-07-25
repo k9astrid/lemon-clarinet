@@ -3,17 +3,21 @@ package dev.lemon.client.modules.render;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
+import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.utils.font.Fonts;
+import dev.lemon.api.utils.math.TimerUtil;
 import dev.lemon.api.utils.other.Animator;
 import dev.lemon.api.utils.other.Easing;
 import dev.lemon.api.utils.other.StencilUtils;
+import dev.lemon.api.utils.render.ColorUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.events.input.MouseEvent;
 import dev.lemon.client.events.render.Render2DEvent;
 import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.combat.KillAura;
+import dev.lemon.client.modules.render.targethud.Particle;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
@@ -24,19 +28,25 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityWaterMob;
+import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TargetHUD extends Module {
-    public ModeSetting modeValue = new ModeSetting("Mode", "Lemon", "Lemon", "Tenacity", "Old Tenacity", "Wave");
+    public ModeSetting modeValue = new ModeSetting("Mode", "Basic", "Basic");
     public NumberSetting posX = new NumberSetting("Pos X",
             0, 0, (double) Toolkit.getDefaultToolkit().getScreenSize().width / 2, 1, () -> false);
     public NumberSetting posY = new NumberSetting("Pos Y",
             0, 0, (double) Toolkit.getDefaultToolkit().getScreenSize().height / 2, 1, () -> false);
+    public BooleanSetting renderParticles = new BooleanSetting("Particles", false);
 
     private double draggingX, draggingY, width, height;
-    private boolean dragging;
+    private boolean dragging, sentParticles;
 
     private final Animator animator = new Animator();
 
@@ -46,11 +56,14 @@ public class TargetHUD extends Module {
 
     public EntityLivingBase target, finalTarget;
 
+    private final List<Particle> particles = new ArrayList<>();
+    private TimerUtil timer = new TimerUtil();
+
     @Subscribe
     private final IEventListener<Render2DEvent> onRender2D = e -> {
         if (Lemon.INSTANCE.getModuleManager().getModuleByName("Kill Aura").isToggled() && KillAura.target != null) {
             this.target = (EntityLivingBase) KillAura.target;
-            if (!(this.target instanceof EntityMob || this.target instanceof EntityAnimal || this.target instanceof EntityAgeable || this.target instanceof EntityWaterMob))
+            if (!(this.target instanceof EntityMob || this.target instanceof EntityAnimal || this.target instanceof EntityWaterMob))
                 this.finalTarget = this.target;
         } else
             this.target = null;
@@ -63,6 +76,9 @@ public class TargetHUD extends Module {
                 }
             }
         }
+
+        if (finalTarget == null && target == null)
+            particles.clear();
 
         if (finalTarget == null)
             return;
@@ -85,8 +101,8 @@ public class TargetHUD extends Module {
         this.posY.setValue(Math.max(this.posY.getVal(), 0.5));
 
         this.animator.setMin(0).setMax(1).setSpeed(3.3f);
-        Easing animationTypeOut = Easing.CUBIC_OUT;
-        Easing animationTypeIn = Easing.CUBIC_IN;
+        Easing animationTypeOut = Easing.QUINTIC_OUT;
+        Easing animationTypeIn = Easing.QUINTIC_IN;
 
         if (this.target != null && this.animator.getValue() <= 1F) {
             this.animator.setEase(animationTypeOut).setReversed(false).update();
@@ -108,68 +124,82 @@ public class TargetHUD extends Module {
         }
 
         switch (modeValue.getMode()) {
-            case "Tenacity":
-                this.width = 143;
-                this.height = 47;
-
-                RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 7,
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
-
-                Fonts.GREYCLIFF_BOLD_18.drawCenteredString(finalTarget.getName(), 90, 12, -1);
-                Fonts.GREYCLIFF_18.drawCenteredString(Math.round((finalTarget.getHealth() * 5)) + "% - " + Math.round(mc.player.getDistanceToEntity(finalTarget)) + "m", 87 + 3, 34, -1);
-                GlStateManager.pushMatrix();
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255, 255, 255));
-                GlStateManager.popMatrix();
-
-                if (finalTarget != null && finalTarget instanceof AbstractClientPlayer) {
-                    GlStateManager.enableCull();
-                    mc.getTextureManager().bindTexture(((AbstractClientPlayer) finalTarget).getLocationSkin());
-                    GlStateManager.pushMatrix();
-                    StencilUtils.write(false);
-                    RenderUtil.drawCircle(25, (32) - 8, 16.0D, 0, 360, -1);
-                    StencilUtils.erase(true);
-                    Gui.drawScaledCustomSizeModalRect(8, 6, 8.0F, 8.0F, 8, 8, 34, 34, 64.0F, 66.0F);
-                    StencilUtils.dispose();
-                    GlStateManager.popMatrix();
-                }
-                break;
-            case "Lemon":
+            case "Basic":
                 this.width = 145;
                 this.height = 48;
 
-                RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 5,
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+                if (!HUD.newStyle.isToggled())
+                    RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 5,
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
                 RenderUtil.drawRound(1F, 1, (float) width - 2, (float) height - 2, 4, new Color(0, 0, 0, 160));
+
+                if (renderParticles.isToggled()) {
+                    for (Particle p : particles)
+                        if (p.opacity > 1) p.render();
+                }
 
                 Fonts.GREYCLIFF_BOLD_18.drawString(finalTarget.getName(), 47, 12, -1);
                 Fonts.GREYCLIFF_18.drawString("HP: " + Math.round((finalTarget.getHealth() * 5)) + "%", 47, 23, -1);
                 GlStateManager.pushMatrix();
                 RenderUtil.drawRound(47, 34.2f, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
+
                 RenderUtil.drawGradientRound(47, 35, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f) + 0.5f, 2.5f, 1.5f,
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
-                RenderUtil.drawRound(47.5f, 35.5f, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 2, 1.5f, new Color(255, 255, 255, 100));
+                RenderUtil.drawRound(47.5f, 35.5f, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 2, 1.2f, new Color(255, 255, 255, 100));
                 GlStateManager.popMatrix();
 
-                if (finalTarget != null && finalTarget instanceof AbstractClientPlayer) {
+
+                if (finalTarget instanceof AbstractClientPlayer) {
+                    final double offset = finalTarget.hurtTime * .35f;
                     GlStateManager.enableCull();
                     mc.getTextureManager().bindTexture(((AbstractClientPlayer) finalTarget).getLocationSkin());
                     GlStateManager.pushMatrix();
                     StencilUtils.write(false);
-                    RenderUtil.drawRound(9, 9, 31, 30, 8, new Color(0, 0, 0, 140));
+                    RenderUtil.drawRound((float) (10 + offset / 2f), (float) (9 + offset / 2f), (float) (31 - offset), (float) (30 - offset), 5, new Color(0, 0, 0, 140));
                     StencilUtils.erase(true);
-                    Gui.drawScaledCustomSizeModalRect(8, 6, 8.0F, 8.0F, 8, 8, 34, 34, 64.0F, 66.0F);
+                    final double hurt = -finalTarget.hurtTime * 23;
+                    GL11.glColor4d(255 / 255f, (255 + hurt) / 255f, (255 + hurt) / 255f, 1f);
+                    Gui.drawScaledCustomSizeModalRect(9, 6, 8.0F, 8.0F, 8, 8, 34, 34, 64.0F, 66.0F);
                     StencilUtils.dispose();
                     GlStateManager.popMatrix();
+                    GL11.glColor4d(255 / 255f, 255 / 255f, 255 / 255f, 1f);
+                }
+
+                if (renderParticles.isToggled()) {
+                    if (timer.hasTimeElapsed(1000 / 60)) {
+                        for (final Particle p : particles) {
+                            p.update();
+
+                            if (p.opacity < 1)
+                                particles.remove(p);
+                        }
+
+                        timer.reset();
+                    }
+
+                    if (finalTarget.hurtTime == 9 && !sentParticles) {
+                        for (int i = 0; i <= 25; i++) {
+                            final Particle p = new Particle();
+                            final Color color = ColorUtil.mixColors(
+                                    Lemon.INSTANCE.getColorManager().getColor().getFirstColor(),
+                                    Lemon.INSTANCE.getColorManager().getColor().getSecondColor(),
+                                    (Math.sin(posX.getVal() * .4f + i) + 1) * .5f);
+
+                            p.set(31 / 1.4f, 31 / 1.4f, ((Math.random() - .5) * 2) * 1.2, ((Math.random() - .5) * 2) * 1.2, Math.random() * 4, color);
+                            particles.add(p);
+                        }
+
+                        sentParticles = true;
+                    }
+
+                    if (finalTarget.hurtTime == 8)
+                        sentParticles = false;
                 }
                 break;
         }

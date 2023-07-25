@@ -19,7 +19,6 @@ MavenMCP.iml
 # Lemono
 workspace/saves
 workspace/servers.dat
-workspace/assets
 workspace/options.txt
 workspace/optionsof.txt
 workspace/logs
@@ -30,3 +29,7 @@ workspace/shaderpacks
 workspace/Lemon
 workspace/crash-reports
 workspace/usercache.json
+workspace/assets/objects
+workspace/assets/indexes
+workspace/assets/skins
+workspace/assets/log_configs

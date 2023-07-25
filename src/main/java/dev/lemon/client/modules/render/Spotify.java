@@ -29,6 +29,7 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.TimeUnit;
 
 public class Spotify extends Module {
     public TextSetting clientID = new TextSetting("Client ID");
@@ -104,12 +105,15 @@ public class Spotify extends Module {
         GlStateManager.translate(this.posX.getVal(), this.posY.getVal(), 0);
         this.width = 135 + 20;
         this.height = 45;
-        RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 6,
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
-        RenderUtil.drawRound(1, 1, (float) width - 2, (float) height - 2, 5, new Color(0, 0, 0, 100));
+
+        if (!HUD.newStyle.isToggled())
+            RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 6,
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+
+        RenderUtil.drawRound(1, 1, (float) width - 2, (float) height - 2, 5, new Color(0, 0, 0, 160));
 
         Scissoring.push();
         Scissoring.setFromComponentCoordinates((int) (posX.getVal() + 45), (int) (posY.getVal() + 3), (int) width - (45), (int) height);
@@ -126,11 +130,38 @@ public class Spotify extends Module {
             scrollArtist.reset();
         }
 
-        boolean needsToScrollTrack = Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) > 48;
-        boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 140 + (45);
+        boolean needsToScrollTrack = Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) > 96;
+        boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 96;
 
-        Fonts.GREYCLIFF_BOLD_26.drawString(currentTrack.getName(), 45, 5, -1);
-        Fonts.GREYCLIFF_16.drawString(artistsDisplay.toString(), 46, 17 + 2, new Color(60, 60, 60, 255).getRGB());
+        long mins = (TimeUnit.MILLISECONDS.toMinutes(currentPlayingContext.getProgress_ms()));
+        long mins2 = (TimeUnit.MILLISECONDS.toMinutes(currentTrack.getDurationMs()));
+        long sec = (TimeUnit.MILLISECONDS.toSeconds(currentPlayingContext.getProgress_ms()) % 60);
+        long sec2 = (TimeUnit.MILLISECONDS.toSeconds(currentTrack.getDurationMs()) % 60);
+        String secondsStr = Long.toString(sec);
+        String secs;
+        if (secondsStr.length() >= 2) {
+            secs = secondsStr.substring(0, 2);
+        } else {
+            secs = "0" + secondsStr;
+        }
+
+        String secondsStr2 = Long.toString(sec2);
+        String secs2;
+        if (secondsStr2.length() >= 2)
+            secs2 = secondsStr2.substring(0, 2);
+        else
+            secs2 = "0" + secondsStr2;
+
+        float trackX = (float) ((float) (45 - Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName())) +
+                ((Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) + width) * scrollTrack.getLinearOutput()));
+
+        float artistX = (float) ((float) (45 - Fonts.GREYCLIFF_16.getStringWidth(artistsDisplay.toString())) +
+                ((Fonts.GREYCLIFF_16.getStringWidth(artistsDisplay.toString()) + width) * scrollArtist.getLinearOutput()));
+
+        Fonts.GREYCLIFF_BOLD_26.drawStringWithShadow(currentTrack.getName(), needsToScrollTrack ? trackX : 45, 7, -1);
+        Fonts.GREYCLIFF_16.drawStringWithShadow(artistsDisplay.toString(), needsToScrollArtist ? artistX : 46, 21, new Color(201, 201, 201, 255).getRGB());
+        Fonts.GREYCLIFF_16.drawStringWithShadow(mins + ":" + secs + " / " + mins2 + ":" + secs2,
+                width - Fonts.GREYCLIFF_16.getStringWidth(mins + ":" + secs + " / " + mins2 + ":" + secs2) - 4, 29, new Color(200,200,200).getRGB());
         Scissoring.unset();
         Scissoring.pop();
 
@@ -157,9 +188,8 @@ public class Spotify extends Module {
 
             mc.getTextureManager().loadTexture(currentAlbumCover = new ResourceLocation("spotifyAlbums/" + currentTrack.getAlbum().getId()), albumCover);
         }
-
         RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f), 4, 1.5f, new Color(0, 0, 0, 170));
-        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 4, 1.5f, new Color(255, 255, 255, 255));
+        RenderUtil.drawRound(45F, (float) (this.height - 10), (float) (this.width - 50f + 1) * ((float) currentPlayingContext.getProgress_ms() / currentTrack.getDurationMs()), 4, 1.5f, new Color(255, 255, 255, 255));
 
         GlStateManager.popMatrix();
     };

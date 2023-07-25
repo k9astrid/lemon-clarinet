@@ -4,6 +4,6 @@ import lombok.*;
 
 @Getter @Setter @AllArgsConstructor
 public class MoveInputEvent {
-    private float forward, strafe;
+    private float forward, strafe, sneakSpeed;
     private boolean jump, sneak;
 }

@@ -10,12 +10,14 @@ public class ModeSetting extends Setting {
     public List<String> modes;
     public String currentMode;
 
+
     public ModeSetting(String name, String current, String... modes) {
         this.name = name;
         this.modes = Arrays.asList(modes);
         index = this.modes.indexOf(current);
         this.currentMode = this.modes.get(index);
         this.visible = () -> true;
+        this.save = () -> true;
     }
 
     public ModeSetting(String name, String current, Supplier<Boolean> visible, String... modes) {
@@ -24,6 +26,7 @@ public class ModeSetting extends Setting {
         index = this.modes.indexOf(current);
         this.currentMode = this.modes.get(index);
         this.visible = visible;
+        this.save = () -> true;
     }
 
     public void setMode(String mode) {

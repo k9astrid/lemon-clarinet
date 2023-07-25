@@ -4,6 +4,7 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
+import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.StrafeEvent;
@@ -171,6 +172,20 @@ public class Speed extends Module {
                         if (mc.player.onGround) {
                             mc.player.jump();
                             MoveUtil.strafe(0.4175f);
+                        }
+                        break;
+                    case "Fast":
+                        if (mc.player.onGround) {
+                            mc.player.jump();
+                            MoveUtil.strafe(0.4175f);
+                            jumps++;
+                        }
+
+                        if (mc.player.offGroundTicks == 4) {
+                            mc.player.motionY = -0.1;
+                        }
+                        if (mc.player.offGroundTicks == 6) {
+                            mc.player.motionY = -0.44;
                         }
                         break;
                 }
