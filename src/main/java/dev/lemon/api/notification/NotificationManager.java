@@ -12,9 +12,10 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationManager implements IMethods {
-    public ArrayList<Notification> notifications = new ArrayList<>();
+    public List<Notification> notifications = new ArrayList<>();
 
     public void call(String text, NotificationType type) {
         ScaledResolution sr = new ScaledResolution(mc);
