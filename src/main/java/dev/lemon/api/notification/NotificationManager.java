@@ -56,9 +56,7 @@ public class NotificationManager implements IMethods {
                 Fonts.GREYCLIFF_BOLD_22.drawString(notification.text, Math.round(notification.animationUtil.getX()) + 10 + Fonts.ICON_35.getStringWidth(notification.type.getIcon()), (Math.round(notification.animationUtil.getY()) + 8) - Fonts.GREYCLIFF_BOLD_22.getHeight() / 2f + 3, -1);
                 offset += 26;
             }
-        }
-        catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) { }
     }
 
     public static int calc(int value) {
