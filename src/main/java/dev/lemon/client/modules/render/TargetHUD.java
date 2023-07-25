@@ -29,7 +29,7 @@ import org.lwjgl.input.Mouse;
 import java.awt.*;
 
 public class TargetHUD extends Module {
-    public ModeSetting modeValue = new ModeSetting("Mode", "Tenacity", "Tenacity", "Old Tenacity", "Wave", "Lemon");
+    public ModeSetting modeValue = new ModeSetting("Mode", "Lemon", "Lemon", "Tenacity", "Old Tenacity", "Wave");
     public NumberSetting posX = new NumberSetting("Pos X",
             0, 0, (double) Toolkit.getDefaultToolkit().getScreenSize().width / 2, 1, () -> false);
     public NumberSetting posY = new NumberSetting("Pos Y",
