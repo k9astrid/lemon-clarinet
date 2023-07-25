@@ -129,8 +129,8 @@ public class Spotify extends Module {
             scrollArtist.reset();
         }
 
-        boolean needsToScrollTrack = Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) > 48;
-        boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 140 + (45);
+        boolean needsToScrollTrack = Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) > 96;
+        boolean needsToScrollArtist = Fonts.GREYCLIFF_22.getStringWidth(artistsDisplay.toString()) > 96;
 
         long mins = (TimeUnit.MILLISECONDS.toMinutes(currentPlayingContext.getProgress_ms()));
         long mins2 = (TimeUnit.MILLISECONDS.toMinutes(currentTrack.getDurationMs()));
@@ -151,8 +151,14 @@ public class Spotify extends Module {
         else
             secs2 = "0" + secondsStr2;
 
-        Fonts.GREYCLIFF_BOLD_26.drawStringWithShadow(currentTrack.getName(), 45, 7, -1);
-        Fonts.GREYCLIFF_16.drawStringWithShadow(artistsDisplay.toString(), 46, 21, new Color(201, 201, 201, 255).getRGB());
+        float trackX = (float) ((float) (45 - Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName())) +
+                ((Fonts.GREYCLIFF_BOLD_26.getStringWidth(currentTrack.getName()) + width) * scrollTrack.getLinearOutput()));
+
+        float artistX = (float) ((float) (45 - Fonts.GREYCLIFF_16.getStringWidth(artistsDisplay.toString())) +
+                ((Fonts.GREYCLIFF_16.getStringWidth(artistsDisplay.toString()) + width) * scrollArtist.getLinearOutput()));
+
+        Fonts.GREYCLIFF_BOLD_26.drawStringWithShadow(currentTrack.getName(), needsToScrollTrack ? trackX : 45, 7, -1);
+        Fonts.GREYCLIFF_16.drawStringWithShadow(artistsDisplay.toString(), needsToScrollArtist ? artistX : 46, 21, new Color(201, 201, 201, 255).getRGB());
         Fonts.GREYCLIFF_16.drawStringWithShadow(mins + ":" + secs + " / " + mins2 + ":" + secs2,
                 width - Fonts.GREYCLIFF_16.getStringWidth(mins + ":" + secs + " / " + mins2 + ":" + secs2) - 4, 29, new Color(200,200,200).getRGB());
         Scissoring.unset();
