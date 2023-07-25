@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StringUtils;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector4f;
 
 import java.awt.*;

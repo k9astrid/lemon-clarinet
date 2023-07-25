@@ -3,7 +3,6 @@ package dev.lemon.client.modules.render;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
-import dev.lemon.api.notification.NotificationType;
 import dev.lemon.api.setting.impl.NumberSetting;
 import dev.lemon.api.setting.impl.TextSetting;
 import dev.lemon.api.spotify.SpotifyAPI;
@@ -11,7 +10,6 @@ import dev.lemon.api.utils.font.Fonts;
 import dev.lemon.api.utils.other.Animation;
 import dev.lemon.api.utils.other.DecelerateAnimation;
 import dev.lemon.api.utils.other.Direction;
-import dev.lemon.api.utils.render.PostProcessingUtil;
 import dev.lemon.api.utils.render.RenderUtil;
 import dev.lemon.client.events.input.MouseEvent;
 import dev.lemon.client.events.render.Render2DEvent;
@@ -91,9 +89,9 @@ public class Spotify extends Module {
             if (!(mc.currentScreen instanceof GuiChat)) {
                 this.dragging = false;
             } else {
-                this.posX.setValue(this.draggingX + (Mouse.getX() * sr.getScaledWidth() / mc.displayWidth));
-                this.posY.setValue(this.draggingY + (sr.getScaledHeight() - Mouse.getY() *
-                        sr.getScaledHeight() / mc.displayHeight - 1));
+                this.posX.setValue(this.draggingX + ((double) (Mouse.getX() * sr.getScaledWidth()) / mc.displayWidth));
+                this.posY.setValue(this.draggingY + (sr.getScaledHeight() - (double) (Mouse.getY() *
+                        sr.getScaledHeight()) / mc.displayHeight - 1));
             }
         }
 

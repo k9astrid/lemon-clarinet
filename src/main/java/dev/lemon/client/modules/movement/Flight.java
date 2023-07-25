@@ -5,31 +5,23 @@ import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.api.setting.impl.NumberSetting;
-import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.client.events.other.CollideEvent;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
 public class Flight extends Module {
-
     public ModeSetting mode = new ModeSetting("Mode", "Creative", "Creative", "Vanilla", "Collide", "Vulcan");
     public ModeSetting vulcanMode = new ModeSetting("Vulcan Mode", "Glide", () -> mode.is("Vulcan"), "Glide", "");
 
     public NumberSetting vanillaSpeed = new NumberSetting("Vanilla Speed", 1, 0, 5, 0.1,() -> mode.is("Vanilla"));
 
-
     public Flight() {
         super("Flight", Category.MOVEMENT);
     }
 
-    
     @Override
     protected void onDisable() {
-
         if (mc.player == null)
             return;
 
@@ -65,6 +57,7 @@ public class Flight extends Module {
 
                 MoveUtil.strafe(vanillaSpeed.getVal());
                 break;
+
             case "Vulcan":
                 switch (vulcanMode.getMode()) {
                     case "Glide":

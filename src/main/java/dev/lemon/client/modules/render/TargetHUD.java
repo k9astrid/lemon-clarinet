@@ -64,16 +64,18 @@ public class TargetHUD extends Module {
             }
         }
 
-        if (finalTarget == null) return;
+        if (finalTarget == null)
+            return;
 
         ScaledResolution sr = new ScaledResolution(mc);
+
         if (this.dragging) {
             if (!(mc.currentScreen instanceof GuiChat)) {
                 this.dragging = false;
             } else {
-                this.posX.setValue(this.draggingX + (Mouse.getX() * sr.getScaledWidth() / mc.displayWidth));
-                this.posY.setValue(this.draggingY + (sr.getScaledHeight() - Mouse.getY() *
-                        sr.getScaledHeight() / mc.displayHeight - 1));
+                this.posX.setValue(this.draggingX + ((double) (Mouse.getX() * sr.getScaledWidth()) / mc.displayWidth));
+                this.posY.setValue(this.draggingY + (sr.getScaledHeight() - (double) (Mouse.getY() *
+                        sr.getScaledHeight()) / mc.displayHeight - 1));
             }
         }
 

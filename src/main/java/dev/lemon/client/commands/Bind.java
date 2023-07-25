@@ -11,16 +11,17 @@ import org.lwjgl.input.Keyboard;
 public class Bind extends Command {
 
     @Override
-    public void onExecute(String[] args){
+    public void onExecute(String[] args) {
        if (args.length != 3) {
            ChatUtil.send(".bind <module> <key>");
            return;
        }
 
        for (Module m : Lemon.INSTANCE.getModuleManager().getModulesMap().values()) {
-           if (m.getName().replace(" ", "").equalsIgnoreCase(args[1])){
+           if (m.getName().replace(" ", "").equalsIgnoreCase(args[1])) {
                m.setKey(Keyboard.getKeyIndex(args[2].toUpperCase()));
-               ChatUtil.send("Bound "+m.getName()+" to key "+Keyboard.getKeyName(m.getKey()));
+
+               ChatUtil.send("Bound " + m.getName() + " to key " + Keyboard.getKeyName(m.getKey()));
            }
        }
     }

@@ -73,13 +73,13 @@ public class GuiAltManager extends GuiScreen {
                         String[] splitString = this.field_146302_g.getText().split(":");
 
                         MicrosoftAuthResult result = authenticator.loginWithCredentials(splitString[0], splitString[1]);
-                        this.mc.session = new Session(result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), "legacy");
+                        mc.session = new Session(result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), "legacy");
 
                     } catch (Exception e ){
                         e.printStackTrace();
                     }
                 } else {
-                    this.mc.session = new Session(this.field_146302_g.getText(), "", "", "legacy");
+                    mc.session = new Session(this.field_146302_g.getText(), "", "", "legacy");
                 }
             } else if (button.id == 2){
                 me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator authenticator = new me.chaosdave34.microsoftauthenticator.MicrosoftAuthenticator("526b3e37-6aa9-45ef-989f-ed84bfb47f18", "aY78Q~1zman1vukdI.ZzirYvGsWkxY0pjBOLFcEB");

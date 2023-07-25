@@ -8,7 +8,7 @@ import dev.lemon.api.utils.player.ChatUtil;
 public class Test extends Command {
 
     @Override
-    public void onExecute(String[] args){
+    public void onExecute(String[] args) {
         ChatUtil.send("the command system works!");
     }
 }

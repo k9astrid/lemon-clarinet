@@ -24,7 +24,7 @@ public class InventoryMove extends Module {
         super("Inventory Move", Category.MOVEMENT);
     }
 
-    private final KeyBinding[] AFFECTED_BINDINGS = new KeyBinding[]{
+    private final KeyBinding[] AFFECTED_BINDINGS = new KeyBinding[] {
             mc.gameSettings.keyBindForward,
             mc.gameSettings.keyBindBack,
             mc.gameSettings.keyBindRight,

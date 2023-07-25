@@ -1,7 +1,5 @@
 package dev.lemon.client.modules.render;
 
-import dev.lemon.api.event.IEventListener;
-import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
 import dev.lemon.api.setting.impl.BooleanSetting;
 import dev.lemon.api.setting.impl.ModeSetting;
@@ -27,10 +25,6 @@ public class CustomModel extends Module {
     }
 
     private static final Map<Object, Color> entityColorMap = new HashMap<>();
-
-    @Override
-    protected void onDisable() {
-    }
 
     @Override
     protected void onEnable() {

@@ -367,17 +367,17 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        switch (BlockAnimation.mode.getMode()) {
-                            case "1.7":
-                                this.transformFirstPersonItem(f, f1);
-                                this.func_178103_d();
-                                break;
-                            case "1.8":
-                                this.transformFirstPersonItem(f, 0.0F);
-                                this.func_178103_d();
-                                break;
+                        if (Lemon.INSTANCE.getModuleManager().getModuleByName("Block Animation").isToggled()) {
+                            switch (BlockAnimation.mode.getMode()) {
+                                case "1.7":
+                                    this.transformFirstPersonItem(f, f1);
+                                    this.func_178103_d();
+                                    break;
+                            }
+                        } else {
+                            this.transformFirstPersonItem(f, 0.0F);
+                            this.func_178103_d();
                         }
-
                         break;
 
                     case 5:

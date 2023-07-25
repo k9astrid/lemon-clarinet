@@ -3,7 +3,6 @@ package dev.lemon.client.modules.render;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.module.Module;
-import dev.lemon.api.setting.impl.ModeSetting;
 import dev.lemon.client.events.render.Render3DEvent;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;

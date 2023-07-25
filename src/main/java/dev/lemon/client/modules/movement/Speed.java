@@ -4,7 +4,6 @@ import dev.lemon.api.module.Module;
 import dev.lemon.api.event.IEventListener;
 import dev.lemon.api.event.annotations.Subscribe;
 import dev.lemon.api.setting.impl.ModeSetting;
-import dev.lemon.api.utils.player.ChatUtil;
 import dev.lemon.client.events.motion.PreMotionEvent;
 import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.StrafeEvent;
@@ -215,8 +214,6 @@ public class Speed extends Module {
                     mc.player.motionY = 0.42f * .78;
                     MoveUtil.strafe(MoveUtil.baseSpeed());
                 }
-                break;
-            case "Debug":
                 break;
         }
     };
