@@ -35,6 +35,7 @@ public class HUD extends Module {
     public static BooleanSetting watermark = new BooleanSetting("Watermark", false);
     public static BooleanSetting toggleNotifications = new BooleanSetting("Toggle Notifications", false);
     public static BooleanSetting optimizeVisuals = new BooleanSetting("Optimize Visuals", false);
+    public static BooleanSetting newStyle = new BooleanSetting("New Style", false);
 
     public HUD() {
         super("HUD", Category.RENDER);
@@ -50,11 +51,12 @@ public class HUD extends Module {
     @Subscribe
     public final IEventListener<Render2DEvent> onRender2D = e -> {
         if (watermark.isToggled()) {
-            RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+            if (!newStyle.isToggled())
+                RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
 
             if (!optimizeVisuals.isToggled())
                 PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
@@ -63,7 +65,10 @@ public class HUD extends Module {
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
 
-            RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
+            if (!newStyle.isToggled())
+                RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
+            else
+                RenderUtil.drawRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 3.5f, new Color(0, 0, 0, 160));
             Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
         }
 

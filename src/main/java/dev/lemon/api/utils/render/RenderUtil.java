@@ -325,7 +325,7 @@ public class RenderUtil implements IMethods {
         GlStateManager.disableBlend();
     }
 
-    public static void drawGradientRound(float x, float y, float width, float height, float radius, Color bottomLeft, Color topLeft, Color bottomRight, Color topRight) {
+    public static void drawGradientRound(float x, float y, float width, float height, float radius, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight) {
         GlStateManager.resetColor();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

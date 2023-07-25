@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TargetHUD extends Module {
-    public ModeSetting modeValue = new ModeSetting("Mode", "Lemon", "Lemon", "Tenacity");
+    public ModeSetting modeValue = new ModeSetting("Mode", "Basic", "Basic");
     public NumberSetting posX = new NumberSetting("Pos X",
             0, 0, (double) Toolkit.getDefaultToolkit().getScreenSize().width / 2, 1, () -> false);
     public NumberSetting posY = new NumberSetting("Pos Y",
@@ -124,44 +124,16 @@ public class TargetHUD extends Module {
         }
 
         switch (modeValue.getMode()) {
-            case "Tenacity":
-                this.width = 143;
-                this.height = 47;
-
-                RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 7,
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
-
-                Fonts.GREYCLIFF_BOLD_18.drawCenteredString(finalTarget.getName(), 90, 12, -1);
-                Fonts.GREYCLIFF_18.drawCenteredString(Math.round((finalTarget.getHealth() * 5)) + "% - " + Math.round(mc.player.getDistanceToEntity(finalTarget)) + "m", 87 + 3, 34, -1);
-                GlStateManager.pushMatrix();
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
-                RenderUtil.drawRound(47, 22, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f), 4, 1.5f, new Color(255, 255, 255));
-                GlStateManager.popMatrix();
-
-                if (finalTarget != null && finalTarget instanceof AbstractClientPlayer) {
-                    GlStateManager.enableCull();
-                    mc.getTextureManager().bindTexture(((AbstractClientPlayer) finalTarget).getLocationSkin());
-                    GlStateManager.pushMatrix();
-                    StencilUtils.write(false);
-                    RenderUtil.drawCircle(25, (32) - 8, 16.0D, 0, 360, -1);
-                    StencilUtils.erase(true);
-                    Gui.drawScaledCustomSizeModalRect(8, 6, 8.0F, 8.0F, 8, 8, 34, 34, 64.0F, 66.0F);
-                    StencilUtils.dispose();
-                    GlStateManager.popMatrix();
-                }
-                break;
-            case "Lemon":
+            case "Basic":
                 this.width = 145;
                 this.height = 48;
 
-                RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 5,
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+                if (!HUD.newStyle.isToggled())
+                    RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 5,
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                            Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
                 RenderUtil.drawRound(1F, 1, (float) width - 2, (float) height - 2, 4, new Color(0, 0, 0, 160));
 
                 if (renderParticles.isToggled()) {
@@ -173,6 +145,7 @@ public class TargetHUD extends Module {
                 Fonts.GREYCLIFF_18.drawString("HP: " + Math.round((finalTarget.getHealth() * 5)) + "%", 47, 23, -1);
                 GlStateManager.pushMatrix();
                 RenderUtil.drawRound(47, 34.2f, (float) (this.width / 2) + 18, 4, 1.5f, new Color(0, 0, 0, 90));
+
                 RenderUtil.drawGradientRound(47, 35, (float) (this.width / 2) - 69 + ((finalTarget.getHealth() / finalTarget.getMaxHealth()) * 86.8f) + 0.5f, 2.5f, 1.5f,
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
                         Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
@@ -199,7 +172,7 @@ public class TargetHUD extends Module {
                 }
 
                 if (renderParticles.isToggled()) {
-                    if (timer.hasTimeElapsed(1000 / 70)) {
+                    if (timer.hasTimeElapsed(1000 / 60)) {
                         for (final Particle p : particles) {
                             p.update();
 

@@ -19,7 +19,6 @@ MavenMCP.iml
 # Lemono
 workspace/saves
 workspace/servers.dat
-workspace/assets
 workspace/options.txt
 workspace/optionsof.txt
 workspace/logs

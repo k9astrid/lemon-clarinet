@@ -106,11 +106,12 @@ public class Spotify extends Module {
         this.width = 135 + 20;
         this.height = 45;
 
-        RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 6,
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+        if (!HUD.newStyle.isToggled())
+            RenderUtil.drawGradientRound(0, 0, (float) width, (float) height, 6,
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
 
         RenderUtil.drawRound(1, 1, (float) width - 2, (float) height - 2, 5, new Color(0, 0, 0, 160));
 

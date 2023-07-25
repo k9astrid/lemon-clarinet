@@ -45,19 +45,17 @@ public class Config implements IMethods {
 
                 JsonObject vObject = new JsonObject();
                 m.getSettings().forEach(v -> {
-                    if (v.canSave()) {
-                        if (v instanceof BooleanSetting)
-                            vObject.addProperty(v.name, ((BooleanSetting) v).isToggled());
+                    if (v instanceof BooleanSetting)
+                        vObject.addProperty(v.name, ((BooleanSetting) v).isToggled());
 
-                        if (v instanceof ModeSetting)
-                            vObject.addProperty(v.name, ((ModeSetting) v).getMode());
+                    if (v instanceof ModeSetting)
+                        vObject.addProperty(v.name, ((ModeSetting) v).getMode());
 
-                        if (v instanceof TextSetting && saveKeybinds)
-                            vObject.addProperty(v.name, ((TextSetting) v).getText());
+                    if (v instanceof TextSetting)
+                        vObject.addProperty(v.name, ((TextSetting) v).getText());
 
-                        if (v instanceof NumberSetting)
-                            vObject.addProperty(v.name, ((NumberSetting) v).getVal());
-                    }
+                    if (v instanceof NumberSetting)
+                        vObject.addProperty(v.name, ((NumberSetting) v).getVal());
                 });
 
                 mObject.add("values", vObject);
@@ -90,7 +88,7 @@ public class Config implements IMethods {
                                     if (v instanceof BooleanSetting)
                                         ((BooleanSetting) v).setToggled(value.getValue().getAsBoolean());
 
-                                    if (v instanceof TextSetting && saveKeybinds)
+                                    if (v instanceof TextSetting)
                                         ((TextSetting) v).setText(value.getValue().getAsString());
 
                                     if (v instanceof ModeSetting)
