@@ -367,7 +367,7 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        if (Lemon.INSTANCE.getModuleManager().getModuleByName("Block Animation").isToggled()) {
+                        if (Lemon.INSTANCE.getModuleManager().getModuleByName("Block Animations").isToggled()) {
                             switch (BlockAnimation.mode.getMode()) {
                                 case "1.7":
                                     this.transformFirstPersonItem(f, f1);

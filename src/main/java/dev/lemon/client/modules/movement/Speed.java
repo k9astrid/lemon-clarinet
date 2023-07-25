@@ -73,10 +73,10 @@ public class Speed extends Module {
                             return;
                         }
 
-                        if (KillAura.target != null) {
-                            y = 0;
-                            return;
-                        }
+//                        if (KillAura.target != null) {
+//                            y = 0;
+//                            return;
+//                        }
 
                         if (MoveUtil.moving()) {
                             if (mc.player.onGround) {
