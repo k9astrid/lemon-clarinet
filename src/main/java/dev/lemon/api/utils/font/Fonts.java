@@ -23,7 +23,7 @@ public abstract class Fonts {
     public static final CFontRenderer GREYCLIFF_16 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 16), true, true);
     public static final CFontRenderer GREYCLIFF_18 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 18), true, true);
     public static final CFontRenderer GREYCLIFF_BOLD_26 = new CFontRenderer(Fonts.getFonts("Volte-Semibold.ttf", 26), true, true);
-    public static final CFontRenderer ICON_35 = new CFontRenderer(Fonts.getFonts("icon.ttf", 35), true, true);
+    public static final CFontRenderer ICON_35 = new CFontRenderer(Fonts.getFonts("icons.ttf", 35), true, true);
     public static final CFontRenderer MUSEO_20 = new CFontRenderer(Fonts.getFonts("MuseoSans_900.otf", 22), true, true);
     public static final CFontRenderer EAVES_18 = new CFontRenderer(Fonts.getFonts("Eaves.ttf", 18), true, true);
     public static final CFontRenderer NORMAL_18 = new CFontRenderer(Fonts.getFonts("Volte-Regular.ttf", 18), true, true);
