@@ -58,7 +58,7 @@ public enum Colors {
 
     public Color getGradientColor1() {
         return ColorUtil.interpolateColorsBackAndForth(
-                20,
+                5,
                 0,
                 Lemon.INSTANCE.getColorManager().getColor().firstColor,
                 Lemon.INSTANCE.getColorManager().getColor().secondColor,
@@ -68,7 +68,7 @@ public enum Colors {
 
     public Color getGradientColor2() {
         return ColorUtil.interpolateColorsBackAndForth(
-                20,
+                5,
                 90,
                 Lemon.INSTANCE.getColorManager().getColor().firstColor,
                 Lemon.INSTANCE.getColorManager().getColor().secondColor,
@@ -78,7 +78,7 @@ public enum Colors {
 
     public Color getGradientColor3() {
         return ColorUtil.interpolateColorsBackAndForth(
-                20,
+                5,
                 180,
                 Lemon.INSTANCE.getColorManager().getColor().firstColor,
                 Lemon.INSTANCE.getColorManager().getColor().secondColor,
@@ -88,7 +88,7 @@ public enum Colors {
 
     public Color getGradientColor4() {
         return ColorUtil.interpolateColorsBackAndForth(
-                20,
+                5,
                 270,
                 Lemon.INSTANCE.getColorManager().getColor().firstColor,
                 Lemon.INSTANCE.getColorManager().getColor().secondColor,

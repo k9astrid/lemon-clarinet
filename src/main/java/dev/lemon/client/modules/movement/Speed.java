@@ -9,9 +9,11 @@ import dev.lemon.api.utils.player.MoveUtil;
 import dev.lemon.client.events.motion.StrafeEvent;
 import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.client.modules.combat.KillAura;
+import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.BlockPos;
 
 public class Speed extends Module {
     public ModeSetting mode = new ModeSetting("Mode", "Strafe",
@@ -73,15 +75,16 @@ public class Speed extends Module {
                             return;
                         }
 
-//                        if (KillAura.target != null) {
-//                            y = 0;
-//                            return;
-//                        }
+                        if (KillAura.target != null) {
+                            y = 0;
+
+                            return;
+                        }
 
                         if (MoveUtil.moving()) {
                             if (mc.player.onGround) {
                                 if (cockMode.is("Ground2"))
-                                    mc.timer.timerSpeed = mc.player.ticksExisted % 10 == 0 ? 2.6f : 2.2f;
+                                    mc.timer.timerSpeed = mc.player.ticksExisted % 10 == 0 ? 2.7f : 2.2f;
 
                                 y = 0.01;
 
@@ -183,6 +186,9 @@ public class Speed extends Module {
         switch (mode.getMode()) {
             case "KoksCraft":
                 if (mc.player.isCollidedHorizontally)
+                    return;
+
+                if (KillAura.target != null)
                     return;
 
                 if (cockMode.is("Ground") || cockMode.is("Ground2")) {
