@@ -27,9 +27,9 @@ import java.util.Comparator;
 
 public class HUD extends Module {
 
-    public ModeSetting color = new ModeSetting("Color", "Venomous", "Venomous", "Peachy", "Sand Dune",
-            "Orange Coral", "Plum Plate", "Toxic", "Orbital", "Celestial", "Astolfo", "Mirror", "Rock", "Eternal Constance",
-            "Exotic", "Antarctica", "Piglet", "Black", "Oceanic Azure", "Pinky", "Minty", "Luminous Lavender");
+    public ModeSetting color = new ModeSetting("Color", "Warm",
+            "Warm", "Flawless", "Violet", "Cosmic", "Watery", "Fiery", "Bloody",
+            "Pleasant", "Light Weight");
 
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
     public static BooleanSetting watermark = new BooleanSetting("Watermark", false);
@@ -38,27 +38,34 @@ public class HUD extends Module {
 
     public HUD() {
         super("HUD", Category.RENDER);
-        this.setAutoEnabled(true);
     }
 
     @Subscribe
     private final IEventListener<TickEvent> onTick = e -> {
-        for (Colors colors : Colors.values()) {
-            if (colors.getColorName().equals(color.getMode())) {
+        for (Colors colors : Colors.values())
+            if (colors.getColorName().equals(color.getMode()))
                 Lemon.INSTANCE.getColorManager().setColor(colors);
-            }
-        }
     };
 
     @Subscribe
     public final IEventListener<Render2DEvent> onRender2D = e -> {
-        RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
-        RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
-        Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
+        if (watermark.isToggled()) {
+            RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                    Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+
+            if (!optimizeVisuals.isToggled())
+                PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
+
+            RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
+            Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
+        }
 
         ArrayList<Module> modules = new ArrayList<>();
 
@@ -70,11 +77,15 @@ public class HUD extends Module {
 
         int offsetY = (int) this.offset.getVal() + 1, spacing = 4, offsetX = (int) this.offset.getVal() + 2;
 
-
         for (Module m : modules) {
-            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX - 1, offsetY - 2, Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 5, Fonts.BOLD_18.getHeight() + spacing, new Color(0, 0, 0, 120).getRGB());
+            Gui.drawRect2(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) - offsetX - 1, offsetY - 2,
+                    Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 5, Fonts.BOLD_18.getHeight() + spacing,
+                    new Color(0, 0, 0, 120).getRGB());
+
             Fonts.BOLD_18.drawStringWithShadow(m.getDisplayName(), e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY + 2,
                     Lemon.INSTANCE.getColorManager().getColor().getColor(new Vector2d(e.getWidth() - Fonts.BOLD_18.getStringWidth(m.getDisplayName()) + 1 - offsetX, offsetY)).getRGB());
+
+
             offsetY += Fonts.BOLD_18.getHeight() + spacing;
         }
     };

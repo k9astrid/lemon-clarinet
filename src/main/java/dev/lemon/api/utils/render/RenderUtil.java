@@ -73,6 +73,35 @@ public class RenderUtil implements IMethods {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
+    public static void polygon(final double x, final double y, double sideLength, final double amountOfSides, final boolean filled, final Color color) {
+        sideLength /= 2;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GlStateManager.disableAlpha();
+        GlStateManager.disableDepth();
+        if (color != null)
+            setColor(color);
+        if (!filled) GL11.glLineWidth(2);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(filled ? GL11.GL_TRIANGLE_FAN : GL11.GL_LINE_STRIP);
+        {
+            for (double i = 0; i <= amountOfSides / 4; i++) {
+                final double angle = i * 4 * (Math.PI * 2) / 360;
+                GL11.glVertex2d(x + (sideLength * Math.cos(angle)) + sideLength, y + (sideLength * Math.sin(angle)) + sideLength);
+            }
+        }
+        GL11.glEnd();
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GlStateManager.enableAlpha();
+        GlStateManager.enableDepth();
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        setColor(Color.white);
+    }
+
     public static void setColor(Color color) {
         float alpha = (color.getRGB() >> 24 & 0xFF) / 255.0F;
         float red = (color.getRGB() >> 16 & 0xFF) / 255.0F;
