@@ -139,6 +139,11 @@ public class MoveUtil implements IMethods {
         return Math.hypot(mc.player.motionX, mc.player.motionZ);
     }
 
+    public double getBlocksPerSecond() {
+        return speed() * mc.timer.timerSpeed * 20;
+    }
+
+
     public double baseSpeed() {
         double speed;
         boolean useModifiers = false;
