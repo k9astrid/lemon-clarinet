@@ -46,43 +46,19 @@ public enum Colors {
     }
 
     public Color getGradientColor1() {
-        return ColorUtil.interpolateColorsBackAndForth(
-                5,
-                0,
-                Lemon.INSTANCE.getColorManager().getColor().firstColor,
-                Lemon.INSTANCE.getColorManager().getColor().secondColor,
-                false
-        );
+        return ColorUtil.applyOpacity(ColorUtil.interpolateColorsBackAndForth(5, 270, getFirstColor(), getSecondColor(), false), .85f);
     }
 
     public Color getGradientColor2() {
-        return ColorUtil.interpolateColorsBackAndForth(
-                5,
-                90,
-                Lemon.INSTANCE.getColorManager().getColor().firstColor,
-                Lemon.INSTANCE.getColorManager().getColor().secondColor,
-                false
-        );
+        return ColorUtil.interpolateColorsBackAndForth(5, 0, getFirstColor(), getSecondColor(), false);
     }
 
     public Color getGradientColor3() {
-        return ColorUtil.interpolateColorsBackAndForth(
-                5,
-                180,
-                Lemon.INSTANCE.getColorManager().getColor().firstColor,
-                Lemon.INSTANCE.getColorManager().getColor().secondColor,
-                false
-        );
+        return ColorUtil.interpolateColorsBackAndForth(5, 180, getFirstColor(), getSecondColor(), false);
     }
 
     public Color getGradientColor4() {
-        return ColorUtil.interpolateColorsBackAndForth(
-                5,
-                270,
-                Lemon.INSTANCE.getColorManager().getColor().firstColor,
-                Lemon.INSTANCE.getColorManager().getColor().secondColor,
-                false
-        );
+        return ColorUtil.interpolateColorsBackAndForth(5, 90, getFirstColor(), getSecondColor(), false);
     }
 
     public Color getFirstColor() {

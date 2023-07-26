@@ -17,12 +17,38 @@ public class ColorUtil {
 
     }
 
+    public static int applyOpacity(int color, float opacity) {
+        Color old = new Color(color);
+        return applyOpacity(old, opacity).getRGB();
+    }
+
+    public static Color applyOpacity(Color color, float opacity) {
+        opacity = Math.min(1, Math.max(0, opacity));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (color.getAlpha() * opacity));
+    }
+
     public static int fadeLemonColors(int index){
        return fadeColors(0xFF00ff0d, 0xFFffea01, index);
     }
 
     public static int fadeColors(int color1, int color2, int index){
         return fadeColors(color1, color2, (float) ((System.currentTimeMillis() + index * 100L) % 1000L) / 500.0f);
+    }
+
+    public static Color[] getAnalogousColor(Color color) {
+        Color[] colors = new Color[2];
+        float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+
+        float degree = 30 / 360f;
+
+        float newHueAdded = hsb[0] + degree;
+        colors[0] = new Color(Color.HSBtoRGB(newHueAdded, hsb[1], hsb[2]));
+
+        float newHueSubtracted = hsb[0] - degree;
+
+        colors[1] = new Color(Color.HSBtoRGB(newHueSubtracted, hsb[1], hsb[2]));
+
+        return colors;
     }
 
     public static Color interpolateColorsBackAndForth(int speed, int index, Color start, Color end, boolean trueColor) {
@@ -52,16 +78,16 @@ public class ColorUtil {
                 interpolateInt(color1.getAlpha(), color2.getAlpha(), amount));
     }
 
+    public static Double interpolate(double oldValue, double newValue, double interpolationValue){
+        return (oldValue + (newValue - oldValue) * interpolationValue);
+    }
+
     public static float interpolateFloat(float oldValue, float newValue, double interpolationValue){
         return interpolate(oldValue, newValue, (float) interpolationValue).floatValue();
     }
 
     public static int interpolateInt(int oldValue, int newValue, double interpolationValue){
         return interpolate(oldValue, newValue, (float) interpolationValue).intValue();
-    }
-
-    public static Double interpolate(double oldValue, double newValue, double interpolationValue){
-        return (oldValue + (newValue - oldValue) * interpolationValue);
     }
 
     public static Color mixColors(final Color color1, final Color color2, final double percent) {

@@ -267,8 +267,7 @@ public class ShaderUtil {
             "\n" +
             "}";
 
-    private final String roundedRectGradient =
-            "#version 120\n" +
+    private String roundedRectGradient = "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
             "uniform vec4 color1, color2, color3, color4;\n" +
@@ -280,8 +279,8 @@ public class ShaderUtil {
             "    return length(max(abs(p) - b , 0.0)) - r;\n" +
             "}\n" +
             "\n" +
-            "vec3 createGradient(vec2 coords, vec3 color1, vec3 color2, vec3 color3, vec3 color4){\n" +
-            "    vec3 color = mix(mix(color1.rgb, color2.rgb, coords.y), mix(color3.rgb, color4.rgb, coords.y), coords.x);\n" +
+            "vec4 createGradient(vec2 coords, vec4 color1, vec4 color2, vec4 color3, vec4 color4){\n" +
+            "    vec4 color = mix(mix(color1, color2, coords.y), mix(color3, color4, coords.y), coords.x);\n" +
             "    //Dithering the color\n" +
             "    // from https://shader-tutorial.dev/advanced/color-banding-dithering/\n" +
             "    color += mix(NOISE, -NOISE, fract(sin(dot(coords.xy, vec2(12.9898, 78.233))) * 43758.5453));\n" +
@@ -292,8 +291,10 @@ public class ShaderUtil {
             "    vec2 st = gl_TexCoord[0].st;\n" +
             "    vec2 halfSize = rectSize * .5;\n" +
             "    \n" +
-            "    float smoothedAlpha =  (1.0-smoothstep(0.0, 2., roundSDF(halfSize - (gl_TexCoord[0].st * rectSize), halfSize - radius - 1., radius))) * color1.a;\n" +
-            "    gl_FragColor = vec4(createGradient(st, color1.rgb, color2.rgb, color3.rgb, color4.rgb), smoothedAlpha);\n" +
+            "   // use the bottom leftColor as the alpha\n"+
+            "    float smoothedAlpha =  (1.0-smoothstep(0.0, 2., roundSDF(halfSize - (gl_TexCoord[0].st * rectSize), halfSize - radius - 1., radius)));\n" +
+            "    vec4 gradient = createGradient(st, color1, color2, color3, color4);" +
+            "    gl_FragColor = vec4(gradient.rgb, gradient.a * smoothedAlpha);\n" +
             "}";
 
     private final String roundedTexturedShader =

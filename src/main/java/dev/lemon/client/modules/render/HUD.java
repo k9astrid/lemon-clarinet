@@ -18,7 +18,6 @@ import dev.lemon.api.utils.player.MoveUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 
 import javax.vecmath.Vector2d;
 import java.awt.*;
@@ -31,8 +30,7 @@ public class HUD extends Module {
     public ModeSetting color = new ModeSetting("Color", "Warm",
             "Warm", "Flawless", "Violet", "Cosmic", "Watery", "Fiery", "Bloody",
             "Pleasant", "Light Weight");
-    public ModeSetting watermarkStyle = new ModeSetting("Watermark Style", "Default",
-            "Default", "Gigabyte");
+
     public NumberSetting offset = new NumberSetting("Offset", 3, 0, 10, 0.1);
     public static BooleanSetting watermark = new BooleanSetting("Watermark", false);
     public static BooleanSetting toggleNotifications = new BooleanSetting("Toggle Notifications", false);
@@ -53,36 +51,25 @@ public class HUD extends Module {
     @Subscribe
     public final IEventListener<Render2DEvent> onRender2D = e -> {
         if (watermark.isToggled()) {
-            switch (watermarkStyle.getMode()) {
-                case "Default":
-                    if (!newStyle.isToggled())
-                        RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
+            if (!newStyle.isToggled())
+                RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
 
-                    if (!optimizeVisuals.isToggled())
-                        PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
-                                Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
+            if (!optimizeVisuals.isToggled())
+                PostProcessingUtil.drawBloom(() -> RenderUtil.drawGradientRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 4.5f,
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor1(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor2(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
+                        Lemon.INSTANCE.getColorManager().getColor().getGradientColor4()));
 
-                    if (!newStyle.isToggled())
-                        RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
-                    else
-                        RenderUtil.drawRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 3.5f, new Color(0, 0, 0, 160));
-                    Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
-                    break;
-                case "Gigabyte":
-                    if (!optimizeVisuals.isToggled())
-                        PostProcessingUtil.drawBloom(() -> {
-                            RenderUtil.drawImage(new ResourceLocation("lemon/images/gigabytelogo.png"), 2, 2, 100, 30);
-                        });
-                    RenderUtil.drawImage(new ResourceLocation("lemon/images/gigabytelogo.png"), 2, 2, 100, 30);
-                    break;
-            }
+            if (!newStyle.isToggled())
+                RenderUtil.drawRound(5, 5, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()) - 2, Fonts.SF_16.getHeight() + 7 - 2, 3.5f, new Color(0, 0, 0, 160));
+            else
+                RenderUtil.drawRound(4, 4, 6 + Fonts.SF_16.getStringWidth("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION()), Fonts.SF_16.getHeight() + 7, 3.5f, new Color(0, 0, 0, 160));
+            Fonts.SF_16.drawString("Lemon | " + Minecraft.getDebugFPS() + " FPS | v" + Lemon.INSTANCE.getVERSION(), 7, 8, -1);
         }
 
         ArrayList<Module> modules = new ArrayList<>();
