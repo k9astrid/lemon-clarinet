@@ -113,7 +113,7 @@ public class Spotify extends Module {
                     Lemon.INSTANCE.getColorManager().getColor().getGradientColor3(),
                     Lemon.INSTANCE.getColorManager().getColor().getGradientColor4());
 
-        RenderUtil.drawRound(1, 1, (float) width - 2, (float) height - 2, 5, new Color(0, 0, 0, 160));
+        RenderUtil.drawRound(1, 1, (float) width - 2, (float) height - 2, 5, new Color(0, 0, 0, 100));
 
         Scissoring.push();
         Scissoring.setFromComponentCoordinates((int) (posX.getVal() + 45), (int) (posY.getVal() + 3), (int) width - (45), (int) height);

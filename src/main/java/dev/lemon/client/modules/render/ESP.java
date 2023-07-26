@@ -211,6 +211,9 @@ public class ESP extends Module {
         if (e.isDead || e.isInvisible())
             return false;
 
+        if (Lemon.INSTANCE.getBotManager().contains(e))
+            return false;
+
         if (e instanceof EntityPlayer) {
             if (e == mc.player)
                 return mc.gameSettings.thirdPersonView != 0;

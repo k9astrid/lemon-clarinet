@@ -44,7 +44,7 @@ public class StaffStats extends Module {
     private final List<String> added = new ArrayList<>();
 
     public StaffStats() {
-        super("StaffStats", Category.PLAYER);
+        super("Staff Stats", Category.PLAYER);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Start
         Main.main(concat(new String[]{
                 "--version", "Lemon",
                 "--accessToken", "0",
-                "--assetIndex", "1.8.8",
+                "--assetIndex", "1.8",
                 "--userProperties", "{}",
                 "--assetsDir", new File(workingDirectory, "assets/").getAbsolutePath()}, args));
     }

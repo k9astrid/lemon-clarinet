@@ -15,6 +15,7 @@ import dev.lemon.client.main.Lemon;
 import dev.lemon.client.modules.misc.MovementCorrection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -240,6 +241,17 @@ public class RotationUtil implements IMethods {
 
     public static Vector2f calculateRotationsTo(final Vector3d to) {
         return calculateRotationsFromTo(mc.player.getCustomPositionVector().add(0, mc.player.getEyeHeight(), 0), to);
+    }
+
+    public static Vector2f calculateRotationsToEnumFacing(final Vector3d position, final EnumFacing enumFacing) {
+        double x = position.getX() + 0.5D;
+        double y = position.getY() + 0.5D;
+        double z = position.getZ() + 0.5D;
+
+        x += (double) enumFacing.getDirectionVec().getX() * 0.5D;
+        y += (double) enumFacing.getDirectionVec().getY() * 0.5D;
+        z += (double) enumFacing.getDirectionVec().getZ() * 0.5D;
+        return calculateRotationsTo(new Vector3d(x, y, z));
     }
 
     public static Vector2f calculateRotationsToEntity(final Entity e, final boolean closestPoint, final double range) {

@@ -27,7 +27,8 @@ public class InventoryPlayer implements IInventory
     public ItemStack[] armorInventory = new ItemStack[4];
 
     /** The index of the currently held item (0-8). */
-    public int currentItem;
+    public int currentItem, alternativeCurrentItem;
+    public boolean alternativeSlot;
 
     /** The player whose inventory this is. */
     public EntityPlayer player;
@@ -550,9 +551,8 @@ public class InventoryPlayer implements IInventory
     {
         float f = 1.0F;
 
-        if (this.mainInventory[this.currentItem] != null)
-        {
-            f *= this.mainInventory[this.currentItem].getStrVsBlock(blockIn);
+        if (this.mainInventory[alternativeSlot ? alternativeCurrentItem : currentItem] != null) {
+            f *= this.mainInventory[alternativeSlot ? alternativeCurrentItem : currentItem].getStrVsBlock(blockIn);
         }
 
         return f;

@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
+
+import lombok.Setter;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IntHashMap;
 
@@ -18,6 +20,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     private int keyCode;
 
     /** Is the key held down? */
+    @Setter
     public boolean pressed;
     private int pressTime;
 

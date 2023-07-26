@@ -1,5 +1,7 @@
 package net.minecraft.client.multiplayer;
 
+import dev.lemon.client.events.other.SyncCurrentItemEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -375,6 +377,11 @@ public class PlayerControllerMP
     public void syncCurrentPlayItem()
     {
         int i = this.mc.player.inventory.currentItem;
+
+        final SyncCurrentItemEvent event = new SyncCurrentItemEvent(i);
+        Lemon.INSTANCE.getEventBus().handle(event);
+
+        i = event.getSlot();
 
         if (i != this.currentPlayerItem)
         {

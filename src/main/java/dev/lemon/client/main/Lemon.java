@@ -1,5 +1,6 @@
 package dev.lemon.client.main;
 
+import dev.lemon.api.badpacket.BadPacketsManager;
 import dev.lemon.api.bot.BotManager;
 import dev.lemon.api.bot.proxy.Scraper;
 import dev.lemon.api.color.ColorManager;
@@ -12,6 +13,7 @@ import dev.lemon.api.module.ModuleManager;
 import dev.lemon.api.event.bus.EventBus;
 import dev.lemon.api.notification.NotificationManager;
 import dev.lemon.api.script.ScriptManager;
+import dev.lemon.api.slot.SlotManager;
 import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.other.ReflectionUtil;
 import dev.lemon.api.utils.player.RotationUtil;
@@ -41,6 +43,8 @@ public enum Lemon implements IMethods {
     private NotificationManager notificationManager;
     private ColorManager colorManager;
     private BotManager botManager;
+    private SlotManager slotManager;
+    private BadPacketsManager badPacketsManager;
     private Scraper scraper;
 
     @Setter
@@ -63,6 +67,8 @@ public enum Lemon implements IMethods {
         colorManager = new ColorManager();
         scraper = new Scraper();
         botManager = new BotManager();
+        slotManager = new SlotManager();
+        badPacketsManager = new BadPacketsManager();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             configManager.stop();
@@ -94,6 +100,8 @@ public enum Lemon implements IMethods {
         configManager.initialize();
         commandManager.initialize();
         botManager.initialize();
+        slotManager.initialize();
+        badPacketsManager.initialize();
         scriptManager.reload(true);
         eventBus.register(new RotationUtil());
         eventBus.register(this);

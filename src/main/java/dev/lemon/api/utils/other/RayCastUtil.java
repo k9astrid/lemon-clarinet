@@ -5,10 +5,7 @@ import dev.lemon.api.utils.IMethods;
 import dev.lemon.api.utils.math.Vector2f;
 import lombok.experimental.UtilityClass;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 
 import java.util.List;
 
@@ -71,5 +68,33 @@ public final class RayCastUtil implements IMethods {
         }
 
         return null;
+    }
+
+    public static boolean overBlock(final Vector2f rotation, final EnumFacing enumFacing, final BlockPos pos, final boolean strict) {
+        final MovingObjectPosition movingObjectPosition = mc.player.rayTraceCustom(4.5f, rotation.x, rotation.y);
+
+        if (movingObjectPosition == null) return false;
+
+        final Vec3 hitVec = movingObjectPosition.hitVec;
+        if (hitVec == null) return false;
+
+        return movingObjectPosition.getBlockPos().equals(pos) && (!strict || movingObjectPosition.sideHit == enumFacing);
+    }
+
+    public static boolean overBlock(final EnumFacing enumFacing, final BlockPos pos, final boolean strict) {
+        final MovingObjectPosition movingObjectPosition = mc.objectMouseOver;
+
+        if (movingObjectPosition == null) return false;
+
+        final Vec3 hitVec = movingObjectPosition.hitVec;
+        if (hitVec == null) return false;
+
+        if (pos == null)
+            return false;
+
+        if (enumFacing == null)
+            return false;
+
+        return movingObjectPosition.getBlockPos().equals(pos) && (!strict || movingObjectPosition.sideHit == enumFacing);
     }
 }
