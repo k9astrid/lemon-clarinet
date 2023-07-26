@@ -22,24 +22,12 @@ public class Step extends Module {
     @Subscribe
     private final IEventListener<PreMotionEvent> onPreMotion = e -> {
         switch (mode.getMode()) {
-            case "Vulcan":
-                if (mc.player.ticksSinceJump > 11)
-                    mc.player.stepHeight = 1;
-                else
-                    mc.player.stepHeight = 0.6f;
-                break;
         }
     };
 
     @Subscribe
     private final IEventListener<StepEvent> onStep = e -> {
         switch (mode.getMode()) {
-            case "Vulcan":
-                if (e.getHeight() > 0.6) {
-                    mc.timer.timerSpeed = 0.5f;
-                    mc.player.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX, mc.player.posY + .5f, mc.player.posZ, true));
-                }
-                break;
         }
     };
 

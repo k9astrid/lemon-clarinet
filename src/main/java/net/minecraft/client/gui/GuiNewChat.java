@@ -22,35 +22,13 @@ public class GuiNewChat extends Gui
     private int scrollPos;
     private boolean isScrolled;
 
-    private float percentComplete;
-    private float animationPercent;
-    private long prevMillis = System.currentTimeMillis();
-
     public GuiNewChat(Minecraft mcIn)
     {
         this.mc = mcIn;
     }
 
-    private void updatePercentage(long diff) {
-        if (percentComplete < 1)
-            percentComplete += 0.004f * diff;
-        percentComplete = clamp(percentComplete, 0, 1);
-    }
-
-    public static float clamp(float number, float min, float max) {
-        return number < min ? min : Math.min(number, max);
-    }
-
     public void drawChat(int p_146230_1_)
     {
-        long current = System.currentTimeMillis();
-        long diff = current - prevMillis;
-        prevMillis = current;
-        updatePercentage(diff);
-
-        float t = percentComplete;
-        animationPercent = clamp(1 - (--t) * t * t * t, 0, 1);
-
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int i = this.getLineCount();
@@ -69,11 +47,7 @@ public class GuiNewChat extends Gui
                 float f1 = this.getChatScale();
                 int l = MathHelper.ceiling_float_int((float)this.getChatWidth() / f1);
                 GlStateManager.pushMatrix();
-                float y = 20;
-                if (!this.isScrolled) {
-                    y += (9 - 9 * animationPercent) * this.getChatScale();
-                }
-                GlStateManager.translate(2.0F, y, 0.0F);
+                GlStateManager.translate(2.0F, 20.0F, 0.0F);
                 GlStateManager.scale(f1, f1, 1.0F);
 
                 for (int i1 = 0; i1 + this.scrollPos < this.field_146253_i.size() && i1 < i; ++i1)

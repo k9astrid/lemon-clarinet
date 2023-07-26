@@ -36,9 +36,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
+import dev.lemon.client.events.input.KeyboardInputEvent;
 import dev.lemon.client.events.other.TickEvent;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.input.KeyboardInputEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -188,11 +188,10 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import viamcp.utils.AttackOrder;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
-    public static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
     public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
 
@@ -563,9 +562,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
         this.effectRenderer = new EffectRenderer(this.world, this.renderEngine);
         this.checkGLError("Post startup");
-
-        Lemon.INSTANCE.startClient();
-
         this.ingameGUI = new GuiIngame(this);
 
         if (this.serverName != null)
@@ -596,6 +592,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.gameSettings.saveOptions();
         }
 
+        Lemon.INSTANCE.startClient();
+
         this.renderGlobal.makeEntityOutlineShader();
     }
 
@@ -624,21 +622,29 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle(Lemon.INSTANCE.NAME + " " + Lemon.INSTANCE.VERSION + "-" + Lemon.INSTANCE.CLIENT_ENUM + " (LWJGL " + Sys.getVersion() + ") - Starting up");
+        Display.setTitle("Minecraft 1.8.8");
 
         try
         {
             Display.create((new PixelFormat()).withDepthBits(24));
         }
-        catch (LWJGLException e) {
-            logger.error("Couldn't set pixel format");
+        catch (LWJGLException lwjglexception)
+        {
+            logger.error((String)"Couldn\'t set pixel format", (Throwable)lwjglexception);
 
-            try {
+            try
+            {
                 Thread.sleep(1000L);
-            } catch (InterruptedException ignored) { }
+            }
+            catch (InterruptedException var3)
+            {
+                ;
+            }
 
             if (this.fullscreen)
+            {
                 this.updateDisplayMode();
+            }
 
             Display.create();
         }
@@ -668,15 +674,22 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             InputStream inputstream = null;
             InputStream inputstream1 = null;
 
-            try {
+            try
+            {
                 inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
                 inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
 
                 if (inputstream != null && inputstream1 != null)
-                    Display.setIcon(new ByteBuffer[]{this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
-            } catch (IOException exception) {
-                logger.error("Couldn't set icon");
-            } finally {
+                {
+                    Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
+                }
+            }
+            catch (IOException ioexception)
+            {
+                logger.error((String)"Couldn\'t set icon", (Throwable)ioexception);
+            }
+            finally
+            {
                 IOUtils.closeQuietly(inputstream);
                 IOUtils.closeQuietly(inputstream1);
             }
@@ -1051,14 +1064,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     /**
      * Called repeatedly from run()
      */
-
-    private long lastFrame = getSystemTime();
     private void runGameLoop() throws IOException
     {
-        long currentTime = getSystemTime();
-        int deltaTime = (int) (currentTime - this.lastFrame);
-        this.lastFrame = currentTime;
-        Lemon.INSTANCE.setDeltaTime(deltaTime);
         long i = System.nanoTime();
         this.mcProfiler.startSection("root");
 
@@ -1502,8 +1509,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
         if (this.leftClickCounter <= 0)
         {
-            //this.thePlayer.swingItem();
-            AttackOrder.sendConditionalSwing(this.objectMouseOver);
+            this.player.swingItem();
 
             if (this.objectMouseOver == null)
             {
@@ -1519,8 +1525,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 switch (this.objectMouseOver.typeOfHit)
                 {
                     case ENTITY:
-                        //this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
-                        AttackOrder.sendFixedAttack(this.player, this.objectMouseOver.entityHit);
+                        this.playerController.attackEntity(this.player, this.objectMouseOver.entityHit);
                         break;
 
                     case BLOCK:
@@ -1547,7 +1552,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
     /**
      * Called when user clicked he's mouse right button (place)
-     */ public void rightClickMouse()
+     */
+    private void rightClickMouse()
     {
         if (!this.playerController.func_181040_m())
         {
@@ -1717,11 +1723,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void runTick() throws IOException
     {
-        if (this.player != null)
-        {
-            this.player.lastMovementYaw = this.player.movementYaw;
-            this.player.movementYaw = this.player.velocityYaw = this.player.rotationYaw;
-        }
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;
@@ -1754,7 +1755,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         {
             if (this.player.getHealth() <= 0.0F)
             {
-                this.displayGuiScreen(null);
+                this.displayGuiScreen((GuiScreen)null);
             }
             else if (this.player.isPlayerSleeping() && this.world != null)
             {
@@ -1763,7 +1764,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
         else if (this.currentScreen != null && this.currentScreen instanceof GuiSleepMP && !this.player.isPlayerSleeping())
         {
-            this.displayGuiScreen(null);
+            this.displayGuiScreen((GuiScreen)null);
         }
 
         if (this.currentScreen != null)
@@ -1869,7 +1870,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                             this.setIngameFocus();
                         }
                     }
-                    else {
+                    else if (this.currentScreen != null)
+                    {
                         this.currentScreen.handleMouseInput();
                     }
                 }
@@ -1924,13 +1926,13 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
+                        KeyboardInputEvent event = new KeyboardInputEvent(k);
+                        Lemon.INSTANCE.getEventBus().handle(event);
+
                         if (k == 1)
                         {
                             this.displayInGameMenu();
                         }
-
-                        KeyboardInputEvent event = new KeyboardInputEvent(k);
-                        Lemon.INSTANCE.getEventBus().handle(event);
 
                         if (k == 32 && Keyboard.isKeyDown(61) && this.ingameGUI != null)
                         {
@@ -1940,6 +1942,31 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                         if (k == 31 && Keyboard.isKeyDown(61))
                         {
                             this.refreshResources();
+                        }
+
+                        if (k == 17 && Keyboard.isKeyDown(61))
+                        {
+                            ;
+                        }
+
+                        if (k == 18 && Keyboard.isKeyDown(61))
+                        {
+                            ;
+                        }
+
+                        if (k == 47 && Keyboard.isKeyDown(61))
+                        {
+                            ;
+                        }
+
+                        if (k == 38 && Keyboard.isKeyDown(61))
+                        {
+                            ;
+                        }
+
+                        if (k == 22 && Keyboard.isKeyDown(61))
+                        {
+                            ;
                         }
 
                         if (k == 20 && Keyboard.isKeyDown(61))
@@ -2084,6 +2111,21 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 if (!this.gameSettings.keyBindUseItem.isKeyDown())
                 {
                     this.playerController.onStoppedUsingItem(this.player);
+                }
+
+                while (this.gameSettings.keyBindAttack.isPressed())
+                {
+                    ;
+                }
+
+                while (this.gameSettings.keyBindUseItem.isPressed())
+                {
+                    ;
+                }
+
+                while (this.gameSettings.keyBindPickBlock.isPressed())
+                {
+                    ;
                 }
             }
             else

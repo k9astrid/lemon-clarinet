@@ -57,8 +57,4 @@ public class S19PacketEntityStatus implements Packet<INetHandlerPlayClient>
     {
         return this.logicOpcode;
     }
-
-    public int getEntityId() {
-        return entityId;
-    }
 }

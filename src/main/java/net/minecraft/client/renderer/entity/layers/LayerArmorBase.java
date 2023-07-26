@@ -2,10 +2,6 @@ package net.minecraft.client.renderer.entity.layers;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
-
-import dev.lemon.client.main.Lemon;
-import dev.lemon.client.modules.render.CustomModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
@@ -55,13 +51,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
     private void renderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float p_177182_4_, float p_177182_5_, float p_177182_6_, float p_177182_7_, float p_177182_8_, int armorSlot)
     {
-        CustomModel customModel = (CustomModel) Lemon.INSTANCE.getModuleManager().getModuleByName("Custom Model");
-
-        if (customModel.isToggled() && CustomModel.onlyMe.isToggled() && entitylivingbaseIn == Minecraft.getMinecraft().player)
-            return;
-        else if (customModel.isToggled() && !CustomModel.onlyMe.isToggled())
-            return;
-
         ItemStack itemstack = this.getCurrentArmor(entitylivingbaseIn, armorSlot);
 
         if (itemstack != null && itemstack.getItem() instanceof ItemArmor)

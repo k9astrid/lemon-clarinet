@@ -496,7 +496,8 @@ public class Block
 
         axisalignedbb = event.getBoundingBox();
 
-        if (event.isCancelled()) return;
+        if (event.isCancelled())
+            return;
 
         if (axisalignedbb != null && mask.intersectsWith(axisalignedbb))
         {

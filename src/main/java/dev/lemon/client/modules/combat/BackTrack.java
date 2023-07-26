@@ -61,15 +61,6 @@ public class BackTrack extends Module {
     @Override
     protected void onEnable() {
         this.block = false;
-        if (mc.world != null && mc.player != null) {
-            for (Entity e : mc.world.loadedEntityList) {
-                if (e instanceof EntityLivingBase) {
-                    ((EntityLivingBase) e).realPosX = (int) e.serverPosX;
-                    ((EntityLivingBase) e).realPosY = (int) e.serverPosY;
-                    ((EntityLivingBase) e).realPosZ = (int) e.serverPosZ;
-                }
-            }
-        }
     }
 
     @Subscribe
@@ -86,24 +77,10 @@ public class BackTrack extends Module {
 
             if (e.getPacket() instanceof S14PacketEntity) {
                 Entity entity1 = ((S14PacketEntity) e.getPacket()).getEntity(mc.world);
-
-                if (entity1 instanceof EntityLivingBase) {
-                    EntityLivingBase entityLivingBase = (EntityLivingBase) entity1;
-                    entityLivingBase.realPosX = ((S14PacketEntity) e.getPacket()).func_149062_c();
-                    entityLivingBase.realPosY = ((S14PacketEntity) e.getPacket()).func_149061_d();
-                    entityLivingBase.realPosZ = ((S14PacketEntity) e.getPacket()).func_149064_e();
-                }
             }
 
             if (e.getPacket() instanceof S18PacketEntityTeleport) {
                 Entity entity1 = mc.world.getEntityByID(((S18PacketEntityTeleport) e.getPacket()).getEntityId());
-
-                if (entity1 instanceof EntityLivingBase) {
-                    EntityLivingBase entityLivingBase = (EntityLivingBase) entity1;
-                    entityLivingBase.realPosX = ((S18PacketEntityTeleport) e.getPacket()).getX();
-                    entityLivingBase.realPosY = ((S18PacketEntityTeleport) e.getPacket()).getY();
-                    entityLivingBase.realPosZ = ((S18PacketEntityTeleport) e.getPacket()).getZ();
-                }
             }
 
             if (entity == null) {
@@ -127,6 +104,7 @@ public class BackTrack extends Module {
 
     @Subscribe
     public final IEventListener<Render3DEvent> onRedner3D = e -> {
+        /*
         if (reveal.isToggled()) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -154,6 +132,8 @@ public class BackTrack extends Module {
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glDisable(GL11.GL_BLEND);
         }
+
+         */
     };
 
     @Subscribe
@@ -180,6 +160,7 @@ public class BackTrack extends Module {
         }
 
         if (this.entity != null && mc.player != null && this.packetListener != null && mc.world != null) {
+            /*
             double d0 = this.entity.realPosX / 32.0D;
             double d1 = this.entity.realPosY / 32.0D;
             double d2 = this.entity.realPosZ / 32.0D;
@@ -227,6 +208,8 @@ public class BackTrack extends Module {
                 this.timerUtil.reset();
                 ChatUtil.send("bye");
             }
+
+             */
         }
     };
 
@@ -267,6 +250,7 @@ public class BackTrack extends Module {
     }
 
     private boolean delayPackets(Packet packet) {
+        /*
         if (mc.currentScreen != null)
             return false;
 
@@ -283,6 +267,10 @@ public class BackTrack extends Module {
             return (((S19PacketEntityStatus) packet).getOpCode() != 2 || !(mc.world.getEntityByID(((S19PacketEntityStatus) packet).getEntityId()) instanceof EntityLivingBase));
 
         return (!(packet instanceof S06PacketUpdateHealth) && !(packet instanceof S29PacketSoundEffect) && !(packet instanceof S3EPacketTeams) && !(packet instanceof S0CPacketSpawnPlayer));
+
+    }
+         */
+        return false;
     }
 
     private void resetPackets(INetHandler netHandler) {

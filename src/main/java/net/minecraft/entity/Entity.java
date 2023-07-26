@@ -213,9 +213,9 @@ public abstract class Entity implements ICommandSender
     public int chunkCoordX;
     public int chunkCoordY;
     public int chunkCoordZ;
-    public long serverPosX;
-    public long serverPosY;
-    public long serverPosZ;
+    public int serverPosX;
+    public int serverPosY;
+    public int serverPosZ;
 
     /**
      * Render entity even if it is outside the camera frustum. Only true in EntityFish for now. Used in RenderGlobal:
@@ -236,8 +236,6 @@ public abstract class Entity implements ICommandSender
     protected EnumFacing field_181018_ap;
     private boolean invulnerable;
     protected UUID entityUniqueID;
-
-    public float movementYaw, velocityYaw, lastMovementYaw;
 
     /** The command result statistics for this Entity. */
     private final CommandResultStats cmdResultStats;
@@ -1230,6 +1228,7 @@ public abstract class Entity implements ICommandSender
         if (this == (Minecraft.getMinecraft().player)) {
             StrafeEvent strafeEvent = new StrafeEvent(forward, strafe, friction, this.rotationYaw);
             Lemon.INSTANCE.getEventBus().handle(strafeEvent);
+
             if (strafeEvent.isCancelled())
                 return;
 
@@ -1238,6 +1237,7 @@ public abstract class Entity implements ICommandSender
             friction = strafeEvent.getFriction();
             yaw = strafeEvent.getYaw();
         }
+
         float f = strafe * strafe + forward * forward;
 
         if (f >= 1.0E-4F)
@@ -1245,7 +1245,9 @@ public abstract class Entity implements ICommandSender
             f = MathHelper.sqrt_float(f);
 
             if (f < 1.0F)
+            {
                 f = 1.0F;
+            }
 
             f = friction / f;
             strafe = strafe * f;
@@ -1510,12 +1512,15 @@ public abstract class Entity implements ICommandSender
         }
     }
 
-    public MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks)
-    {
+    public MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = this.getPositionEyes(partialTicks);
         Vec3 vec31 = this.getLook(partialTicks);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
         return this.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
+    }
+
+    public Vector3d getCustomPositionVector() {
+        return new Vector3d(posX, posY, posZ);
     }
 
     public Vec3 getLookCustom(float yaw, float pitch) {
@@ -1577,10 +1582,6 @@ public abstract class Entity implements ICommandSender
 
         d0 = d0 * 64.0D * this.renderDistanceWeight;
         return distance < d0 * d0;
-    }
-
-    public Vector3d getCustomPositionVector() {
-        return new Vector3d(posX, posY, posZ);
     }
 
     /**
@@ -2602,10 +2603,6 @@ public abstract class Entity implements ICommandSender
     public UUID getUniqueID()
     {
         return this.entityUniqueID;
-    }
-
-    public void setUniqueID(UUID uniqueID) {
-        this.entityUniqueID = uniqueID;
     }
 
     public boolean isPushedByWater()

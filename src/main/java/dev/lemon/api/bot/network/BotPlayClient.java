@@ -158,8 +158,6 @@ public class BotPlayClient implements INetHandlerPlayClient {
         EntityLivingBase entityLivingBase = (EntityLivingBase) EntityList.createEntityByID(packetIn.getEntityType(), this.world);
 
         if (entityLivingBase != null) {
-            EntityTracker.updateServerPosition(entityLivingBase, x, y, z);
-
             entityLivingBase.renderYawOffset = (packetIn.getHeadPitch() * 360) / 256.f;
             entityLivingBase.rotationYawHead = (packetIn.getHeadPitch() * 360) / 256.f;
 
@@ -215,8 +213,6 @@ public class BotPlayClient implements INetHandlerPlayClient {
         entityOtherPlayerMP.lastTickPosY = y;
         entityOtherPlayerMP.prevPosZ = z;
         entityOtherPlayerMP.lastTickPosZ = z;
-
-        EntityTracker.updateServerPosition(entityOtherPlayerMP, x, y, z);
 
         entityOtherPlayerMP.setPositionAndRotation(x, y, z, f, f2);
 
@@ -808,7 +804,6 @@ public class BotPlayClient implements INetHandlerPlayClient {
             double d2 = (double)entity.serverPosZ / 32.0D;
             float f = (float)(packetIn.getYaw() * 360) / 256.0F;
             float f1 = (float)(packetIn.getPitch() * 360) / 256.0F;
-            EntityTracker.updateServerPosition(entity, packetIn.getX(), packetIn.getY(), packetIn.getZ());
 
             if (Math.abs(entity.posX - d0) < 0.03125D && Math.abs(entity.posY - d1) < 0.015625D && Math.abs(entity.posZ - d2) < 0.03125D)
             {

@@ -235,7 +235,7 @@ public class GameSettings
     public boolean ofCustomItems = true;
     public boolean ofNaturalTextures = false;
     public boolean ofFastMath = false;
-    public boolean ofFastRender = false;
+    public boolean ofFastRender = true;
     public int ofTranslucentBlocks = 0;
     public boolean ofDynamicFov = true;
     public int ofDynamicLights = 3;
@@ -1815,7 +1815,7 @@ public class GameSettings
                 return;
             }
 
-            this.ofFastRender = false;
+            this.ofFastRender = !this.ofFastRender;
 
             if (this.ofFastRender)
             {
@@ -2720,7 +2720,7 @@ public class GameSettings
 
                     if (astring[0].equals("ofFastRender") && astring.length >= 2)
                     {
-                        this.ofFastRender = false;
+                        this.ofFastRender = Boolean.valueOf(astring[1]).booleanValue();
                     }
 
                     if (astring[0].equals("ofTranslucentBlocks") && astring.length >= 2)

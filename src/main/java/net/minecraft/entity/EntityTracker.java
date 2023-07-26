@@ -34,7 +34,6 @@ import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.network.Packet;
 import net.minecraft.util.IntHashMap;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
@@ -53,21 +52,6 @@ public class EntityTracker
     {
         this.theWorld = theWorldIn;
         this.maxTrackingDistanceThreshold = theWorldIn.getMinecraftServer().getConfigurationManager().getEntityViewDistance();
-    }
-
-    public static long getPositionLong(double value) {
-        return lfloor(value * 4096.0D);
-    }
-
-    public static long lfloor(double value) {
-        long i = (long)value;
-        return (value < i) ? (i - 1L) : i;
-    }
-
-    public static void updateServerPosition(Entity entityIn, double x, double y, double z) {
-        entityIn.serverPosX = getPositionLong(x);
-        entityIn.serverPosY = getPositionLong(y);
-        entityIn.serverPosZ = getPositionLong(z);
     }
 
     public void trackEntity(Entity p_72786_1_)

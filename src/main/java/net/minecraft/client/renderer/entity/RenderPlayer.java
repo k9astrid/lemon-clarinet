@@ -1,8 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import dev.lemon.client.main.Lemon;
-import dev.lemon.client.modules.render.CustomModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
@@ -40,7 +37,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
         this.addLayer(new LayerHeldItem(this));
         this.addLayer(new LayerArrow(this));
         this.addLayer(new LayerDeadmau5Head(this));
-        this.addLayer2(new LayerCape(this));
+        this.addLayer(new LayerCape(this));
         this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
     }
 
@@ -125,24 +122,6 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
      */
     protected ResourceLocation getEntityTexture(AbstractClientPlayer entity)
     {
-        CustomModel customModel = (CustomModel) Lemon.INSTANCE.getModuleManager().getModuleByName("Custom Model");
-
-        if (customModel.isToggled()) {
-            if (CustomModel.onlyMe.isToggled() && entity != Minecraft.getMinecraft().player)
-                return entity.getLocationSkin();
-
-            switch (CustomModel.mode.getMode()) {
-                case "Among Us":
-                    return CustomModel.amongusModel;
-
-                case "Rabbit":
-                    return CustomModel.rabbitModel;
-
-                case "Panda":
-                    return CustomModel.pandaModel;
-            }
-        }
-
         return entity.getLocationSkin();
     }
 

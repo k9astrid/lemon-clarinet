@@ -143,7 +143,6 @@ public class MoveUtil implements IMethods {
         return speed() * mc.timer.timerSpeed * 20;
     }
 
-
     public double baseSpeed() {
         double speed;
         boolean useModifiers = false;

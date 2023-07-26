@@ -374,6 +374,7 @@ public class FontRenderer implements IResourceManagerReloadListener
         return this.drawString(text, x - (getStringWidth(text) / 2f), y, color, true);
     }
 
+
     /**
      * Draws the specified string.
      */

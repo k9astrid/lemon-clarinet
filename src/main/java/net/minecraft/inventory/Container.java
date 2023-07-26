@@ -54,6 +54,11 @@ public abstract class Container
         }
     }
 
+    public void setAll(List<ItemStack> p_190896_1_) {
+        for (int i = 0; i < p_190896_1_.size(); i++)
+            getSlot(i).putStack(p_190896_1_.get(i));
+    }
+
     /**
      * Remove the given Listener. Method name is for legacy.
      */
@@ -72,14 +77,6 @@ public abstract class Container
         }
 
         return list;
-    }
-
-    public short getTransactionID() {
-        return transactionID;
-    }
-
-    public void setTransactionID(short transactionID) {
-        this.transactionID = transactionID;
     }
 
     /**
@@ -103,6 +100,14 @@ public abstract class Container
                 }
             }
         }
+    }
+
+    public short getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(short transactionID) {
+        this.transactionID = transactionID;
     }
 
     /**
@@ -140,11 +145,6 @@ public abstract class Container
     {
         Slot slot = (Slot)this.inventorySlots.get(index);
         return slot != null ? slot.getStack() : null;
-    }
-
-    public void setAll(List<ItemStack> p_190896_1_) {
-        for (int i = 0; i < p_190896_1_.size(); i++)
-            getSlot(i).putStack(p_190896_1_.get(i));
     }
 
     /**

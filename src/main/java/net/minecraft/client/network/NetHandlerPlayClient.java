@@ -4,9 +4,9 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
+import dev.lemon.client.events.other.PacketEvent;
 import dev.lemon.client.events.other.TeleportEvent;
 import dev.lemon.client.main.Lemon;
-import dev.lemon.client.events.other.PacketEvent;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;
@@ -246,7 +246,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * True if the client has finished downloading terrain and may spawn. Set upon receipt of S08PacketPlayerPosLook,
      * reset upon respawning
      */
-    public boolean doneLoadingTerrain;
+    private boolean doneLoadingTerrain;
     private final Map<UUID, NetworkPlayerInfo> playerInfoMap = Maps.<UUID, NetworkPlayerInfo>newHashMap();
     public int currentServerMaxPlayers = 20;
     private boolean field_147308_k = false;
@@ -830,9 +830,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         PacketEvent event = new PacketEvent(p_147297_1_, PacketEvent.Type.SENT, null, null);
         Lemon.INSTANCE.getEventBus().handle(event);
-        if (!event.isCancelled())
-            this.netManager.sendPacket(p_147297_1_);
 
+        if (event.isCancelled())
+            return;
+
+        this.netManager.sendPacket(p_147297_1_);
     }
 
     public void addToSendQueueSilent(Packet p_147297_1_)

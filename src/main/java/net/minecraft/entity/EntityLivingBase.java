@@ -191,10 +191,6 @@ public abstract class EntityLivingBase extends Entity
     public int jumpTicks;
     private float absorptionAmount;
 
-    public int realPosX, realPosY, realPosZ;
-
-    public int ticksSinceJump;
-
     /**
      * Called by the /kill command.
      */
@@ -967,7 +963,7 @@ public abstract class EntityLivingBase extends Entity
                             d1 = (Math.random() - Math.random()) * 0.01D;
                         }
 
-                        this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * 180.0D / Math.PI - this.movementYaw);
+                        this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * 180.0D / Math.PI - (double)this.rotationYaw);
                         this.knockBack(entity, amount, d1, d0);
                     }
                     else
@@ -1565,6 +1561,7 @@ public abstract class EntityLivingBase extends Entity
     protected void jump()
     {
         float jumpMotion = this.getJumpUpwardsMotion();
+        double yaw = rotationYaw;
 
         if (this.isPotionActive(Potion.jump))
         {
@@ -1572,25 +1569,21 @@ public abstract class EntityLivingBase extends Entity
         }
 
         if (this instanceof EntityPlayerSP) {
-            final JumpEvent jumpEvent = new JumpEvent(jumpMotion, this.movementYaw);
+            final JumpEvent jumpEvent = new JumpEvent(jumpMotion, (float) yaw);
             Lemon.INSTANCE.getEventBus().handle(jumpEvent);
 
             jumpMotion = jumpEvent.getJumpMotion();
-            this.movementYaw = jumpEvent.getYaw();
-            this.velocityYaw = jumpEvent.getYaw();
+            yaw = jumpEvent.getYaw();
 
-            if (jumpEvent.isCancelled() || this.ticksSinceJump <= 0)
+            if (jumpEvent.isCancelled())
                 return;
         }
 
-        this.ticksSinceJump = 0;
         this.motionY = jumpMotion;
 
         if (this.isSprinting())
         {
-            float f = this.movementYaw * 0.017453292F;
-
-            final Minecraft mc = Minecraft.getMinecraft();
+            float f = (float) (yaw * 0.017453292F);
 
             this.motionX -= MathHelper.sin(f) * 0.2F;
             this.motionZ += MathHelper.cos(f) * 0.2F;
@@ -1619,7 +1612,6 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isServerWorld())
         {
-            this.ticksSinceJump++;
             if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
             {
                 if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
@@ -1862,7 +1854,7 @@ public abstract class EntityLivingBase extends Entity
         if (f > 0.0025000002F)
         {
             f3 = 1.0F;
-            f2 = (float)Math.sqrt((double)f) * 3.0F;
+            f2 = (float)Math.sqrt(f) * 3.0F;
             f1 = (float)MathHelper.atan2(d1, d0) * 180.0F / (float)Math.PI - 90.0F;
         }
 

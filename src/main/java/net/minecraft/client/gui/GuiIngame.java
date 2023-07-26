@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import dev.lemon.client.main.Lemon;
 import dev.lemon.client.events.render.Render2DEvent;
+import dev.lemon.client.main.Lemon;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -94,7 +94,7 @@ public class GuiIngame extends Gui
     private long lastSystemTime = 0L;
 
     /** Used with updateCounter to make the heart bar flash */
-    public long healthUpdateCounter = 0L;
+    private long healthUpdateCounter = 0L;
     private static final String __OBFID = "CL_00000661";
 
     public GuiIngame(Minecraft mcIn)

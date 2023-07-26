@@ -4,9 +4,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class PacketMonitor {
-    private final Deque<Integer> packets = new ArrayDeque<>();
+    public final Deque<Integer> packets = new ArrayDeque<>();
 
-    private int counter;
+    public int counter;
 
     private long lastReset;
 
@@ -14,7 +14,7 @@ public class PacketMonitor {
         return packets;
     }
 
-    void update(final int maxSamples) {
+    public void update(final int maxSamples) {
         if (System.currentTimeMillis() - this.lastReset > 1000L) {
             this.packets.addFirst(this.counter);
             this.lastReset = System.currentTimeMillis();

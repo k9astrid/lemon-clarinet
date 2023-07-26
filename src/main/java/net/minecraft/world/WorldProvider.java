@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import lombok.Setter;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -19,6 +20,7 @@ public abstract class WorldProvider
     public static final float[] moonPhaseFactors = new float[] {1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
 
     /** world object being used */
+    @Setter
     protected World worldObj;
     private WorldType terrainType;
     private String generatorSettings;
@@ -279,9 +281,5 @@ public abstract class WorldProvider
     public WorldBorder getWorldBorder()
     {
         return new WorldBorder();
-    }
-
-    public void setWorldObj(World worldObj) {
-        this.worldObj = worldObj;
     }
 }

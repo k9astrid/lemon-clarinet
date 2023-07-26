@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 import java.util.Map.Entry;
+
+import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -43,6 +45,7 @@ public final class ItemStack
     /**
      * Number of animation frames to go when receiving an item (by walking into it, for example).
      */
+    @Setter
     public int animationsToGo;
     private Item item;
 
@@ -51,8 +54,6 @@ public final class ItemStack
      */
     private NBTTagCompound stackTagCompound;
     private int itemDamage;
-
-    private boolean isEmpty;
 
     /** Item frame this stack is on, or null if not on an item frame. */
     private EntityItemFrame itemFrame;
@@ -1084,9 +1085,5 @@ public final class ItemStack
             this.canPlaceOnCacheResult = false;
             return false;
         }
-    }
-
-    public void setAnimationsToGo(int animationsToGo) {
-        this.animationsToGo = animationsToGo;
     }
 }

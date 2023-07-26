@@ -551,8 +551,9 @@ public class InventoryPlayer implements IInventory
     {
         float f = 1.0F;
 
-        if (this.mainInventory[alternativeSlot ? alternativeCurrentItem : currentItem] != null) {
-            f *= this.mainInventory[alternativeSlot ? alternativeCurrentItem : currentItem].getStrVsBlock(blockIn);
+        if (this.mainInventory[this.alternativeSlot ? this.alternativeCurrentItem : this.currentItem] != null)
+        {
+            f *= this.mainInventory[this.alternativeSlot ? this.alternativeCurrentItem : this.currentItem].getStrVsBlock(blockIn);
         }
 
         return f;
