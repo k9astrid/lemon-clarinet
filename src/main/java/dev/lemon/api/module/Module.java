@@ -106,7 +106,7 @@ public class Module implements IMethods {
         String name = getName();
 
         if (!suffix.isEmpty() || !suffix.equals(""))
-            name += " " + EnumChatFormatting.GRAY + suffix;
+            name += " " + EnumChatFormatting.WHITE + suffix;
 
         return name;
     }
