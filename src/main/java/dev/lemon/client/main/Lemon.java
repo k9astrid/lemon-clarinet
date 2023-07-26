@@ -32,7 +32,7 @@ public enum Lemon implements IMethods {
 
     public final String NAME = "Lemon";
     public final String VERSION = "0.8";
-    public final String AUTHORS = "clpz, eternadox, szypko, groszus";
+    public final String AUTHORS = "clpz, eternadox, plusbox, groszus";
     public final ClientEnum CLIENT_ENUM = ClientEnum.BETA;
 
     private EventBus eventBus;
