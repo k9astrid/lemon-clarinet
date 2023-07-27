@@ -3,4 +3,4 @@
 ## How to launch ;3 (epic tutorial by Luca)
  - Just add -Djava.library.path=versions/1.8.8/1.8.8-natives
 
-### Lemon Client is now defunct, this repository will be archived as of 7/27/2023
+### Lemon Client is now defunct, this repository will be archived as of 7/27/2023.
